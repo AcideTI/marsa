@@ -16,6 +16,7 @@
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="index.php?ruta=movements&type=insides">Ingresos</a>
     <a class="nav-link" href="index.php?ruta=movements&type=outsides">Salidas</a>
+    <a class="nav-link" href="providers">Nota Pedido</a>
   </nav>
 </div>
 <!-- Inventory -->
@@ -27,8 +28,9 @@
 </a>
 <div class="collapse" id="listInventory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
+    <a class="nav-link" href="stockProducts">Almacen</a>
     <a class="nav-link" href="stockMaterials">Lotes</a>
-    <a class="nav-link" href="stockProducts">Productos</a>
+    
   </nav>
 </div>
 
@@ -41,8 +43,8 @@
 </a>
 <div class="collapse" id="listMovements" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
-    <a class="nav-link" href="allOrders">Lotes</a>
-    <a class="nav-link" href="materials">Productos</a>
+    <a class="nav-link" href="allOrders">Lote</a>
+    
   </nav>
 </div>
 
@@ -56,11 +58,9 @@
 </a>
 <div class="collapse" id="listaCatalogo" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
-
-    
-    <a class="nav-link" href="providers">Operadores</a>
-    
-    <a class="nav-link" href="client">Clientes</a>
+    <a class="nav-link" href="personal">Personal</a>
+    <a class="nav-link" href="products">Productos</a>
+    <a class="nav-link" href="clients">Clientes</a>
     <a class="nav-link" href="users">Usuarios</a>
   </nav>
 </div>
