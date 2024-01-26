@@ -27,10 +27,10 @@
         if(
           $_GET["ruta"] == "home" ||  
           $_GET["ruta"] == "users" ||
-/*           $_GET["ruta"] == "materials" ||
-          $_GET["ruta"] == "providers" ||
-          $_GET["ruta"] == "movements" ||
-          $_GET["ruta"] == "newMovementIC" ||
+          $_GET["ruta"] == "products" ||
+          $_GET["ruta"] == "personal" ||
+          $_GET["ruta"] == "clients" ||
+          /*  $_GET["ruta"] == "newMovementIC" ||
           $_GET["ruta"] == "newMovementIV" ||
           $_GET["ruta"] == "editMovementIC" ||
           $_GET["ruta"] == "stockMaterials" ||
@@ -45,7 +45,7 @@
           $_GET["ruta"] == "editOrder" ||
           $_GET["ruta"] == "editOrderApproved" || */
           $_GET["ruta"] == "signout" 
-     /*      $_GET["ruta"] == "buscarProducto" ||
+     /*   $_GET["ruta"] == "buscarProducto" ||
           $_GET["ruta"] == "client"  */
         )
         {
@@ -79,11 +79,14 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<!--   <link rel="stylesheet" href="../css/styles-home.css"> -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  
 <script src="js/users.js"></script>
+<script src="js/products.js"></script>
+<script src="js/personal.js"></script>
+<script src="js/clients.js"></script>
+
 <!--   <script src="js/providers.js"></script>
-  <script src="js/materials.js"></script>
   <script src="js/movements.js"></script>
   <script src="js/makers.js"></script>
   <script src="js/orders.js"></script>
