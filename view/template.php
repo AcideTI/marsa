@@ -30,11 +30,14 @@
           $_GET["ruta"] == "products" ||
           $_GET["ruta"] == "personal" ||
           $_GET["ruta"] == "clients" ||
-          /*  $_GET["ruta"] == "newMovementIC" ||
-          $_GET["ruta"] == "newMovementIV" ||
-          $_GET["ruta"] == "editMovementIC" ||
-          $_GET["ruta"] == "stockMaterials" ||
-          $_GET["ruta"] == "stockProducts" ||
+          $_GET["ruta"] == "ingresos" ||
+          $_GET["ruta"] == "nuevoIngreso" ||
+          $_GET["ruta"] == "almacen" ||
+          $_GET["ruta"] == "notaPedido" ||
+          $_GET["ruta"] == "verNotasPedido" ||
+          $_GET["ruta"] == "lotes" ||
+          $_GET["ruta"] == "nuevoLote" ||
+          /* $_GET["ruta"] == "newMovementIV" ||
           $_GET["ruta"] == "editMovementIV" ||
           $_GET["ruta"] == "newMovementOutsite" ||
           $_GET["ruta"] == "editMovementOutsite" ||
@@ -85,14 +88,15 @@
 <script src="js/products.js"></script>
 <script src="js/personal.js"></script>
 <script src="js/clients.js"></script>
+<script src="js/ingresos.js"></script>
+<script src="js/almacen.js"></script>
+<script src="js/notaPedido.js"></script>
+<script src="js/lotes.js"></script>
 
 <!--   <script src="js/providers.js"></script>
-  <script src="js/movements.js"></script>
-  <script src="js/makers.js"></script>
   <script src="js/orders.js"></script>
   <script src="js/models.js"></script>
   <script src="js/products.js"></script>
-  <script src="js/stock.js"></script>
   <script src="js/client.js"></script>
  -->
  
