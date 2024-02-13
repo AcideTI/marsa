@@ -61,7 +61,7 @@
                     echo
                   '<tr>                
                       <td>' . $value["IdNotaP"] . '</td>
-                      <td>' . $value["NombrePerNotaPorFA"] . '</td>
+                      <td>' . $value["NombrePerIdRes"] . '</td>
                       <td>' . $value["NombreCliNota"] . '</td>
                       <td>' . $value["TipoDeNotaPe"] . '</td>
                       <td>' . $value["FechaNotaPedido"] . '</td>

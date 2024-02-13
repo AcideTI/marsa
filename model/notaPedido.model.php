@@ -6,23 +6,23 @@ class NotaPedidoModel
   // Obtener todos los REGISTROS de Nota de pedido
 public static function mdlGetAllSalidasNotaPe($table)
 {
-  $statement = Conexion::conn()->prepare("
-    SELECT np.*, 
-      l.CodigoLote, 
-      per.NombrePer AS NombrePerIdPer, 
-      per2.NombrePer AS NombrePerNotaPorFA, 
-      cli.NombreCli AS NombreCliNota, 
-      cli.RucCli, 
-      cli.DireccionCli AS DireccionCliNota, 
-      e.TipoEstado
-    FROM $table AS np
-    LEFT JOIN tb_lote AS l ON np.IdLote = l.IdLote
-    INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
-    INNER JOIN tb_personal AS per2 ON np.NotaPorFA = per2.IdPer
-    INNER JOIN tb_cliente AS cli ON np.NombreCliNota = cli.IdCli AND np.RucCli = cli.IdCli AND np.DireccionCliNota = cli.IdCli
-    INNER JOIN tb_estado AS e ON np.Estado = e.IdEstado
-    ORDER BY 
-    IdNotaP DESC");
+  $statement = Conexion::conn()->prepare("SELECT np.*, 
+  l.CodigoLote, 
+  per.NombrePer AS NombrePerIdPer, 
+  per2.NombrePer AS NombrePerIdRes, 
+  np.NotaPorFA, 
+  cli.NombreCli AS NombreCliNota, 
+  cli.RucCli, 
+  cli.DireccionCli AS DireccionCliNota, 
+  e.TipoEstado
+FROM $table AS np
+LEFT JOIN tb_lote AS l ON np.IdLote = l.IdLote
+INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
+INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
+INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
+INNER JOIN tb_estado AS e ON np.Estado = e.IdEstado
+ORDER BY 
+IdNotaP DESC");
 
   $statement->execute();
 
@@ -156,23 +156,22 @@ public static function mdlGetAjaxDatosJson($table, $data) {
 /* mostrar detalles complentarios de nota de pedido por el boton */
   public static function mdlGetDetallNotPeData($table, $codDetNotPeData)
   {
-    $statement = Conexion::conn()->prepare("
-      SELECT np.*, 
-           l.CodigoLote, 
-           per.NombrePer AS NombrePerIdPer, 
-           per2.NombrePer AS NombrePerNotaPorFA, 
-           cli.NombreCli AS NombreCliNota, 
-           cli.RucCli, 
-           cli.DireccionCli AS DireccionCliNota, 
-           e.TipoEstado
-      FROM $table AS np
-      LEFT JOIN tb_lote AS l ON np.IdLote = l.IdLote
-      INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
-      INNER JOIN tb_personal AS per2 ON np.NotaPorFA = per2.IdPer
-      INNER JOIN tb_cliente AS cli ON np.NombreCliNota = cli.IdCli AND np.RucCli = cli.IdCli AND np.DireccionCliNota = cli.IdCli
-      INNER JOIN tb_estado AS e ON np.Estado = e.IdEstado
-      WHERE np.IdNotaP = :codDetNotPeData
-    ");
+    $statement = Conexion::conn()->prepare("SELECT np.*, 
+    l.CodigoLote, 
+    per.NombrePer AS NombrePerIdPer, 
+    per2.NombrePer AS NombrePerIdRes, 
+    np.NotaPorFA, 
+    cli.NombreCli AS NombreCliNota, 
+    cli.RucCli, 
+    cli.DireccionCli AS DireccionCliNota, 
+    e.TipoEstado
+  FROM $table AS np
+  LEFT JOIN tb_lote AS l ON np.IdLote = l.IdLote
+  INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
+  INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
+  INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
+  INNER JOIN tb_estado AS e ON np.Estado = e.IdEstado
+  WHERE np.IdNotaP = :codDetNotPeData");
 
     $statement->bindParam(":codDetNotPeData", $codDetNotPeData, PDO::PARAM_INT);
 
