@@ -30,7 +30,8 @@ public static function ctrGetAjaxDatosJson()
     $dataCreate = array(
       "IdLote" => $data["notPeLot"],
       "IdPer" => $data["notVend"],
-      "NotaPorFA" => $data["notRes"],
+      "IdRes" => $data["notRes"],
+      "NotaPorFA" => $data["notTiPe"],
       "RucCli" => $data["notRuc"],
       "NombreCliNota" => $data["notCli"],
       "DireccionCliNota" => $data["notDirec"],
