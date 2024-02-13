@@ -22,7 +22,7 @@
           <h3>Datos de pedido</h3>
 
           <div class="row g-3">
-             <!-- Select ruc cliente-->
+            <!-- Select ruc cliente-->
             <div class="form-group col-md-4">
               <label for="notRuc" class="form-label" style="font-weight: bold">Ruc Cliente </label>
               <select class="form-control input-lg" id="notRuc" name="notRuc">
@@ -40,8 +40,8 @@
             <!-- nombre cliente-->
             <div class="form-group col-md-4">
               <label for="notCli" class="form-label" style="font-weight: bold">Nombre Cliente</label>
-              <select class="form-control input-lg" id="notCli" name="notCli">
-                <option  disabled selected>Seleccione cliente</option>
+              <select class="form-control input-lg" id="notCli" name="notCli" required>
+                <option value="">Seleccione cliente</option>
                 <?php
                 $listClientes = NotaPedidoController::ctrGetNotaPeCli();
                 foreach ($listClientes as $value) {
@@ -50,11 +50,10 @@
                 ?>
               </select>
             </div>
-              <!-- direccion cliente-->    
+            <!-- direccion cliente-->
             <div class="form-group col-md-4">
               <label for="notDirec" class="form-label" style="font-weight: bold">Direccion Client </label>
-              <select class="form-control input-lg" id="notDirec" name="notDirec" readonly>
-                <option disabled selected>Direccion Cliente</option>
+              <select class="form-control input-lg" id="notDirec" name="notDirec" disabled>
                 <?php
                 $listClientes = NotaPedidoController::ctrGetNotaPeCli();
                 foreach ($listClientes as $value) {
@@ -67,39 +66,36 @@
             <!-- personal responsable-->
             <div class="form-group col-md-2">
               <label for="notRes" class="form-label" style="font-weight: bold">Responsable</label>
-              <select class="form-control input-lg" id="notRes" name="notRes">
+              <select class="form-control input-lg" id="notRes" name="notRes" required>
+                <option value="">Seleccione el Responsable</option>
                 <?php
-                $listPerson = IngresosController::ctrGetPersonRes("tb_personal", $_SESSION["IdUsu"]);
-                foreach ($listPerson as $value) {
-                  $selected = '';
-                  if ($value["IdPer"] == $_SESSION["IdUsu"]) {
-                    $selected = 'selected';
-                  }
-                  echo '<option value="' . $value["IdPer"] . '" ' . $selected . '>' . $value["NombrePer"] . '</option>';
+                $listResponsables = PersonalController::ctrGetPersonalByType("1");
+                foreach ($listResponsables as $value) {
+                  echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
                 }
                 ?>
               </select>
             </div>
 
-              <!-- Crear apartir de -->
-              <div class="form-group col-md-2">
-                <label for="notTipoPe" class="form-label" style="font-weight: bold">Crear Desde:</label>
-                <select class="form-control input-lg" id="notTipoPe" name="notTipoPe">
-                  <option value="Almacen">Almacen</option>
-                  <option value="Lote">Lote</option>
-                </select>
-              </div>
-              
-              <!-- Campo adicional para el lote como select -->
-              <div class="form-group col-md-2" id="campoLoteAdd" style="display: none;">
-                <label for="notPeLot" class="form-label" style="font-weight: bold">Seleccione Lote:</label>
-                <select class="form-control" id="notPeLot" name="notPeLot">
-                  <option value="O">Selecione el Lote</option>
-                  <option value="1">Lote 1</option>
-                  <option value="2">Lote 2</option>
-                  <option value="3">Lote 3</option>
-                </select>
-              </div>  
+            <!-- Crear apartir de -->
+            <div class="form-group col-md-2">
+              <label for="notTipoPe" class="form-label" style="font-weight: bold">Crear Desde:</label>
+              <select class="form-control input-lg" id="notTipoPe" name="notTipoPe">
+                <option value="Almacen">Almacen</option>
+                <option value="Lote">Lote</option>
+              </select>
+            </div>
+
+            <!-- Campo adicional para el lote como select -->
+            <div class="form-group col-md-2" id="campoLoteAdd" style="display: none;">
+              <label for="notPeLot" class="form-label" style="font-weight: bold">Seleccione Lote:</label>
+              <select class="form-control" id="notPeLot" name="notPeLot">
+                <option value="O">Selecione el Lote</option>
+                <option value="1">Lote 1</option>
+                <option value="2">Lote 2</option>
+                <option value="3">Lote 3</option>
+              </select>
+            </div>
 
             <!-- Description de nota de pedido -->
             <div class="form-group col-md-2">
@@ -109,18 +105,17 @@
                 <option value="Factura">Factura</option>
               </select>
             </div>
-              
+
             <!-- Campo adicional para la Factura -->
             <div class="form-group col-md-2" id="campoFactura" style="display: none;">
               <label for="datosFactura" class="form-label" style="font-weight: bold">Nr° Factura:</label>
-              <input type="text" class="form-control" id="datosFactura" name="datosFactura"
-                placeholder="Datos de la factura">
+              <input type="text" class="form-control" id="datosFactura" name="datosFactura" placeholder="Datos de la factura">
             </div>
 
             <!-- fecha de nota pedido -->
             <div class="col-md-2">
               <label for="notFechPe" class="form-label" style="font-weight: bold">Fecha Nota Pedido: </label>
-              <input type="date" class="form-control" id="notFechPe" name="notFechPe"  >
+              <input type="date" class="form-control" id="notFechPe" name="notFechPe">
             </div>
           </div>
 
@@ -128,12 +123,12 @@
             <!-- Select al vendedor-->
             <div class="form-group col-md-4">
               <label for="notVend" class="form-label" style="font-weight: bold">Vendedor</label>
-              <select class="form-control input-lg" id="notVend" name="notVend">
-                <option  disabled selected>Seleccione al Vendedor</option>
+              <select class="form-control input-lg" id="notVend" name="notVend" required>
+                <option value="">Seleccione al Vendedor</option>
                 <?php
-                $listVendedores = NotaPedidoController::ctrGetPersonVen();
+                $listVendedores = PersonalController::ctrGetPersonalByType("3");
                 foreach ($listVendedores as $value) {
-                  echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . '</option>';
+                  echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
                 }
                 ?>
               </select>
@@ -152,8 +147,7 @@
             <!-- Campo de comentario Devolucion -->
             <div class="form-group col-md-2" id="comentDev" style="display: none;">
               <label for="comment" class="form-label" style="font-weight: bold">Comentario:</label>
-              <input type="text" class="form-control" id="comentDev" name="comentDev" 
-                placeholder="Comentario de Devolucion">
+              <input type="text" class="form-control" id="comentDev" name="comentDev" placeholder="Comentario de Devolucion">
             </div>
 
             <!-- fecha de devolucion -->
@@ -168,7 +162,7 @@
             <div class="col-md-4">
               <label for="notSubT" class="form-label" style="font-weight: bold">Sub Total</label>
               <div style="font-size:26px; display: flex; align-items: center;"><span style="margin-right: 3px;">S/</span> <input type="text" class="form-control" id="notSubT" name="notSubT" readonly></div>
-            </div> 
+            </div>
             <!-- suma de igv -->
             <div class="col-md-2">
               <label for="notIGV" class="form-label" style="font-weight: bold">IGV</label>
@@ -190,8 +184,7 @@
           <div class="container row g-3">
             <h3>Productos</h3>
             <div class="d-inline-flex m-2">
-              <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                data-bs-target="#modalAddProdIng">Agregar Productos</button>
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalAddProdIng">Agregar Productos</button>
             </div>
 
             <div class="row" style="font-weight: bold">
@@ -208,15 +201,15 @@
           </div>
         </span>
 
-          <!-- botones par enviar el formulario productos  -->
+        <!-- botones par enviar el formulario productos  -->
         <div class="col-md-4>
         <div class=" container row g-4 p-4 justify-content-between">
-          <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-danger closeNotaPedido" >Cerrar</button>
+          <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-danger closeNotaPedido">Cerrar</button>
           <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-success" name="submitNotaPedido">Registrar Nota Pedido</button>
         </div>
     </div>
-     <!-- Campo de entrada oculto para la cadena JSON -->
-     <input type="hidden" id="formDataJson" name="formDataJson">
+    <!-- Campo de entrada oculto para la cadena JSON -->
+    <input type="hidden" id="formDataJson" name="formDataJson">
     </form>
 </div>
 </main>
@@ -225,8 +218,7 @@
 </div>
 
 <!-- Modal para agregar  productos -->
-<div class="modal fade" id="modalAddProdIng" tabindex="-1" role="dialog" aria-labelledby="modalAddProdIng"
-  aria-hidden="true">
+<div class="modal fade" id="modalAddProdIng" tabindex="-1" role="dialog" aria-labelledby="modalAddProdIng" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -235,7 +227,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      
+
       <div class="modal-body">
         <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoIng" width="100%">
           <thead>

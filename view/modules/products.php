@@ -33,9 +33,7 @@
                 <th>Detalle</th>
                 <th>Categoría</th>
                 <th>Unidad</th>
-                <th>Cantidad</th>
                 <th>Precio</th>
-                <th>Fecha Creado</th>
                 <th>Fecha Actualizado</th>
                 <th>Acciones</th>
               </tr>
@@ -51,9 +49,7 @@
                   <td>' . $value["DetalleProducto"] . '</td>
                   <td>' . $value["NombreCategoria"] . '</td>
                   <td>' . $value["Unidad"] . '</td>
-                  <td>' . $value["Cantidad"] . '</td>
                   <td>' . $value["Precio"] . '</td>
-                  <td>' . $value["DateCreate"] . '</td>
                   <td>' . $value["DateUpdate"] . '</td>
                   <td>
                     <button class="btn btn-warning btnEditProduct" codProduct="' . $value["IdProd"] . '" data-toggle="modal" data-target="#modalEditProduct"><i class="fa-solid fa-pencil"></i></button>
@@ -113,12 +109,6 @@
           <div class="form-group">
             <label for="productUnit" class="col-form-label">Unidad:</label>
             <input type="text" class="form-control" id="productUnit" name="productUnit" required>
-          </div>
-
-          <!-- Cantidad -->
-          <div class="form-group">
-            <label for="productQuantity" class="col-form-label">Cantidad:</label>
-            <input type="number" class="form-control" id="productQuantity" name="productQuantity" required>
           </div>
 
           <!-- Precio -->
@@ -183,12 +173,6 @@
           <div class="form-group">
             <label for="editProductUnit" class="col-form-label">Unidad:</label>
             <input type="text" class="form-control" id="editProductUnit" name="editProductUnit" required>
-          </div>
-
-          <!-- Cantidad -->
-          <div class="form-group">
-            <label for="editProductQuantity" class="col-form-label">Cantidad:</label>
-            <input type="number" class="form-control" id="editProductQuantity" name="editProductQuantity" required>
           </div>
 
           <!-- Precio -->

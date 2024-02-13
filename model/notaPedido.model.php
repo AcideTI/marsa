@@ -120,35 +120,6 @@ public static function mdlGetAjaxDatosJson($table, $data) {
         return $statement->fetchAll();
     }
 
-    // Obtener al vendedor
-    public static function mdlGetPersonVen($table)
-    {
-        $statement = Conexion::conn()->prepare("SELECT 
-        tb_personal.IdPer,
-        tb_personal.IdTipoPer,
-        tb_personal.dni,
-        tb_personal.NombrePer,
-        tb_personal.ApellidoPer,
-        tb_personal.TelefonoPer,
-        tb_personal.DireccionPer,
-        CASE tb_personal.Estado
-            WHEN 3 THEN 'Activo'
-            WHEN 4 THEN 'Inactivo'
-            ELSE 'Otro'
-     END AS Estado,
-     tb_personal.DateCreate,
-     tb_personal.DateUpdate
-        FROM 
-        $table
-        INNER JOIN 
-     tb_tipopersonal ON tb_personal.IdTipoPer = tb_tipopersonal.IdTipoPer 
-        WHERE 
-     tb_personal.IdTipoPer = 3 AND tb_personal.Estado = 3
-        ORDER BY 
-        IdPer DESC");
-        $statement->execute();
-        return $statement->fetchAll();
-    }
 
     // Mostrar los productos a agregar nota de pedido
     public static function mdlGetProductData($table)

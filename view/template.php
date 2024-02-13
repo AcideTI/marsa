@@ -37,19 +37,9 @@
           $_GET["ruta"] == "verNotasPedido" ||
           $_GET["ruta"] == "lotes" ||
           $_GET["ruta"] == "nuevoLote" ||
-          /* $_GET["ruta"] == "newMovementIV" ||
-          $_GET["ruta"] == "editMovementIV" ||
-          $_GET["ruta"] == "newMovementOutsite" ||
-          $_GET["ruta"] == "editMovementOutsite" ||
-          $_GET["ruta"] == "makers" ||
-          $_GET["ruta"] == "allOrders" ||
-          $_GET["ruta"] == "models" ||
-          $_GET["ruta"] == "newOrder" ||
-          $_GET["ruta"] == "editOrder" ||
-          $_GET["ruta"] == "editOrderApproved" || */
+          $_GET["ruta"] == "categorias" ||
+
           $_GET["ruta"] == "signout" 
-     /*   $_GET["ruta"] == "buscarProducto" ||
-          $_GET["ruta"] == "client"  */
         )
         {
           include "modules/".$_GET["ruta"].".php";

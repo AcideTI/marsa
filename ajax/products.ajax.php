@@ -12,6 +12,15 @@ class ProductAjax
     $response = ProductsController::ctrGetProductDataEdit($codProduct);
     echo json_encode($response);
   }
+
+  //  Show categoria data edit
+  public $codCategoria;
+  public function ajaxEditCategoria()
+  {
+    $codCategoria = $this->codCategoria;
+    $response = ProductsController::ctrGetCategoriaDataEdit($codCategoria);
+    echo json_encode($response);
+  }
 }
 
 //  Show product data edit
@@ -19,4 +28,11 @@ if(isset($_POST["codProduct"])){
     $edit = new ProductAjax();
     $edit -> codProduct = $_POST["codProduct"];
     $edit -> ajaxEditProduct();
+}
+
+//  Show categoria data edit
+if(isset($_POST["codCategoria"])){
+    $edit = new ProductAjax();
+    $edit -> codCategoria = $_POST["codCategoria"];
+    $edit -> ajaxEditCategoria();
 }

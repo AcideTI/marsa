@@ -24,27 +24,22 @@
             <!-- Select Provider-->
             <div class="form-group col-md-8">
               <label for="nameRes" class="form-label" style="font-weight: bold">Responsable:</label>
-              <select class="form-control input-lg" id="nameRes" name="nameRes">
+              <select class="form-control input-lg" id="nameRes" name="nameRes" required>
+                <option value="">Seleccione el Operador</option>
                 <?php
-                $listPerson = IngresosController::ctrGetPersonRes("tb_personal",$_SESSION["IdUsu"]);
-                foreach ($listPerson as $value) {
-                  $selected = '';
-                  if ($value["IdPer"] == $_SESSION["IdUsu"]) {
-                    $selected = 'selected';
-                  }
-                  echo '<option value="' . $value["IdPer"] . '" ' . $selected . '>' . $value["NombrePer"] . '</option>';
+                $listOperadores = PersonalController::ctrGetPersonalByType("2");
+                foreach ($listOperadores as $value) {
+                  echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
                 }
                 ?>
-              </select><br
-
-              <!-- Description -->
+              </select><br <!-- Description -->
               <div class="form-group col-md-8">
-              <label for="DescripcionIng" class="form-label" style="font-weight: bold">Descripción de Ingreso:</label>
-                <input type="text" class="form-control" id="DescripcionIng" name="DescripcionIng" value="" placeholder="Descripcion Ingreso" >
-                  <!-- Campo adicional para el lote como select -->
+                <label for="DescripcionIng" class="form-label" style="font-weight: bold">Descripción de Ingreso:</label>
+                <input type="text" class="form-control" id="DescripcionIng" name="DescripcionIng" value="" placeholder="Descripcion Ingreso">
+                <!-- Campo adicional para el lote como select -->
 
               </div>
-            
+
               <div class="form-group col-md-12 d-flex align-items-start">
                 <div id="stateIngWrapper">
                   <label for="stateIng" class="form-label" style="font-weight: bold">Estado:</label>
@@ -56,45 +51,45 @@
                   </select>
                 </div>
 
-                  <!-- Botón de Ingreso Normal -->
-                  <div class="col-md-2" style="margin-left: 360px;">
-                    <label for="IngNormal" class="form-label" style="font-weight: bold">Ingreso</label><br>
-                    <button type="button" class="btn btn-outline-success" id="IngNormal" name="IngNormal">Normal</button>
+                <!-- Botón de Ingreso Normal -->
+                <div class="col-md-2" style="margin-left: 360px;">
+                  <label for="IngNormal" class="form-label" style="font-weight: bold">Ingreso</label><br>
+                  <button type="button" class="btn btn-outline-success" id="IngNormal" name="IngNormal">Normal</button>
 
-                  </div>
+                </div>
               </div>
 
-              </div>
-
-              <!-- Date -->
-              <div class="col-md-2">
-              <label for="dateProduction" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
-              <input type="date" class="form-control" id="dateProduction" name="dateProduction"  required>
-
-              <label for="dateVenci" class="form-label" style="font-weight: bold">Fecha Vencimiento: </label>
-              <input type="date" class="form-control" id="dateVenci" name="dateVenci" required ><br><br>
-                  
-              <!-- boton de ingresar devolucion -->
-              <label for="IngVenci" class="form-label" style="font-weight: bold">Ingresar</label><br>
-              <button type="submit" class="btn btn-outline-danger" id="IngVenci" name="IngVenci">Devolucion</button> 
             </div>
 
-             <!-- Date -->
-             <div class="col-md-2">
+            <!-- Date -->
+            <div class="col-md-2">
+              <label for="dateProduction" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
+              <input type="date" class="form-control" id="dateProduction" name="dateProduction" required>
+
+              <label for="dateVenci" class="form-label" style="font-weight: bold">Fecha Vencimiento: </label>
+              <input type="date" class="form-control" id="dateVenci" name="dateVenci" required><br><br>
+
+              <!-- boton de ingresar devolucion -->
+              <label for="IngVenci" class="form-label" style="font-weight: bold">Ingresar</label><br>
+              <button type="submit" class="btn btn-outline-danger" id="IngVenci" name="IngVenci">Devolucion</button>
+            </div>
+
+            <!-- Date -->
+            <div class="col-md-2">
               <label for="dateDev" class="form-label" style="font-weight: bold">Fecha Devolucion: </label>
               <input type="date" class="form-control" id="dateDev" name="dateDev" readonly>
 
               <label for="dateMerma" class="form-label" style="font-weight: bold">Fecha Merma: </label>
               <input type="date" class="form-control" id="dateMerma" name="dateMerma" readonly><br><br>
-                  
+
               <!-- boton de ingresar Merma -->
               <label for="IngMerma" class="form-label" style="font-weight: bold"> Ingresar </label><br>
-              <button type="submit" class="btn btn-outline-dark" id="IngMerma" name="IngMerma" >Merma</button> 
-           
+              <button type="submit" class="btn btn-outline-dark" id="IngMerma" name="IngMerma">Merma</button>
+
             </div>
-            
+
           </div>
-          
+
         </span>
 
         <!-- List of materials -->
@@ -102,8 +97,7 @@
           <div class="container row g-3">
             <h3>Productos</h3>
             <div class="d-inline-flex m-2">
-              <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                data-bs-target="#modalAddProdIng">Agregar Productos</button>
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalAddProdIng">Agregar Productos</button>
             </div>
 
             <div class="row" style="font-weight: bold">
@@ -111,7 +105,7 @@
               <div class="col-lg-3">Unidad</div>
               <div class="col-lg-3">Cantidad</div>
             </div>
-              <!-- aqui se agregan los productos del modal de prodcutos  -->    
+            <!-- aqui se agregan los productos del modal de prodcutos  -->
             <div class="form-group row newProductAddIng">
               <input type="hidden" id="listProducts" name="listProducts">
               <!-- aqui se agregan los productos del modal de prodcutos  -->
@@ -120,8 +114,7 @@
 
         </span>
         <div class="container row g-3 p-3 justify-content-between">
-          <button type="button"
-            class="col-1 d-inline-flex-center p-2 btn btn-danger closeIngresoNuevo">Cerrar</button>
+          <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-danger closeIngresoNuevo">Cerrar</button>
           <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-success ">Registrar Ingreso</button>
         </div>
       </form>
@@ -132,8 +125,7 @@
 </div>
 
 <!-- Modal Add Material -->
-<div class="modal fade" id="modalAddProdIng" tabindex="-1" role="dialog" aria-labelledby="modalAddProdIng"
-  aria-hidden="true">
+<div class="modal fade" id="modalAddProdIng" tabindex="-1" role="dialog" aria-labelledby="modalAddProdIng" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -153,10 +145,10 @@
             </tr>
           </thead>
           <tbody>
-          <?php
-          $listProducts = IngresosController::ctrGetListProducts();
-          foreach ($listProducts as $key => $value){
-            echo '
+            <?php
+            $listProducts = IngresosController::ctrGetListProducts();
+            foreach ($listProducts as $key => $value) {
+              echo '
                 <tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["NombreProducto"] . '</td>
@@ -166,12 +158,13 @@
                       <button class="btn btn-primary btnAddProduct takeButton" codProduct="' . $value["IdProd"] . '">Agregar</button> 
                     </div>
                   </td>
-                </tr>';}
-          ?>
+                </tr>';
+            }
+            ?>
           </tbody>
         </table>
       </div>
-      
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary pull-left" data-bs-dismiss="modal">Salir</button>
       </div>

@@ -107,15 +107,6 @@ public static function ctrGetAjaxDatosJson()
         return $listClientes;
     }
 
-    //obtener el vendedor
-    public static function ctrGetPersonVen()
-    {
-        $table = "tb_personal";
-        $listVendedores = NotaPedidoModel::mdlGetPersonVen($table);
-        return $listVendedores;
-    }
-
-
     // obtener datos de los productos para agregarlos a la lista
     public static function ctrGetListProducts()
     {

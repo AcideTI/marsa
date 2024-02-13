@@ -10,13 +10,6 @@ class ProductsController
     $listProducts = ProductsModel::mdlGetAllProducts($table);
     return $listProducts;
   }
-  //  Get list of materials to IC
-  public static function ctrGetListMaterials()
-  {
-    $table = "tb_material";
-    $listMaterials = MaterialsModel::mdlGetListMaterials($table);
-    return $listMaterials;
-  }
 
   // Mostrar todas las categorías de productos
   public static function ctrGetAllCategories()
@@ -36,7 +29,6 @@ class ProductsController
         "NombreProducto" => $_POST["productName"],
         "DetalleProducto" => $_POST["productDetail"],
         "Unidad" => $_POST["productUnit"],
-        "Cantidad" => $_POST["productQuantity"],
         "Precio" => $_POST["productPrice"],
         "DateCreate" => date("Y-m-d\TH:i:sP"),
         "DateUpdate" => date("Y-m-d\TH:i:sP")
@@ -72,7 +64,6 @@ class ProductsController
         'NombreProducto' => $_POST['editProductName'],
         'DetalleProducto' => $_POST['editProductDetail'],
         'Unidad' => $_POST['editProductUnit'],
-        'Cantidad' => $_POST['editProductQuantity'],
         'Precio' => $_POST['editProductPrice'],
         'DateUpdate' => date("Y-m-d\TH:i:sP"),
       );
@@ -92,23 +83,106 @@ class ProductsController
   public static function ctrDeleteProduct()
   {
     if (isset($_GET['codProduct'])) {
-      $table = "tb_producto";
+      
       $codProduct = $_GET["codProduct"];
-      $response = ProductsModel::mdlDeleteProduct($table, $codProduct);
-      if ($response == "ok") {
-        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Producto eliminado correctamente', 'products');
+      //  Verificar si el producto está dentro de la tabla almacén, si es así no se puede eliminar -> Solo almacén 
+      $historial = AlmacenController::mdlGetHistorialProduct($codProduct);
+
+      if($historial["cantidad"] > 0) {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar un producto que ya tiene movimientos en el sistema', 'products');
       } else {
-        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar un producto', 'products');
+        $table = "tb_producto";
+        $response = ProductsModel::mdlDeleteProduct($table, $codProduct);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Producto eliminado correctamente', 'products');
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar un producto', 'products');
+        }
       }
+
       echo $message;
     }
   }
 
-  //  Get material data
-  public static function ctrGetMaterialData($codMaterial)
+  //  Listar Categorias de los productos
+  public static function ctrGetAllCategoriesView()
   {
-    $table = "tb_material";
-    $data = MaterialsModel::mdlGetMaterialData($table, $codMaterial);
+    $table = "tb_categoriaprod";
+    $listCategories = ProductsModel::mdlGetAllCategoriesView($table);
+    return $listCategories;
+  }
+
+  //  Crear nueva cateoria
+  public static function ctrCreateCategoria()
+  {
+    if (isset($_POST["descripcionCategoria"])) {
+      $table = "tb_categoriaprod";
+      $dataCreate = array(
+        "NombreCategoria" => $_POST["descripcionCategoria"],
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+        "DateUpdate" => date("Y-m-d\TH:i:sP")
+      );
+      $response = ProductsModel::mdlCreateCategoria($table, $dataCreate);
+      if ($response == "ok") {
+        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Categoria Creada Correctamente', 'categorias');
+        echo $message;
+      } else {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Crear la Categoria', 'categorias');
+        echo $message;
+      }
+    }
+  }
+
+  //  Editar una categoria
+  public static function ctrEditCategoria()
+  {
+    if (isset($_POST["editDescripcionCategoria"]) && isset($_POST["codCategoriaEdit"])) {
+      $table = "tb_categoriaprod";
+      $dataUpdate = array(
+        "IdCate" => $_POST["codCategoriaEdit"],
+        "NombreCategoria" => $_POST["editDescripcionCategoria"],
+        "DateUpdate" => date("Y-m-d\TH:i:sP")
+      );
+      $response = ProductsModel::mdlEditCategoria($table, $dataUpdate);
+      if ($response == "ok") {
+        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Categoria Editada Correctamente', 'categorias');
+        echo $message;
+      } else {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Editar la Categoria', 'categorias');
+        echo $message;
+      }
+    }
+  }
+
+  //  Obtener data de una categoria
+  public static function ctrGetCategoriaDataEdit($codCategoria)
+  {
+    $table = "tb_categoriaprod";
+    $data = ProductsModel::mdlGetCategoriaDataEdit($table, $codCategoria);
     return $data;
+  }
+
+  //  Delete Categoria
+  public static function ctrDeleteCategoria()
+  {
+    if (isset($_GET["codCategoria"])) {
+      $table = "tb_producto";
+      $codCategoria = $_GET["codCategoria"];
+      $historial = ProductsModel::mdlGetHistorialCategoria($table, $codCategoria);
+
+      //  Si la categoria ya se asigno a un producto no se puede eliminar
+      if ($historial["cantidad"] > 0) {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar una categoria que ya se asigno a un producto', 'categorias');
+      } else {
+        $table = "tb_categoriaprod";
+        $response = ProductsModel::mdlDeleteCategoria($table, $codCategoria);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Categoria eliminada correctamente', 'categorias');
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar una categoria', 'categorias');
+        }
+      }
+      echo $message;
+    }
   }
 }

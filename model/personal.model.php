@@ -39,55 +39,46 @@ class PersonalModel
     return $statement->fetchAll();
   }
 
-
-  //  Get makers to order
-  public static function mdlGetMakersOrder($table)
+  // Crear Personal
+  public static function mdlCreatePersonal($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("SELECT tb_maker.IdMaker, tb_maker.FirstNameMaker, tb_maker.LastNameMaker FROM $table");
-    $statement->execute();
-    return $statement->fetchAll();
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (IdTipoPer, dni, NombrePer, ApellidoPer, TelefonoPer, DireccionPer, Estado, DateCreate, DateUpdate) VALUES(:IdTipoPer, :dni, :NombrePer, :ApellidoPer, :TelefonoPer, :DireccionPer, :Estado, :DateCreate, :DateUpdate)");
+    $statement->bindParam(":IdTipoPer", $dataCreate["IdTipoPer"], PDO::PARAM_INT);
+    $statement->bindParam(":dni", $dataCreate["dni"], PDO::PARAM_INT);
+    $statement->bindParam(":NombrePer", $dataCreate["NombrePer"], PDO::PARAM_STR);
+    $statement->bindParam(":ApellidoPer", $dataCreate["ApellidoPer"], PDO::PARAM_STR);
+    $statement->bindParam(":TelefonoPer", $dataCreate["TelefonoPer"], PDO::PARAM_STR);
+    $statement->bindParam(":DireccionPer", $dataCreate["DireccionPer"], PDO::PARAM_STR);
+    $statement->bindParam(":Estado", $dataCreate["Estado"], PDO::PARAM_INT);
+    $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataCreate["DateUpdate"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
 
-// Crear Personal
-public static function mdlCreatePersonal($table, $dataCreate)
-{
-  $statement = Conexion::conn()->prepare("INSERT INTO $table (IdTipoPer, dni, NombrePer, ApellidoPer, TelefonoPer, DireccionPer, Estado, DateCreate, DateUpdate) VALUES(:IdTipoPer, :dni, :NombrePer, :ApellidoPer, :TelefonoPer, :DireccionPer, :Estado, :DateCreate, :DateUpdate)");
-  $statement->bindParam(":IdTipoPer", $dataCreate["IdTipoPer"], PDO::PARAM_INT);
-  $statement->bindParam(":dni", $dataCreate["dni"], PDO::PARAM_INT);
-  $statement->bindParam(":NombrePer", $dataCreate["NombrePer"], PDO::PARAM_STR);
-  $statement->bindParam(":ApellidoPer", $dataCreate["ApellidoPer"], PDO::PARAM_STR);
-  $statement->bindParam(":TelefonoPer", $dataCreate["TelefonoPer"], PDO::PARAM_STR);
-  $statement->bindParam(":DireccionPer", $dataCreate["DireccionPer"], PDO::PARAM_STR);
-  $statement->bindParam(":Estado", $dataCreate["Estado"], PDO::PARAM_INT);
-  $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
-  $statement->bindParam(":DateUpdate", $dataCreate["DateUpdate"], PDO::PARAM_STR);
-
-  if ($statement->execute()) {
-    return "ok";
-  } else {
-    return "error";
+  // Editar datos del personal
+  public static function mdlUpdatePersonal($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET IdTipoPer=:IdTipoPer, dni=:dni, NombrePer=:NombrePer, ApellidoPer=:ApellidoPer, TelefonoPer=:TelefonoPer, DireccionPer=:DireccionPer, Estado=:Estado, DateUpdate=:DateUpdate WHERE IdPer=:IdPer");
+    $statement->bindParam(":IdTipoPer", $dataUpdate["IdTipoPer"], PDO::PARAM_INT);
+    $statement->bindParam(":dni", $dataUpdate["dni"], PDO::PARAM_INT);
+    $statement->bindParam(":NombrePer", $dataUpdate["NombrePer"], PDO::PARAM_STR);
+    $statement->bindParam(":ApellidoPer", $dataUpdate["ApellidoPer"], PDO::PARAM_STR);
+    $statement->bindParam(":TelefonoPer", $dataUpdate["TelefonoPer"], PDO::PARAM_STR);
+    $statement->bindParam(":DireccionPer", $dataUpdate["DireccionPer"], PDO::PARAM_STR);
+    $statement->bindParam(":Estado", $dataUpdate["Estado"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":IdPer", $dataUpdate["IdPer"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
-}
-
-// Editar datos del personal
-public static function mdlUpdatePersonal($table, $dataUpdate)
-{
-  $statement = Conexion::conn()->prepare("UPDATE $table SET IdTipoPer=:IdTipoPer, dni=:dni, NombrePer=:NombrePer, ApellidoPer=:ApellidoPer, TelefonoPer=:TelefonoPer, DireccionPer=:DireccionPer, Estado=:Estado, DateUpdate=:DateUpdate WHERE IdPer=:IdPer");
-  $statement->bindParam(":IdTipoPer", $dataUpdate["IdTipoPer"], PDO::PARAM_INT);
-  $statement->bindParam(":dni", $dataUpdate["dni"], PDO::PARAM_INT);
-  $statement->bindParam(":NombrePer", $dataUpdate["NombrePer"], PDO::PARAM_STR);
-  $statement->bindParam(":ApellidoPer", $dataUpdate["ApellidoPer"], PDO::PARAM_STR);
-  $statement->bindParam(":TelefonoPer", $dataUpdate["TelefonoPer"], PDO::PARAM_STR);
-  $statement->bindParam(":DireccionPer", $dataUpdate["DireccionPer"], PDO::PARAM_STR);
-  $statement->bindParam(":Estado", $dataUpdate["Estado"], PDO::PARAM_INT);
-  $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
-  $statement->bindParam(":IdPer", $dataUpdate["IdPer"], PDO::PARAM_INT);
-  if ($statement->execute()) {
-    return "ok";
-  } else {
-    return "error";
-  }
-}
 
   // Obtener datos del personal
   public static function mdlGetPersonalDataEdit($table, $codPersonal)
@@ -110,4 +101,12 @@ public static function mdlUpdatePersonal($table, $dataUpdate)
     }
   }
 
+  //  Get personal por tipo de personal
+  public static function mdlGetPersonalByType($table, $codTipoPersonal)
+  {
+    $statement = Conexion::conn()->prepare("SELECT IdPer, NombrePer, ApellidoPer FROM $table WHERE IdTipoPer = :IdTipoPer");
+    $statement->bindParam(":IdTipoPer", $codTipoPersonal, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll();
+  }
 }

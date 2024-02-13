@@ -24,15 +24,12 @@
             <!-- Select Provider-->
             <div class="form-group col-md-8">
               <label for="nameResLot" class="form-label" style="font-weight: bold">Responsable:</label>
-              <select class="form-control input-lg" id="nameResLot" name="nameResLot">
+              <select class="form-control input-lg" id="nameResLot" name="nameResLot" required>
+                <option value="">Seleccione el Responsable</option>
                 <?php
-                $listPerson = IngresosController::ctrGetPersonRes("tb_personal",$_SESSION["IdUsu"]);
-                foreach ($listPerson as $value) {
-                  $selected = '';
-                  if ($value["IdPer"] == $_SESSION["IdUsu"]) {
-                    $selected = 'selected';
-                  }
-                  echo '<option value="' . $value["IdPer"] . '" ' . $selected . '>' . $value["NombrePer"] . '</option>';
+                $listResponsables = PersonalController::ctrGetPersonalByType("1");
+                foreach ($listResponsables as $value) {
+                  echo '<option value="' . $value["IdPer"] . '" ' . $selected . '>' . $value["NombrePer"] . ' '.$value["ApellidoPer"].'</option>';
                 }
                 ?>
               </select><br>
