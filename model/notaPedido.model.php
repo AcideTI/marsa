@@ -61,16 +61,14 @@ public static function mdlGetAllSalidasNotaPe($table)
 public static function mdlGetAjaxDatosJson($table, $data) {
    
   // Prepara la consulta SQL
-  $stmt = Conexion::conn()->prepare("INSERT INTO $table (IdLote, IdPer, IdRes,NotaPorFA, RucCli, NombreCliNota, DireccionCliNota, TipoDeNotaPe, TipoNotaPeFactura, DatosProductosNotaPedidoJson, SubTotal, IGV, Total, ComentarioNotaDev, Estado, FechaNotaPedido, FechaNotaDevolucion, DateCreate, DateUpdate) VALUES (:IdLote, :IdPer, :IdRes,:NotaPorFA, :RucCli, :NombreCliNota, :DireccionCliNota, :TipoDeNotaPe, :TipoNotaPeFactura, :DatosProductosNotaPedidoJson, :SubTotal, :IGV, :Total, :ComentarioNotaDev, :Estado, :FechaNotaPedido, :FechaNotaDevolucion, :DateCreate, :DateUpdate)");
+  $stmt = Conexion::conn()->prepare("INSERT INTO $table (IdLote, IdPer, IdRes, NotaPorFA, IdCliente, TipoDeNotaPe, TipoNotaPeFactura, DatosProductosNotaPedidoJson, SubTotal, IGV, Total, ComentarioNotaDev, Estado, FechaNotaPedido, FechaNotaDevolucion, DateCreate, DateUpdate) VALUES (:IdLote, :IdPer, :IdRes, :NotaPorFA, :IdCliente, :TipoDeNotaPe, :TipoNotaPeFactura, :DatosProductosNotaPedidoJson, :SubTotal, :IGV, :Total, :ComentarioNotaDev, :Estado, :FechaNotaPedido, :FechaNotaDevolucion, :DateCreate, :DateUpdate)");
 
   // Vincula los parámetros
   $stmt->bindParam(":IdLote", $data["IdLote"], PDO::PARAM_STR);
   $stmt->bindParam(":IdPer", $data["IdPer"], PDO::PARAM_STR);
   $stmt->bindParam(":IdRes", $data["IdRes"], PDO::PARAM_STR);
   $stmt->bindParam(":NotaPorFA", $data["NotaPorFA"], PDO::PARAM_STR);
-  $stmt->bindParam(":RucCli", $data["RucCli"], PDO::PARAM_STR);
-  $stmt->bindParam(":NombreCliNota", $data["NombreCliNota"], PDO::PARAM_STR);
-  $stmt->bindParam(":DireccionCliNota", $data["DireccionCliNota"], PDO::PARAM_STR);
+  $stmt->bindParam(":IdCliente", $data["IdCliente"], PDO::PARAM_STR);
   $stmt->bindParam(":TipoDeNotaPe", $data["TipoDeNotaPe"], PDO::PARAM_STR);
   $stmt->bindParam(":TipoNotaPeFactura", $data["TipoNotaPeFactura"], PDO::PARAM_STR);
   $stmt->bindParam(":DatosProductosNotaPedidoJson", $data["DatosProductosNotaPedidoJson"], PDO::PARAM_STR);
