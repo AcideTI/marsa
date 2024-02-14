@@ -183,7 +183,7 @@ $(document).ready(function () {
 });
 /* fin */
 
-/* funcion con promesa js para Editar los datos  de una nota de pedido pro el id */
+/* funcion con promesa js para Editar los datos  de una nota de pedido por el id */
 
 $(".table").on("click", ".btnLoteEdit", function () {
   var codLoteEdit = $(this).attr("codLoteEdit");
@@ -216,18 +216,11 @@ $(document).ready(function() {
         $("#stateLot").val(response["Estado"]);
         $("#submitEditLote").val(response["IdLote"]);
         $("#listProducts").val(response["DatosLoteIngresoJson"]);
-        /* $("#listProducts").val(JSON.parse(response["DatosProductosNotaPedidoJson"])); */
-
-        /*$("#listProducts").val(response["DatosProductosNotaPedidoJson"]); */
-
           /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
-         
             // Obtiene los productos del campo listProducts
             var products = JSON.parse($('#listProducts').val());
-
             // Vacía el div donde se mostrarán los productos
             $(".newProductAddLote").empty();
-
             // Llena el div con los productos
             for (var i = 0; i < products.length; i++) {
               (function(i) {  // Crea una función de cierre para capturar el valor actual de i
@@ -235,7 +228,6 @@ $(document).ready(function() {
                 var datos = new FormData();
                 // Agrega el codProduct al FormData
                 datos.append("codProductAdd", products[i].codProduct);
-
                 // Hace una solicitud AJAX para obtener los detalles del producto
                 $.ajax({
                   url: "ajax/lotes.ajax.php",
@@ -282,12 +274,9 @@ $(document).ready(function() {
                     );
                   }
                 });
-              })(i);  // Invoca la función de cierre con el valor actual de i
-            }
-          /* fin */
-
-
-      }//fin success function editNotaPedido
+              })(i);
+            }/* fin */
+      }//fin success 
     });
   }
 });
@@ -299,8 +288,90 @@ function getUrlParameter(name) {
   return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
+/* //  Cerrar vista Editar al Actualizar el lote
+$(document).ready(function() {
+  $('.btnEditLoteBack').click(function(e) {
+    e.preventDefault(); 
+    window.location.href = "index.php?ruta=lotes";
+  });
+});
+ */
+
 /* fin */
 
+/* funcion para enviar el formulario de actualizacion al ajx  */
+//formulario ingreso en json a ajax para guardar en la base de datos
+
+$(document).ready(function () {
+  $(".formEditLote")
+    .off("submit")
+    .on("submit", function (e) {
+      e.preventDefault();
+
+      // Recoge todos los campos del formulario
+      var dataArray = $(this).serializeArray();
+
+      // Convierte el array de objetos en un solo objeto JavaScript
+      var dataObject = {};
+      $.each(dataArray, function (i, item) {
+        dataObject[item.name] = item.value;
+      });
+
+      // Asegúrate de que listProducts esté en el objeto, incluso si está vacío
+      if (!dataObject.hasOwnProperty("listProducts")) {
+        dataObject["listProducts"] = "";
+      }
+
+      // Convierte el objeto en una cadena JSON
+      var dataJson = JSON.stringify(dataObject);
+
+      // Muestra la cadena JSON en la consola
+      //console.log(dataJson);
+
+      // Ahora puedes enviar dataJson a través de AJAX
+      $.ajax({
+        url: "ajax/lotes.ajax.php",
+        method: "POST",
+        data: { editLote: dataJson }, // Cambiado de 'data' a 'newIngLote'
+        dataType: "json",
+        success: function (response) {
+          if (response === "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "Lote creado con éxito",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            $(".formNuevoLote")[0].reset();
+            setTimeout(function () {
+              location.reload();
+            }, 1000);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Hubo un error al crear el Lote",
+              showConfirmButton: true,
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+          Swal.fire({
+            icon: "success",
+            title: "Ingreso creado con éxito",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          $(".formNuevoIngreso")[0].reset();
+          setTimeout(function () {
+            location.reload();
+          }, 1000);
+        },
+      });
+    });
+});
+/* fin */
+/* fin */
 
 /* funcion para mostrar el mdoal con los productos de ingresos que devuelve el modelo y el controaldor en json del campo DatosProductosIngresoJson */
 

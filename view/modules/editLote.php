@@ -12,7 +12,7 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Crear un Nuevo Lote
+        Editar Lote
       </h1>
     </div>
 
@@ -20,7 +20,7 @@
       <form role="form" method="post" class="row g-3 m-2 formEditLote">
         <span class="border border-3 p-3">
           <div class="container row g-3">
-            <h3>Datos de Lote</h3>
+            <h3>Datos de Lote a Editar </h3>
 
             <!-- Select Provider-->
             <div class="form-group col-md-6">
@@ -89,7 +89,7 @@
           </div>
           <div class="container row g-3 p-3 justify-content-between">
             <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closelotes" href="index.php?ruta=lotes">Cerrar</button>
-            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success " name="submitEditLote">Registrar Lote</button>
+            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success btnEditLoteBack " name="submitEditLote" >Actualizar Lote</button>
           </div>
         </span>
       </form>
