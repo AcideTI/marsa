@@ -53,19 +53,16 @@ class LotesModel
   public static function mdlGetProductData($table)
   {
     $statement = Conexion::conn()->prepare("SELECT 
-    tb_almacen.IdAlma,
     tb_almacen.IdProd,
     tb_producto.NombreProducto,
-    tb_categoriaprod.NombreCategoria,
     tb_producto.Unidad,
-    tb_almacen.CantidadTotal,
-    tb_producto.Precio
+    tb_almacen.CantidadTotal
   FROM 
     $table
   INNER JOIN 
     tb_producto ON tb_almacen.IdProd = tb_producto.IdProd
-  INNER JOIN 
-    tb_categoriaprod ON tb_producto.IdCate = tb_categoriaprod.IdCate
+	WHERE
+			tb_almacen.CantidadTotal > 0
   ORDER BY 
     GREATEST(CONCAT(tb_almacen.DateCreate, ' ', tb_almacen.HoraCreate), CONCAT(tb_almacen.DateUpdate, ' ', tb_almacen.HoraUpdate)) DESC");
     $statement->execute();
@@ -75,7 +72,7 @@ class LotesModel
     //   Ajax que devuelve  los productos a agregar en la lista
     public static function mdlGetProductDataAjx($table, $codProductAdd)
     {
-        $statement = Conexion::conn()->prepare("SELECT tb_producto.IdProd, tb_producto.NombreProducto, tb_producto.Unidad FROM $table WHERE IdProd = $codProductAdd");
+        $statement = Conexion::conn()->prepare("SELECT tb_almacen.IdProd, tb_producto.NombreProducto, tb_producto.Unidad, tb_almacen.CantidadTotal FROM	$table INNER JOIN	tb_producto	ON tb_almacen.IdProd = tb_producto.IdProd WHERE tb_almacen.IdProd = $codProductAdd");
         $statement->execute();
         return $statement->fetch();
     }
