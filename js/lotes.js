@@ -105,7 +105,7 @@ function listProductAdd() {
       countProduct: $(count[i]).val(),
     });
   }
-  //console.log(listProducts); // Depuración
+  console.log(listProducts); // Depuración
   $("#listProducts").val(JSON.stringify(listProducts));
 }
 
@@ -137,7 +137,7 @@ $(document).ready(function () {
       var dataJson = JSON.stringify(dataObject);
 
       // Muestra la cadena JSON en la consola
-      //console.log(dataJson);
+      console.log(dataJson);
 
       // Ahora puedes enviar dataJson a través de AJAX
       $.ajax({
@@ -214,7 +214,7 @@ $(document).ready(function() {
         $("#dateCreatLot").val(response["FechaProduccionLote"]);
         $("#dateVenciLot").val(response["FechaVencimientoLote"]);
         $("#stateLot").val(response["Estado"]);
-        $("#submitEditLote").val(response["IdLote"]);
+        $("#idLoteEdit").val(response["IdLote"]);
         $("#listProducts").val(response["DatosLoteIngresoJson"]);
           /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
             // Obtiene los productos del campo listProducts
@@ -326,7 +326,7 @@ $(document).ready(function () {
       var dataJson = JSON.stringify(dataObject);
 
       // Muestra la cadena JSON en la consola
-      //console.log(dataJson);
+      console.log(dataJson);
 
       // Ahora puedes enviar dataJson a través de AJAX
       $.ajax({
@@ -370,7 +370,6 @@ $(document).ready(function () {
       });
     });
 });
-/* fin */
 /* fin */
 
 /* funcion para mostrar el mdoal con los productos de ingresos que devuelve el modelo y el controaldor en json del campo DatosProductosIngresoJson */

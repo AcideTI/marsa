@@ -21,7 +21,7 @@
         <span class="border border-3 p-3">
           <div class="container row g-3">
             <h3>Datos de Lote a Editar </h3>
-
+            <input type="hidden" id="idLoteEdit" name="idLoteEdit">
             <!-- Select Provider-->
             <div class="form-group col-md-6">
               <label for="nameResLot" class="form-label" style="font-weight: bold">Responsable:</label>
@@ -89,7 +89,7 @@
           </div>
           <div class="container row g-3 p-3 justify-content-between">
             <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closelotes" href="index.php?ruta=lotes">Cerrar</button>
-            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success btnEditLoteBack " name="submitEditLote" >Actualizar Lote</button>
+            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success btnEditLoteBack " >Actualizar Lote</button>
           </div>
         </span>
       </form>
