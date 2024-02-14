@@ -37,6 +37,7 @@
           $_GET["ruta"] == "verNotasPedido" ||
           $_GET["ruta"] == "editNotaPedido" ||
           $_GET["ruta"] == "lotes" ||
+          $_GET["ruta"] == "editLote" ||
           $_GET["ruta"] == "nuevoLote" ||
           $_GET["ruta"] == "categorias" ||
 

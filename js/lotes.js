@@ -71,12 +71,14 @@ $(".tableNuevoLote").on("click", ".btnAddProduct", function () {
           '" readonly>' +
           "</div>" +
           "</div>" +
+
           "<!-- Unity -->" +
           '<div class="col-lg-3 UnityProduct">' +
           '<input type="text" class="form-control newUnity" name="newUnity" value="' +
           UnityProduct +
           '" readonly>' +
           "</div>" +
+
           "<!-- Count -->" +
           '<div class="col-lg-3 countMaterial">' +
           '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="'+Stock+'" value="1.00" >' +
@@ -180,6 +182,125 @@ $(document).ready(function () {
     });
 });
 /* fin */
+
+/* funcion con promesa js para Editar los datos  de una nota de pedido pro el id */
+
+$(".table").on("click", ".btnLoteEdit", function () {
+  var codLoteEdit = $(this).attr("codLoteEdit");
+
+  // Redirigir al usuario a la página de edición
+  window.location = "index.php?ruta=editLote&codLoteEdit=" + codLoteEdit;
+});
+
+$(document).ready(function() {
+  // Comprobar si estamos en la página de edición
+  if (window.location.href.indexOf('editLote') > -1) {
+    var codLoteEdit = getUrlParameter('codLoteEdit');
+    var data = new FormData();
+
+    data.append("codLoteEdit", codLoteEdit);
+    $.ajax({
+      url: "ajax/lotes.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        $("#nameResLot").val(response["IdPer"]);
+        $("#codLot").val(response["CodigoLote"]);
+        $("#DesLot").val(response["DescripcionLote"]);
+        $("#dateCreatLot").val(response["FechaProduccionLote"]);
+        $("#dateVenciLot").val(response["FechaVencimientoLote"]);
+        $("#stateLot").val(response["Estado"]);
+        $("#submitEditLote").val(response["IdLote"]);
+        $("#listProducts").val(response["DatosLoteIngresoJson"]);
+        /* $("#listProducts").val(JSON.parse(response["DatosProductosNotaPedidoJson"])); */
+
+        /*$("#listProducts").val(response["DatosProductosNotaPedidoJson"]); */
+
+          /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
+         
+            // Obtiene los productos del campo listProducts
+            var products = JSON.parse($('#listProducts').val());
+
+            // Vacía el div donde se mostrarán los productos
+            $(".newProductAddLote").empty();
+
+            // Llena el div con los productos
+            for (var i = 0; i < products.length; i++) {
+              (function(i) {  // Crea una función de cierre para capturar el valor actual de i
+                // Crea un nuevo FormData
+                var datos = new FormData();
+                // Agrega el codProduct al FormData
+                datos.append("codProductAdd", products[i].codProduct);
+
+                // Hace una solicitud AJAX para obtener los detalles del producto
+                $.ajax({
+                  url: "ajax/lotes.ajax.php",
+                  method: "POST",
+                  data: datos,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  dataType: "json",
+                  success: function (respuesta) {
+                    // Obtiene los detalles del producto de la respuesta
+                    var DescriptionProduct = respuesta["NombreProducto"];
+                    var UnityProduct = respuesta["Unidad"];
+
+                    // Agrega el producto al div
+                    $(".newProductAddLote").append(
+                      '<div class="row" style="padding:5px 15px">' +
+                        '<div class="col-lg-5" style="padding-right:0px">' +
+                          '<div class="input-group">' +
+                            '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoiIngreso" codProduct="' +
+                              products[i].codProduct +
+                            '"><i class="fa fa-times"></i></button></span>' +
+                            '<input type="text" class="form-control newProduct" codProduct="' +
+                              products[i].codProduct +
+                            '" value="' +
+                              DescriptionProduct +
+                            '" readonly>' +
+                          '</div>' +
+                        '</div>' +
+                        
+                        "<!-- Unity -->" +
+                        '<div class="col-lg-3 UnityProduct">' +
+                        '<input type="text" class="form-control newUnity" name="newUnity" value="' +
+                        UnityProduct +
+                        '" readonly>' +
+                        "</div>" +
+
+                        '<div class="col-lg-3 countMaterial">' +
+                          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' +
+                            products[i].countProduct +
+                          '">' +
+                        '</div>' +
+                      '</div>'
+                    );
+                  }
+                });
+              })(i);  // Invoca la función de cierre con el valor actual de i
+            }
+          /* fin */
+
+
+      }//fin success function editNotaPedido
+    });
+  }
+});
+
+function getUrlParameter(name) {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  var results = regex.exec(location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+/* fin */
+
 
 /* funcion para mostrar el mdoal con los productos de ingresos que devuelve el modelo y el controaldor en json del campo DatosProductosIngresoJson */
 

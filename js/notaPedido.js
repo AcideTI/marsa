@@ -263,7 +263,8 @@ $(".table").on("click", ".btnDeleteNotaPe", function () {
 
 /* funcion con promesa js para Editar los datos  de una nota de pedido pro el id */
 
-$(".btnEditNotaPedido").on("click", function () {
+$(".table").on("click", ".btnEditNotaPedido", function () {
+  
   var codNotaPe = $(this).attr("codNotaPe");
 
   // Redirigir al usuario a la página de edición
@@ -308,9 +309,6 @@ $(document).ready(function() {
         $("#notTotal").val(response["Total"]);
         $("#submitEditNotaPedido").val(response["IdNotaP"]);
         $("#listProductAddNotaP").val(response["DatosProductosNotaPedidoJson"]);
-        /* $("#listProductAddNotaP").val(JSON.parse(response["DatosProductosNotaPedidoJson"])); */
-
-        /*$("#listProductAddNotaP").val(response["DatosProductosNotaPedidoJson"]); */
 
           /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
          
@@ -376,11 +374,7 @@ $(document).ready(function() {
                   }
                 });
               })(i);  // Invoca la función de cierre con el valor actual de i
-            }
-
-          /* fin */
-
-
+            }/* fin */
       }//fin success function editNotaPedido
     });
   }

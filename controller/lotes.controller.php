@@ -93,6 +93,16 @@ public static function ctrGetAllLotes()
   }
   /* fin */
 
+   /* funcion para Editar  lote por el boton  */
+   public static function ctrGetEditLoteData($codLoteEdit)
+   {
+     $table = "tb_lote";
+     $response = LotesModel::mdlGetEditLoteData($table, $codLoteEdit);
+     return $response;
+   }
+ 
+   /* fin */
+
    // Eliminar lote
    public static function ctrDeleteLote()
    {

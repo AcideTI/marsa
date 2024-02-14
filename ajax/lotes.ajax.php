@@ -47,3 +47,24 @@ if (isset($_POST["newIngLote"])) {
     $jsonOriginData->NewCreateIngresoLoteAjax();
 }
 /* fin */
+
+/* funcion Editar para mostrar detalles de nota de pedido por el boton  */
+class EditLoteAjax
+{
+  public $codLoteEdit;
+  public function ajaxGetProductEditData()
+  {
+    $codLoteEdit = $this->codLoteEdit;
+    $response = LotesController::ctrGetEditLoteData($codLoteEdit);
+    echo json_encode($response);
+  }
+}
+
+//  Show  detalles de la nota de pedido
+if(isset($_POST["codLoteEdit"])){
+	$getProductData = new EditLoteAjax();
+	$getProductData -> codLoteEdit = $_POST["codLoteEdit"];
+	$getProductData -> ajaxGetProductEditData();
+}
+
+/* fin */

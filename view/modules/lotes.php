@@ -71,7 +71,7 @@
                       <td>' . $estado . '</td>
                       <td>
                       <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $value["IdLote"] . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
-                      <button class="btn btn-warning btnEditIC" codIngreso="' . $value["IdLote"] . '"><i class="fa-solid fa-pencil"></i></button>
+                      <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $value["IdLote"] . '"><i class="fa-solid fa-pencil"></i></button>
                       <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $value["IdLote"] . '"><i class="fa-solid fa-trash"></i></button>
                       
                     </tr>';

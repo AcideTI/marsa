@@ -101,7 +101,22 @@ public static function mdlCreateIngresoLoteAjx($table, $dataCreate)
 }
 
   /* fin */
+  
+  /* funcion para Editar  lote por el boton  */
+public static function mdlGetEditLoteData($table, $codLoteEdit)
+{
+  $statement = Conexion::conn()->prepare("SELECT * FROM $table WHERE IdLote = :codLoteEdit");
 
+  $statement->bindParam(":codLoteEdit", $codLoteEdit, PDO::PARAM_INT);
+
+  $statement->execute();
+
+  $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+  return $result;
+}
+
+/* fin */
   // Eliminar lote
   public static function mdlDeleteLote($table, $codLoteDelet)
   {
