@@ -1,6 +1,6 @@
 /* Fondo para el login */
 .fondoLogin{
-  background-image: url('../view/img/backgraund.png');
+  background-image: url('../view/img/background.png');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -42,4 +42,15 @@
   border: none; 
   display: block;
   margin: 0 auto;
+}
+
+.logonav {
+  width: 100px;
+  height: auto;
+}
+
+.logonav img {
+  margin-top: 10px;
+  width: 65%;
+  height: auto;
 }

@@ -11,16 +11,6 @@ class PersonalController
     return $listPersonal;
   }
 
-
-  //  Get makers to orders
-  public static function ctrGetMakersOrder()
-  {
-    $table = "tb_maker";
-    $listMakers = MakersModel::mdlGetMakersOrder($table);
-    return $listMakers;
-  }
-
-
   // ver los tipos de personal
   public static function ctrGetAllTypesPersonal()
   {
@@ -29,39 +19,37 @@ class PersonalController
     return $listTypesPersonal;
   }
 
-// Crear Personal
-public static function ctrCreatePersonal()
-{
-  if (isset($_POST["firstNamePer"]) && isset($_POST["lastNamePer"]) && isset($_POST["personalTypePer"]))
+  // Crear Personal
+  public static function ctrCreatePersonal()
   {
-    $table = "tb_personal";
-    $dataCreate = array(
-      "IdTipoPer" => $_POST["personalTypePer"], // Usar el tipo de personal enviado por el modal
-      "dni" => $_POST["dniNumberPer"],
-      "NombrePer" => $_POST["firstNamePer"],
-      "ApellidoPer" => $_POST["lastNamePer"],
-      "TelefonoPer" => $_POST["phoneNumberPer"],
-      "DireccionPer" => $_POST["addressPer"],
-      "Estado" => 3, // Estado siempre será "Activo" al crear por que el id 3 en la tabla tb_estado es "Activo" y 4 es "Inactivo"
-      "DateCreate" => date("Y-m-d\TH:i:sP"),
-      "DateUpdate" => date("Y-m-d\TH:i:sP")
-    );
-    $createPersonal = PersonalModel::mdlCreatePersonal($table, $dataCreate);
-    if ($createPersonal == "ok") {
-      $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Personal creado Correctamente', 'index.php?ruta=personal');
-      echo $message;
-    } else {
-      $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al crear el Personal', 'index.php?ruta=personal');
-      echo $message;
+    if (isset($_POST["firstNamePer"]) && isset($_POST["lastNamePer"]) && isset($_POST["personalTypePer"])) {
+      $table = "tb_personal";
+      $dataCreate = array(
+        "IdTipoPer" => $_POST["personalTypePer"], // Usar el tipo de personal enviado por el modal
+        "dni" => $_POST["dniNumberPer"],
+        "NombrePer" => $_POST["firstNamePer"],
+        "ApellidoPer" => $_POST["lastNamePer"],
+        "TelefonoPer" => $_POST["phoneNumberPer"],
+        "DireccionPer" => $_POST["addressPer"],
+        "Estado" => 3, // Estado siempre será "Activo" al crear por que el id 3 en la tabla tb_estado es "Activo" y 4 es "Inactivo"
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+        "DateUpdate" => date("Y-m-d\TH:i:sP")
+      );
+      $createPersonal = PersonalModel::mdlCreatePersonal($table, $dataCreate);
+      if ($createPersonal == "ok") {
+        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Personal creado Correctamente', 'index.php?ruta=personal');
+        echo $message;
+      } else {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al crear el Personal', 'index.php?ruta=personal');
+        echo $message;
+      }
     }
   }
-}
 
   // Editar Personal
   public static function ctrUpdatePersonal()
   {
-    if (isset($_POST["editFirstNamePer"]) && isset($_POST["editLastNamePer"]))
-    {
+    if (isset($_POST["editFirstNamePer"]) && isset($_POST["editLastNamePer"])) {
       $table = 'tb_personal';
       $dataUpdate = array(
         "IdTipoPer" => $_POST["editPersonalTypePer"],
@@ -75,7 +63,7 @@ public static function ctrCreatePersonal()
         "IdPer" => $_POST["codPersonal"]
       );
       $updateData = PersonalModel::mdlUpdatePersonal($table, $dataUpdate);
-      if($updateData == "ok") {
+      if ($updateData == "ok") {
         $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Personal editado Correctamente', 'index.php?ruta=personal');
         echo $message;
       } else {
@@ -96,30 +84,25 @@ public static function ctrCreatePersonal()
   // Delete personal
   public static function ctrDeletePersonal()
   {
-    if (isset($_GET["codPersonal"]))
-    {
+    if (isset($_GET["codPersonal"])) {
       $table = "tb_personal";
       $codPersonal = $_GET["codPersonal"];
       $response = PersonalModel::mdlDeletePersonal($table, $codPersonal);
-      if($response == "ok")
-      {
+      if ($response == "ok") {
         $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Personal eliminado correctamente', 'personal');
         echo $message;
-      }
-      else
-      {
+      } else {
         $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al eliminar el personal', 'personal');
         echo $message;
       }
     }
   }
 
-//  Obtener personales por el tipo de personal
+  //  Obtener personales por el tipo de personal
   public static function ctrGetPersonalByType($typePersonal)
   {
     $table = "tb_personal";
     $listPersonal = PersonalModel::mdlGetPersonalByType($table, $typePersonal);
     return $listPersonal;
   }
-
 }

@@ -22,7 +22,7 @@ public static function ctrGetAllLotes()
 //  Devolver productos para agregarlos a la lista de ingreso ajx
   public static function ctrGetProductDataAjx($codProductAdd)
   {
-    $table = "tb_producto";
+    $table = "tb_almacen";
     $data = LotesModel::mdlGetProductDataAjx($table, $codProductAdd);
     return $data;
   }
