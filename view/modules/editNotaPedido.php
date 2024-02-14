@@ -12,14 +12,18 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Nota de Pedido
+       Editar Nota de Pedido
       </h1>
+      <?php
+      $codNota = $_GET["codNotaPe"];
+      $datosNota = NotaPedidoController::ctrGetEditNotPeData($codNota);
+      ?>
     </div>
 
     <div class="container-fluid">
-      <form role="form" method="post" class="row g-3 m-2 formNotaPedido">
+      <form role="form" method="post" class="row g-3 m-2 formEditNotaPedido">
         <span class="border border-3 p-3">
-          <h3>Datos de pedido</h3>
+          <h3>Datos Notas Pedido</h3>
 
           <div class="row g-3">
              <!-- Select ruc cliente-->
@@ -40,8 +44,8 @@
             <!-- nombre cliente-->
             <div class="form-group col-md-4">
               <label for="notCli" class="form-label" style="font-weight: bold">Nombre Cliente</label>
-              <select class="form-control input-lg" id="notCli" name="notCli" required>
-                <option value="">Seleccione cliente</option>
+              <select class="form-control input-lg" id="notCli" name="notCli">
+                <option  disabled selected>Seleccione cliente</option>
                 <?php
                 $listClientes = NotaPedidoController::ctrGetNotaPeCli();
                 foreach ($listClientes as $value) {
@@ -53,7 +57,8 @@
               <!-- direccion cliente-->    
             <div class="form-group col-md-4">
               <label for="notDirec" class="form-label" style="font-weight: bold">Direccion Client </label>
-              <select class="form-control input-lg" id="notDirec" name="notDirec" disabled>
+              <select class="form-control input-lg" id="notDirec" name="notDirec" readonly>
+                <option disabled selected>Direccion Cliente</option>
                 <?php
                 $listClientes = NotaPedidoController::ctrGetNotaPeCli();
                 foreach ($listClientes as $value) {
@@ -66,12 +71,15 @@
             <!-- personal responsable-->
             <div class="form-group col-md-2">
               <label for="notRes" class="form-label" style="font-weight: bold">Responsable</label>
-              <select class="form-control input-lg" id="notRes" name="notRes" required>
-                <option value="">Seleccione el Responsable</option>
+              <select class="form-control input-lg" id="notRes" name="notRes">
                 <?php
-                $listResponsables = PersonalController::ctrGetPersonalByType("1");
-                foreach ($listResponsables as $value) {
-                    echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
+                $listPerson = IngresosController::ctrGetPersonRes("tb_personal", $_SESSION["IdUsu"]);
+                foreach ($listPerson as $value) {
+                  $selected = '';
+                  if ($value["IdPer"] == $_SESSION["IdUsu"]) {
+                    $selected = 'selected';
+                  }
+                  echo '<option value="' . $value["IdPer"] . '" ' . $selected . '>' . $value["NombrePer"] . '</option>';
                 }
                 ?>
               </select>
@@ -109,13 +117,14 @@
             <!-- Campo adicional para la Factura -->
             <div class="form-group col-md-2" id="campoFactura" style="display: none;">
               <label for="datosFactura" class="form-label" style="font-weight: bold">Nr° Factura:</label>
-              <input type="text" class="form-control" id="datosFactura" name="datosFactura" placeholder="Datos de la factura">
+              <input type="text" class="form-control" id="datosFactura" name="datosFactura"
+                placeholder="Datos de la factura">
             </div>
 
             <!-- fecha de nota pedido -->
             <div class="col-md-2">
               <label for="notFechPe" class="form-label" style="font-weight: bold">Fecha Nota Pedido: </label>
-              <input type="date" class="form-control" id="notFechPe" name="notFechPe">
+              <input type="date" class="form-control" id="notFechPe" name="notFechPe"  >
             </div>
           </div>
 
@@ -123,12 +132,12 @@
             <!-- Select al vendedor-->
             <div class="form-group col-md-4">
               <label for="notVend" class="form-label" style="font-weight: bold">Vendedor</label>
-              <select class="form-control input-lg" id="notVend" name="notVend" required>
-                <option value="">Seleccione al Vendedor</option>
+              <select class="form-control input-lg" id="notVend" name="notVend">
+                <option  disabled selected>Seleccione al Vendedor</option>
                 <?php
-                $listVendedores = PersonalController::ctrGetPersonalByType("3");
+                $listVendedores = NotaPedidoController::ctrGetPersonVen();
                 foreach ($listVendedores as $value) {
-                  echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
+                  echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . '</option>';
                 }
                 ?>
               </select>
@@ -147,7 +156,8 @@
             <!-- Campo de comentario Devolucion -->
             <div class="form-group col-md-2" id="comentDev" style="display: none;">
               <label for="comment" class="form-label" style="font-weight: bold">Comentario:</label>
-              <input type="text" class="form-control" id="comentDev" name="comentDev" placeholder="Comentario de Devolucion">
+              <input type="text" class="form-control" id="comentDev" name="comentDev" 
+                placeholder="Comentario de Devolucion">
             </div>
 
             <!-- fecha de devolucion -->
@@ -184,7 +194,8 @@
           <div class="container row g-3">
             <h3>Productos</h3>
             <div class="d-inline-flex m-2">
-              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalAddProdIng">Agregar Productos</button>
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                data-bs-target="#modalAddProdIng">Agregar Productos</button>
             </div>
 
             <div class="row" style="font-weight: bold">
@@ -195,6 +206,27 @@
             </div>
 
             <div class="form-group row newProductAddNotaP">
+              <?php
+              $listaProductos = json_decode($datosNota["DatosProductosNotaPedidoJson"], true);
+              foreach ($listaProductos as $key => $value) {
+                echo '
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" id="notProd' . $key . '" name="notProd' . $key . '" value="' . $value["NombreProducto"] . '" readonly>
+                  </div>
+                  <div class="col-lg-2">
+                    <input type="text" class="form-control" id="notPrecio' . $key . '" name="notPrecio' . $key . '" value="' . $value["Precio"] . '" readonly>
+                  </div>
+                  <div class="col-lg-2">
+                    <input type="number" class="form-control" id="notCant' . $key . '" name="notCant' . $key . '" value="' . $value["Cantidad"] . '" readonly>
+                  </div>
+                  <div class="col-lg-2">
+                    <input type="text" class="form-control" id="notTotal' . $key . '" name="notTotal' . $key . '" value="' . $value["Total"] . '" readonly>
+                  </div>
+                  <div class="col-lg-1">
+                    <button type="button" class="btn btn-danger" id="btnDeleteProd' . $key . '">Eliminar</button>
+                  </div>';
+              }
+              ?>
               <input type="hidden" id="listProductAddNotaP" name="listProductAddNotaP">
               <!-- aqui se agregan los productos del modal de prodcutos  -->
             </div>
@@ -204,8 +236,8 @@
           <!-- botones par enviar el formulario productos  -->
         <div class="col-md-4>
         <div class=" container row g-4 p-4 justify-content-between">
-          <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-danger closeNotaPedido">Cerrar</button>
-          <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-success" name="submitNotaPedido">Registrar Nota Pedido</button>
+          <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-danger closeNotaPedido" >Cerrar</button>
+          <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-success" name="submitEditNotaPedido">Actualizar Nota Pedido</button>
         </div>
     </div>
      <!-- Campo de entrada oculto para la cadena JSON -->
@@ -216,9 +248,13 @@
 </div>
 
 </div>
+<!-- //////////Editar /////////// -->
+
+<!-- /////////Editar Fin//////////// -->
 
 <!-- Modal para agregar  productos -->
-<div class="modal fade" id="modalAddProdIng" tabindex="-1" role="dialog" aria-labelledby="modalAddProdIng" aria-hidden="true">
+<div class="modal fade" id="modalAddProdIng" tabindex="-1" role="dialog" aria-labelledby="modalAddProdIng"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -266,8 +302,3 @@
     </div>
   </div>
 </div>
-
-<?php
-$notaPedidoController = new NotaPedidoController();
-$notaPedidoController->ctrGetAjaxDatosJson();
-?>

@@ -193,6 +193,27 @@ $(document).ready(function() {
 
 /* fin */
 
+// Alerta para eliminar lote
+$(".table").on("click", ".btnLoteDelet", function () {
+  var codLoteDelet = $(this).attr("codLoteDelet");
+
+  swal.fire({
+    title: '¿Está seguro de borrar el Lote?',
+    text: "¡No podrá revertir el cambio!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Si, borrar Lote!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location = "index.php?ruta=lotes&codLoteDelet="+codLoteDelet;
+    }
+  });
+});
+/* fin */
+
 // Función para establecer la fecha actual en un campo
 function setTodayDate(fieldId) {
   var today = new Date();

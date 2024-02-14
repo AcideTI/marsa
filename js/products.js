@@ -18,7 +18,7 @@ $(".table").on("click", ".btnEditProduct", function () {
       $("#editProductDetail").val(response["DetalleProducto"]);
       $("#editProductCategory").val(response["IdCate"]);
       $("#editProductUnit").val(response["Unidad"]);
-      $("#editProductPrice").val(response["Precio"]);
+            $("#editProductPrice").val(response["Precio"]);
       $("#codProduct").val(response["IdProd"]);
     }
   });

@@ -104,4 +104,20 @@ public static function mdlCreateIngresoLoteAjx($table, $dataCreate)
 }
 
   /* fin */
+
+  // Eliminar lote
+  public static function mdlDeleteLote($table, $codLoteDelet)
+  {
+    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE IdLote = :IdLote");
+    $statement -> bindParam(":IdLote", $codLoteDelet, PDO::PARAM_INT);
+    if ($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+    /* fin */
 }

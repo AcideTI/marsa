@@ -68,9 +68,11 @@
                       <td><button class="btn btn-primary btnMostarProductos" data-products="' . htmlspecialchars($value["DatosProductosNotaPedidoJson"]) . '">Productos</button></td>
                       <td>' . $estado . '</td>
                       <td>
-                      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $value["IdNotaP"] . '" ><i class="fa-solid fa-search"></i></button>
-                      <button class="btn btn-warning btnEditIC" codIngreso="' . $value["IdNotaP"] . '"><i class="fa-solid fa-pencil"></i></button>
-                      <button class="btn btn-danger btnDeleteIC" codIngreso="' . $value["IdNotaP"] . '"><i class="fa-solid fa-trash"></i></button>
+                      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $value["IdNotaP"] . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
+
+                      <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $value["IdNotaP"] . '"><i class="fa-solid fa-pencil"></i></button>
+                      
+                      <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $value["IdNotaP"] . '"><i class="fa-solid fa-trash"></i></button>
                       
                     </tr>';
                 }?>
@@ -84,6 +86,10 @@
 </div>
 </div>
 
+<?php
+$deleteNotaPe = new NotaPedidoController();
+$deleteNotaPe->ctrDeleteNotaPedido();
+?>
 
 <!-- Modal para ver productos a través del botón "btnShowProducts" de la lista -->
 <div class="modal fade" id="modalProductosNotaPedido" tabindex="-1" role="dialog" aria-labelledby="modalProductosNotaPedido"

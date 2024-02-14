@@ -19,10 +19,10 @@
         <ol class="breadcrumb mb-4">
           <li class="breadcrumb-item active">Todos los Lotes</li>
         </ol>
-        <div class="d-flex m-2">
+        <div class="d-flex m-2"><span style="margin-left: 5px;"></span>
           <button type="button" class="btn btn-warning btnNewLote" id="btnNewLote">
             Crear Lote
-          </button>
+          </button><span style="margin-left: 20px;"></span>
           <button type="button" class="btn btn-success ReporteSalidas" id="ReporteSalidas" _blank>
               Descargar Reporte Excel
           </button>
@@ -70,9 +70,9 @@
                       <td>' . $value["FechaVencimientoLote"] . '</td>
                       <td>' . $estado . '</td>
                       <td>
-                      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $value["IdLote"] . '" ><i class="fa-solid fa-search"></i></button>
+                      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $value["IdLote"] . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
                       <button class="btn btn-warning btnEditIC" codIngreso="' . $value["IdLote"] . '"><i class="fa-solid fa-pencil"></i></button>
-                      <button class="btn btn-danger btnDeleteIC" codIngreso="' . $value["IdLote"] . '"><i class="fa-solid fa-trash"></i></button>
+                      <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $value["IdLote"] . '"><i class="fa-solid fa-trash"></i></button>
                       
                     </tr>';
                 }?>
@@ -86,6 +86,11 @@
   </main>
 </div>
 </div>
+
+<?php
+$deleteLote = new LotesController();
+$deleteLote->ctrDeleteLote();
+?>
 
 <!-- Modal para ver productos a través del botón "btnMostarProductosLote" de la lista -->
 <div class="modal fade" id="modalProductosLote" tabindex="-1" role="dialog" aria-labelledby="modalProductosLote"

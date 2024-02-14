@@ -74,7 +74,7 @@
   <nav class="sb-sidenav-menu-nested nav">
   <a class="nav-link" href="personal"><i class="fa-solid fa-user-plus"></i><span style="margin-left: 5px;">Personal</span></a>
     <a class="nav-link" href="products"><i class="fa-solid fa-dolly"></i><span style="margin-left: 5px;">Productos</span></a>
-    <a class="nav-link" href="categorias"><i class="fa-solid fa-id-card-clip"></i><span style="margin-left: 5px;">Categorias</span></a>
+<a class="nav-link" href="categorias"><i class="fa-solid fa-id-card-clip"></i><span style="margin-left: 5px;">Categorias</span></a>
     <a class="nav-link" href="clients"><i class="fa-solid fa-clipboard-user"></i><span style="margin-left: 5px;">Clientes</span></a>
     <a class="nav-link" href="users"><i class="fa-solid fa-id-card-clip"></i><span style="margin-left: 5px;">Usuarios</span></a>
   </nav>

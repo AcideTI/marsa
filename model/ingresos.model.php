@@ -141,6 +141,22 @@ class IngresosModel
     }
   }
   /* fin */
+  
+  // Eliminar nota de pedido
+  public static function mdlDeleteIngreso($table, $codIngresoDelet)
+  {
+    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE IdIng = :IdIng");
+    $statement -> bindParam(":IdIng", $codIngresoDelet, PDO::PARAM_INT);
+    if ($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+    /* fin */
 
 }
 

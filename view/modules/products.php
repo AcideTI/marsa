@@ -33,8 +33,8 @@
                 <th>Detalle</th>
                 <th>Categoría</th>
                 <th>Unidad</th>
-                <th>Precio</th>
-                <th>Fecha Actualizado</th>
+                                <th>Precio</th>
+                                <th>Fecha Actualizado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -49,8 +49,8 @@
                   <td>' . $value["DetalleProducto"] . '</td>
                   <td>' . $value["NombreCategoria"] . '</td>
                   <td>' . $value["Unidad"] . '</td>
-                  <td>' . $value["Precio"] . '</td>
-                  <td>' . $value["DateUpdate"] . '</td>
+                                    <td>' . $value["Precio"] . '</td>
+                                    <td>' . $value["DateUpdate"] . '</td>
                   <td>
                     <button class="btn btn-warning btnEditProduct" codProduct="' . $value["IdProd"] . '" data-toggle="modal" data-target="#modalEditProduct"><i class="fa-solid fa-pencil"></i></button>
                     <button class="btn btn-danger btnDeleteProduct" codProduct="' . $value["IdProd"] . '"><i class="fa-solid fa-trash"></i></button>

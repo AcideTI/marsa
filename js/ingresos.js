@@ -193,6 +193,27 @@ $(document).ready(function() {
 
 /* fin */
 
+// Alerta para eliminar lote
+$(".table").on("click", ".btnIngresoDelet", function () {
+  var codIngresoDelet = $(this).attr("codIngresoDelet");
+
+  swal.fire({
+    title: '¿Está seguro de borrar el Ingreso?',
+    text: "¡No podrá revertir el cambio!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Si, borrar Ingreso!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location = "index.php?ruta=ingresos&type=ingresos&codIngresoDelet="+codIngresoDelet;
+    }
+  });
+});
+/* fin */
+
 // fecha actual para campos que se requieran
 // Variable para almacenar el color del estado seleccionado
 var selectedColor = '';

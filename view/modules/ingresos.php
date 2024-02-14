@@ -65,9 +65,9 @@
                       <td>' . $value["FechaVencimientoIng"] . '</td>
                       <td>' . $estado . '</td>
                       <td>
-                      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $value["IdIng"] . '" ><i class="fa-solid fa-search"></i></button>
+                      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $value["IdIng"] . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
                       <button class="btn btn-warning btnEditIC" codIngreso="' . $value["IdIng"] . '"><i class="fa-solid fa-pencil"></i></button>
-                      <button class="btn btn-danger btnDeleteIC" codIngreso="' . $value["IdIng"] . '"><i class="fa-solid fa-trash"></i></button>
+                      <button class="btn btn-danger btnIngresoDelet" codIngresoDelet="' . $value["IdIng"] . '"><i class="fa-solid fa-trash"></i></button>
                       
                     </tr>';
                 }?>
@@ -75,6 +75,12 @@
               </table>
             </div>
           </div>
+
+          <?php
+            $deleteIngreso = new IngresosController();
+            $deleteIngreso->ctrDeleteIngreso();
+            ?>
+
       <?php
       } else {
       ?>
@@ -141,3 +147,4 @@
     </div>
   </div>
 </div>
+

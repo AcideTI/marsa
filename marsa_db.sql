@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-02-2024 a las 06:43:17
+-- Tiempo de generación: 14-02-2024 a las 07:12:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -49,8 +49,8 @@ INSERT INTO `tb_almacen` (`IdAlma`, `IdProd`, `CantidadTotal`, `DateCreate`, `Da
 (3, 92, 5, '2024-02-09', '2024-02-09', '22:45:31', '23:05:55'),
 (4, 91, 2, '2024-02-09', '2024-02-09', '22:45:31', '23:02:42'),
 (5, 85, 77, '2024-02-09', '2024-02-09', '23:05:55', '23:05:55'),
-(6, 1, 20, '2024-02-11', '2024-02-12', '21:33:59', '06:36:47'),
-(7, 2, 29, '2024-02-11', '2024-02-12', '21:33:59', '06:41:53'),
+(6, 1, 19, '2024-02-11', '2024-02-13', '21:33:59', '23:55:27'),
+(7, 2, 27, '2024-02-11', '2024-02-13', '21:33:59', '23:55:27'),
 (8, 50, 0, '2024-02-12', '2024-02-12', '01:22:43', '06:25:18'),
 (9, 49, 0, '2024-02-12', '2024-02-12', '01:22:43', '06:25:17'),
 (10, 95, 0, '2024-02-12', '2024-02-12', '06:12:42', '00:22:40');
@@ -171,8 +171,7 @@ INSERT INTO `tb_ingreso` (`IdIng`, `IdPer`, `DescripcionIng`, `DatosProductosIng
 (7, 1, 'ingreso por que si', '[{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"}]', '2024-02-07', '2024-02-06', '0000-00-00', '0000-00-00', 2, '2024-02-07 22:37:23', '2024-02-07 22:37:23'),
 (8, 1, 'ingreso por que six2', '[{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"}]', '2024-02-07', '0000-00-00', '0000-00-00', '0000-00-00', 7, '2024-02-07 22:56:23', '2024-02-07 22:56:23'),
 (9, 1, 'ingreso por que si', '[{\"codProduct\":\"94\",\"countProduct\":\"4.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"},{\"codProduct\":\"93\",\"countProduct\":\"1.00\"}]', '2024-02-08', '2024-02-09', '0000-00-00', '0000-00-00', 7, '2024-02-08 14:53:08', '2024-02-08 14:53:08'),
-(10, 1, '', '[{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"}]', '2024-02-08', '0000-00-00', '0000-00-00', '0000-00-00', 7, '2024-02-08 16:14:45', '2024-02-08 16:14:45'),
-(49, 1, 'ingreso azucar por Kg', '[{\"codProduct\":\"95\",\"countProduct\":\"100\"}]', '2024-02-12', '2024-02-29', '0000-00-00', '0000-00-00', 7, '2024-02-12 06:12:42', '2024-02-12 06:12:42');
+(10, 1, '', '[{\"codProduct\":\"94\",\"countProduct\":\"1.00\"},{\"codProduct\":\"94\",\"countProduct\":\"1.00\"}]', '2024-02-08', '0000-00-00', '0000-00-00', '0000-00-00', 7, '2024-02-08 16:14:45', '2024-02-08 16:14:45');
 
 -- --------------------------------------------------------
 
@@ -210,8 +209,7 @@ INSERT INTO `tb_lote` (`IdLote`, `IdPer`, `CodigoLote`, `DescripcionLote`, `Dato
 (10, 1, 'L-240211#00000FV2402', 'lote2', '[{\"codProduct\":\"1\",\"countProduct\":\"5\"}]', '2024-02-11', '2024-02-20', 5, '2024-02-11 22:23:50', '2024-02-11 22:23:50'),
 (26, 1, 'L-240212#00A01FV2403', 'lote productos', '[{\"codProduct\":\"49\",\"countProduct\":\"1.00\"},{\"codProduct\":\"50\",\"countProduct\":\"1.00\"}]', '2024-02-12', '2024-03-08', 7, '2024-02-12 06:25:17', '2024-02-12 06:25:17'),
 (27, 1, 'L-240212#00000FV2402', 'lote2', '[{\"codProduct\":\"95\",\"countProduct\":\"1.00\"},{\"codProduct\":\"49\",\"countProduct\":\"1.00\"},{\"codProduct\":\"50\",\"countProduct\":\"1.00\"},{\"codProduct\":\"2\",\"countProduct\":\"1.00\"},{\"codProduct\":\"1\",\"countProduct\":\"1.00\"},{\"codProduct\":\"2\",\"countProduct\":\"1.00\"},{\"codProduct\":\"1\",\"countProduct\":\"1.00\"},{\"codProduct\":\"2\",\"countProduct\":\"1.00\"}]', '2024-02-12', '2024-02-15', 7, '2024-02-12 06:35:24', '2024-02-12 06:35:24'),
-(28, 1, 'L-240212#00000FV2402', 'lote2', '[{\"codProduct\":\"1\",\"countProduct\":\"5\"},{\"codProduct\":\"2\",\"countProduct\":\"5\"}]', '2024-02-12', '2024-02-15', 7, '2024-02-12 06:36:47', '2024-02-12 06:36:47'),
-(29, 1, 'L-240212#00000FV2402', 'lote2', '[{\"codProduct\":\"2\",\"countProduct\":\"1.00\"}]', '2024-02-12', '2024-02-15', 7, '2024-02-12 06:41:53', '2024-02-12 06:41:53');
+(28, 1, 'L-240212#00000FV2402', 'lote2', '[{\"codProduct\":\"1\",\"countProduct\":\"5\"},{\"codProduct\":\"2\",\"countProduct\":\"5\"}]', '2024-02-12', '2024-02-15', 7, '2024-02-12 06:36:47', '2024-02-12 06:36:47');
 
 -- --------------------------------------------------------
 
@@ -223,12 +221,11 @@ CREATE TABLE `tb_notapedido` (
   `IdNotaP` int(11) NOT NULL,
   `IdLote` int(11) DEFAULT NULL,
   `IdPer` int(11) NOT NULL,
-  `NotaPorFA` varchar(100) DEFAULT NULL,
-  `RucCli` varchar(25) NOT NULL,
-  `NombreCliNota` varchar(50) NOT NULL,
-  `DireccionCliNota` varchar(50) NOT NULL,
+  `IdRes` int(11) NOT NULL,
+  `IdCliente` int(11) NOT NULL,
   `TipoDeNotaPe` varchar(100) DEFAULT NULL,
   `TipoNotaPeFactura` varchar(100) DEFAULT NULL,
+  `NotaPorFA` varchar(100) DEFAULT NULL,
   `DatosProductosNotaPedidoJson` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`DatosProductosNotaPedidoJson`)),
   `SubTotal` decimal(10,2) NOT NULL,
   `IGV` decimal(10,2) NOT NULL,
@@ -245,19 +242,8 @@ CREATE TABLE `tb_notapedido` (
 -- Volcado de datos para la tabla `tb_notapedido`
 --
 
-INSERT INTO `tb_notapedido` (`IdNotaP`, `IdLote`, `IdPer`, `NotaPorFA`, `RucCli`, `NombreCliNota`, `DireccionCliNota`, `TipoDeNotaPe`, `TipoNotaPeFactura`, `DatosProductosNotaPedidoJson`, `SubTotal`, `IGV`, `Total`, `ComentarioNotaDev`, `Estado`, `FechaNotaPedido`, `FechaNotaDevolucion`, `DateCreate`, `DateUpdate`) VALUES
-(1, 2, 5, '1', '8', '8', '8', 'Lote', '9849849849', '[{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 250.00, 45.00, 295.00, 'nota pedido ', 6, '2024-02-03', '2024-02-03', '2024-02-03 11:24:17', '2024-02-03 11:24:17'),
-(2, 2, 5, '1', '8', '8', '8', 'Lote', '9849849849', '[{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 250.00, 45.00, 295.00, 'nota pedido', 6, '2024-02-03', '2024-02-03', '2024-02-03 11:25:40', '2024-02-03 11:25:40'),
-(3, 0, 5, '1', '8', '8', '8', 'Almacen', '', '[{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 250.00, 45.00, 295.00, '', 8, '2024-02-03', '0000-00-00', '2024-02-03 11:33:04', '2024-02-03 11:33:04'),
-(4, 0, 5, '1', '8', '8', '8', 'Almacen', '', '[{\"codProduct\":\"91\",\"priceProduct\":\"0.00\",\"countProduct\":\"1.00\",\"newSum\":\"0.00\"}]', 0.00, 0.00, 0.00, '', 8, '2024-02-03', '0000-00-00', '2024-02-03 12:37:34', '2024-02-03 12:37:34'),
-(5, 1, 5, '1', '1', '1', '1', 'Lote', '9849849849', '[{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 350.00, 63.00, 413.00, 'nota pedido', 6, '2024-02-03', '2024-02-03', '2024-02-03 12:47:50', '2024-02-03 12:47:50'),
-(6, 0, 5, '1', '8', '8', '8', 'Almacen', '', '[{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 300.00, 54.00, 354.00, '', 8, '2024-02-03', '0000-00-00', '2024-02-03 12:52:56', '2024-02-03 12:52:56'),
-(7, 1, 5, '1', '8', '8', '8', 'Lote', '9849849849', '[{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 200.00, 36.00, 236.00, 'factura', 5, '2024-02-06', '2024-02-06', '2024-02-06 08:43:02', '2024-02-06 08:43:02'),
-(8, 2, 5, '1', '8', '8', '8', 'Lote', '9849849849', '[{\"codProduct\":\"91\",\"priceProduct\":\"0.00\",\"countProduct\":\"1.00\",\"newSum\":\"0.00\"},{\"codProduct\":\"92\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"91\",\"priceProduct\":\"0.00\",\"countProduct\":\"1.00\",\"newSum\":\"0.00\"},{\"codProduct\":\"92\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 100.00, 18.00, 118.00, 'nota pedido', 6, '2024-02-06', '2024-02-06', '2024-02-06 08:50:50', '2024-02-06 08:50:50'),
-(9, 1, 5, '1', '8', '8', '8', 'Lote', '9849849849', '[{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"92\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"92\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 200.00, 36.00, 236.00, 'factura', 5, '2024-02-06', '2024-02-06', '2024-02-06 08:51:18', '2024-02-06 08:51:18'),
-(10, 0, 5, '1', '8', '8', '8', 'Almacen', '', '[{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"94\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"},{\"codProduct\":\"93\",\"priceProduct\":\"50.00\",\"countProduct\":\"1.00\",\"newSum\":\"50.00\"}]', 300.00, 54.00, 354.00, '', 8, '2024-02-06', '0000-00-00', '2024-02-06 08:56:45', '2024-02-06 08:56:45'),
-(19, 0, 6, '1', '9', '9', '9', 'Almacen', '', '[{\"codProduct\":\"95\",\"priceProduct\":\"5\",\"countProduct\":\"20\",\"newSum\":\"100.00\"}]', 100.00, 18.00, 118.00, '', 8, '2024-02-12', '0000-00-00', '2024-02-12 00:18:16', '2024-02-12 00:18:16'),
-(20, 1, 6, '1', '9', '9', '9', 'Lote', 'F-654654654', '[{\"codProduct\":\"95\",\"priceProduct\":\"5\",\"countProduct\":\"80\",\"newSum\":\"400.00\"}]', 400.00, 72.00, 472.00, '', 5, '2024-02-12', '0000-00-00', '2024-02-12 00:22:40', '2024-02-12 00:22:40');
+INSERT INTO `tb_notapedido` (`IdNotaP`, `IdLote`, `IdPer`, `IdRes`, `IdCliente`, `TipoDeNotaPe`, `TipoNotaPeFactura`, `NotaPorFA`, `DatosProductosNotaPedidoJson`, `SubTotal`, `IGV`, `Total`, `ComentarioNotaDev`, `Estado`, `FechaNotaPedido`, `FechaNotaDevolucion`, `DateCreate`, `DateUpdate`) VALUES
+(1, 1, 5, 1, 9, 'Lote', 'afdfasdfsadf', 'Factura', '[{\"codProduct\":\"2\",\"priceProduct\":\"0.00\",\"countProduct\":\"1.00\",\"newSum\":\"0.00\"},{\"codProduct\":\"1\",\"priceProduct\":\"0.00\",\"countProduct\":\"1.00\",\"newSum\":\"0.00\"},{\"codProduct\":\"2\",\"priceProduct\":\"0.00\",\"countProduct\":\"1.00\",\"newSum\":\"0.00\"}]', 0.00, 0.00, 0.00, '', 5, '2024-02-13', '0000-00-00', '2024-02-13 23:55:27', '2024-02-13 23:55:27');
 
 -- --------------------------------------------------------
 
@@ -476,7 +462,7 @@ CREATE TABLE `tb_usuario` (
 
 INSERT INTO `tb_usuario` (`IdUsu`, `IdTipoUsu`, `NombreUsu`, `Nombre`, `Apellido`, `password`, `LastConnection`, `DateCreate`, `DateUpdate`) VALUES
 (1, 1, 'admin', 'admin', 'admin', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', '2024-01-29 17:31:10', '2023-09-14 11:54:27', '2023-09-14 11:54:27'),
-(3, 2, 'alex', 'Alex R 1', 'Flores ', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', '2024-02-12 00:02:52', '2023-09-14 11:54:27', '2023-09-14 11:54:27'),
+(3, 2, 'alex', 'Alex R 1', 'Flores ', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', '2024-02-13 23:48:29', '2023-09-14 11:54:27', '2023-09-14 11:54:27'),
 (4, 2, 'alex2', 'Alex R 2', 'Responsable', '$argon2id$v=19$m=4096,t=2,p=2$OGxRc0lvQ3JleXY0UTlXLw$F91eyjVOr93VDJEy7tGFf9InNjkMuZDm7jmXeIizWdE', '2024-01-29 17:24:05', '2024-01-29 15:36:20', '2024-01-29 15:36:20');
 
 --
@@ -607,7 +593,7 @@ ALTER TABLE `tb_lote`
 -- AUTO_INCREMENT de la tabla `tb_notapedido`
 --
 ALTER TABLE `tb_notapedido`
-  MODIFY `IdNotaP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `IdNotaP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tb_personal`

@@ -7,22 +7,22 @@ class NotaPedidoModel
 public static function mdlGetAllSalidasNotaPe($table)
 {
   $statement = Conexion::conn()->prepare("SELECT np.*, 
-  l.CodigoLote, 
-  per.NombrePer AS NombrePerIdPer, 
-  per2.NombrePer AS NombrePerIdRes, 
+      l.CodigoLote, 
+      per.NombrePer AS NombrePerIdPer, 
+      per2.NombrePer AS NombrePerIdRes, 
   np.NotaPorFA, 
-  cli.NombreCli AS NombreCliNota, 
-  cli.RucCli, 
-  cli.DireccionCli AS DireccionCliNota, 
-  e.TipoEstado
-FROM $table AS np
-LEFT JOIN tb_lote AS l ON np.IdLote = l.IdLote
-INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
-INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
-INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
-INNER JOIN tb_estado AS e ON np.Estado = e.IdEstado
-ORDER BY 
-IdNotaP DESC");
+      cli.NombreCli AS NombreCliNota, 
+      cli.RucCli, 
+      cli.DireccionCli AS DireccionCliNota, 
+      e.TipoEstado
+    FROM $table AS np
+    LEFT JOIN tb_lote AS l ON np.IdLote = l.IdLote
+    INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
+    INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
+    INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
+    INNER JOIN tb_estado AS e ON np.Estado = e.IdEstado
+    ORDER BY 
+    IdNotaP DESC");
 
   $statement->execute();
 
@@ -60,36 +60,36 @@ IdNotaP DESC");
 // Crear Nota de pedido
 public static function mdlGetAjaxDatosJson($table, $data) {
    
-  // Prepara la consulta SQL
-  $stmt = Conexion::conn()->prepare("INSERT INTO $table (IdLote, IdPer, IdRes, NotaPorFA, IdCliente, TipoDeNotaPe, TipoNotaPeFactura, DatosProductosNotaPedidoJson, SubTotal, IGV, Total, ComentarioNotaDev, Estado, FechaNotaPedido, FechaNotaDevolucion, DateCreate, DateUpdate) VALUES (:IdLote, :IdPer, :IdRes, :NotaPorFA, :IdCliente, :TipoDeNotaPe, :TipoNotaPeFactura, :DatosProductosNotaPedidoJson, :SubTotal, :IGV, :Total, :ComentarioNotaDev, :Estado, :FechaNotaPedido, :FechaNotaDevolucion, :DateCreate, :DateUpdate)");
+    // Prepara la consulta SQL
+    $stmt = Conexion::conn()->prepare("INSERT INTO $table (IdLote, IdPer, IdRes, NotaPorFA, IdCliente, TipoDeNotaPe, TipoNotaPeFactura, DatosProductosNotaPedidoJson, SubTotal, IGV, Total, ComentarioNotaDev, Estado, FechaNotaPedido, FechaNotaDevolucion, DateCreate, DateUpdate) VALUES (:IdLote, :IdPer, :IdRes, :NotaPorFA, :IdCliente, :TipoDeNotaPe, :TipoNotaPeFactura, :DatosProductosNotaPedidoJson, :SubTotal, :IGV, :Total, :ComentarioNotaDev, :Estado, :FechaNotaPedido, :FechaNotaDevolucion, :DateCreate, :DateUpdate)");
 
-  // Vincula los parámetros
-  $stmt->bindParam(":IdLote", $data["IdLote"], PDO::PARAM_STR);
-  $stmt->bindParam(":IdPer", $data["IdPer"], PDO::PARAM_STR);
-  $stmt->bindParam(":IdRes", $data["IdRes"], PDO::PARAM_STR);
-  $stmt->bindParam(":NotaPorFA", $data["NotaPorFA"], PDO::PARAM_STR);
-  $stmt->bindParam(":IdCliente", $data["IdCliente"], PDO::PARAM_STR);
-  $stmt->bindParam(":TipoDeNotaPe", $data["TipoDeNotaPe"], PDO::PARAM_STR);
-  $stmt->bindParam(":TipoNotaPeFactura", $data["TipoNotaPeFactura"], PDO::PARAM_STR);
-  $stmt->bindParam(":DatosProductosNotaPedidoJson", $data["DatosProductosNotaPedidoJson"], PDO::PARAM_STR);
-  $stmt->bindParam(":SubTotal", $data["SubTotal"], PDO::PARAM_STR);
-  $stmt->bindParam(":IGV", $data["IGV"], PDO::PARAM_STR);
-  $stmt->bindParam(":Total", $data["Total"], PDO::PARAM_STR);
-  $stmt->bindParam(":ComentarioNotaDev", $data["ComentarioNotaDev"], PDO::PARAM_STR);
-  $stmt->bindParam(":Estado", $data["Estado"], PDO::PARAM_STR);
-  $stmt->bindParam(":FechaNotaPedido", $data["FechaNotaPedido"], PDO::PARAM_STR);
-  $stmt->bindParam(":FechaNotaDevolucion", $data["FechaNotaDevolucion"], PDO::PARAM_STR);
-  $stmt->bindParam(":DateCreate", $data["DateCreate"], PDO::PARAM_STR);
-  $stmt->bindParam(":DateUpdate", $data["DateUpdate"], PDO::PARAM_STR);
+    // Vincula los parámetros
+    $stmt->bindParam(":IdLote", $data["IdLote"], PDO::PARAM_STR);
+    $stmt->bindParam(":IdPer", $data["IdPer"], PDO::PARAM_STR);
+    $stmt->bindParam(":IdRes", $data["IdRes"], PDO::PARAM_STR);
+    $stmt->bindParam(":NotaPorFA", $data["NotaPorFA"], PDO::PARAM_STR);
+    $stmt->bindParam(":IdCliente", $data["IdCliente"], PDO::PARAM_STR);
+    $stmt->bindParam(":TipoDeNotaPe", $data["TipoDeNotaPe"], PDO::PARAM_STR);
+    $stmt->bindParam(":TipoNotaPeFactura", $data["TipoNotaPeFactura"], PDO::PARAM_STR);
+    $stmt->bindParam(":DatosProductosNotaPedidoJson", $data["DatosProductosNotaPedidoJson"], PDO::PARAM_STR);
+    $stmt->bindParam(":SubTotal", $data["SubTotal"], PDO::PARAM_STR);
+    $stmt->bindParam(":IGV", $data["IGV"], PDO::PARAM_STR);
+    $stmt->bindParam(":Total", $data["Total"], PDO::PARAM_STR);
+    $stmt->bindParam(":ComentarioNotaDev", $data["ComentarioNotaDev"], PDO::PARAM_STR);
+    $stmt->bindParam(":Estado", $data["Estado"], PDO::PARAM_STR);
+    $stmt->bindParam(":FechaNotaPedido", $data["FechaNotaPedido"], PDO::PARAM_STR);
+    $stmt->bindParam(":FechaNotaDevolucion", $data["FechaNotaDevolucion"], PDO::PARAM_STR);
+    $stmt->bindParam(":DateCreate", $data["DateCreate"], PDO::PARAM_STR);
+    $stmt->bindParam(":DateUpdate", $data["DateUpdate"], PDO::PARAM_STR);
 
-  // Ejecuta la consulta
-  if ($stmt->execute()) {
-    return "ok";
-  } else {
-    return "error";
+    // Ejecuta la consulta
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+
   }
-
-}
 
     
     // Obtener al Cliente para la nota pedido
@@ -119,6 +119,35 @@ public static function mdlGetAjaxDatosJson($table, $data) {
         return $statement->fetchAll();
     }
 
+    // Obtener al vendedor
+    public static function mdlGetPersonVen($table)
+    {
+        $statement = Conexion::conn()->prepare("SELECT 
+        tb_personal.IdPer,
+        tb_personal.IdTipoPer,
+        tb_personal.dni,
+        tb_personal.NombrePer,
+        tb_personal.ApellidoPer,
+        tb_personal.TelefonoPer,
+        tb_personal.DireccionPer,
+        CASE tb_personal.Estado
+            WHEN 3 THEN 'Activo'
+            WHEN 4 THEN 'Inactivo'
+            ELSE 'Otro'
+     END AS Estado,
+     tb_personal.DateCreate,
+     tb_personal.DateUpdate
+        FROM 
+        $table
+        INNER JOIN 
+     tb_tipopersonal ON tb_personal.IdTipoPer = tb_tipopersonal.IdTipoPer 
+        WHERE 
+     tb_personal.IdTipoPer = 3 AND tb_personal.Estado = 3
+        ORDER BY 
+        IdPer DESC");
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 
     // Mostrar los productos a agregar nota de pedido
     public static function mdlGetProductData($table)
@@ -157,21 +186,21 @@ public static function mdlGetAjaxDatosJson($table, $data) {
   public static function mdlGetDetallNotPeData($table, $codDetNotPeData)
   {
     $statement = Conexion::conn()->prepare("SELECT np.*, 
-    l.CodigoLote, 
-    per.NombrePer AS NombrePerIdPer, 
-    per2.NombrePer AS NombrePerIdRes, 
+           l.CodigoLote, 
+           per.NombrePer AS NombrePerIdPer, 
+           per2.NombrePer AS NombrePerIdRes, 
     np.NotaPorFA, 
-    cli.NombreCli AS NombreCliNota, 
-    cli.RucCli, 
-    cli.DireccionCli AS DireccionCliNota, 
-    e.TipoEstado
-  FROM $table AS np
-  LEFT JOIN tb_lote AS l ON np.IdLote = l.IdLote
-  INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
-  INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
-  INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
-  INNER JOIN tb_estado AS e ON np.Estado = e.IdEstado
-  WHERE np.IdNotaP = :codDetNotPeData");
+           cli.NombreCli AS NombreCliNota, 
+           cli.RucCli, 
+           cli.DireccionCli AS DireccionCliNota, 
+           e.TipoEstado
+      FROM $table AS np
+      LEFT JOIN tb_lote AS l ON np.IdLote = l.IdLote
+      INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
+      INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
+      INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
+      INNER JOIN tb_estado AS e ON np.Estado = e.IdEstado
+      WHERE np.IdNotaP = :codDetNotPeData");
 
     $statement->bindParam(":codDetNotPeData", $codDetNotPeData, PDO::PARAM_INT);
 
@@ -204,4 +233,37 @@ public static function mdlGetAjaxDatosJson($table, $data) {
   }
   
   /* fin */
+
+  
+/* funcion Editar para mostrar detalles de nota de pedido por el boton  */
+public static function mdlGetEditNotPeData($table, $codEditNotPeData)
+{
+  $statement = Conexion::conn()->prepare("SELECT * FROM $table WHERE IdNotaP = :codEditNotPeData");
+
+  $statement->bindParam(":codEditNotPeData", $codEditNotPeData, PDO::PARAM_INT);
+
+  $statement->execute();
+
+  $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+  return $result;
+}
+
+/* fin */
+
+  // Eliminar nota de pedido
+  public static function mdlDeleteNotaPedido($table, $codNotaPe)
+  {
+    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE IdNotaP = :IdNotaP");
+    $statement -> bindParam(":IdNotaP", $codNotaPe, PDO::PARAM_INT);
+    if ($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+    /* fin */
 }

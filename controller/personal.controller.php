@@ -11,6 +11,16 @@ class PersonalController
     return $listPersonal;
   }
 
+
+  //  Get makers to orders
+  public static function ctrGetMakersOrder()
+  {
+    $table = "tb_maker";
+    $listMakers = MakersModel::mdlGetMakersOrder($table);
+    return $listMakers;
+  }
+
+
   // ver los tipos de personal
   public static function ctrGetAllTypesPersonal()
   {
@@ -104,7 +114,7 @@ public static function ctrCreatePersonal()
     }
   }
 
-  //  Obtener personales por el tipo de personal
+//  Obtener personales por el tipo de personal
   public static function ctrGetPersonalByType($typePersonal)
   {
     $table = "tb_personal";

@@ -92,4 +92,22 @@ public static function ctrGetAllLotes()
     }
   }
   /* fin */
+
+   // Eliminar lote
+   public static function ctrDeleteLote()
+   {
+     if (isset($_GET["codLoteDelet"])) {
+       $table = "tb_lote";
+       $codLoteDelet = $_GET["codLoteDelet"];
+       $response = LotesModel::mdlDeleteLote($table, $codLoteDelet);
+       if ($response == "ok") {
+         $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Lote Eliminado Correctamente', 'lotes');
+         echo $message;
+       } else {
+         $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar el Lote ', 'lotes');
+         echo $message;
+       }
+     }
+   }
+   /* fin */
 }

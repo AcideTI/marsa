@@ -111,5 +111,23 @@ class IngresosController
   }
   /* fin */
 
+  // Eliminar nota pedido
+  public static function ctrdeleteIngreso()
+  {
+    if (isset($_GET["codIngresoDelet"])) {
+      $table = "tb_ingreso";
+      $codIngresoDelet = $_GET["codIngresoDelet"];
+      $response = IngresosModel::mdlDeleteIngreso($table, $codIngresoDelet);
+      if ($response == "ok") {
+        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Ingreso Eliminado Correctamente', 'index.php?ruta=ingresos&type=ingresos');
+        echo $message;
+      } else {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar el Ingreso ', 'index.php?ruta=ingresos&type=ingresos');
+        echo $message;
+      }
+    }
+  }
+  /* fin */
+
 }
 

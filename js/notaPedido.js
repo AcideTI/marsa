@@ -192,6 +192,7 @@ $(".table").on("click", ".btnViewDetallNotPe", function () {
     }
   });
 });
+
 /* fin */
 
 /* Llama a calculateTotals() cuando se cierra el modal de agregar producto */
@@ -276,6 +277,96 @@ $(document).ready(function () {
 
   $("#notDescrip").click(function () {
     $(this).val(estadoOriginal).trigger("change");
+  });
+});
+/* fin */
+
+
+/* //  Editar una nota de pedido
+$(".btnEditNotaPedido").on("click", function () {
+  console.log('El botón fue clickeado');
+  window.location = "index.php?ruta=editNotaPedido";
+}); */
+
+
+/* funcion para llamar los datos para Editar una nota de pedido */
+
+$(".btnEditNotaPedido").on("click", function () {
+  var codNotaPe = $(this).attr("codNotaPe");
+
+  // Redirigir al usuario a la página de edición
+  window.location = "index.php?ruta=editNotaPedido&codNotaPe=" + codNotaPe;
+});
+
+$(document).ready(function() {
+  // Comprobar si estamos en la página de edición
+  if (window.location.href.indexOf('editNotaPedido') > -1) {
+    var codNotaPe = getUrlParameter('codNotaPe');
+    var data = new FormData();
+
+    data.append("codEditNotPeData", codNotaPe);
+    $.ajax({
+      url: "ajax/notaPedido.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        $("#notRuc").val(response["RucCli"]);
+        $("#notCli").val(response["NombreCliNota"]);
+        $("#notDirec").val(response["DireccionCliNota"]);
+        $("#notRes").val(response["NotaPorFA"]);
+        $("#notVend").val(response["IdPer"]);
+        $("#notDescrip").val(response["Estado"]);
+        $("#notFechPe").val(response["FechaNotaPedido"]);
+        //campo select
+        $("#notTipoPe").val(response["TipoDeNotaPe"]);
+        //campo select
+        $("#notPeLot").val(response["IdLote"]);
+        $("#notTiPe").val(response["IdLote"]);
+        $("#datosFactura").val(response["TipoNotaPeFactura"]);
+        $("#listProductAddNotaP").val(response["DatosProductosNotaPedidoJson"]);
+       /*  $("#listProductAddNotaP").val(JSON.parse(response["DatosProductosNotaPedidoJson"])); */
+        
+        $("#notSubT").val(response["SubTotal"]);
+        $("#notIGV").val(response["IGV"]);
+        $("#notTotal").val(response["Total"]);
+        $("#notFechDev").val(response["FechaNotaDevolucion"]);
+        $("#comentDev").val(response["ComentarioNotaDev"]);
+        $("#submitEditNotaPedido").val(response["IdNotaP"]);
+      }
+    });
+  }
+});
+
+function getUrlParameter(name) {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  var results = regex.exec(location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+/* fin */
+
+// Alerta para eliminar Nota de Pedido
+$(".table").on("click", ".btnDeleteNotaPe", function () {
+  var codNotaPe = $(this).attr("codNotaPe");
+
+  swal.fire({
+    title: '¿Está seguro de borrar la Nota de Pedido?',
+    text: "¡No podrá revertir el cambio!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Si, borrar Nota de Pedido!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location = "index.php?ruta=verNotasPedido&codNotaPe="+codNotaPe;
+    }
   });
 });
 /* fin */

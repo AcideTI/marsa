@@ -161,7 +161,7 @@ public static function mdlCreateAlmacen($tableAlmacen, $dataCreateAlmacen) {
     }
   }
 
-  //  Verificar que un producto no tiene registro dentro del almacén
+//  Verificar que un producto no tiene registro dentro del almacén
   public static function mdlGetHistorialProduct($table, $codProduct) {
     $stmt = Conexion::conn()->prepare("SELECT COUNT(IdProd) as cantidad FROM $table WHERE IdProd = :IdProd");
     $stmt->bindParam(":IdProd", $codProduct, PDO::PARAM_STR);

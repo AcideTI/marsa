@@ -29,7 +29,7 @@
                 <?php
                 $listResponsables = PersonalController::ctrGetPersonalByType("1");
                 foreach ($listResponsables as $value) {
-                  echo '<option value="' . $value["IdPer"] . '" ' . $selected . '>' . $value["NombrePer"] . ' '.$value["ApellidoPer"].'</option>';
+                    echo '<option value="' . $value["IdPer"] . '" ' . $selected . '>' . $value["NombrePer"] . ' '.$value["ApellidoPer"].'</option>';
                 }
                 ?>
               </select><br>

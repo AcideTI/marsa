@@ -44,3 +44,24 @@ if(isset($_POST["codDetNotPeData"])){
 	$getProductData -> ajaxGetProductData();
 }
 /* fin */
+
+/* funcion Editar para mostrar detalles de nota de pedido por el boton  */
+class EditNotaPedAjax
+{
+  public $codEditNotPeData;
+  public function ajaxGetProductEditData()
+  {
+    $codEditNotPeData = $this->codEditNotPeData;
+    $response = NotaPedidoController::ctrGetEditNotPeData($codEditNotPeData);
+    echo json_encode($response);
+  }
+}
+
+//  Show  detalles de la nota de pedido
+if(isset($_POST["codEditNotPeData"])){
+	$getProductData = new EditNotaPedAjax();
+	$getProductData -> codEditNotPeData = $_POST["codEditNotPeData"];
+	$getProductData -> ajaxGetProductEditData();
+}
+
+/* fin */
