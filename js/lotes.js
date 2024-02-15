@@ -20,7 +20,7 @@ $(".formNuevoLote").on("change", "input.newCount", function () {
       confirmButtonText: "¡Cerrar!",
     });
   }
-  listProductAdd();
+  listProductAddLotes();
 });
 
 //  borar producto agregado de la lista de lote
@@ -29,7 +29,7 @@ $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
   var IdProd = $(this).attr("codProduct");
   $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
   $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
-  listProductAdd();
+  listProductAddLotes();
 });
 
 //  borar producto agregado de la lista de lote
@@ -38,7 +38,7 @@ $(".formEditLote").on("click", "button.deleteEditLote", function () {
   var IdProd = $(this).attr("codProduct");
   $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
   $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
-  listProductAdd();
+  listProductAddLotes();
 });
 
 // agragar producto al listado de lote
@@ -94,7 +94,7 @@ $(".tableNuevoLote").on("click", ".btnAddProduct", function () {
           "</div>" +
           "</div>"
       );
-      listProductAdd();
+      listProductAddLotes();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       //console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -104,7 +104,7 @@ $(".tableNuevoLote").on("click", ".btnAddProduct", function () {
 /* fin */
 
 /* Lista todos los productos agragados y los muestra en consola */
-function listProductAdd() {
+function listProductAddLotes() {
   var listProducts = [];
   var product = $(".newProduct");
   var count = $(".newCount");
@@ -141,8 +141,8 @@ $(document).ready(function () {
       if (!dataObject.hasOwnProperty("listProducts")) {
         dataObject["listProducts"] = "";
       } */
-       // Llama a listProductAdd() y añade el resultado a dataObject
-       var listProducts = listProductAdd();
+       // Llama a listProductAddLotes() y añade el resultado a dataObject
+       var listProducts = listProductAddLotes();
        dataObject["listProducts"] = JSON.stringify(listProducts);
 
       // Convierte el objeto en una cadena JSON
@@ -313,7 +313,7 @@ $(document).ready(function() {
 
 /* funcion para enviar el formulario de actualizacion al ajx  */
 //formulario ingreso en json a ajax para guardar en la base de datos
-function listProductAdd() {
+function listProductAddLotes() {
   var listProducts = [];
   var product = $(".newProduct");
   var count = $(".newCount");
@@ -323,7 +323,7 @@ function listProductAdd() {
       countProduct: $(count[i]).val(),
     });
   }
-  //console.log("listProductAdd output:", listProducts); // Depuración
+  //console.log("listProductAddLotes output:", listProducts); // Depuración
   return listProducts;
 }
 
@@ -342,8 +342,8 @@ $(document).ready(function () {
         dataObject[item.name] = item.value;
       });
 
-      // Llama a listProductAdd() y añade el resultado a dataObject
-      var listProducts = listProductAdd();
+      // Llama a listProductAddLotes() y añade el resultado a dataObject
+      var listProducts = listProductAddLotes();
       dataObject["listProducts"] = JSON.stringify(listProducts);
 
 

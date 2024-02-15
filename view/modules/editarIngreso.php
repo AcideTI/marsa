@@ -12,22 +12,27 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Nuevo Ingreso de Produccion
+        Editar Ingreso de Produccion
       </h1>
+      <?php
+      $codIngreso = $_GET["codIngreso"];
+      $datosIngreso = IngresosController::ctrGetIngreso($codIngreso);
+      $listaProductos = json_decode($datosIngreso["DatosProductosIngresoJson"], true);
+      ?>
     </div>
 
     <div class="container-fluid">
-      <form role="form" method="post" class="row g-3 m-2 formNuevoIngreso">
+      <form role="form" method="post" class="row g-3 m-2 formEditarIngreso">
         <span class="border border-3 p-3">
           <div class="container row g-3">
             <h3>Datos de Produccion</h3>
             <!-- Select Provider-->
-            <div class="form-group col-md-6">
-              <label for="nameRes" class="form-label" style="font-weight: bold">Responsable:</label>
-              <select class="form-control input-lg" id="nameRes" name="nameRes" required>
-                <option value="">Seleccione el Operador</option>
+            <div class="form-group col-md-8">
+              <label for="editResponsable" class="form-label" style="font-weight: bold">Responsable:</label>
+              <select class="form-control input-lg" id="editResponsable" name="editResponsable" required>
                 <?php
                 $listOperadores = PersonalController::ctrGetPersonalByType("2");
+                echo '<option value="' . $datosIngreso["IdPer"] . '">' . $datosIngreso["NombrePer"] . ' ' . $datosIngreso["ApellidoPer"] . '</option>';
                 foreach ($listOperadores as $value) {
                   echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
                 }
@@ -36,39 +41,25 @@
             </div>
 
             <div class="col-md-3">
-              <label for="dateProduction" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
-              <input type="date" class="form-control" id="dateProduction" name="dateProduction" required>
-            </div>
-            <div class="col-md-3">
-              <label for="dateDev" class="form-label" style="font-weight: bold">Fecha Devolucion: </label>
-              <input type="date" class="form-control" id="dateDev" name="dateDev" readonly>
+              <label for="editFechaProduccion" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
+              <input type="date" class="form-control" id="editFechaProduccion" name="editFechaProduccion" value="<?php echo $datosIngreso["FechaProduccionIng"] ?>" required>
             </div>
 
-
-            <div class="form-group col-md-6">
-              <label for="DescripcionIng" class="form-label" style="font-weight: bold">Descripción de Ingreso:</label>
-              <input type="text" class="form-control" id="DescripcionIng" name="DescripcionIng" value="" placeholder="Descripcion Ingreso">
+            <div class="form-group col-md-8">
+              <label for="editDescripcionIngreso" class="form-label" style="font-weight: bold">Descripción de Ingreso:</label>
+              <input type="text" class="form-control" id="editDescripcionIngreso" name="editDescripcionIngreso" value="<?php echo $datosIngreso["DescripcionIng"] ?>"" placeholder=" Descripcion Ingreso">
             </div>
 
             <div class="col-md-3">
-              <label for="dateVenci" class="form-label" style="font-weight: bold">Fecha Vencimiento: </label>
-              <input type="date" class="form-control" id="dateVenci" name="dateVenci" required><br><br>
+              <label for="editFechaVencimiento" class="form-label" style="font-weight: bold">Fecha Vencimiento: </label>
+              <input type="date" class="form-control" id="editFechaVencimiento" name="editFechaVencimiento" value="<?php echo $datosIngreso["FechaVencimientoIng"] ?>"" required><br><br>
             </div>
 
-
-            <div class="col-md-3">
-              <label for="dateMerma" class="form-label" style="font-weight: bold">Fecha Merma: </label>
-              <input type="date" class="form-control" id="dateMerma" name="dateMerma" readonly><br><br>
-            </div>
-
-            <div class="col-md-3">
+            <div class=" col-md-3">
               <div id="stateIngWrapper">
                 <label for="stateIng" class="form-label" style="font-weight: bold">Estado:</label>
-                <select class="form-control" id="stateIng" name="stateIng">
-                  <option value="7">Ingresado</option>
-                  <option value="6">Devolucion</option>
-                  <option value="2">Vencido</option>
-                  <option value="9">Merma</option>
+                <select class="form-control" id="stateIng" name="stateIng" readonly>
+                  <option value="7" selected>Ingresado</option>
                 </select>
               </div>
             </div>
@@ -88,23 +79,53 @@
               <div class="col-lg-3">Unidad</div>
               <div class="col-lg-3">Cantidad</div>
             </div>
-            <!-- aqui se agregan los productos del modal de prodcutos  -->
-            <div class="form-group row newProductAddIng">
-              <input type="hidden" id="listProducts" name="listProducts">
-              <!-- aqui se agregan los productos del modal de prodcutos  -->
-            </div>
 
+            <div class="form-group row newProductAddIng">
+              <?php
+              foreach ($listaProductos as $value) {
+                $datosProducto = ProductsController::ctrGetDataProducto($value["codProduct"]);
+                echo '
+                  <div class="row" style="padding:5px 15px">
+                    <!-- Description -->
+                    <div class="col-lg-5" style="padding-right:0px">
+                      <div class="input-group">
+                        <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoiIngreso" codProduct="' . $datosProducto["IdProd"] . '"><i class="fa fa-times"></i></button></span>
+                        <input type="text" class="form-control newProduct" codProduct="' . $datosProducto["IdProd"] . '" value="' . $datosProducto["NombreProducto"] . '" readonly>
+                      </div>
+                    </div>
+
+                    <!-- Unity -->
+                    <div class="col-lg-3 unityMaterial">
+                      <input type="text" class="form-control newUnity" name="newUnity" value="' . $datosProducto["Unidad"] . '" readonly>
+                    </div>
+
+                    <!-- Count -->
+                    <div class="col-lg-3 countMaterial">
+                      <input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' . $value["countProduct"] . '" >
+                    </div>
+                  </div>
+                ';
+              }
+              ?>
+              <input type="hidden" id="listProducts" name="listProducts">
+
+            </div>
             <div class="container row g-3 p-3 justify-content-between">
+              <input type="hidden" class="codIngreso" name="codIngreso" id="codIngreso" value="<?php echo $codIngreso ?>">
               <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-danger closeIngresoNuevo">Cerrar</button>
-              <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-success ">Registrar Ingreso</button>
+              <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-success">Editar Ingreso</button>
             </div>
         </span>
       </form>
     </div>
   </main>
 </div>
-
 </div>
+
+<?php
+  $editarIngreso = new IngresosController();
+  $editarIngreso->ctrEditIngreso();
+?>
 
 <!-- Modal Add Material -->
 <div class="modal fade" id="modalAddProdIng" tabindex="-1" role="dialog" aria-labelledby="modalAddProdIng" aria-hidden="true">

@@ -97,27 +97,7 @@ class IngresosModel
     $statement->execute();
     return $statement->fetch();
   }
-
-//////////////////////////////////
-
-  //crear ingreso devuelve el ultimo ingreso
-  public static function mdlGetLastIngreso($table)
-  {
-    $statement = Conexion::conn()->prepare("SELECT * FROM $table ORDER BY IdIng DESC LIMIT 1");
-    $statement->execute();
-    return $statement->fetch();
-  }
-
-  //crear ingreso devuelve el ultimo ingresodetalle
-  public static function mdlGetLastIngresoDetalle($table)
-  {
-    $statement = Conexion::conn()->prepare("SELECT * FROM $table ORDER BY IdIngDet DESC LIMIT 1");
-    $statement->execute();
-    return $statement->fetch();
-  }
-
-  /////////////////////////////////////////////////////////////////
-
+  
   /* funcion de controlador que toma el json de newIngJs */
   public static function mdlCreateIngresoNuevoAjx($table, $dataCreate)
   {
@@ -141,23 +121,75 @@ class IngresosModel
     }
   }
   /* fin */
-  
+
   // Eliminar nota de pedido
   public static function mdlDeleteIngreso($table, $codIngresoDelet)
   {
     $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE IdIng = :IdIng");
-    $statement -> bindParam(":IdIng", $codIngresoDelet, PDO::PARAM_INT);
-    if ($statement -> execute())
-    {
+    $statement->bindParam(":IdIng", $codIngresoDelet, PDO::PARAM_INT);
+    if ($statement->execute()) {
       return "ok";
-    }
-    else
-    {
+    } else {
       return "error";
     }
   }
-    /* fin */
 
+  //  Obtener el detalle del ingreso
+  public static function mdlGetIngresoList($table, $codIngreso)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tb_ingreso.DatosProductosIngresoJson FROM $table WHERE tb_ingreso.IdIng = :IdIng");
+    $statement->bindParam(":IdIng", $codIngreso, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch();
+  }
+
+  //  Obtener datos del ingresos para mostrar en la edición
+  public static function mdlGetIngreso($table, $codIngreso)
+  {
+    $statement = Conexion::conn()->prepare("SELECT
+    tb_ingreso.IdPer, 
+    tb_personal.NombrePer, 
+    tb_personal.ApellidoPer, 
+    tb_ingreso.DescripcionIng,
+    tb_ingreso.DatosProductosIngresoJson, 
+    tb_ingreso.FechaProduccionIng, 
+    tb_ingreso.FechaVencimientoIng
+  FROM
+    $table
+    INNER JOIN
+    tb_personal
+    ON 
+      tb_ingreso.IdPer = tb_personal.IdPer
+      WHERE tb_ingreso.IdIng = $codIngreso");
+    $statement->execute();
+    return $statement->fetch();
+  }
+
+  //  Editar un ingreso
+  public static function mdlEditIngreso($table, $data) {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET IdPer=:IdPer, DescripcionIng=:DescripcionIng, FechaProduccionIng=:FechaProduccionIng, FechaVencimientoIng=:FechaVencimientoIng, DateUpdate=:DateUpdate WHERE IdIng=:IdIng");
+    $statement->bindParam(":IdPer", $data["IdPer"], PDO::PARAM_STR);
+    $statement->bindParam(":DescripcionIng", $data["DescripcionIng"], PDO::PARAM_STR);
+    $statement->bindParam(":FechaProduccionIng", $data["FechaProduccionIng"], PDO::PARAM_STR);
+    $statement->bindParam(":FechaVencimientoIng", $data["FechaVencimientoIng"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $data["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":IdIng", $data["IdIng"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  //  Editar la lista de un ingreso
+  public static function mdlEditIngresoList($table, $data) {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET DatosProductosIngresoJson=:DatosProductosIngresoJson WHERE IdIng=:IdIng");
+    $statement->bindParam(":DatosProductosIngresoJson", $data["DatosProductosIngresoJson"], PDO::PARAM_STR);
+    $statement->bindParam(":IdIng", $data["IdIng"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
-
-

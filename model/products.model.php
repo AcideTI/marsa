@@ -44,7 +44,7 @@ class ProductsModel
     $statement->bindParam(":NombreProducto", $dataCreate["NombreProducto"], PDO::PARAM_STR);
     $statement->bindParam(":DetalleProducto", $dataCreate["DetalleProducto"], PDO::PARAM_STR);
     $statement->bindParam(":Unidad", $dataCreate["Unidad"], PDO::PARAM_STR);
-        $statement->bindParam(":Precio", $dataCreate["Precio"], PDO::PARAM_STR);
+    $statement->bindParam(":Precio", $dataCreate["Precio"], PDO::PARAM_STR);
     $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataCreate["DateUpdate"], PDO::PARAM_STR);
 
@@ -73,7 +73,7 @@ class ProductsModel
     $statement->bindParam(":NombreProducto", $dataUpdate["NombreProducto"], PDO::PARAM_STR);
     $statement->bindParam(":DetalleProducto", $dataUpdate["DetalleProducto"], PDO::PARAM_STR);
     $statement->bindParam(":Unidad", $dataUpdate["Unidad"], PDO::PARAM_STR);
-        $statement->bindParam(":Precio", $dataUpdate["Precio"], PDO::PARAM_STR);
+    $statement->bindParam(":Precio", $dataUpdate["Precio"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
     $statement->bindParam(":IdProd", $dataUpdate["IdProd"], PDO::PARAM_INT);
     if ($statement->execute()) {
@@ -94,7 +94,7 @@ class ProductsModel
     }
   }
 
-//Crear una nueva categoria
+  //Crear una nueva categoria
   public static function mdlCreateCategoria($table, $dataCreate)
   {
     $statement = Conexion::conn()->prepare("INSERT INTO $table (NombreCategoria, DateCreate, DateUpdate) VALUES(:NombreCategoria, :DateCreate, :DateUpdate)");
@@ -150,5 +150,14 @@ class ProductsModel
     } else {
       return "error";
     }
+  }
+
+  //  Obtener la data de un producto para mostrar en la edición
+  public static function mdlGetDataProducto($table, $codProduct)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tb_producto.IdProd, tb_producto.NombreProducto, tb_producto.Unidad FROM $table WHERE IdProd = :IdProd");
+    $statement->bindParam(":IdProd", $codProduct, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch();
   }
 }

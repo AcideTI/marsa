@@ -30,7 +30,6 @@
                       <th>Nombre del Producto</th>
                       <th>Unidad de medida</th>
                       <th>Cantidad Total de Producto</th>
-                      <th>Acciones</th>
                   </tr>
               </thead>
               <tbody>
@@ -44,10 +43,6 @@
                           <td>' . $value["NombreProducto"] . '</td>
                           <td>' . $value["Unidad"] . '</td>
                           <td>' . $value["CantidadTotal"] . '</td>
-                          <td>
-                              <button class="btn btn-warning btnViewOrder" codOrder="' . $value["IdAlma"] . '"><i class="fa-solid fa-pencil"></i></button>
-                              <button class="btn btn-info btnViewProduct" data-bs-toggle="modal" data-bs-target="#modalViewProduct" codProduct="' . $value["IdAlma"] . '" ><i class="fa-solid fa-search"></i></button>
-                          </td>
                       </tr>';
                       }
                       ?>

@@ -3,27 +3,50 @@ $("#btnNewIng").on("click", function () {
   window.location = "index.php?ruta=nuevoIngreso";
 });
 
-//  Cerrar movimiento Ingreso
-$(".closeIngresoNuevo").on("click", function () {
-  window.location = "index.php?ruta=ingresos&type=ingresos";
+//  Edit order approved
+$(".btnEditarIngreso").on("click", function () {
+  var codIngreso = $(this).attr("codIngreso");
+  window.location = "index.php?ruta=editarIngreso&codIngreso=" + codIngreso;
 });
 
-/* inicio */
+//  Cerrar movimiento Ingreso
+$(".closeIngresoNuevo").on("click", function () {
+  window.location = "index.php?ruta=ingresos";
+});
+
 //  cambia el conteo de  productos 
 $(".formNuevoIngreso").on("change", "input.newCount", function () {
+  listProductAdd();
+});
+
+$(".formEditarIngreso").on("change", "input.newCount", function () {
   listProductAdd();
 });
 
 //  borar producto agregado de la lista de ingreso
 $(".formNuevoIngreso").on("click", "button.deleteNuevoiIngreso", function () {
   $(this).parent().parent().parent().parent().remove();
+  var IdProd = $(this).attr("codProduct");
+  $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
+  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
+  listProductAdd();
+});
+
+//  borar producto agregado de la lista de ingreso
+$(".formEditarIngreso").on("click", "button.deleteNuevoiIngreso", function () {
+  $(this).parent().parent().parent().parent().remove();
+  var IdProd = $(this).attr("codProduct");
+  $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
+  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
   listProductAdd();
 });
 
 // agragar producto al listado de ingreso
-
 $(".tableNuevoIng").on("click", ".btnAddProduct", function () {
   var codProductAdd = $(this).attr("codProduct");
+
+  $(this).removeClass("btn-primary btnAddProduct");
+  $(this).addClass("btn-default");
 
   var datos = new FormData();
   datos.append("codProductAdd", codProductAdd);
@@ -109,8 +132,8 @@ $(document).ready(function() {
       dataObject['listProducts'] = '';
     } */
      // Llama a listProductAdd() y añade el resultado a dataObject
-     var listProducts = listProductAdd();
-     dataObject["listProducts"] = JSON.stringify(listProducts);
+    //  var listProducts = listProductAdd();
+    //  dataObject["listProducts"] = JSON.stringify(listProducts);
 
     // Convierte el objeto en una cadena JSON
     var dataJson = JSON.stringify(dataObject);
@@ -211,7 +234,7 @@ $(".table").on("click", ".btnIngresoDelet", function () {
     confirmButtonText: 'Si, borrar Ingreso!'
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location = "index.php?ruta=ingresos&type=ingresos&codIngresoDelet="+codIngresoDelet;
+      window.location = "index.php?ruta=ingresos&codIngresoDelet="+codIngresoDelet;
     }
   });
 });
@@ -290,3 +313,4 @@ document.getElementById('IngNormal').addEventListener('click', function (e) {
 });
 
   /* fin */
+

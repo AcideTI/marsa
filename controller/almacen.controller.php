@@ -11,16 +11,6 @@ class AlmacenController
     return $respuesta;
   }
 
-
-
-  //  Mostrar producto por codigo del producto 
-  public static function ctrMostrarStockPorCampo($valorBuscado)
-  {
-    $tabla = "tb_product";
-    $respuesta = ModelStock::mdlObtenerStockGeneral($tabla, $valorBuscado);
-    return $respuesta;
-  }
-
   //  Crear stock del almacen por ingreso de produccion
   public static function ctrCreateStockAlmacen($dataStock)
   {

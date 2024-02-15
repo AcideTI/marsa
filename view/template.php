@@ -40,6 +40,7 @@
           $_GET["ruta"] == "editLote" ||
           $_GET["ruta"] == "nuevoLote" ||
           $_GET["ruta"] == "categorias" ||
+          $_GET["ruta"] == "editarIngreso" ||
 
           $_GET["ruta"] == "signout" 
              )

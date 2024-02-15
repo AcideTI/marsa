@@ -10,7 +10,7 @@ class ProductsController
     $listProducts = ProductsModel::mdlGetAllProducts($table);
     return $listProducts;
   }
-  
+
   // Mostrar todas las categorías de productos
   public static function ctrGetAllCategories()
   {
@@ -29,7 +29,7 @@ class ProductsController
         "NombreProducto" => $_POST["productName"],
         "DetalleProducto" => $_POST["productDetail"],
         "Unidad" => $_POST["productUnit"],
-                "Precio" => $_POST["productPrice"],
+        "Precio" => $_POST["productPrice"],
         "DateCreate" => date("Y-m-d\TH:i:sP"),
         "DateUpdate" => date("Y-m-d\TH:i:sP")
       );
@@ -43,7 +43,6 @@ class ProductsController
       }
     }
   }
-
 
   // Obtener datos para editar
   public static function ctrGetProductDataEdit($codProduct)
@@ -64,7 +63,7 @@ class ProductsController
         'NombreProducto' => $_POST['editProductName'],
         'DetalleProducto' => $_POST['editProductDetail'],
         'Unidad' => $_POST['editProductUnit'],
-                'Precio' => $_POST['editProductPrice'],
+        'Precio' => $_POST['editProductPrice'],
         'DateUpdate' => date("Y-m-d\TH:i:sP"),
       );
 
@@ -83,22 +82,22 @@ class ProductsController
   public static function ctrDeleteProduct()
   {
     if (isset($_GET['codProduct'])) {
-      
+
       $codProduct = $_GET["codProduct"];
-//  Verificar si el producto está dentro de la tabla almacén, si es así no se puede eliminar -> Solo almacén 
+      //  Verificar si el producto está dentro de la tabla almacén, si es así no se puede eliminar -> Solo almacén 
       $historial = AlmacenController::mdlGetHistorialProduct($codProduct);
 
-      if($historial["cantidad"] > 0) {
+      if ($historial["cantidad"] > 0) {
         $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar un producto que ya tiene movimientos en el sistema', 'products');
       } else {
         $table = "tb_producto";
-      $response = ProductsModel::mdlDeleteProduct($table, $codProduct);
-      if ($response == "ok") {
-        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Producto eliminado correctamente', 'products');
-      } else {
-        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar un producto', 'products');
+        $response = ProductsModel::mdlDeleteProduct($table, $codProduct);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Producto eliminado correctamente', 'products');
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar un producto', 'products');
+        }
       }
-}
 
       echo $message;
     }
@@ -138,7 +137,7 @@ class ProductsController
   {
     if (isset($_POST["editDescripcionCategoria"]) && isset($_POST["codCategoriaEdit"])) {
       $table = "tb_categoriaprod";
-    $dataUpdate = array(
+      $dataUpdate = array(
         "IdCate" => $_POST["codCategoriaEdit"],
         "NombreCategoria" => $_POST["editDescripcionCategoria"],
         "DateUpdate" => date("Y-m-d\TH:i:sP")
@@ -184,5 +183,13 @@ class ProductsController
       }
       echo $message;
     }
+  }
+
+  //  Obtener los datos de un producto para mostrarlo en la vista editar 
+  public static function ctrGetDataProducto($codProduct)
+  {
+    $table = "tb_producto";
+    $dataProducto = ProductsModel::mdlGetDataProducto($table, $codProduct);
+    return $dataProducto;
   }
 }
