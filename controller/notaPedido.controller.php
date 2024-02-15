@@ -151,7 +151,7 @@ class NotaPedidoController
   }
   /* fin */
 
-   /* funcion Editar para mostrar detalles de nota de pedido por el boton  */
+   /* funcion para Editar nota de pedido por el boton  */
     public static function ctrGetEditNotPeData($codEditNotPeData)
     {
       $table = "tb_notapedido";

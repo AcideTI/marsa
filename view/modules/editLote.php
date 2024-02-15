@@ -12,16 +12,16 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Crear un Nuevo Lote
+        Editar Lote
       </h1>
     </div>
 
     <div class="container-fluid">
-      <form role="form" method="post" class="row g-3 m-2 formNuevoLote">
+      <form role="form" method="post" class="row g-3 m-2 formEditLote">
         <span class="border border-3 p-3">
           <div class="container row g-3">
-            <h3>Datos de Lote</h3>
-
+            <h3>Datos de Lote a Editar </h3>
+            <input type="hidden" id="idLoteEdit" name="idLoteEdit">
             <!-- Select Provider-->
             <div class="form-group col-md-6">
               <label for="nameResLot" class="form-label" style="font-weight: bold">Responsable:</label>
@@ -48,7 +48,7 @@
             <div class="form-group col-md-6 inl">
               <label for="codLot" class="form-label" style="font-weight: bold"> Numero de Lote:</label>
               <input type="text" class="form-control" id="codLot" name="codLot" placeholder="L-000000#00000FV0000">
-              <br><button type="button" class="btn btn-outline-success" id="genLot" name="genLot">Generar</button>
+              <!-- <br><button type="button" class="btn btn-outline-success" id="genLot" name="genLot">Generar</button> -->
             </div>
 
             <div class="form-group col-md-6">
@@ -89,7 +89,7 @@
           </div>
           <div class="container row g-3 p-3 justify-content-between">
             <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closelotes" href="index.php?ruta=lotes">Cerrar</button>
-            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success ">Registrar Lote</button>
+            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success btnEditLoteBack " >Actualizar Lote</button>
           </div>
         </span>
       </form>

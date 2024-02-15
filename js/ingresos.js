@@ -104,10 +104,13 @@ $(document).ready(function() {
       dataObject[item.name] = item.value;
     });
 
-    // Asegúrate de que listProducts esté en el objeto, incluso si está vacío
+    /* // Asegúrate de que listProducts esté en el objeto, incluso si está vacío
     if (!dataObject.hasOwnProperty('listProducts')) {
       dataObject['listProducts'] = '';
-    }
+    } */
+     // Llama a listProductAdd() y añade el resultado a dataObject
+     var listProducts = listProductAdd();
+     dataObject["listProducts"] = JSON.stringify(listProducts);
 
     // Convierte el objeto en una cadena JSON
     var dataJson = JSON.stringify(dataObject);

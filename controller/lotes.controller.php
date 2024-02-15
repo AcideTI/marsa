@@ -27,7 +27,7 @@ public static function ctrGetAllLotes()
     return $data;
   }
 
-  
+ /*  funcion para crear un nuevo lote */
   public static function ctrCreateIngresoLoteAjx($newIngLote)
   {
     if(isset($newIngLote))
@@ -92,6 +92,102 @@ public static function ctrGetAllLotes()
     }
   }
   /* fin */
+
+/* funcion para Editar  lote por el boton  */
+
+public static function ctrEditIngresoLoteAjx($editLote)
+{
+  if(isset($editLote))
+  {
+    $table = "tb_lote";
+
+    // Decodificar el JSON
+    $data = json_decode($editLote, true);
+
+    // Recuperar el stock actual
+    $stockActual = LotesModel::mdlGetStockActual($table, $data["idLoteEdit"]);
+    $stockActual = json_decode($stockActual["DatosLoteIngresoJson"], true);
+
+          // Decodificar listProducts
+      if(isset($data["listProducts"])) {
+        $data["listProducts"] = json_decode($data["listProducts"], true);
+      
+    // Recorrer cada producto en $data["listProducts"]
+    foreach ($data["listProducts"] as $product) {
+      // Buscar el producto en $stockActual
+      foreach ($stockActual as $productActual) {
+        if ($productActual["codProduct"] == $product["codProduct"]) {
+          // Calcular la diferencia de stock
+          $diferenciaStock = $productActual["countProduct"] - $product["countProduct"];
+
+          // Si la diferencia de stock es positiva, devolver la diferencia al almacén
+          if ($diferenciaStock > 0) {
+            // Aquí puedes añadir el código para devolver la diferencia de stock al almacén
+            $stock = AlmacenController::ctrComprobarStockRes($product["codProduct"]);
+            $newStock = $stock["CantidadTotal"] + $diferenciaStock;
+            $dataUpdate = array(
+              "CantidadTotal" => $newStock,
+              "DateUpdate" => date("Y-m-d"),
+              "HoraUpdate" => date("H:i:s"),
+              "IdAlma" => $stock["IdAlma"]
+            );
+            AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
+          }
+          // Si la diferencia de stock es negativa, restar la diferencia del almacén
+          else if ($diferenciaStock < 0) {
+            // Aquí puedes añadir el código para restar la diferencia de stock del almacén
+            $stock = AlmacenController::ctrComprobarStockRes($product["codProduct"]);
+            $newStock = $stock["CantidadTotal"] + $diferenciaStock; // La diferencia es negativa, por lo que se restará
+            if ($newStock < 0) {
+              $message = FunctionsController::ctrShowAlert('error', 'Error', 'La cantidad del producto en la nota de pedido es mayor que el stock existente', 'index.php?ruta=notaPedido');
+              echo $message;
+              return;
+            }
+            $dataUpdate = array(
+              "CantidadTotal" => $newStock,
+              "DateUpdate" => date("Y-m-d"),
+              "HoraUpdate" => date("H:i:s"),
+              "IdAlma" => $stock["IdAlma"]
+            );
+            AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
+          }
+        }
+      }
+    }
+  } else {
+    echo "No se encontró listProducts en los datos proporcionados.";
+}
+
+    $dataEditUpdate = array(
+      /* IdLote registro especificao a actualizar  */
+      "IdLote" => $data["idLoteEdit"],
+      "IdPer" => $data["nameResLot"],
+      "CodigoLote" => $data["codLot"],
+      "DescripcionLote" => $data["DesLot"],
+      "DatosLoteIngresoJson" => $data["listProducts"],
+      "FechaProduccionLote" => $data["dateCreatLot"],
+      "FechaVencimientoLote" => $data["dateVenciLot"],  
+      "Estado" => $data["stateLot"],
+      "DateCreate" => date("Y-m-d\TH:i:sP"),
+      "DateUpdate" => date("Y-m-d\TH:i:sP")
+    );
+
+    $response = LotesModel::mdlEditIngresoLoteAjx($table, $dataEditUpdate);
+
+    return $response;
+  }
+}
+/* fin */
+
+   /* funcion para recuperar datos para Editar  lote por el boton  */
+   public static function ctrGetEditLoteData($codLoteEdit)
+   {
+     $table = "tb_lote";
+     $response = LotesModel::mdlGetEditLoteData($table, $codLoteEdit);
+     return $response;
+   }
+ 
+   /* fin */
 
    // Eliminar lote
    public static function ctrDeleteLote()

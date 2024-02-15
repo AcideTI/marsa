@@ -32,6 +32,15 @@ $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
   listProductAdd();
 });
 
+//  borar producto agregado de la lista de lote
+$(".formEditLote").on("click", "button.deleteEditLote", function () {
+  $(this).parent().parent().parent().parent().remove();
+  var IdProd = $(this).attr("codProduct");
+  $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
+  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
+  listProductAdd();
+});
+
 // agragar producto al listado de lote
 
 $(".tableNuevoLote").on("click", ".btnAddProduct", function () {
@@ -71,12 +80,14 @@ $(".tableNuevoLote").on("click", ".btnAddProduct", function () {
           '" readonly>' +
           "</div>" +
           "</div>" +
+
           "<!-- Unity -->" +
           '<div class="col-lg-3 UnityProduct">' +
           '<input type="text" class="form-control newUnity" name="newUnity" value="' +
           UnityProduct +
           '" readonly>' +
           "</div>" +
+
           "<!-- Count -->" +
           '<div class="col-lg-3 countMaterial">' +
           '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="'+Stock+'" value="1.00" >' +
@@ -103,7 +114,7 @@ function listProductAdd() {
       countProduct: $(count[i]).val(),
     });
   }
-  //console.log(listProducts); // Depuración
+  console.log(listProducts); // Depuración
   $("#listProducts").val(JSON.stringify(listProducts));
 }
 
@@ -126,22 +137,230 @@ $(document).ready(function () {
         dataObject[item.name] = item.value;
       });
 
-      // Asegúrate de que listProducts esté en el objeto, incluso si está vacío
+      /* // Asegúrate de que listProducts esté en el objeto, incluso si está vacío
       if (!dataObject.hasOwnProperty("listProducts")) {
         dataObject["listProducts"] = "";
-      }
+      } */
+       // Llama a listProductAdd() y añade el resultado a dataObject
+       var listProducts = listProductAdd();
+       dataObject["listProducts"] = JSON.stringify(listProducts);
 
       // Convierte el objeto en una cadena JSON
       var dataJson = JSON.stringify(dataObject);
 
       // Muestra la cadena JSON en la consola
-      //console.log(dataJson);
+      console.log(dataJson);
 
       // Ahora puedes enviar dataJson a través de AJAX
       $.ajax({
         url: "ajax/lotes.ajax.php",
         method: "POST",
         data: { newIngLote: dataJson }, // Cambiado de 'data' a 'newIngLote'
+        dataType: "json",
+        success: function (response) {
+          if (response === "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "Lote creado con éxito",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            $(".formNuevoLote")[0].reset();
+            setTimeout(function () {
+              location.reload();
+            }, 1000);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Hubo un error al crear el Lote",
+              showConfirmButton: true,
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+          Swal.fire({
+            icon: "success",
+            title: "Ingreso creado con éxito",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          $(".formNuevoIngreso")[0].reset();
+          setTimeout(function () {
+            location.reload();
+          }, 1000);
+        },
+      });
+    });
+});
+/* fin */
+
+/* funcion con promesa js para Editar los datos  de una nota de pedido por el id */
+
+$(".table").on("click", ".btnLoteEdit", function () {
+  var codLoteEdit = $(this).attr("codLoteEdit");
+
+  // Redirigir al usuario a la página de edición
+  window.location = "index.php?ruta=editLote&codLoteEdit=" + codLoteEdit;
+});
+
+$(document).ready(function() {
+  // Comprobar si estamos en la página de edición
+  if (window.location.href.indexOf('editLote') > -1) {
+    var codLoteEdit = getUrlParameter('codLoteEdit');
+    var data = new FormData();
+
+    data.append("codLoteEdit", codLoteEdit);
+    $.ajax({
+      url: "ajax/lotes.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        $("#nameResLot").val(response["IdPer"]);
+        $("#codLot").val(response["CodigoLote"]);
+        $("#DesLot").val(response["DescripcionLote"]);
+        $("#dateCreatLot").val(response["FechaProduccionLote"]);
+        $("#dateVenciLot").val(response["FechaVencimientoLote"]);
+        $("#stateLot").val(response["Estado"]);
+        $("#idLoteEdit").val(response["IdLote"]);
+        $("#listProducts").val(response["DatosLoteIngresoJson"]);
+          /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
+            // Obtiene los productos del campo listProducts
+            var products = JSON.parse($('#listProducts').val());
+            // Vacía el div donde se mostrarán los productos
+            $(".newProductAddLote").empty();
+            // Llena el div con los productos
+            for (var i = 0; i < products.length; i++) {
+              (function(i) {  // Crea una función de cierre para capturar el valor actual de i
+                // Crea un nuevo FormData
+                var datos = new FormData();
+                // Agrega el codProduct al FormData
+                datos.append("codProductAdd", products[i].codProduct);
+                // Hace una solicitud AJAX para obtener los detalles del producto
+                $.ajax({
+                  url: "ajax/lotes.ajax.php",
+                  method: "POST",
+                  data: datos,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  dataType: "json",
+                  success: function (respuesta) {
+                    // Obtiene los detalles del producto de la respuesta
+                    var DescriptionProduct = respuesta["NombreProducto"];
+                    var UnityProduct = respuesta["Unidad"];
+
+                    // Agrega el producto al div
+                    $(".newProductAddLote").append(
+                      '<div class="row" style="padding:5px 15px">' +
+                        '<div class="col-lg-5" style="padding-right:0px">' +
+                          '<div class="input-group">' +
+                            '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteEditLote" codProduct="' +
+                              products[i].codProduct +
+                            '"><i class="fa fa-times"></i></button></span>' +
+                            '<input type="text" class="form-control newProduct" codProduct="' +
+                              products[i].codProduct +
+                            '" value="' +
+                              DescriptionProduct +
+                            '" readonly>' +
+                          '</div>' +
+                        '</div>' +
+                        
+                        "<!-- Unity -->" +
+                        '<div class="col-lg-3 UnityProduct">' +
+                        '<input type="text" class="form-control newUnity" name="newUnity" value="' +
+                        UnityProduct +
+                        '" readonly>' +
+                        "</div>" +
+
+                        '<div class="col-lg-3 countMaterial">' +
+                          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' +
+                            products[i].countProduct +
+                          '">' +
+                        '</div>' +
+                      '</div>'
+                    );
+                  }
+                });
+              })(i);
+            }/* fin */
+      }//fin success 
+    });
+  }
+});
+
+function getUrlParameter(name) {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  var results = regex.exec(location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+/* //  Cerrar vista Editar al Actualizar el lote
+$(document).ready(function() {
+  $('.btnEditLoteBack').click(function(e) {
+    e.preventDefault(); 
+    window.location.href = "index.php?ruta=lotes";
+  });
+});
+ */
+
+/* fin */
+
+/* funcion para enviar el formulario de actualizacion al ajx  */
+//formulario ingreso en json a ajax para guardar en la base de datos
+function listProductAdd() {
+  var listProducts = [];
+  var product = $(".newProduct");
+  var count = $(".newCount");
+  for (var i = 0; i < product.length; i++) {
+    listProducts.push({
+      codProduct: $(product[i]).attr("codProduct"),
+      countProduct: $(count[i]).val(),
+    });
+  }
+  //console.log("listProductAdd output:", listProducts); // Depuración
+  return listProducts;
+}
+
+$(document).ready(function () {
+  $(".formEditLote")
+    .off("submit")
+    .on("submit", function (e) {
+      e.preventDefault();
+
+      // Recoge todos los campos del formulario
+      var dataArray = $(this).serializeArray();
+
+      // Convierte el array de objetos en un solo objeto JavaScript
+      var dataObject = {};
+      $.each(dataArray, function (i, item) {
+        dataObject[item.name] = item.value;
+      });
+
+      // Llama a listProductAdd() y añade el resultado a dataObject
+      var listProducts = listProductAdd();
+      dataObject["listProducts"] = JSON.stringify(listProducts);
+
+
+    // Imprime el contenido de listProducts en la consola
+    //console.log("dataObject after adding listProducts:", dataObject);
+
+      // Convierte el objeto en una cadena JSON
+      var dataJson = JSON.stringify(dataObject);
+
+      // Muestra la cadena JSON en la consola
+      //console.log("Final JSON:", dataJson);
+
+      // Ahora puedes enviar dataJson a través de AJAX
+      $.ajax({
+        url: "ajax/lotes.ajax.php",
+        method: "POST",
+        data: { editLote: dataJson }, // Cambiado de 'data' a 'newIngLote'
         dataType: "json",
         success: function (response) {
           if (response === "ok") {

@@ -143,3 +143,5 @@ CREATE TABLE `tb_notapedido` (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci ROW_FORMAT=DYNAMIC;
+
+
