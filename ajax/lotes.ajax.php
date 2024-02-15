@@ -68,3 +68,26 @@ if(isset($_POST["codLoteEdit"])){
 }
 
 /* fin */
+
+/* crear lote por json */
+
+class NewEditarLoteAjax
+{
+    public $editLote;
+
+    public function EditIngresoLoteAjax()
+    {
+
+        $editLote = $this->editLote;
+        $response = LotesController::ctrEditIngresoLoteAjx($editLote);
+        echo json_encode($response);
+    }
+}
+
+// Crear Ingreso
+if (isset($_POST["editLote"])) {
+    $jsonOriginData = new NewEditarLoteAjax();
+    $jsonOriginData->editLote = $_POST["editLote"];
+    $jsonOriginData->EditIngresoLoteAjax();
+}
+/* fin */

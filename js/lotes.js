@@ -32,6 +32,15 @@ $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
   listProductAdd();
 });
 
+//  borar producto agregado de la lista de lote
+$(".formEditLote").on("click", "button.deleteEditLote", function () {
+  $(this).parent().parent().parent().parent().remove();
+  var IdProd = $(this).attr("codProduct");
+  $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
+  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
+  listProductAdd();
+});
+
 // agragar producto al listado de lote
 
 $(".tableNuevoLote").on("click", ".btnAddProduct", function () {
@@ -128,10 +137,13 @@ $(document).ready(function () {
         dataObject[item.name] = item.value;
       });
 
-      // Asegúrate de que listProducts esté en el objeto, incluso si está vacío
+      /* // Asegúrate de que listProducts esté en el objeto, incluso si está vacío
       if (!dataObject.hasOwnProperty("listProducts")) {
         dataObject["listProducts"] = "";
-      }
+      } */
+       // Llama a listProductAdd() y añade el resultado a dataObject
+       var listProducts = listProductAdd();
+       dataObject["listProducts"] = JSON.stringify(listProducts);
 
       // Convierte el objeto en una cadena JSON
       var dataJson = JSON.stringify(dataObject);
@@ -247,7 +259,7 @@ $(document).ready(function() {
                       '<div class="row" style="padding:5px 15px">' +
                         '<div class="col-lg-5" style="padding-right:0px">' +
                           '<div class="input-group">' +
-                            '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoiIngreso" codProduct="' +
+                            '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteEditLote" codProduct="' +
                               products[i].codProduct +
                             '"><i class="fa fa-times"></i></button></span>' +
                             '<input type="text" class="form-control newProduct" codProduct="' +
@@ -301,6 +313,19 @@ $(document).ready(function() {
 
 /* funcion para enviar el formulario de actualizacion al ajx  */
 //formulario ingreso en json a ajax para guardar en la base de datos
+function listProductAdd() {
+  var listProducts = [];
+  var product = $(".newProduct");
+  var count = $(".newCount");
+  for (var i = 0; i < product.length; i++) {
+    listProducts.push({
+      codProduct: $(product[i]).attr("codProduct"),
+      countProduct: $(count[i]).val(),
+    });
+  }
+  //console.log("listProductAdd output:", listProducts); // Depuración
+  return listProducts;
+}
 
 $(document).ready(function () {
   $(".formEditLote")
@@ -317,16 +342,19 @@ $(document).ready(function () {
         dataObject[item.name] = item.value;
       });
 
-      // Asegúrate de que listProducts esté en el objeto, incluso si está vacío
-      if (!dataObject.hasOwnProperty("listProducts")) {
-        dataObject["listProducts"] = "";
-      }
+      // Llama a listProductAdd() y añade el resultado a dataObject
+      var listProducts = listProductAdd();
+      dataObject["listProducts"] = JSON.stringify(listProducts);
+
+
+    // Imprime el contenido de listProducts en la consola
+    //console.log("dataObject after adding listProducts:", dataObject);
 
       // Convierte el objeto en una cadena JSON
       var dataJson = JSON.stringify(dataObject);
 
       // Muestra la cadena JSON en la consola
-      console.log(dataJson);
+      //console.log("Final JSON:", dataJson);
 
       // Ahora puedes enviar dataJson a través de AJAX
       $.ajax({
