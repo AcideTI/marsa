@@ -58,7 +58,7 @@
                   <td>' . $value["DateCreate"] . '</td>
                   <td>
                     <button class="btn btn-warning btnEditClients" codClient="' . $value["IdCli"] . '" data-toggle="modal" data-target="#modalEditClients"><i class="fa-solid fa-pencil"></i></button>
-                    <button class="btn btn-danger btnDeleteClient" codClient="' . $value["IdCli"] . '"><i class="fa-solid fa-trash"></i></button>
+                    <button class="btn btn-danger btnDeleteClient" codClient="' . $value["IdCli"] . '" userType="' . $_SESSION['IdTipoUsu'] . '"><i class="fa-solid fa-trash"></i></button>
                   </td>
                 </tr>';
               }

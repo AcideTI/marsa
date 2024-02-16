@@ -45,7 +45,7 @@
                   <td>' . $value["DateUpdate"] . '</td>
                   <td>
                     <button class="btn btn-warning btnEditCategoria" codCategoria="' . $value["IdCate"] . '" data-toggle="modal" data-target="#modalEditCategoria"><i class="fa-solid fa-pencil"></i></button>
-                    <button class="btn btn-danger btnDeleteCategoria" codCategoria="' . $value["IdCate"] . '"><i class="fa-solid fa-trash"></i></button>
+                    <button class="btn btn-danger btnDeleteCategoria" codCategoria="' . $value["IdCate"] . '" userTypeCat="' . $_SESSION['IdTipoUsu'] . '"><i class="fa-solid fa-trash"></i></button>
                   </td>
                 </tr>';
               }

@@ -27,7 +27,21 @@ $(".table").on("click", ".btnEditProduct", function () {
 // Alerta para eliminar producto
 $(".table").on("click", ".btnDeleteProduct", function () {
   var codProduct = $(this).attr("codProduct");
+  var userTypeProd = $(this).attr("userTypeProd");
 
+  if (userTypeProd != 1) {
+    $(this).prop("disabled", true);
+    $(this).css("opacity", 0.5);
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Acción solo para el Administrador.',
+      text: 'No permitido',
+      showConfirmButton: false,
+      timer: 2000
+    });
+    return;
+  }
   swal.fire({
     title: '¿Está seguro de borrar el producto?',
     text: "¡No podrá revertir el cambio!",
@@ -74,7 +88,22 @@ $(".table").on("click", ".btnEditCategoria", function () {
 // Alerta para eliminar categoria
 $(".table").on("click", ".btnDeleteCategoria", function () {
   var codCategoria = $(this).attr("codCategoria");
+  var userTypeCat = $(this).attr("userTypeCat");
 
+  if (userTypeCat != 1) {
+    $(this).prop("disabled", true);
+    $(this).css("opacity", 0.5);
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Acción solo para el Administrador.',
+      text: 'No permitido',
+      showConfirmButton: false,
+      timer: 2000
+    });
+
+    return;
+  }
   swal.fire({
     title: '¿Está seguro de borrar la categoria?',
     text: "¡No podrá revertir el cambio!",
