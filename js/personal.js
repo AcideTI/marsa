@@ -28,7 +28,19 @@ $(".table").on("click", ".btnEditPersonal", function () {
 // Alerta para eliminar personal
 $(".table").on("click", ".btnDeletePersonal", function () {
   var codPersonal = $(this).attr("codPersonal");
-
+  var userTypePer = $(this).attr("userTypePer");
+  if (userTypePer != 1) {
+    $(this).prop("disabled", true);
+    $(this).css("opacity", 0.5);
+    Swal.fire({
+      icon: 'error',
+      title: 'Acción solo para el Administrador.',
+      text: 'No permitido',
+      showConfirmButton: false,
+      timer: 2000
+    });
+    return;
+  }
   swal.fire({
     title: '¿Está seguro de borrar el personal?',
     text: "¡No podrá revertir el cambio!",

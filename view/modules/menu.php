@@ -1,7 +1,7 @@
 <!-- Menu for all users -->
 <div class="sb-sidenav-menu-heading">Inicio</div>
 <a class="nav-link" href="home">
-  <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+  <div class="sb-nav-link-icon"><i class="fa-solid fa-desktop fa-2x"></i></i></div>
   Inicio
 </a>
 <!-- Inventory -->
@@ -13,16 +13,16 @@
 </a>
 <div class="collapse" id="listInventory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
-    <a class="nav-link" href="almacen"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Almacen</span></a>
+    <a class="nav-link" href="almacen"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Almacén</span></a>
 
 
   </nav>
 </div>
 <!-- Compras -->
-<div class="sb-sidenav-menu-heading">Produccion</div>
+<div class="sb-sidenav-menu-heading">Producción diaria</div>
 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listRegistros" aria-expanded="false" aria-controls="collapseLayouts">
   <div class="sb-nav-link-icon"><i class="fa-solid fa-laptop-medical"></i></div>
-  Produccion
+  Producción
   <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 </a>
 <div class="collapse" id="listRegistros" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -74,8 +74,10 @@
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="personal"><i class="fa-solid fa-user-plus"></i><span style="margin-left: 5px;">Personal</span></a>
     <a class="nav-link" href="products"><i class="fa-solid fa-dolly"></i><span style="margin-left: 5px;">Productos</span></a>
-    <a class="nav-link" href="categorias"><i class="fa-solid fa-id-card-clip"></i><span style="margin-left: 5px;">Categorias</span></a>
+    <a class="nav-link" href="categorias"><i class="fa-solid fa-align-left"></i><span style="margin-left: 5px;">Categorias</span></a>
     <a class="nav-link" href="clients"><i class="fa-solid fa-clipboard-user"></i><span style="margin-left: 5px;">Clientes</span></a>
-    <a class="nav-link" href="users"><i class="fa-solid fa-id-card-clip"></i><span style="margin-left: 5px;">Usuarios</span></a>
+    <?php if ($_SESSION["IdTipoUsu"] == 1): ?>
+      <a class="nav-link text-primary" href="users"><i class="fa-solid fa-id-card-clip"></i><span style="margin-left: 5px;">Usuarios</span></a>
+    <?php endif; ?>
   </nav>
 </div>

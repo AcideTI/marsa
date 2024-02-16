@@ -53,7 +53,7 @@
                                     <td>' . $value["DateUpdate"] . '</td>
                   <td>
                     <button class="btn btn-warning btnEditProduct" codProduct="' . $value["IdProd"] . '" data-toggle="modal" data-target="#modalEditProduct"><i class="fa-solid fa-pencil"></i></button>
-                    <button class="btn btn-danger btnDeleteProduct" codProduct="' . $value["IdProd"] . '"><i class="fa-solid fa-trash"></i></button>
+                    <button class="btn btn-danger btnDeleteProduct" codProduct="' . $value["IdProd"] . '" userTypeProd="' . $_SESSION['IdTipoUsu'] . '"><i class="fa-solid fa-trash"></i></button>
                   </td>
                 </tr>';
               }

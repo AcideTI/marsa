@@ -57,7 +57,7 @@
                   <td>' . $estado . '</td>
                   <td>
                     <button class="btn btn-warning btnEditPersonal" codPersonal="' . $value["IdPer"] . '" data-toggle="modal" data-target="#modalEditPersonal"><i class="fa-solid fa-pencil"></i></button>
-                    <button class="btn btn-danger btnDeletePersonal" codPersonal="' . $value["IdPer"] . '"><i class="fa-solid fa-trash"></i></button>
+                    <button class="btn btn-danger btnDeletePersonal" codPersonal="' . $value["IdPer"] . '" userTypePer="' . $_SESSION['IdTipoUsu'] . '"><i class="fa-solid fa-trash"></i></button>
                   </td>
                 </tr>';
               }

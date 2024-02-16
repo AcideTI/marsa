@@ -26,10 +26,24 @@ $(".table").on("click", ".btnEditClients", function () {
 });
 
 
-// Alerta para eliminar cliente
+// Alerta para eliminar
 $(".table").on("click", ".btnDeleteClient", function () {
   var codClient = $(this).attr("codClient");
-
+  var userType = $(this).attr("userType");
+  // Alerta para usuarios que no son administradores
+  if (userType != 1) {
+    $(this).prop("disabled", true);
+    $(this).css("opacity", 0.5);
+    Swal.fire({
+      icon: 'error',
+      title: 'Acción solo para el Administrador.',
+      text: 'No permitido',
+      showConfirmButton: false,
+      timer: 2000
+    });
+    return;
+  }
+// Alerta para eliminar cliente
   swal.fire({
     title: '¿Está seguro de borrar el cliente?',
     text: "¡No podrá revertir el cambio!",
