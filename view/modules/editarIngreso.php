@@ -112,8 +112,8 @@
             </div>
             <div class="container row g-3 p-3 justify-content-between">
               <input type="hidden" class="codIngreso" name="codIngreso" id="codIngreso" value="<?php echo $codIngreso ?>">
-              <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-danger closeIngresoNuevo">Cerrar</button>
-              <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-success">Editar Ingreso</button>
+              <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closeIngresoNuevo">Cerrar</button>
+              <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success">Editar Ingreso</button>
             </div>
         </span>
       </form>

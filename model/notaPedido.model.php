@@ -58,10 +58,10 @@ public static function mdlGetAllSalidasNotaPe($table)
 
 
 // Crear Nota de pedido
-public static function mdlGetAjaxDatosJson($table, $data) {
+public static function mdlCreateNotaPedido($table, $data) {
    
     // Prepara la consulta SQL
-    $stmt = Conexion::conn()->prepare("INSERT INTO $table (IdLote, IdPer, IdRes, NotaPorFA, IdCliente, TipoDeNotaPe, TipoNotaPeFactura, DatosProductosNotaPedidoJson, SubTotal, IGV, Total, ComentarioNotaDev, Estado, FechaNotaPedido, FechaNotaDevolucion, DateCreate, DateUpdate) VALUES (:IdLote, :IdPer, :IdRes, :NotaPorFA, :IdCliente, :TipoDeNotaPe, :TipoNotaPeFactura, :DatosProductosNotaPedidoJson, :SubTotal, :IGV, :Total, :ComentarioNotaDev, :Estado, :FechaNotaPedido, :FechaNotaDevolucion, :DateCreate, :DateUpdate)");
+    $stmt = Conexion::conn()->prepare("INSERT INTO $table (IdLote, IdPer, IdRes, NotaPorFA, IdCliente, TipoDeNotaPe, TipoNotaPeFactura, DatosProductosNotaPedidoJson, Total, Estado, FechaNotaPedido, DateCreate, DateUpdate) VALUES (:IdLote, :IdPer, :IdRes, :NotaPorFA, :IdCliente, :TipoDeNotaPe, :TipoNotaPeFactura, :DatosProductosNotaPedidoJson, :Total, :Estado, :FechaNotaPedido, :DateCreate, :DateUpdate)");
 
     // Vincula los parámetros
     $stmt->bindParam(":IdLote", $data["IdLote"], PDO::PARAM_STR);
@@ -72,13 +72,9 @@ public static function mdlGetAjaxDatosJson($table, $data) {
     $stmt->bindParam(":TipoDeNotaPe", $data["TipoDeNotaPe"], PDO::PARAM_STR);
     $stmt->bindParam(":TipoNotaPeFactura", $data["TipoNotaPeFactura"], PDO::PARAM_STR);
     $stmt->bindParam(":DatosProductosNotaPedidoJson", $data["DatosProductosNotaPedidoJson"], PDO::PARAM_STR);
-    $stmt->bindParam(":SubTotal", $data["SubTotal"], PDO::PARAM_STR);
-    $stmt->bindParam(":IGV", $data["IGV"], PDO::PARAM_STR);
     $stmt->bindParam(":Total", $data["Total"], PDO::PARAM_STR);
-    $stmt->bindParam(":ComentarioNotaDev", $data["ComentarioNotaDev"], PDO::PARAM_STR);
     $stmt->bindParam(":Estado", $data["Estado"], PDO::PARAM_STR);
     $stmt->bindParam(":FechaNotaPedido", $data["FechaNotaPedido"], PDO::PARAM_STR);
-    $stmt->bindParam(":FechaNotaDevolucion", $data["FechaNotaDevolucion"], PDO::PARAM_STR);
     $stmt->bindParam(":DateCreate", $data["DateCreate"], PDO::PARAM_STR);
     $stmt->bindParam(":DateUpdate", $data["DateUpdate"], PDO::PARAM_STR);
 
@@ -152,22 +148,7 @@ public static function mdlGetAjaxDatosJson($table, $data) {
     // Mostrar los productos a agregar nota de pedido
     public static function mdlGetProductData($table)
     {
-        $statement = Conexion::conn()->prepare("SELECT 
-        tb_almacen.IdAlma,
-        tb_almacen.IdProd,
-        tb_producto.NombreProducto,
-        tb_categoriaprod.NombreCategoria,
-        tb_producto.Unidad,
-        tb_almacen.CantidadTotal,
-        tb_producto.Precio
-      FROM 
-        $table
-      INNER JOIN 
-        tb_producto ON tb_almacen.IdProd = tb_producto.IdProd
-      INNER JOIN 
-        tb_categoriaprod ON tb_producto.IdCate = tb_categoriaprod.IdCate
-      ORDER BY 
-        GREATEST(CONCAT(tb_almacen.DateCreate, ' ', tb_almacen.HoraCreate), CONCAT(tb_almacen.DateUpdate, ' ', tb_almacen.HoraUpdate)) DESC");
+        $statement = Conexion::conn()->prepare("SELECT tb_almacen.IdProd, tb_producto.NombreProducto, tb_almacen.CantidadTotal FROM $table INNER JOIN tb_producto ON tb_almacen.IdProd = tb_producto.IdProd WHERE	tb_almacen.CantidadTotal > 0");
         $statement->execute();
         return $statement->fetchAll();
     }
@@ -176,7 +157,19 @@ public static function mdlGetAjaxDatosJson($table, $data) {
     //   Ajax que devuelve  los productos a nota pedido
     public static function mdlGetProductDataAjx($table, $codProductAdd)
     {
-        $statement = Conexion::conn()->prepare("SELECT tb_producto.IdProd, tb_producto.NombreProducto, tb_producto.Precio FROM $table WHERE IdProd = $codProductAdd");
+        $statement = Conexion::conn()->prepare("SELECT
+        tb_almacen.IdProd, 
+        tb_almacen.CantidadTotal, 
+        tb_producto.NombreProducto, 
+        tb_producto.Precio
+      FROM
+        $table
+        INNER JOIN
+        tb_producto
+        ON 
+          tb_almacen.IdProd = tb_producto.IdProd
+          WHERE
+          tb_producto.IdProd = $codProductAdd");
         $statement->execute();
         return $statement->fetch();
     }
@@ -266,4 +259,12 @@ public static function mdlGetEditNotPeData($table, $codEditNotPeData)
     }
   }
     /* fin */
+
+  // Obtener datos de la nota de pedido para editar -> CORREGIR
+  public static function mdlGetNotaPeById($table, $codNota)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tb_almacen.IdProd, tb_almacen.CantidadTotal, tb_producto.NombreProducto, tb_producto.Precio FROM $table INNER JOIN tb_producto ON tb_almacen.IdProd = tb_producto.IdProd WHERE tb_producto.IdProd = $codNota");
+    $statement->execute();
+    return $statement->fetch();
+  }
 }
