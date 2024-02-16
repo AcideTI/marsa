@@ -1,7 +1,7 @@
 <!-- Menu for all users -->
 <div class="sb-sidenav-menu-heading">Inicio</div>
 <a class="nav-link" href="home">
-  <div class="sb-nav-link-icon"><i class="fa-solid fa-desktop fa-2x"></i></i></div>
+  <div class="sb-nav-link-icon"><i class="fa-solid fa-desktop"></i></i></div>
   Inicio
 </a>
 <!-- Inventory -->

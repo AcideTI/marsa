@@ -79,27 +79,30 @@ class ClientsController
     return $dataClient;
   }
 
-  
   // Eliminar cliente
   public static function ctrDeleteClient()
   {
-    if (isset($_GET["codClient"]))
-    {
-      $table = "tb_cliente";
+    if (isset($_GET["codClient"])) {
+
       $codClient = $_GET["codClient"];
-      $response = ClientsModel::mdlDeleteClient($table, $codClient);
-      if($response == "ok")
-      {
-        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Cliente eliminado correctamente', 'clients');
-        echo $message;
+      //  Verificar si el producto está dentro de la tabla almacén, si es así no se puede eliminar -> Solo almacén 
+      $historialCli = NotaPedidoController::ctrGetHistorialCliente($codClient);
+
+      if ($historialCli["IdCliente"] > 0) {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Al eliminar Cliente ya tiene movimientos en el sistema', 'products');
+      } else {
+        $table = "tb_cliente";
+        $response = ClientsModel::mdlDeleteClient($table, $codClient);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Cliente eliminado correctamente', 'clients');
+
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al eliminar el cliente', 'clients');
+
+        }
+
       }
-      else
-      {
-        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al eliminar el cliente', 'clients');
-        echo $message;
-      }
+      echo $message;
     }
   }
-  
- 
 }

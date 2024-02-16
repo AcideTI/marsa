@@ -192,4 +192,13 @@ class IngresosModel
       return "error";
     }
   }
+
+    // Verificar un persoanl se esta usando en alguna tabla
+  public static function mdlGetHistorialPersonal($table, $codPersonal) {
+    $stmt = Conexion::conn()->prepare("SELECT COUNT(IdPer) as IdPer FROM $table WHERE IdPer = :IdPer");
+    $stmt->bindParam(":IdPer", $codPersonal, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+
 }

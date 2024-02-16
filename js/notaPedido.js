@@ -199,7 +199,7 @@ $(".table").on("click", ".btnViewDetallNotPe", function () {
     dataType: "json",
 
     success: function (response) {
-      $("#detVendedor").val(response["NombrePerIdPer"]);
+      $("#detVendedor").val(response["NombrePerIdRes"]);
       $("#detCliRuc").val(response["RucCli"]);
       $("#detTotal").val(response["Total"]);
       $("#detFactur").val(response["TipoNotaPeFactura"]);

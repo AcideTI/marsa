@@ -222,4 +222,13 @@ class IngresosController
       }
     }
   }
+
+  // Verificar un persoanl se esta usando en alguna tabla
+  public static function ctrGetHistorialPer($codPersonal)
+  {
+    $table = "tb_ingreso";
+    $respuesta = IngresosModel::mdlGetHistorialPersonal($table, $codPersonal);
+    return $respuesta;
+  }
+    
 }

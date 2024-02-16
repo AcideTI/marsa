@@ -267,4 +267,29 @@ public static function mdlGetEditNotPeData($table, $codEditNotPeData)
     $statement->execute();
     return $statement->fetch();
   }
+
+   // Verificar un Cliente si se esta usando en nota pedido
+   public static function mdlGetHistorialCliente($table, $codClient) {
+    $stmt = Conexion::conn()->prepare("SELECT COUNT(IdCliente) as IdCliente FROM $table WHERE IdCliente = :IdCliente");
+    $stmt->bindParam(":IdCliente", $codClient, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+
+   // Verificar un vendedor si se esta usando en nota pedido
+   public static function mdlGetHistorialPerVend($table, $codPersonal) {
+    $stmt = Conexion::conn()->prepare("SELECT COUNT(IdRes) as IdRes FROM $table WHERE IdRes = :IdRes");
+    $stmt->bindParam(":IdRes", $codPersonal, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+
+  // Verificar un responsable si se esta usando en nota pedido
+  public static function mdlGetHistorialPerRes($table, $codPersonal) {
+    $stmt = Conexion::conn()->prepare("SELECT COUNT(IdPer) as IdPer FROM $table WHERE IdPer = :IdPer");
+    $stmt->bindParam(":IdPer", $codPersonal, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+
 }

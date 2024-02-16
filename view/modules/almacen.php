@@ -29,7 +29,7 @@
                       <th>Categoría</th>
                       <th>Nombre del Producto</th>
                       <th>Unidad de medida</th>
-                      <th>Cantidad Total de Producto</th>
+                      <th>Total Almacen</th>
                   </tr>
               </thead>
               <tbody>
