@@ -3,7 +3,7 @@
 //  Controllers
 require_once "controller/template.controller.php";
 require_once "controller/functions.controller.php";
-require_once "../../controller/reportesExcel.controller.php";
+
 //  Controllers Modules
 require_once "controller/users.controller.php";
 require_once "controller/Products.controller.php";
@@ -13,7 +13,7 @@ require_once "controller/ingresos.controller.php";
 require_once "controller/almacen.controller.php";
 require_once "controller/notaPedido.controller.php";
 require_once "controller/lotes.controller.php";
-
+require_once "controller/reportesExcel.controller.php";
 //  Models
 require_once "model/users.model.php";
 require_once "model/Products.model.php";

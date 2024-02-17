@@ -13,7 +13,7 @@ class ControllerReportesExcel
       $listAllDataExeIng = IngresosController::ctrGetAllDowlReportsExeIng();
 
       //  cell Titles
-      $titleArray = ['Cliente', 'Observación', 'Fecha Pedido', 'Fecha Entrega', 'Estado', 'Sub Total', 'IGV', 'Total'];
+      $titleArray = ['RESPONSABLE', 'ESTADO', 'FECHA INGRESO', 'OBSERVACIÓN', 'PRODUCTOS', 'FECHA VENCIMIENTO', 'FECHA REINGRESO', 'FECHA INGRESO MERMA'];
       $dataArray = [];
       $spreadsheet = new Spreadsheet();
       $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -21,14 +21,15 @@ class ControllerReportesExcel
 
       foreach ($listAllDataExeIng as $value) {
         $data = array(
-          $value["NameClient"],
-          $value["DetailOrder"],
-          $value["DateOrder"],
-          $value["DateEnd"],
-          $value["StateOrder"],
-          $value["SubTotal"],
-          $value["IGV"],
-          $value["TotalOrder"],
+         /*  $value["IdIng"], */
+          $value["NombrePerIdPer"],
+          $value["TipoEstado"],
+          $value["FechaProduccionIng"],
+          $value["DescripcionIng"],
+          $value["DatosProductosIngresoJson"],
+          $value["FechaVencimientoIng"],
+          $value["FechaReingresoIng"],
+          $value["FechaMermaIng"],
         );
         //  Data  cell
         array_push($dataArray, $data);

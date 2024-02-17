@@ -236,6 +236,21 @@ class IngresosController
   {
     $table = "tb_ingreso";
     $listAllDataExeIng = IngresosModel::mdlGetAllDowlReportsExeIng($table);
+
+    // Iterar sobre cada registro
+    foreach ($listAllDataExeIng as $key => $record) {
+      // Decodificar el JSON en el campo DatosProductosIngresoJson
+      $products = json_decode($record['DatosProductosIngresoJson'], true);
+
+      // Formatear los datos del producto
+      foreach ($products as $index => $product) {
+        $products[$index] = ($index + 1) . '-PRODUCTO: ' . $product['NombreProducto'] . '   CANTIDAD : ' . $product['countProduct'];
+      }
+
+      // Unir los datos del producto en una cadena de texto con saltos de línea entre cada producto
+      $listAllDataExeIng[$key]['DatosProductosIngresoJson'] = implode("\n", $products);
+    }
+
     return $listAllDataExeIng;
   }
   /* fin */
