@@ -51,7 +51,7 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label for="notDirec" class="form-label" style="font-weight: bold">Direccion Client </label>
+              <label for="notDirec" class="form-label" style="font-weight: bold">Direccion Cliente </label>
               <select class="form-control input-lg" id="notDirec" name="notDirec" disabled>
                 <option value="">Seleccione cliente</option>
                 <?php
@@ -65,7 +65,7 @@
           </div>
 
           <div class="container row g-3">
-            <div class="col-md-3">
+            <div class="col-md-5">
               <label for="notRes" class="form-label" style="font-weight: bold">Responsable</label>
               <select class="form-control input-lg" id="notRes" name="notRes" required>
                 <option value="">Seleccione el Responsable</option>
@@ -78,49 +78,13 @@
               </select>
             </div>
 
-            <div class="col-md-3">
-              <label for="notTipoPe" class="form-label" style="font-weight: bold">Crear Desde:</label>
-              <select class="form-control input-lg" id="notTipoPe" name="notTipoPe" required>
-                <option value="Almacen">Almacen</option>
-                <option value="Lote">Lote</option>
-              </select>
-            </div>
-
-            <!-- Campo adicional para el lote como select -->
-            <div class="col-md-3" id="campoLoteAdd" style="display: none;">
-              <label for="notPeLot" class="form-label" style="font-weight: bold">Seleccione Lote:</label>
-              <select class="form-control" id="notPeLot" name="notPeLot" required>
-                <option value="O">Selecione el Lote</option>
-                <option value="1">Lote 1</option>
-                <option value="2">Lote 2</option>
-                <option value="3">Lote 3</option>
-              </select>
-            </div>
-
-            <div class="col-md-3">
-              <label for="notTiPe" class="form-label" style="font-weight: bold">Tipo Pedido:</label>
-              <select class="form-control input-lg" id="notTiPe" name="notTiPe" required>
-                <option value="NotaPedido">Nota Pedido</option>
-                <option value="Factura">Factura</option>
-              </select>
-            </div>
-
-            <!-- Campo adicional para la Factura -->
-            <div class="col-md-3" id="campoFactura" style="display: none;">
-              <label for="datosFactura" class="form-label" style="font-weight: bold">Nr° Factura:</label>
-              <input type="text" class="form-control" id="datosFactura" name="datosFactura" placeholder="Datos de la factura">
-            </div>
-
             <!-- fecha de nota pedido -->
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
               <label for="notFechPe" class="form-label" style="font-weight: bold">Fecha Nota Pedido: </label>
               <input type="date" class="form-control" id="notFechPe" name="notFechPe" required>
             </div>
-          </div>
 
-          <div class="container row g-3">
-
-            <div class="col-md-4">
+            <div class="col-md-5">
               <label for="notVend" class="form-label" style="font-weight: bold">Vendedor</label>
               <select class="form-control" id="notVend" name="notVend" required>
                 <option value="">Seleccione al Vendedor</option>
@@ -130,16 +94,6 @@
                   echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
                 }
                 ?>
-              </select>
-            </div>
-
-            <!-- estado -->
-            <div class="col-md-3">
-              <label for="notDescrip" class="form-label" style="font-weight: bold">Estado Nota de Pedido:</label>
-              <select class="form-control input-lg" id="notDescrip" name="notDescrip" >
-                <option value="8" data-color="#b3e0ff">Retirado</option>
-                <option value="5" data-color="#98fb98">Completado</option>
-                <option value="6" data-color="#ffb6c1">Devolucion</option>
               </select>
             </div>
           </div>
@@ -163,7 +117,7 @@
               <div class="col-lg-5">Producto</div>
               <div class="col-lg-2">Precio Producto</div>
               <div class="col-lg-2">Cantidad</div>
-              <div class="col-lg-2">total</div>
+              <div class="col-lg-2">Total</div>
             </div>
 
             <div class="form-group row newProductAddNotaP">
@@ -174,17 +128,15 @@
         </span>
 
         <!-- botones par enviar el formulario productos  -->
-        <div class="col-md-4>
-        <div class=" container row g-4 p-4 justify-content-between">
-          <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-danger closeNotaPedido">Cerrar</button>
-          <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-success" name="submitNotaPedido">Registrar Nota Pedido</button>
+        <div class="container row g-3 p-3 justify-content-between">
+            <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closeNotaPedido">Cerrar</button>
+            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success" name="submitNotaPedido">Registrar Nota Pedido</button>
         </div>
+        <!-- Campo de entrada oculto para la cadena JSON -->
+        <input type="hidden" id="formDataJson" name="formDataJson">
+      </form>
     </div>
-    <!-- Campo de entrada oculto para la cadena JSON -->
-    <input type="hidden" id="formDataJson" name="formDataJson">
-    </form>
-</div>
-</main>
+  </main>
 </div>
 
 </div>
@@ -205,8 +157,9 @@
           <thead>
             <tr>
               <th style="width:10px">#</th>
-              <th>Descripción del Producto</th>
-              <th>Almacen</th>
+              <th>Descripción</th>
+              <th>Unidad</th>
+              <th>Cantidad</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -218,6 +171,7 @@
                 <tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["NombreProducto"] . '</td>
+                  <td>' . $value["Unidad"] . '</td>
                   <td>' . $value["CantidadTotal"] . '</td>
                   <td>
                     <div class="btn-group">

@@ -101,7 +101,7 @@
 
                     <!-- Count -->
                     <div class="col-lg-3 countMaterial">
-                      <input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' . $value["countProduct"] . '" >
+                      <input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' . $value["countProduct"] . '">
                     </div>
                   </div>
                 ';
@@ -142,7 +142,7 @@
           <thead>
             <tr>
               <th style="width:10px">#</th>
-              <th>Descripción del Material</th>
+              <th>Producto</th>
               <th>Unidad</th>
               <th>Acciones</th>
             </tr>

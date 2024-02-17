@@ -1,6 +1,6 @@
 //  Cerrar movimiento Ingreso
 $(".closeNotaPedido").on("click", function () {
-  window.location = "index.php?ruta=verNotasPedido";
+  window.location = "index.php?ruta=verSalidas";
 });
 
 //  Crear una nueva nota de pedido
@@ -81,7 +81,7 @@ $(".tableNuevoIng").on("click", ".btnAddProduct", function () {
           '<div class="col-lg-2 sumMaterial">' +
           '<div style="font-size:24px; display: flex; align-items: center;"><span style="margin-right: 2px;">S/</span><input type="text" class="form-control newSum" name="newSum" value="' +
           PriceProNotaP +
-          '"readonly>' +
+          '" readonly>' +
           "</div>" +
           "</div>"
       );
@@ -269,7 +269,7 @@ $(".table").on("click", ".btnDeleteNotaPe", function () {
     .then((result) => {
       if (result.isConfirmed) {
         window.location =
-          "index.php?ruta=verNotasPedido&codNotaPe=" + codNotaPe;
+          "index.php?ruta=verSalidas&codNotaPe=" + codNotaPe;
       }
     });
 });
@@ -284,115 +284,6 @@ $(".table").on("click", ".btnEditNotaPedido", function () {
   window.location = "index.php?ruta=editNotaPedido&codNotaPe=" + codNotaPe;
 });
 
-$(document).ready(function () {
-  // Comprobar si estamos en la página de edición
-  if (window.location.href.indexOf("editNotaPedido") > -1) {
-    var codNotaPe = getUrlParameter("codNotaPe");
-    var data = new FormData();
-
-    data.append("codEditNotPeData", codNotaPe);
-    $.ajax({
-      url: "ajax/notaPedido.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        $("#notRuc").val(response["IdCliente"]);
-        $("#notCli").val(response["IdCliente"]);
-        $("#notDirec").val(response["IdCliente"]);
-        $("#notRes").val(response["IdRes"]);
-        //campo notTipoPe select que debe de apararese si el tipo de nota es lote
-        $("#notTipoPe").val(response["TipoDeNotaPe"]).change();
-        $("#notPeLot").val(response["IdLote"]);
-        //campo notTiPe select que debe de apararese si el tipo de nota es factura
-        $("#notTiPe").val(response["NotaPorFA"]).change();
-        $("#datosFactura").val(response["TipoNotaPeFactura"]);
-        $("#notFechPe").val(response["FechaNotaPedido"]);
-        $("#notVend").val(response["IdPer"]);
-        $("#notDescrip").val(response["Estado"]).change();
-        //campo comentDev que aparese despues que el estado es devolucion
-        $("#comentDev").val(response["ComentarioNotaDev"]);
-        //campo notFechDev que aparese despues que el estado es devolucion
-        $("#notFechDev").val(response["FechaNotaDevolucion"]);
-        $("#notSubT").val(response["SubTotal"]);
-        $("#notIGV").val(response["IGV"]);
-        $("#notTotal").val(response["Total"]);
-        $("#submitEditNotaPedido").val(response["IdNotaP"]);
-        $("#listProductAddNota").val(response["DatosProductosNotaPedidoJson"]);
-
-        /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
-
-        // Obtiene los productos del campo listProductAddNota
-        var products = JSON.parse($("#listProductAddNota").val());
-
-        // Vacía el div donde se mostrarán los productos
-        $(".newProductAddNotaP").empty();
-
-        // Llena el div con los productos
-        for (var i = 0; i < products.length; i++) {
-          (function (i) {
-            // Crea una función de cierre para capturar el valor actual de i
-            // Crea un nuevo FormData
-            var datos = new FormData();
-            // Agrega el codProduct al FormData
-            datos.append("codProductAdd", products[i].codProduct);
-
-            // Hace una solicitud AJAX para obtener los detalles del producto
-            $.ajax({
-              url: "ajax/notaPedido.ajax.php",
-              method: "POST",
-              data: datos,
-              cache: false,
-              contentType: false,
-              processData: false,
-              dataType: "json",
-              success: function (respuesta) {
-                // Obtiene el nombre del producto de la respuesta
-                var DescriptionProduct = respuesta["NombreProducto"];
-
-                // Agrega el producto al div
-                $(".newProductAddNotaP").append(
-                  '<div class="row" style="padding:5px 15px">' +
-                    '<div class="col-lg-5" style="padding-right:0px">' +
-                    '<div class="input-group">' +
-                    '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoiIngreso" codProduct="' +
-                    products[i].codProduct +
-                    '"><i class="fa fa-times"></i></button></span>' +
-                    '<input type="text" class="form-control newProduct" codProduct="' +
-                    products[i].codProduct +
-                    '" value="' +
-                    products[i].DescriptionProduct +
-                    '" readonly>' +
-                    "</div>" +
-                    "</div>" +
-                    '<div class="col-lg-2 PriceProNotaP">' +
-                    '<input type="text" class="form-control newPrice" name="newPrice" value="' +
-                    products[i].priceProduct +
-                    '">' +
-                    "</div>" +
-                    '<div class="col-lg-2 countMaterial">' +
-                    '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' +
-                    products[i].countProduct +
-                    '">' +
-                    "</div>" +
-                    '<div class="col-lg-2 sumMaterial">' +
-                    '<div style="font-size:24px; display: flex; align-items: center;"><span style="margin-right: 2px;">S/</span><input type="text" class="form-control newSum" name="newSum" value="' +
-                    products[i].newSum +
-                    '"readonly>' +
-                    "</div>" +
-                    "</div>"
-                );
-              },
-            });
-          })(i); // Invoca la función de cierre con el valor actual de i
-        } /* fin */
-      }, //fin success function editNotaPedido
-    });
-  }
-});
 
 function getUrlParameter(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

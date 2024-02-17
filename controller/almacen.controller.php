@@ -58,4 +58,46 @@ class AlmacenController
     $respuesta = AlmacenModel::mdlGetHistorialProduct($table, $codProduct);
     return $respuesta;
   }
+
+  //  Obtener la data de un producto para enviar a la vista de editar una nota de pedido
+  public static function ctrGerProductDataById($codProduct)
+  {
+    $table = "tb_almacen";
+    $respuesta = AlmacenModel::mdlGerProductDataById($table, $codProduct);
+    return $respuesta;
+  }
+
+  //  Actualizar stock del almacen por una modificacion en la nota de pedido
+  public static function ctrUpdateStockNota($listaAntigua, $listaNueva)
+  {
+    // Primero actualizamos el stock de los productos que ya estaban en la lista
+    foreach($listaAntigua as $value) {
+      $stockActual = self::ctrComprobarStock($value["codProduct"]);
+      $nuevStock = $value["countProduct"] + $stockActual["CantidadTotal"];
+      $dataUpdate = array(
+        "CantidadTotal" => $nuevStock,
+        "DateUpdate" => date("Y-m-d"),
+        "HoraUpdate" => date("H:i:s"),
+        "IdAlma" => $stockActual["IdAlma"]
+      );
+      $response = self::ctrUpdateStockAlmacen($dataUpdate);
+    }
+    if($response == "ok") {
+      // Luego restamos el stock de la nueva lista de productos
+      foreach($listaNueva as $value) {
+        $stockActual = self::ctrComprobarStock($value["codProduct"]);
+        $nuevStock = $stockActual["CantidadTotal"] - $value["countProduct"];
+        $dataUpdate = array(
+          "CantidadTotal" => $nuevStock,
+          "DateUpdate" => date("Y-m-d"),
+          "HoraUpdate" => date("H:i:s"),
+          "IdAlma" => $stockActual["IdAlma"]
+        );
+        $response = self::ctrUpdateStockAlmacen($dataUpdate);
+      }
+      return $response;
+    } else {
+      return $response;
+    }
+  }
 }

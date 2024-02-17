@@ -121,7 +121,7 @@
           <thead>
             <tr>
               <th style="width:10px">#</th>
-              <th>Descripción del Material</th>
+              <th>Producto</th>
               <th>Unidad</th>
               <th>Acciones</th>
             </tr>
