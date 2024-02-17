@@ -201,4 +201,50 @@ class IngresosModel
     return $stmt->fetch();
   }
 
+   /* Devolver todos los ingreso para el reporte exel */
+   public static function mdlGetAllDowlReportsExeIng($table)
+   {
+     $statement = Conexion::conn()->prepare("
+       SELECT ing.*, 
+         per.NombrePer AS NombrePerIdPer, 
+         e.TipoEstado
+       FROM $table AS ing
+       INNER JOIN tb_personal AS per ON ing.IdPer = per.IdPer
+       INNER JOIN tb_estado AS e ON ing.Estado = e.IdEstado
+       ORDER BY 
+       IdIng DESC");
+ 
+     $statement->execute();
+ 
+     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+ 
+     foreach ($results as &$result) {
+       // Procesar el campo JSON
+       if (isset($result['DatosProductosIngresoJson'])) {
+         $productsJson = json_decode($result['DatosProductosIngresoJson'], true);
+ 
+         foreach ($productsJson as &$product) {
+           $statement = Conexion::conn()->prepare("
+             SELECT NombreProducto
+             FROM tb_producto
+             WHERE IdProd = :codProduct
+           ");
+ 
+           $statement->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
+ 
+           $statement->execute();
+ 
+           $productResult = $statement->fetch(PDO::FETCH_ASSOC);
+ 
+           $product['NombreProducto'] = $productResult['NombreProducto'];
+         }
+ 
+         $result['DatosProductosIngresoJson'] = json_encode($productsJson);
+       }
+     }
+ 
+     return $results;
+   }
+   /* fin */
+
 }

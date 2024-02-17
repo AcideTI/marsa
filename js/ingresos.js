@@ -41,6 +41,11 @@ $(".formEditarIngreso").on("click", "button.deleteNuevoiIngreso", function () {
   listProductAdd();
 });
 
+//  Descargar reporte exel de ingresos
+$("#reporteExeIngresos").on("click", function(){
+  window.location = "view/modules/descargar-reporte.php?&reporteExeIngresos";
+});
+
 // agragar producto al listado de ingreso
 $(".tableNuevoIng").on("click", ".btnAddProduct", function () {
   var codProductAdd = $(this).attr("codProduct");

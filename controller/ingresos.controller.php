@@ -6,8 +6,8 @@ class IngresosController
   public static function ctrGetAllIngresos()
   {
     $table = "tb_ingreso";
-    $ListNotaPedido = IngresosModel::mdlGetAllIngresos($table);
-    return $ListNotaPedido;
+    $listAllDataExeIng = IngresosModel::mdlGetAllIngresos($table);
+    return $listAllDataExeIng;
   }
 
   // obtener datos de los productos para agregarlos a la lista
@@ -223,12 +223,21 @@ class IngresosController
     }
   }
 
-  // Verificar un persoanl se esta usando en alguna tabla
+  // Verificar un personal se esta usando en alguna tabla
   public static function ctrGetHistorialPer($codPersonal)
   {
     $table = "tb_ingreso";
     $respuesta = IngresosModel::mdlGetHistorialPersonal($table, $codPersonal);
     return $respuesta;
   }
-    
+
+  /* Devolver todos los ingreso para el reporte exel */
+  public static function ctrGetAllDowlReportsExeIng()
+  {
+    $table = "tb_ingreso";
+    $listAllDataExeIng = IngresosModel::mdlGetAllDowlReportsExeIng($table);
+    return $listAllDataExeIng;
+  }
+  /* fin */
+
 }

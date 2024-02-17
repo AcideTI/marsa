@@ -20,11 +20,12 @@
 
       <!-- Botones de acciones -->
       <div class="d-flex m-2">
-        <button type="button" class="btn btn-info btnNewIng" id="btnNewIng">
+        <button type="button" class="btn btn-info btnNewIng" id="btnNewIng"><i class="fa-regular fa-clipboard "></i>
           Ingresar Producción Diaria
         </button>
-        <button type="button" class="btn btn-warning ReporteEntradas" id="ReporteEntradas">
-          Descargar Reporte
+        <span style="margin: 0 10px;"></span>
+        <button type="button" class="btn btn-warning reporteExeIngresos" id="reporteExeIngresos"><i class="fa-solid fa-file-arrow-down "></i>
+          Descargar Reporte Exel
         </button>
       </div>
       <!-- Tabla de ingresos -->
