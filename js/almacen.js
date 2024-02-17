@@ -19,5 +19,10 @@ $(".stockGlobal").on("click", ".btnBuscarStockGlobalHome", function(){
   }
 });
 
+//  Descargar reporte exel de Almacen
+$("#reporteExeAlmacen").on("click", function(){
+  window.location = "view/modules/Excel-Inventario.php?&reporteExeAlmacen";
+});
+
 
 

@@ -43,7 +43,7 @@ $(".formEditarIngreso").on("click", "button.deleteNuevoiIngreso", function () {
 
 //  Descargar reporte exel de ingresos
 $("#reporteExeIngresos").on("click", function(){
-  window.location = "view/modules/Reporte-Exel-Ingresos.php?&reporteExeIngresos";
+  window.location = "view/modules/Excel-Ingresos.php?&reporteExeIngresos";
 });
 
 // agragar producto al listado de ingreso

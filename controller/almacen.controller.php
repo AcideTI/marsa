@@ -58,4 +58,18 @@ class AlmacenController
     $respuesta = AlmacenModel::mdlGetHistorialProduct($table, $codProduct);
     return $respuesta;
   }
+
+  //  Report donwload exel Almacen
+  public static function ctrGetAllDowlReportsAlmacen()
+  {
+    $table = "tb_almacen";
+    $listAllDataExeAlmacen = AlmacenModel::mdlGetAllDowlReprtAlmacen($table);
+    // Filtrar los registros donde la cantidad es mayor a cero
+    $listAllDataExeAlmacen = array_filter($listAllDataExeAlmacen, function($record) {
+      return $record['CantidadTotal'] > 0;
+    });
+
+    return $listAllDataExeAlmacen;
+  }
+  /* FIN */
 }

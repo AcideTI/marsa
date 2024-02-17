@@ -47,55 +47,6 @@ public static function mdlCreateAlmacen($tableAlmacen, $dataCreateAlmacen) {
     return "error";
   }
 }
-  ///////////////////////////////////////////////
-
-
-  //  Obtener el producto por el codigo del producto
-  public static function mdlObtenerStockGeneral($tabla, $valor)
-  {
-    $stmt = Conexion::conn()->prepare("SELECT
-      tb_product.IdProduct, 
-      tb_product.IdModel, 
-      tb_product.IdOrder,
-      tb_product.CodProduct, 
-      CASE 
-        WHEN tb_product.StateProduct = 1 THEN 'Registrado'
-        WHEN tb_product.StateProduct = 2 THEN 'En confección'
-        WHEN tb_product.StateProduct = 3 THEN 'Finalizado'
-        WHEN tb_product.StateProduct = 4 THEN 'Anulado'
-        ELSE 'Estado desconocido'
-        END AS StateProduct,
-      tb_orderdetail.IdMaker, 
-      COALESCE(tb_maker.FirstNameMaker, 'Sin Asignar') AS FirstNameMaker,
-      tb_maker.LastNameMaker, 
-      tb_order.DateOrder, 
-      tb_model.DescriptionModel
-    FROM
-      tb_product
-      INNER JOIN
-      tb_orderdetail
-      ON 
-          tb_product.IdProduct = tb_orderdetail.IdProduct
-      INNER JOIN
-      tb_model
-      ON 
-          tb_product.IdModel = tb_model.IdModel
-      LEFT JOIN
-      tb_maker
-      ON 
-          tb_orderdetail.IdMaker = tb_maker.IdMaker
-      INNER JOIN
-      tb_order
-      ON 
-          tb_orderdetail.IdOrder = tb_order.IdOrder
-        WHERE 
-      tb_product.CodProduct = '$valor' ");
-
-    $stmt->execute();
-    return $stmt->fetch();
-  }
-
-
 
   //  Comprobar stock
   public static function mdlComprobarStock($tabla, $codProduct) {
@@ -161,12 +112,35 @@ public static function mdlCreateAlmacen($tableAlmacen, $dataCreateAlmacen) {
     }
   }
 
-//  Verificar que un producto no tiene registro dentro del almacén
-  public static function mdlGetHistorialProduct($table, $codProduct) {
+  //  Verificar que un producto no tiene registro dentro del almacén
+  public static function mdlGetHistorialProduct($table, $codProduct)
+  {
     $stmt = Conexion::conn()->prepare("SELECT COUNT(IdProd) as cantidad FROM $table WHERE IdProd = :IdProd");
     $stmt->bindParam(":IdProd", $codProduct, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetch();
   }
- 
+
+  //  Report donwload excel Almacen
+  public static function mdlGetAllDowlReprtAlmacen($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT 
+      tb_almacen.IdAlma,
+      tb_producto.NombreProducto,
+      tb_categoriaprod.NombreCategoria,
+      tb_producto.Unidad,
+      tb_almacen.CantidadTotal
+    FROM 
+      $table
+    INNER JOIN 
+      tb_producto ON tb_almacen.IdProd = tb_producto.IdProd
+    INNER JOIN 
+      tb_categoriaprod ON tb_producto.IdCate = tb_categoriaprod.IdCate
+    ORDER BY 
+      GREATEST(CONCAT(tb_almacen.DateCreate, ' ', tb_almacen.HoraCreate), CONCAT(tb_almacen.DateUpdate, ' ', tb_almacen.HoraUpdate)) DESC");
+    $statement->execute();
+    return $statement->fetchAll();
+  }
+  /* fin */
+
 }

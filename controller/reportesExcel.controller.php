@@ -6,7 +6,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ControllerReportesExcel
 {
-  //  Report donwload excel Orders
+ /* Report donwload excel Ingresos */
   public static function ctrDowlReportsExeIng()
   {
     if (isset($_GET["reporteExeIngresos"])) {
@@ -47,4 +47,45 @@ class ControllerReportesExcel
       $writer->save('php://output');
     }
   }
+  /* fin */
+
+  //  Report donwload excel Almacen
+  public static function ctrDowlReportsExeAlmacen()
+  {
+    if (isset($_GET["reporteExeAlmacen"])) {
+      $listAllDataExeAlmacen = AlmacenController::ctrGetAllDowlReportsAlmacen();
+
+      //  cell Titles
+      $titleArray = ['CATEGORIA', 'MEDIDA', ' PRODUCTO', 'UNIDADES EN ALAMCEN'];
+      $dataArray = [];
+      $spreadsheet = new Spreadsheet();
+      $activeWorksheet = $spreadsheet->getActiveSheet();
+      $activeWorksheet->fromArray($titleArray, null, 'A1');
+
+      foreach ($listAllDataExeAlmacen as $value) {
+        $data = array(
+         /*  $value["IdAlma"], */
+          $value["NombreCategoria"],
+          $value["Unidad"],
+          $value["NombreProducto"],
+          $value["CantidadTotal"],
+        );
+        //  Data  cell
+        array_push($dataArray, $data);
+      }
+      $activeWorksheet->fromArray($dataArray, null, 'A2');
+      $activeWorksheet->getColumnDimension('A')->setAutoSize(true);
+      $activeWorksheet->getColumnDimension('B')->setAutoSize(true);
+      $activeWorksheet->getColumnDimension('C')->setAutoSize(true);
+      $activeWorksheet->getColumnDimension('D')->setAutoSize(true);
+      $activeWorksheet->getColumnDimension('E')->setAutoSize(true);
+      $activeWorksheet->getColumnDimension('F')->setAutoSize(true);
+      $activeWorksheet->getColumnDimension('G')->setAutoSize(true);
+      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      $writer = new Xlsx($spreadsheet);
+      $writer->save('php://output');
+    }
+  }
+  /* fin */
+
 }
