@@ -143,4 +143,22 @@ public static function mdlCreateAlmacen($tableAlmacen, $dataCreateAlmacen) {
   }
   /* fin */
 
+  //  Obtener el producto por el codigo del producto para editar una nota de pedido
+  public static function mdlGerProductDataById($table, $codProduct)
+  {
+    $stmt = Conexion::conn()->prepare("SELECT
+    tb_almacen.CantidadTotal, 
+    tb_producto.NombreProducto
+  FROM
+    $table
+    INNER JOIN
+    tb_producto
+    ON 
+      tb_almacen.IdProd = tb_producto.IdProd
+  WHERE
+    tb_almacen.IdProd = $codProduct");
+      $stmt->execute();
+      return $stmt->fetch();
+  }
+ 
 }

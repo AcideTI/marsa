@@ -34,7 +34,7 @@
 </div>
 
 <!-- Notapedido -->
-<div class="sb-sidenav-menu-heading">Nota De Pedido</div>
+<div class="sb-sidenav-menu-heading">Salidas</div>
 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listNotaPedido" aria-expanded="false" aria-controls="collapseLayouts">
   <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-flatbed-suitcase"></i></div>
   Nota Pedido
@@ -43,12 +43,12 @@
 <div class="collapse" id="listNotaPedido" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="notaPedido"><i class="fa-solid fa-cart-plus"></i><span style="margin-left: 5px;">Nota de Pedido</span></a>
-    <a class="nav-link" href="verNotasPedido"><i class="fa-solid fa-layer-group"></i><span style="margin-left: 5px;">Ver Notas de Pedido</span></a>
-
+    <a class="nav-link" href="nuevoLote"><i class="fa-solid fa-file-circle-plus"></i><span style="margin-left: 5px;">Crear Lote</span></a>
+    <a class="nav-link" href="verSalidas"><i class="fa-solid fa-layer-group"></i><span style="margin-left: 5px;">Ver Salidas</span></a>
   </nav>
 </div>
 <!-- Movements -->
-<div class="sb-sidenav-menu-heading">Lotes</div>
+<!-- <div class="sb-sidenav-menu-heading">Lotes</div>
 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listMovements" aria-expanded="false" aria-controls="collapseLayouts">
   <div class="sb-nav-link-icon"><i class="fa-solid fa-clipboard-check"></i></div>
   Lotes
@@ -56,12 +56,10 @@
 </a>
 <div class="collapse" id="listMovements" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
-    <a class="nav-link" href="nuevoLote"><i class="fa-solid fa-file-circle-plus"></i><span style="margin-left: 5px;">Crear Lote</span></a>
+    >
     <a class="nav-link" href="lotes"><i class="fa-solid fa-clipboard-list"></i><span style="margin-left: 5px;">Todos los Lotes</span></a>
-
-
   </nav>
-</div>
+</div> -->
 
 <!-- Catalogo -->
 <div class="sb-sidenav-menu-heading">Catálogos</div>

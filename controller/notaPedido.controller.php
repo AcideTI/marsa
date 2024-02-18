@@ -30,12 +30,12 @@ class NotaPedidoController
           "IdRes" => $data["notVend"],
           "NotaPorFA" => $data["notTiPe"],
           "IdCliente" => $data["notRuc"],
-          "TipoDeNotaPe" => $data["notTipoPe"],
-          "TipoNotaPeFactura" => $data["datosFactura"],
+          "IdRes" => $data["notRes"],
+          "FechaNotaPedido" => $data["notFechPe"],
+          "IdPer" => $data["notVend"],
+          "EstadoNota" => "1",
           "DatosProductosNotaPedidoJson" => json_encode($data["listProducts"]),
           "Total" => $data["notTotal"],
-          "Estado" => $data["notDescrip"],
-          "FechaNotaPedido" => $data["notFechPe"],
           "DateCreate" => date("Y-m-d\TH:i:sP"),
           "DateUpdate" => date("Y-m-d\TH:i:sP")
         );
@@ -124,13 +124,36 @@ class NotaPedidoController
     if (isset($_GET["codNotaPe"])) {
       $table = "tb_notapedido";
       $codNotaPe = $_GET["codNotaPe"];
-      $response = NotaPedidoModel::mdlDeleteNotaPedido($table, $codNotaPe);
-      if ($response == "ok") {
-        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Nota Pedido Eliminado Correctamente', 'verNotasPedido');
+      //  Verificamos que es una nota de pedido que está en estado 1, ya que solo pueden elimarse esas
+      $estadoNota = self::ctrGetEstadoNotaPedido($codNotaPe);
+      if ($estadoNota["EstadoNota"] != 1) {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar la Nota Pedido, solo se pueden eliminar las notas de pedido en estado "Retirado"', 'verSalidas');
         echo $message;
+        return;
       } else {
-        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar la Nota Pedido', 'verNotasPedido');
-        echo $message;
+        //  Obtenemos la lista de productos de la nota de pedido
+        $productos = NotaPedidoModel::mdlGetListaProductos($table, $codNotaPe);
+        $productos = json_decode($productos["DatosProductosNotaPedidoJson"], true);
+        //  Actualizamos el stock de los productos
+        foreach ($productos as $product) {
+          $stock = AlmacenController::ctrComprobarStockRes($product["codProduct"]);
+          $nuevoStock = $stock["CantidadTotal"] + $product["countProduct"];
+          $dataUpdate = array(
+            "CantidadTotal" => $nuevoStock,
+            "DateUpdate" => date("Y-m-d"),
+            "HoraUpdate" => date("H:i:s"),
+            "IdAlma" => $stock["IdAlma"]
+          );
+          AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
+        }
+        $response = NotaPedidoModel::mdlDeleteNotaPedido($table, $codNotaPe);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Nota Pedido Eliminado Correctamente', 'verSalidas');
+          echo $message;
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar la Nota Pedido', 'verSalidas');
+          echo $message;
+        }
       }
     }
   }
@@ -147,10 +170,84 @@ class NotaPedidoController
   /* fin */
 
   //  Obtener datos de la nota de pedido para editar
-  public static function ctrGetNotaPeById($codNota)
+  public static function ctrGetNotaPeById($codNotaPedido)
   {
     $table = "tb_notapedido";
-    $response = NotaPedidoModel::mdlGetNotaPeById($table, $codNota);
+    $response = NotaPedidoModel::mdlGetNotaPeById($table, $codNotaPedido);
+    return $response;
+  }
+
+  //  Editar una noat de pedido
+  public static function ctrEditarNotaPedido()
+  {
+    if (isset($_POST["formDataJson"])) {
+      $table = "tb_notapedido";
+      $data = json_decode($_POST["formDataJson"], true);
+
+      //  Obtengo la lista antigua de productos y la comparo con la nueva
+      $productosAntiguos = NotaPedidoModel::mdlGetListaProductos($table, $_POST["codNotaPedido"]);
+      $productosAntiguos = json_decode($productosAntiguos["DatosProductosNotaPedidoJson"], true);
+
+      $listaAntigua = array_map('serialize', $productosAntiguos);
+      $listaNueva = array_map('serialize', $data["listProducts"]);
+      sort($listaAntigua);
+      sort($listaNueva);
+
+      if ($listaAntigua == $listaNueva) {
+        //  Si ambos arrays son iguales solo actualizo los datos generales de la nota de pedido
+        $dataUpdate = array(
+          "IdPer" => $data["notVend"],
+          "IdRes" => $data["notRes"],
+          "IdCliente" => $data["notRuc"],
+          "FechaNotaPedido" => $data["notFechPe"],
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+          "IdNotaP" => $_POST["codNotaPedido"]
+        );
+        $response = NotaPedidoModel::mdlEditarNotaPedido($table, $dataUpdate);
+
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Nota de pedido actualizada correctamente', 'verSalidas');
+          echo $message;
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al actualizar la nota de pedido', 'verSalidas');
+          echo $message;
+        }
+      } else {
+        //  En el caso que los arrays sean diferentes, se debe actualizar el stock con los productos antiguos y nuevos
+        $actualizarStock = AlmacenController::ctrUpdateStockNota($productosAntiguos, $data["listProducts"]);
+
+        if ($actualizarStock == "ok") {
+          $dataUpdate = array(
+            "IdPer" => $data["notVend"],
+            "IdRes" => $data["notRes"],
+            "IdCliente" => $data["notRuc"],
+            "DatosProductosNotaPedidoJson" => json_encode($data["listProducts"]),
+            "Total" => $data["notTotal"],
+            "FechaNotaPedido" => $data["notFechPe"],
+            "DateUpdate" => date("Y-m-d\TH:i:sP"),
+            "IdNotaP" => $_POST["codNotaPedido"]
+          );
+          $response = NotaPedidoModel::mdlEditarNotaPedidoCompleta($table, $dataUpdate);
+          if ($response == "ok") {
+            $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Nota de pedido actualizada correctamente', 'verSalidas');
+            echo $message;
+          } else {
+            $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al actualizar la nota de pedido', 'verSalidas');
+            echo $message;
+          }
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al actualizar la nota de pedido', 'verSalidas');
+          echo $message;
+        }
+      }
+    }
+  }
+
+  //  Obtener el estado de la nota de pedido
+  public static function ctrGetEstadoNotaPedido($codNotaPedido)
+  {
+    $table = "tb_notapedido";
+    $response = NotaPedidoModel::mdlGetEstadoNotaPedido($table, $codNotaPedido);
     return $response;
   }
   

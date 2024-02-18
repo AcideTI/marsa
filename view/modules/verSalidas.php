@@ -39,10 +39,9 @@
                   <th>#</th>
                   <th>Responsable</th>
                   <th>Nombre Cliente</th>
-                  <th>Salida</th>
+                  <th>Estado</th>
                   <th>FechaNotaPedido</th>
                   <th>Productos</th>
-                  <th>Estado</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -50,30 +49,21 @@
               <?php
                   $ListNotaPedido = NotaPedidoController::ctrGetAllSalidasNotaPe();
                   foreach ($ListNotaPedido as $key => $value) {
-                    $estado = "";
-                    if ($value["TipoEstado"] == "Retirado") {
-                      $estado = "<span class='badge bg-primary' style='font-size: 14px; padding: 3px; width: 70px; text-align: center;'>Retirado</span>";
-                    } elseif ($value["TipoEstado"] == "Devolucion") {
-                      $estado = "<span class='badge bg-danger' style='font-size: 14px; padding: 3px; width: 80px; text-align: center;'>Devolucion</span>";
-                    } elseif ($value["TipoEstado"] == "Completado") {
-                      $estado = "<span class='badge bg-success' style='font-size: 14px; padding: 3px; text-align: center;'>Completado</span>";
-                    }
+                    $estado = FunctionsController::ctrGetStateSalidas($value["EstadoNota"]);
+                    $buttons = FunctionsController::ctrGetButtonsSalidas($value["EstadoNota"], $value["IdNotaP"]);
                     echo
-                  '<tr>                
+                    '<tr>                
                       <td>' . $value["IdNotaP"] . '</td>
                       <td>' . $value["NombrePerIdPer"] . '</td>NombrePerIdPer
                       <td>' . $value["NombreCliNota"] . '</td>
-                      <td>' . $value["TipoDeNotaPe"] . '</td>
-                      <td>' . $value["FechaNotaPedido"] . '</td>
-                      <td><button class="btn btn-primary btnMostarProductos" data-products="' . htmlspecialchars($value["DatosProductosNotaPedidoJson"]) . '">Productos</button></td>
                       <td>' . $estado . '</td>
+                      <td>' . $value["FechaNotaPedido"] . '</td>
                       <td>
-                      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $value["IdNotaP"] . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
-
-                      <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $value["IdNotaP"] . '"><i class="fa-solid fa-pencil"></i></button>
-                      
-                      <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $value["IdNotaP"] . '"><i class="fa-solid fa-trash"></i></button>
-                      
+                        <button class="btn btn-primary btnMostarProductos" data-products="' . htmlspecialchars($value["DatosProductosNotaPedidoJson"]) . '">Productos</button>
+                      </td>
+                      <td>
+                        ' . $buttons . '
+                      </td>
                     </tr>';
                 }?>
               </tbody>
