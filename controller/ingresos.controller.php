@@ -6,8 +6,8 @@ class IngresosController
   public static function ctrGetAllIngresos()
   {
     $table = "tb_ingreso";
-    $ListNotaPedido = IngresosModel::mdlGetAllIngresos($table);
-    return $ListNotaPedido;
+    $listAllDataExeIng = IngresosModel::mdlGetAllIngresos($table);
+    return $listAllDataExeIng;
   }
 
   // obtener datos de los productos para agregarlos a la lista
@@ -222,4 +222,37 @@ class IngresosController
       }
     }
   }
+
+  // Verificar un personal se esta usando en alguna tabla
+  public static function ctrGetHistorialPer($codPersonal)
+  {
+    $table = "tb_ingreso";
+    $respuesta = IngresosModel::mdlGetHistorialPersonal($table, $codPersonal);
+    return $respuesta;
+  }
+
+  /* Devolver todos los ingreso para el reporte exel */
+  public static function ctrGetAllDowlReportsExeIng()
+  {
+    $table = "tb_ingreso";
+    $listAllDataExeIng = IngresosModel::mdlGetAllDowlReportsExeIng($table);
+
+    // Iterar sobre cada registro
+    foreach ($listAllDataExeIng as $key => $record) {
+      // Decodificar el JSON en el campo DatosProductosIngresoJson
+      $products = json_decode($record['DatosProductosIngresoJson'], true);
+
+      // Formatear los datos del producto
+      foreach ($products as $index => $product) {
+        $products[$index] = ($index + 1) . '-PRODUCTO: ' . $product['NombreProducto'] . '   CANTIDAD : ' . $product['countProduct'];
+      }
+
+      // Unir los datos del producto en una cadena de texto con saltos de línea entre cada producto
+      $listAllDataExeIng[$key]['DatosProductosIngresoJson'] = implode("\n", $products);
+    }
+
+    return $listAllDataExeIng;
+  }
+  /* fin */
+
 }

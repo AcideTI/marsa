@@ -54,7 +54,7 @@
                     echo
                     '<tr>                
                       <td>' . $value["IdNotaP"] . '</td>
-                      <td>' . $value["NombrePerIdRes"] . '</td>
+                      <td>' . $value["NombrePerIdPer"] . '</td>NombrePerIdPer
                       <td>' . $value["NombreCliNota"] . '</td>
                       <td>' . $estado . '</td>
                       <td>' . $value["FechaNotaPedido"] . '</td>

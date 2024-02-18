@@ -3,11 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-<<<<<<< HEAD
-        'reference' => '64318fe8b905c552ff1432f184cbff8449f5155d',
-=======
-        'reference' => '707cc33597ddafa238b9759daa00046c34575cb0',
->>>>>>> main
+        'reference' => '243bdc9ed7f79dd0376a4390d2b6e24999669c55',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -17,20 +13,16 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-<<<<<<< HEAD
-            'reference' => '64318fe8b905c552ff1432f184cbff8449f5155d',
-=======
-            'reference' => '707cc33597ddafa238b9759daa00046c34575cb0',
->>>>>>> main
+            'reference' => '243bdc9ed7f79dd0376a4390d2b6e24999669c55',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'ezyang/htmlpurifier' => array(
-            'pretty_version' => 'v4.16.0',
-            'version' => '4.16.0.0',
-            'reference' => '523407fb06eb9e5f3d59889b3978d5bfe94299c8',
+            'pretty_version' => 'v4.17.0',
+            'version' => '4.17.0.0',
+            'reference' => 'bbc513d79acf6691fa9cf10f192c90dd2957f18c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ezyang/htmlpurifier',
             'aliases' => array(),
@@ -82,9 +74,9 @@
             'dev_requirement' => false,
         ),
         'psr/http-client' => array(
-            'pretty_version' => '1.0.2',
-            'version' => '1.0.2.0',
-            'reference' => '0955afe48220520692d2d09f7ab7e0f93ffd6a31',
+            'pretty_version' => '1.0.3',
+            'version' => '1.0.3.0',
+            'reference' => 'bb5906edc1c324c9a05aa0873d40117941e5fa90',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/http-client',
             'aliases' => array(),

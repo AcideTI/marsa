@@ -86,12 +86,5 @@
 <script src="js/notaPedido.js"></script>
 <script src="js/lotes.js"></script>
 
-<!--   <script src="js/providers.js"></script>
-  <script src="js/orders.js"></script>
-  <script src="js/models.js"></script>
-  <script src="js/products.js"></script>
-  <script src="js/client.js"></script>
- -->
- 
 </body>
 </html>

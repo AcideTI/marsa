@@ -10,10 +10,13 @@
   <main>
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Inventario Produccion
+        Inventario Almacen
       </h1>
+      <span style="margin: 0 10px;"></span>
       <div class="d-flex m-2">
-        <button type="button" class="btn btn-success btnDownloadProductsExcel" id="btnDownloadProductsExcel">Descargar Excel</button>
+        <button type="button" class="btn btn-success reporteExeAlmacen" id="reporteExeAlmacen"><i class="fa-solid fa-file-arrow-down "></i>
+        Descargar Inventario
+        </button>
       </div>
 
       <div class="card mb-4">
@@ -29,7 +32,7 @@
                       <th>Categoría</th>
                       <th>Nombre del Producto</th>
                       <th>Unidad de medida</th>
-                      <th>Cantidad Total de Producto</th>
+                      <th>Total Almacen</th>
                   </tr>
               </thead>
               <tbody>

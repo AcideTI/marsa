@@ -85,16 +85,31 @@ class PersonalController
   public static function ctrDeletePersonal()
   {
     if (isset($_GET["codPersonal"])) {
-      $table = "tb_personal";
+
       $codPersonal = $_GET["codPersonal"];
-      $response = PersonalModel::mdlDeletePersonal($table, $codPersonal);
-      if ($response == "ok") {
-        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Personal eliminado correctamente', 'personal');
-        echo $message;
+      //  Verificar si el producto está dentro de la tabla almacén, si es así no se puede eliminar -> Solo almacén 
+      $historialPer = IngresosController::ctrGetHistorialPer($codPersonal);
+      $historialPerVend = NotaPedidoController::ctrGetHistorialPerVend($codPersonal);
+      $historialPerRes = NotaPedidoController::ctrGetHistorialPerRes($codPersonal);
+
+      $countPer = $historialPer["IdPer"];
+      $countPerVend = $historialPerVend["IdRes"];
+      $countPerRes = $historialPerRes["IdPer"];
+
+      if ($countPer > 0 || $countPerVend > 0 || $countPerRes > 0) {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Al eliminar al Personal ya tiene movimientos en el sistema', 'personal');
       } else {
-        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al eliminar el personal', 'personal');
-        echo $message;
+        $table = "tb_personal";
+        $response = PersonalModel::mdlDeletePersonal($table, $codPersonal);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Personal eliminado correctamente', 'personal');
+          
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al eliminar el personal', 'personal');
+          
+        }
       }
+     echo $message;
     }
   }
 

@@ -98,7 +98,6 @@ class ProductsController
           $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al tratar de eliminar un producto', 'products');
         }
       }
-
       echo $message;
     }
   }

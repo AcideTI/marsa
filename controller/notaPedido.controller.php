@@ -25,6 +25,10 @@ class NotaPedidoController
         // Prepara los datos para la inserción en la base de datos
         $table = "tb_notapedido";
         $dataCreate = array(
+          "IdLote" => $data["notPeLot"],
+          "IdPer" => $data["notRes"],
+          "IdRes" => $data["notVend"],
+          "NotaPorFA" => $data["notTiPe"],
           "IdCliente" => $data["notRuc"],
           "IdRes" => $data["notRes"],
           "FechaNotaPedido" => $data["notFechPe"],
@@ -246,4 +250,30 @@ class NotaPedidoController
     $response = NotaPedidoModel::mdlGetEstadoNotaPedido($table, $codNotaPedido);
     return $response;
   }
+  
+  // Verificar un Cliente se esta usando en la tabla nota pedido
+  public static function ctrGetHistorialCliente($codClient)
+  {
+    $table = "tb_notapedido";
+    $respuesta = NotaPedidoModel::mdlGetHistorialCliente($table, $codClient);
+    return $respuesta;
+  }
+
+  // Verificar un verdedor se esta usando en alguna tabla
+  public static function ctrGetHistorialPerVend($codPersonal)
+  {
+    $table = "tb_notapedido";
+    $respuesta = NotaPedidoModel::mdlGetHistorialPerVend($table, $codPersonal);
+    return $respuesta;
+  }
+
+  // Verificar un Responsable se esta usando en alguna tabla
+  public static function ctrGetHistorialPerRes($codPersonal)
+  {
+    $table = "tb_notapedido";
+    $respuesta = NotaPedidoModel::mdlGetHistorialPerRes($table, $codPersonal);
+    return $respuesta;
+  }
+
+
 }

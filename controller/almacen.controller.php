@@ -59,6 +59,19 @@ class AlmacenController
     return $respuesta;
   }
 
+  //  Report donwload exel Almacen
+  public static function ctrGetAllDowlReportsAlmacen()
+  {
+    $table = "tb_almacen";
+    $listAllDataExeAlmacen = AlmacenModel::mdlGetAllDowlReprtAlmacen($table);
+    // Filtrar los registros donde la cantidad es mayor a cero
+    $listAllDataExeAlmacen = array_filter($listAllDataExeAlmacen, function($record) {
+      return $record['CantidadTotal'] > 0;
+    });
+
+    return $listAllDataExeAlmacen;
+  }
+  /* FIN */
   //  Obtener la data de un producto para enviar a la vista de editar una nota de pedido
   public static function ctrGerProductDataById($codProduct)
   {
