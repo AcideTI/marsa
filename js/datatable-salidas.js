@@ -1,5 +1,25 @@
+// Definición inicial de las columnas
+var columnDefs = [
+  { data: "IdNotaP" },
+  { data: "NombrePerIdPer" },
+  { data: "NombreCliNota" },
+  { data: "StateNota" },
+  { data: "FechaNotaPedido" },
+  { data: "Productos" },
+  { data: "Buttons" },
+];
+
 var table = $("#dataTableSalidas").DataTable({
-  columns: [
+  columns: columnDefs,
+});
+
+//  Actualizar la tabla de visualización con los productos Registrados
+$(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
+  var filtro = $(this).attr("filtro");
+  var data = new FormData();
+  $('.tituloSalidas').text('Notas de Pedido');
+  table.destroy();
+  columnDefs = [
     { data: "IdNotaP" },
     { data: "NombrePerIdPer" },
     { data: "NombreCliNota" },
@@ -7,14 +27,11 @@ var table = $("#dataTableSalidas").DataTable({
     { data: "FechaNotaPedido" },
     { data: "Productos" },
     { data: "Buttons" },
-  ],
-});
+  ];
+  table = $("#dataTableSalidas").DataTable({
+    columns: columnDefs,
+  });
 
-//  Actualizar la tabla de visualización con los productos Registrados
-$(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
-  var filtro = $(this).attr("filtro");
-  var data = new FormData();
-  
   data.append("codFiltroNotas", filtro);
   $.ajax({
     url: "ajax/notaPedido.ajax.php",
@@ -40,7 +57,21 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
 $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
   var filtro = $(this).attr("filtro");
   var data = new FormData();
-  
+  $('.tituloSalidas').text('Lotes');
+  table.destroy();
+  columnDefs = [
+    { data: "IdLote" },
+    { data: "NombrePer" },
+    { data: "NombreCli" },
+    { data: "StateLote" },
+    { data: "FechaProduccionLote" },
+    { data: "Productos" },
+    { data: "Buttons" },
+  ];
+  table = $("#dataTableSalidas").DataTable({
+    columns: columnDefs,
+  });
+
   data.append("codFiltroLotes", filtro);
   $.ajax({
     url: "ajax/lotes.ajax.php",
@@ -61,4 +92,3 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
     },
   });
 });
-
