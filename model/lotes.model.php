@@ -7,49 +7,34 @@ class LotesModel
   /* mostrar todos los lotes en la tabla */
   public static function mdlGetAllLotes($table)
   {
-    $statement = Conexion::conn()->prepare("
-      SELECT lot.*, 
-        per.NombrePer AS NombrePerIdPer, 
-        e.TipoEstado
-      FROM $table AS lot
-      INNER JOIN tb_personal AS per ON lot.IdPer = per.IdPer
-      INNER JOIN tb_estado AS e ON lot.Estado = e.IdEstado
-      ORDER BY IdLote DESC
+    $statement = Conexion::conn()->prepare("SELECT
+    tb_lote.IdLote, 
+    tb_personal.NombrePer, 
+    tb_personal.ApellidoPer, 
+    tb_lote.IdPer, 
+    tb_cliente.NombreCli, 
+    tb_lote.CodigoLote, 
+    tb_lote.DescripcionLote, 
+    tb_lote.DatosLoteIngresoJson, 
+    tb_lote.FechaProduccionLote, 
+    tb_lote.Estado
+  FROM
+    tb_lote
+    INNER JOIN
+    tb_cliente
+    ON 
+      tb_lote.IdCliente = tb_cliente.IdCli
+    INNER JOIN
+    tb_personal
+    ON 
+      tb_lote.IdPer = tb_personal.IdPer
     ");
 
     $statement->execute();
-
-    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($results as &$result) {
-      // Procesar el campo JSON
-      if (isset($result['DatosLoteIngresoJson'])) {
-        $productsJson = json_decode($result['DatosLoteIngresoJson'], true);
-
-        foreach ($productsJson as &$product) {
-          $statement = Conexion::conn()->prepare("
-            SELECT NombreProducto
-            FROM tb_producto
-            WHERE IdProd = :codProduct
-          ");
-
-          $statement->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
-
-          $statement->execute();
-
-          $productResult = $statement->fetch(PDO::FETCH_ASSOC);
-
-          $product['NombreProducto'] = $productResult['NombreProducto'];
-        }
-
-        $result['DatosLoteIngresoJson'] = json_encode($productsJson);
-      }
-    }
-
-    return $results;
+    return $statement->fetchAll();
   }
 
-      // Mostrar los productos a agregar
+  // Mostrar los productos a agregar
   public static function mdlGetProductData($table)
   {
     $statement = Conexion::conn()->prepare("SELECT 
@@ -69,18 +54,18 @@ class LotesModel
     return $statement->fetchAll();
   }
 
-    //   Ajax que devuelve  los productos a agregar en la lista
-    public static function mdlGetProductDataAjx($table, $codProductAdd)
-    {
-        $statement = Conexion::conn()->prepare("SELECT tb_almacen.IdProd, tb_producto.NombreProducto, tb_producto.Unidad, tb_almacen.CantidadTotal FROM	$table INNER JOIN	tb_producto	ON tb_almacen.IdProd = tb_producto.IdProd WHERE tb_almacen.IdProd = $codProductAdd");
-        $statement->execute();
-        return $statement->fetch();
-    }
-    /* fin */
+  //   Ajax que devuelve  los productos a agregar en la lista
+  public static function mdlGetProductDataAjx($table, $codProductAdd)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tb_almacen.IdProd, tb_producto.NombreProducto, tb_producto.Unidad, tb_almacen.CantidadTotal FROM	$table INNER JOIN	tb_producto	ON tb_almacen.IdProd = tb_producto.IdProd WHERE tb_almacen.IdProd = $codProductAdd");
+    $statement->execute();
+    return $statement->fetch();
+  }
+  /* fin */
 
-/* funcion de controlador que toma el json de newIngJs */
-public static function mdlCreateIngresoLoteAjx($table, $dataCreate)
-{
+  /* funcion de controlador que toma el json de newIngJs */
+  public static function mdlCreateIngresoLoteAjx($table, $dataCreate)
+  {
     $statement = Conexion::conn()->prepare("INSERT INTO $table (IdCliente, IdPer, CodigoLote, DescripcionLote, DatosLoteIngresoJson, FechaProduccionLote, FechaVencimientoLote, Estado, DateCreate, DateUpdate) VALUES(:IdCliente, :IdPer, :CodigoLote, :DescripcionLote, :DatosLoteIngresoJson, :FechaProduccionLote, :FechaVencimientoLote, :Estado, :DateCreate, :DateUpdate)");
 
     $statement->bindParam(":IdCliente", $dataCreate["IdCliente"], PDO::PARAM_INT);
@@ -95,78 +80,76 @@ public static function mdlCreateIngresoLoteAjx($table, $dataCreate)
     $statement->bindParam(":DateUpdate", $dataCreate["DateUpdate"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
-        return "ok";
+      return "ok";
     } else {
-        return "error";
+      return "error";
     }
-}
-
-  /* fin */
-  
-  /* verifica el stoc actual en el campo  */
-public static function mdlGetStockActual($table, $idLote) {
-  $stmt = Conexion::conn()->prepare("SELECT DatosLoteIngresoJson FROM $table WHERE IdLote = :IdLote");
-  $stmt->bindParam(":IdLote", $idLote, PDO::PARAM_INT);
-  $stmt->execute();
-  return $stmt->fetch();
-}
-  /* fin */
-
-/* funcion de ediutar  el lote */
-public static function mdlEditIngresoLoteAjx($table, $dataEditUpdate)
-{
-  $statement = Conexion::conn()->prepare("UPDATE $table SET IdPer = :IdPer, CodigoLote = :CodigoLote, DescripcionLote = :DescripcionLote, DatosLoteIngresoJson = :DatosLoteIngresoJson, FechaProduccionLote = :FechaProduccionLote, FechaVencimientoLote = :FechaVencimientoLote, Estado = :Estado, DateCreate = :DateCreate, DateUpdate = :DateUpdate WHERE IdLote = :IdLote");
-
-  $statement->bindParam(":IdLote", $dataEditUpdate["IdLote"], PDO::PARAM_INT);
-  $statement->bindParam(":IdPer", $dataEditUpdate["IdPer"], PDO::PARAM_INT);
-  $statement->bindParam(":CodigoLote", $dataEditUpdate["CodigoLote"], PDO::PARAM_STR);
-  $statement->bindParam(":DescripcionLote", $dataEditUpdate["DescripcionLote"], PDO::PARAM_STR);
-  $statement->bindParam(":DatosLoteIngresoJson", $dataEditUpdate["DatosLoteIngresoJson"], PDO::PARAM_STR);
-  $statement->bindParam(":FechaProduccionLote", $dataEditUpdate["FechaProduccionLote"], PDO::PARAM_STR);
-  $statement->bindParam(":FechaVencimientoLote", $dataEditUpdate["FechaVencimientoLote"], PDO::PARAM_STR);
-  $statement->bindParam(":Estado", $dataEditUpdate["Estado"], PDO::PARAM_INT);
-  $statement->bindParam(":DateCreate", $dataEditUpdate["DateCreate"], PDO::PARAM_STR);
-  $statement->bindParam(":DateUpdate", $dataEditUpdate["DateUpdate"], PDO::PARAM_STR);
-
-  if ($statement->execute()) {
-    return "ok";
-  } else {
-    return "error";
   }
-}
+
+  /* fin */
+
+  /* verifica el stoc actual en el campo  */
+  public static function mdlGetStockActual($table, $idLote)
+  {
+    $stmt = Conexion::conn()->prepare("SELECT DatosLoteIngresoJson FROM $table WHERE IdLote = :IdLote");
+    $stmt->bindParam(":IdLote", $idLote, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+  /* fin */
+
+  /* funcion de ediutar  el lote */
+  public static function mdlEditIngresoLoteAjx($table, $dataEditUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET IdPer = :IdPer, CodigoLote = :CodigoLote, DescripcionLote = :DescripcionLote, DatosLoteIngresoJson = :DatosLoteIngresoJson, FechaProduccionLote = :FechaProduccionLote, FechaVencimientoLote = :FechaVencimientoLote, Estado = :Estado, DateCreate = :DateCreate, DateUpdate = :DateUpdate WHERE IdLote = :IdLote");
+
+    $statement->bindParam(":IdLote", $dataEditUpdate["IdLote"], PDO::PARAM_INT);
+    $statement->bindParam(":IdPer", $dataEditUpdate["IdPer"], PDO::PARAM_INT);
+    $statement->bindParam(":CodigoLote", $dataEditUpdate["CodigoLote"], PDO::PARAM_STR);
+    $statement->bindParam(":DescripcionLote", $dataEditUpdate["DescripcionLote"], PDO::PARAM_STR);
+    $statement->bindParam(":DatosLoteIngresoJson", $dataEditUpdate["DatosLoteIngresoJson"], PDO::PARAM_STR);
+    $statement->bindParam(":FechaProduccionLote", $dataEditUpdate["FechaProduccionLote"], PDO::PARAM_STR);
+    $statement->bindParam(":FechaVencimientoLote", $dataEditUpdate["FechaVencimientoLote"], PDO::PARAM_STR);
+    $statement->bindParam(":Estado", $dataEditUpdate["Estado"], PDO::PARAM_INT);
+    $statement->bindParam(":DateCreate", $dataEditUpdate["DateCreate"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataEditUpdate["DateUpdate"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 
   /* fin */
 
 
 
   /* funcion para recuperar el lote y Editar  lote por el boton  */
-public static function mdlGetEditLoteData($table, $codLoteEdit)
-{
-  $statement = Conexion::conn()->prepare("SELECT * FROM $table WHERE IdLote = :codLoteEdit");
+  public static function mdlGetEditLoteData($table, $codLoteEdit)
+  {
+    $statement = Conexion::conn()->prepare("SELECT * FROM $table WHERE IdLote = :codLoteEdit");
 
-  $statement->bindParam(":codLoteEdit", $codLoteEdit, PDO::PARAM_INT);
+    $statement->bindParam(":codLoteEdit", $codLoteEdit, PDO::PARAM_INT);
 
-  $statement->execute();
+    $statement->execute();
 
-  $result = $statement->fetch(PDO::FETCH_ASSOC);
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-  return $result;
-}
+    return $result;
+  }
 
-/* fin */
+  /* fin */
   // Eliminar lote
   public static function mdlDeleteLote($table, $codLoteDelet)
   {
     $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE IdLote = :IdLote");
-    $statement -> bindParam(":IdLote", $codLoteDelet, PDO::PARAM_INT);
-    if ($statement -> execute())
-    {
+    $statement->bindParam(":IdLote", $codLoteDelet, PDO::PARAM_INT);
+    if ($statement->execute()) {
       return "ok";
-    }
-    else
-    {
+    } else {
       return "error";
     }
   }
-    /* fin */
+  /* fin */
 }

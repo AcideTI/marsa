@@ -4,7 +4,7 @@ require_once "../controller/lotes.controller.php";
 require_once "../model/lotes.model.php";
 require_once "../controller/almacen.controller.php";
 require_once "../model/almacen.model.php";
-
+require_once "../controller/functions.controller.php";
 //productos para gregar ala lista de formulario de lotes
 class AjaxMaterials
 {
@@ -23,8 +23,8 @@ class AjaxMaterials
     $codFiltroLotes = $this->codFiltroLotes;
     $respuesta = LotesController::ctrGetAllLotes();
     foreach ($respuesta as &$lote) {
-      $lote['Buttons'] = FunctionsController::ctrGetButtonsLotes($lote["EstadoNota"], $lote["IdNotaP"]);
-      $lote['StateNota'] = FunctionsController::ctrGetStatesLotes($lote["EstadoNota"]);
+      $lote['Buttons'] = FunctionsController::ctrGetButtonsLotes($lote["Estado"], $lote["IdLote"]);
+      $lote['StateLote'] = FunctionsController::ctrGetStatesLotes($lote["Estado"]);
       $lote['Productos'] = FunctionsController::ctrGetButtonsProductos($lote["DatosLoteIngresoJson"]);
     }
     echo json_encode($respuesta);
