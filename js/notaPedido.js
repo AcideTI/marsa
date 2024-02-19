@@ -409,3 +409,22 @@ function setTodayDate(fieldId) {
 
 // Llama a la función para establecer la fecha actual en los campos deseados por el id
 setTodayDate("notFechPe");
+
+// Mostrar el bloque de botones de Notas Pedido cuando se presiona btnAllNotasSalida
+document.addEventListener('DOMContentLoaded', function() {
+  // Ocultar ambos bloques de botones al inicio
+  document.getElementById('bloqueBtnNotasPedido').style.display = 'none';
+  document.getElementById('bloqueBtnLotes').style.display = 'none';
+
+  // Mostrar el bloque de botones de Notas Pedido cuando se presiona btnAllNotasSalida
+  document.querySelector('.btnAllNotasSalida').addEventListener('click', function() {
+    document.getElementById('bloqueBtnNotasPedido').style.display = 'block';
+    document.getElementById('bloqueBtnLotes').style.display = 'none';
+  });
+
+  // Mostrar el bloque de botones de Lotes cuando se presiona btnAllLotes
+  document.querySelector('.btnAllLotes').addEventListener('click', function() {
+    document.getElementById('bloqueBtnLotes').style.display = 'block';
+    document.getElementById('bloqueBtnNotasPedido').style.display = 'none';
+  });
+});
