@@ -7,9 +7,6 @@
 </div>
 </nav>
 </div>
-
-
-
   
 <div id="layoutSidenav_content">
   <main>
@@ -51,14 +48,8 @@
               <?php
                   $ListNotaPedido = LotesController::ctrGetAllLotes();
                   foreach ($ListNotaPedido as $key => $value) {
-                    $estado = "";
-                    if ($value["TipoEstado"] == "Retirado") {
-                      $estado = "<span class='badge bg-primary' style='font-size: 14px; padding: 3px; width: 70px; text-align: center;'>Retirado</span>";
-                    } elseif ($value["TipoEstado"] == "Ingresado") {
-                      $estado = "<span class='badge bg-warning' style='font-size: 14px; padding: 3px; width: 80px; text-align: center;'>Ingresado</span>";
-                    } elseif ($value["TipoEstado"] == "Completado") {
-                      $estado = "<span class='badge bg-success' style='font-size: 14px; padding: 3px; text-align: center;'>Completado</span>";
-                    }
+                    $estado = FunctionsController::ctrGetStatesLotes($value["TipoEstado"]);
+                    
                     echo
                   '<tr>                
                       <td>' . $value["IdLote"] . '</td>

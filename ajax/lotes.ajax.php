@@ -8,43 +8,63 @@ require_once "../model/almacen.model.php";
 //productos para gregar ala lista de formulario de lotes
 class AjaxMaterials
 {
-    public $codProductAdd;
-    public function ajaxAddMaterialInside()
-    {
-        $codProductAdd = $this->codProductAdd;
-        $respuesta = LotesController::ctrGetProductDataAjx($codProductAdd);
-        echo json_encode($respuesta);
+  public $codProductAdd;
+  public function ajaxAddMaterialInside()
+  {
+    $codProductAdd = $this->codProductAdd;
+    $respuesta = LotesController::ctrGetProductDataAjx($codProductAdd);
+    echo json_encode($respuesta);
+  }
+
+  //  Mostrar los datos de los lotes verSalidas
+  public $codFiltroLotes;
+  public function ajaxMostrarTablaLotes()
+  {
+    $codFiltroLotes = $this->codFiltroLotes;
+    $respuesta = LotesController::ctrGetAllLotes();
+    foreach ($respuesta as &$lote) {
+      $lote['Buttons'] = FunctionsController::ctrGetButtonsLotes($lote["EstadoNota"], $lote["IdNotaP"]);
+      $lote['StateNota'] = FunctionsController::ctrGetStatesLotes($lote["EstadoNota"]);
+      $lote['Productos'] = FunctionsController::ctrGetButtonsProductos($lote["DatosLoteIngresoJson"]);
     }
+    echo json_encode($respuesta);
+  }
 }
 
 //  Add material to a list
 if (isset($_POST["codProductAdd"])) {
-    $addMaterialInside = new AjaxMaterials();
-    $addMaterialInside->codProductAdd = $_POST["codProductAdd"];
-    $addMaterialInside->ajaxAddMaterialInside();
+  $addMaterialInside = new AjaxMaterials();
+  $addMaterialInside->codProductAdd = $_POST["codProductAdd"];
+  $addMaterialInside->ajaxAddMaterialInside();
 }
-/* fin */
+
+//  Mostrar los datos de los lotes verSalidas
+if (isset($_POST["codFiltroLotes"])) {
+  $mostrarLotes = new AjaxMaterials();
+  $mostrarLotes->codFiltroLotes = $_POST["codFiltroLotes"];
+  $mostrarLotes->ajaxMostrarTablaLotes();
+}
 
 /* crear lote por json */
 
 class NewIngresoLoteAjax
 {
-    public $newIngLote;
+  public $newIngLote;
 
-    public function NewCreateIngresoLoteAjax()
-    {
+  public function NewCreateIngresoLoteAjax()
+  {
 
-        $newIngLote = $this->newIngLote;
-        $response = LotesController::ctrCreateIngresoLoteAjx($newIngLote);
-        echo json_encode($response);
-    }
+    $newIngLote = $this->newIngLote;
+    $response = LotesController::ctrCreateIngresoLoteAjx($newIngLote);
+    echo json_encode($response);
+  }
 }
 
 // Crear Ingreso
 if (isset($_POST["newIngLote"])) {
-    $jsonOriginData = new NewIngresoLoteAjax();
-    $jsonOriginData->newIngLote = $_POST["newIngLote"];
-    $jsonOriginData->NewCreateIngresoLoteAjax();
+  $jsonOriginData = new NewIngresoLoteAjax();
+  $jsonOriginData->newIngLote = $_POST["newIngLote"];
+  $jsonOriginData->NewCreateIngresoLoteAjax();
 }
 /* fin */
 
@@ -61,10 +81,10 @@ class EditLoteAjax
 }
 
 //  Show  detalles de la nota de pedido
-if(isset($_POST["codLoteEdit"])){
-	$getProductData = new EditLoteAjax();
-	$getProductData -> codLoteEdit = $_POST["codLoteEdit"];
-	$getProductData -> ajaxGetProductEditData();
+if (isset($_POST["codLoteEdit"])) {
+  $getProductData = new EditLoteAjax();
+  $getProductData->codLoteEdit = $_POST["codLoteEdit"];
+  $getProductData->ajaxGetProductEditData();
 }
 
 /* fin */
@@ -73,21 +93,21 @@ if(isset($_POST["codLoteEdit"])){
 
 class NewEditarLoteAjax
 {
-    public $editLote;
+  public $editLote;
 
-    public function EditIngresoLoteAjax()
-    {
+  public function EditIngresoLoteAjax()
+  {
 
-        $editLote = $this->editLote;
-        $response = LotesController::ctrEditIngresoLoteAjx($editLote);
-        echo json_encode($response);
-    }
+    $editLote = $this->editLote;
+    $response = LotesController::ctrEditIngresoLoteAjx($editLote);
+    echo json_encode($response);
+  }
 }
 
 // Crear Ingreso
 if (isset($_POST["editLote"])) {
-    $jsonOriginData = new NewEditarLoteAjax();
-    $jsonOriginData->editLote = $_POST["editLote"];
-    $jsonOriginData->EditIngresoLoteAjax();
+  $jsonOriginData = new NewEditarLoteAjax();
+  $jsonOriginData->editLote = $_POST["editLote"];
+  $jsonOriginData->EditIngresoLoteAjax();
 }
 /* fin */

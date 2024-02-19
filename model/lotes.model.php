@@ -81,8 +81,9 @@ class LotesModel
 /* funcion de controlador que toma el json de newIngJs */
 public static function mdlCreateIngresoLoteAjx($table, $dataCreate)
 {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (IdPer, CodigoLote, DescripcionLote, DatosLoteIngresoJson, FechaProduccionLote, FechaVencimientoLote, Estado, DateCreate, DateUpdate) VALUES(:IdPer, :CodigoLote, :DescripcionLote, :DatosLoteIngresoJson, :FechaProduccionLote, :FechaVencimientoLote, :Estado, :DateCreate, :DateUpdate)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (IdCliente, IdPer, CodigoLote, DescripcionLote, DatosLoteIngresoJson, FechaProduccionLote, FechaVencimientoLote, Estado, DateCreate, DateUpdate) VALUES(:IdCliente, :IdPer, :CodigoLote, :DescripcionLote, :DatosLoteIngresoJson, :FechaProduccionLote, :FechaVencimientoLote, :Estado, :DateCreate, :DateUpdate)");
 
+    $statement->bindParam(":IdCliente", $dataCreate["IdCliente"], PDO::PARAM_INT);
     $statement->bindParam(":IdPer", $dataCreate["IdPer"], PDO::PARAM_INT);
     $statement->bindParam(":CodigoLote", $dataCreate["CodigoLote"], PDO::PARAM_STR);
     $statement->bindParam(":DescripcionLote", $dataCreate["DescripcionLote"], PDO::PARAM_STR);

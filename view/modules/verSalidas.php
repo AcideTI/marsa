@@ -16,11 +16,11 @@
         <ol class="breadcrumb mb-4">
           <li class="breadcrumb-item active">Todas las Notas de Pedido</li>
         </ol>
-        <div class="d-flex m-2">
-          <button type="button" class="btn btn-primary btnAllNotasSalida" id="btnAllNotasSalida">
+        <div class="d-flex m-2 buttonsSalidas">
+          <button type="button" class="btn btn-primary btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida">
             Ver Notas de Pedido
           </button>
-          <button type="button" class="btn btn-warning btnAllLotes" id="btnAllLotes">
+          <button type="button" class="btn btn-warning btnAllLotes" id="btnAllLotes" filtro="lotes">
             Ver Lotes
           </button>
           <button type="button" class="btn btn-success ReporteSalidas" id="ReporteSalidas" _blank>
@@ -33,7 +33,7 @@
             Todas las Salidas
           </div>
           <div class="card-body">
-          <table id="datatablesSimple" class="data-table-ListNotaPedido table">
+          <table id="dataTableSalidas" class="display dataTableSalidas" style="width: 100%">
               <thead>
                 <tr>
                   <th>#</th>
@@ -65,7 +65,8 @@
                         ' . $buttons . '
                       </td>
                     </tr>';
-                }?>
+                }
+                ?>
               </tbody>
             </table>
           </div>
