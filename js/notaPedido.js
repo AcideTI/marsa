@@ -4,9 +4,9 @@ $(".closeNotaPedido").on("click", function () {
 });
 
 //  Crear una nueva nota de pedido
-$("#btnNewNotaDePedido").on("click", function () {
-  window.location = "index.php?ruta=notaPedido";
-});
+// $("#btnNewNotaDePedido").on("click", function () {
+//   window.location = "index.php?ruta=notaPedido";
+// });
 
 //  cambiar cantidad de producto agregado
 $(".formNotaPedido").on("change", "input.newCount", function () {

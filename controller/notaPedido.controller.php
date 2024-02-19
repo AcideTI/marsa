@@ -25,10 +25,6 @@ class NotaPedidoController
         // Prepara los datos para la inserción en la base de datos
         $table = "tb_notapedido";
         $dataCreate = array(
-          "IdLote" => $data["notPeLot"],
-          "IdPer" => $data["notRes"],
-          "IdRes" => $data["notVend"],
-          "NotaPorFA" => $data["notTiPe"],
           "IdCliente" => $data["notRuc"],
           "IdRes" => $data["notRes"],
           "FechaNotaPedido" => $data["notFechPe"],

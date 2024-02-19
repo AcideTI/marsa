@@ -7,9 +7,6 @@
 </div>
 </nav>
 </div>
-
-
-
   
 <div id="layoutSidenav_content">
   <main>
@@ -20,8 +17,11 @@
           <li class="breadcrumb-item active">Todas las Notas de Pedido</li>
         </ol>
         <div class="d-flex m-2">
-          <button type="button" class="btn btn-warning btnNewNotaDePedido" id="btnNewNotaDePedido">
-            Crear Nota de Pedido
+          <button type="button" class="btn btn-primary btnAllNotasSalida" id="btnAllNotasSalida">
+            Ver Notas de Pedido
+          </button>
+          <button type="button" class="btn btn-warning btnAllLotes" id="btnAllLotes">
+            Ver Lotes
           </button>
           <button type="button" class="btn btn-success ReporteSalidas" id="ReporteSalidas" _blank>
               Descargar Reporte Excel
@@ -54,7 +54,7 @@
                     echo
                     '<tr>                
                       <td>' . $value["IdNotaP"] . '</td>
-                      <td>' . $value["NombrePerIdPer"] . '</td>NombrePerIdPer
+                      <td>' . $value["NombrePerIdPer"] . '</td>
                       <td>' . $value["NombreCliNota"] . '</td>
                       <td>' . $estado . '</td>
                       <td>' . $value["FechaNotaPedido"] . '</td>
