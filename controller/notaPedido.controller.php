@@ -246,7 +246,7 @@ class NotaPedidoController
     $response = NotaPedidoModel::mdlGetEstadoNotaPedido($table, $codNotaPedido);
     return $response;
   }
-  
+
   // Verificar un Cliente se esta usando en la tabla nota pedido
   public static function ctrGetHistorialCliente($codClient)
   {
@@ -270,6 +270,4 @@ class NotaPedidoController
     $respuesta = NotaPedidoModel::mdlGetHistorialPerRes($table, $codPersonal);
     return $respuesta;
   }
-
-
 }

@@ -12,7 +12,7 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Nota de Pedido
+        Crear Nueva Nota de Pedido
       </h1>
     </div>
 

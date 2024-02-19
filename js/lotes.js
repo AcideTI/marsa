@@ -5,7 +5,7 @@ $("#btnNewLote").on("click", function () {
 
 //  Cerrar movimiento lote
 $(".closelotes").on("click", function () {
-  window.location = "index.php?ruta=lotes";
+  window.location = "verSalidas";
 });
 
 //  cambia el conteo de  lote
@@ -27,8 +27,12 @@ $(".formNuevoLote").on("change", "input.newCount", function () {
 $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
   $(this).parent().parent().parent().parent().remove();
   var IdProd = $(this).attr("codProduct");
-  $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
-  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
+  $("button.takeButtonLote[codProduct='" + IdProd + "']").removeClass(
+    "btn-default"
+  );
+  $("button.takeButtonLote[codProduct='" + IdProd + "']").addClass(
+    "btn-primary btnAddProductLote"
+  );
   listProductAddLotes();
 });
 
@@ -36,70 +40,82 @@ $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
 $(".formEditLote").on("click", "button.deleteEditLote", function () {
   $(this).parent().parent().parent().parent().remove();
   var IdProd = $(this).attr("codProduct");
-  $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
-  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
+  $("button.takeButtonLote[codProduct='" + IdProd + "']").removeClass(
+    "btn-default"
+  );
+  $("button.takeButtonLote[codProduct='" + IdProd + "']").addClass(
+    "btn-primary btnAddProductLote"
+  );
   listProductAddLotes();
 });
 
 // agragar producto al listado de lote
-
-$(".tableNuevoLote").on("click", ".btnAddProduct", function () {
+$(".tableNuevoLote").on("click", ".btnAddProductLote", function () {
   var codProductAdd = $(this).attr("codProduct");
 
-  $(this).removeClass("btn-primary btnAddProduct");
-  $(this).addClass("btn-default");
+  if (document.querySelector(".newProductAddLote").children.length > 1) {
+    swal.fire({
+      title: "Solo puedes tener un producto",
+      text: "¡Ya tienes un producto dentro del lote!",
+      type: "error",
+      confirmButtonText: "¡Cerrar!",
+    });
+  } else {
+    $(this).removeClass("btn-primary btnAddProductLote");
+    $(this).addClass("btn-default");
 
-  var datos = new FormData();
-  datos.append("codProductAdd", codProductAdd);
-  $.ajax({
-    url: "ajax/lotes.ajax.php",
-    method: "POST",
-    data: datos,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-    success: function (respuesta) {
-      var IdProduct = respuesta["IdProd"];
-      var DescriptionProduct = respuesta["NombreProducto"];
-      var UnityProduct = respuesta["Unidad"];
-      var Stock = respuesta["CantidadTotal"];
+    var datos = new FormData();
+    datos.append("codProductAdd", codProductAdd);
+    $.ajax({
+      url: "ajax/lotes.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (respuesta) {
+        var IdProduct = respuesta["IdProd"];
+        var DescriptionProduct = respuesta["NombreProducto"];
+        var UnityProduct = respuesta["Unidad"];
+        var Stock = respuesta["CantidadTotal"];
 
-      $(".newProductAddLote").append(
-        '<div class="row" style="padding:5px 15px">' +
-          "<!-- Description -->" +
-          '<div class="col-lg-5" style="padding-right:0px">' +
-          '<div class="input-group">' +
-          '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoLote" codProduct="' +
-          IdProduct +
-          '"><i class="fa fa-times"></i></button></span>' +
-          '<input type="text" class="form-control newProduct" codProduct="' +
-          IdProduct +
-          '" value="' +
-          DescriptionProduct +
-          '" readonly>' +
-          "</div>" +
-          "</div>" +
-
-          "<!-- Unity -->" +
-          '<div class="col-lg-3 UnityProduct">' +
-          '<input type="text" class="form-control newUnity" name="newUnity" value="' +
-          UnityProduct +
-          '" readonly>' +
-          "</div>" +
-
-          "<!-- Count -->" +
-          '<div class="col-lg-3 countMaterial">' +
-          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="'+Stock+'" value="1.00" >' +
-          "</div>" +
-          "</div>"
-      );
-      listProductAddLotes();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      //console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
-  });
+        $(".newProductAddLote").append(
+          '<div class="row" style="padding:5px 15px">' +
+            "<!-- Description -->" +
+            '<div class="col-lg-5" style="padding-right:0px">' +
+            '<div class="input-group">' +
+            '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoLote" codProduct="' +
+            IdProduct +
+            '"><i class="fa fa-times"></i></button></span>' +
+            '<input type="text" class="form-control newProduct" codProduct="' +
+            IdProduct +
+            '" value="' +
+            DescriptionProduct +
+            '" readonly>' +
+            "</div>" +
+            "</div>" +
+            "<!-- Unity -->" +
+            '<div class="col-lg-3 UnityProduct">' +
+            '<input type="text" class="form-control newUnity" name="newUnity" value="' +
+            UnityProduct +
+            '" readonly>' +
+            "</div>" +
+            "<!-- Count -->" +
+            '<div class="col-lg-3 countMaterial">' +
+            '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="' +
+            Stock +
+            '" value="1.00" >' +
+            "</div>" +
+            "</div>"
+        );
+        listProductAddLotes();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        //console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
 });
 /* fin */
 
@@ -141,9 +157,9 @@ $(document).ready(function () {
       if (!dataObject.hasOwnProperty("listProducts")) {
         dataObject["listProducts"] = "";
       } */
-       // Llama a listProductAddLotes() y añade el resultado a dataObject
-       var listProducts = listProductAddLotes();
-       dataObject["listProducts"] = JSON.stringify(listProducts);
+      // Llama a listProductAddLotes() y añade el resultado a dataObject
+      var listProducts = listProductAddLotes();
+      dataObject["listProducts"] = JSON.stringify(listProducts);
 
       // Convierte el objeto en una cadena JSON
       var dataJson = JSON.stringify(dataObject);
@@ -204,10 +220,10 @@ $(".table").on("click", ".btnLoteEdit", function () {
   window.location = "index.php?ruta=editLote&codLoteEdit=" + codLoteEdit;
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
   // Comprobar si estamos en la página de edición
-  if (window.location.href.indexOf('editLote') > -1) {
-    var codLoteEdit = getUrlParameter('codLoteEdit');
+  if (window.location.href.indexOf("editLote") > -1) {
+    var codLoteEdit = getUrlParameter("codLoteEdit");
     var data = new FormData();
 
     data.append("codLoteEdit", codLoteEdit);
@@ -228,86 +244,78 @@ $(document).ready(function() {
         $("#stateLot").val(response["Estado"]);
         $("#idLoteEdit").val(response["IdLote"]);
         $("#listProducts").val(response["DatosLoteIngresoJson"]);
-          /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
-            // Obtiene los productos del campo listProducts
-            var products = JSON.parse($('#listProducts').val());
-            // Vacía el div donde se mostrarán los productos
-            $(".newProductAddLote").empty();
-            // Llena el div con los productos
-            for (var i = 0; i < products.length; i++) {
-              (function(i) {  // Crea una función de cierre para capturar el valor actual de i
-                // Crea un nuevo FormData
-                var datos = new FormData();
-                // Agrega el codProduct al FormData
-                datos.append("codProductAdd", products[i].codProduct);
-                // Hace una solicitud AJAX para obtener los detalles del producto
-                $.ajax({
-                  url: "ajax/lotes.ajax.php",
-                  method: "POST",
-                  data: datos,
-                  cache: false,
-                  contentType: false,
-                  processData: false,
-                  dataType: "json",
-                  success: function (respuesta) {
-                    // Obtiene los detalles del producto de la respuesta
-                    var DescriptionProduct = respuesta["NombreProducto"];
-                    var UnityProduct = respuesta["Unidad"];
+        /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
+        // Obtiene los productos del campo listProducts
+        var products = JSON.parse($("#listProducts").val());
+        // Vacía el div donde se mostrarán los productos
+        $(".newProductAddLote").empty();
+        // Llena el div con los productos
+        for (var i = 0; i < products.length; i++) {
+          (function (i) {
+            // Crea una función de cierre para capturar el valor actual de i
+            // Crea un nuevo FormData
+            var datos = new FormData();
+            // Agrega el codProduct al FormData
+            datos.append("codProductAdd", products[i].codProduct);
+            // Hace una solicitud AJAX para obtener los detalles del producto
+            $.ajax({
+              url: "ajax/lotes.ajax.php",
+              method: "POST",
+              data: datos,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (respuesta) {
+                // Obtiene los detalles del producto de la respuesta
+                var DescriptionProduct = respuesta["NombreProducto"];
+                var UnityProduct = respuesta["Unidad"];
 
-                    // Agrega el producto al div
-                    $(".newProductAddLote").append(
-                      '<div class="row" style="padding:5px 15px">' +
-                        '<div class="col-lg-5" style="padding-right:0px">' +
-                          '<div class="input-group">' +
-                            '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteEditLote" codProduct="' +
-                              products[i].codProduct +
-                            '"><i class="fa fa-times"></i></button></span>' +
-                            '<input type="text" class="form-control newProduct" codProduct="' +
-                              products[i].codProduct +
-                            '" value="' +
-                              DescriptionProduct +
-                            '" readonly>' +
-                          '</div>' +
-                        '</div>' +
-                        
-                        "<!-- Unity -->" +
-                        '<div class="col-lg-3 UnityProduct">' +
-                        '<input type="text" class="form-control newUnity" name="newUnity" value="' +
-                        UnityProduct +
-                        '" readonly>' +
-                        "</div>" +
-
-                        '<div class="col-lg-3 countMaterial">' +
-                          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' +
-                            products[i].countProduct +
-                          '">' +
-                        '</div>' +
-                      '</div>'
-                    );
-                  }
-                });
-              })(i);
-            }/* fin */
-      }//fin success 
+                // Agrega el producto al div
+                $(".newProductAddLote").append(
+                  '<div class="row" style="padding:5px 15px">' +
+                    '<div class="col-lg-5" style="padding-right:0px">' +
+                    '<div class="input-group">' +
+                    '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteEditLote" codProduct="' +
+                    products[i].codProduct +
+                    '"><i class="fa fa-times"></i></button></span>' +
+                    '<input type="text" class="form-control newProduct" codProduct="' +
+                    products[i].codProduct +
+                    '" value="' +
+                    DescriptionProduct +
+                    '" readonly>' +
+                    "</div>" +
+                    "</div>" +
+                    "<!-- Unity -->" +
+                    '<div class="col-lg-3 UnityProduct">' +
+                    '<input type="text" class="form-control newUnity" name="newUnity" value="' +
+                    UnityProduct +
+                    '" readonly>' +
+                    "</div>" +
+                    '<div class="col-lg-3 countMaterial">' +
+                    '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' +
+                    products[i].countProduct +
+                    '">' +
+                    "</div>" +
+                    "</div>"
+                );
+              },
+            });
+          })(i);
+        } /* fin */
+      }, //fin success
     });
   }
 });
 
 function getUrlParameter(name) {
-  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
   var results = regex.exec(location.search);
-  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  return results === null
+    ? ""
+    : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-
-/* //  Cerrar vista Editar al Actualizar el lote
-$(document).ready(function() {
-  $('.btnEditLoteBack').click(function(e) {
-    e.preventDefault(); 
-    window.location.href = "index.php?ruta=lotes";
-  });
-});
- */
 
 /* fin */
 
@@ -346,17 +354,9 @@ $(document).ready(function () {
       var listProducts = listProductAddLotes();
       dataObject["listProducts"] = JSON.stringify(listProducts);
 
-
-    // Imprime el contenido de listProducts en la consola
-    //console.log("dataObject after adding listProducts:", dataObject);
-
       // Convierte el objeto en una cadena JSON
       var dataJson = JSON.stringify(dataObject);
 
-      // Muestra la cadena JSON en la consola
-      //console.log("Final JSON:", dataJson);
-
-      // Ahora puedes enviar dataJson a través de AJAX
       $.ajax({
         url: "ajax/lotes.ajax.php",
         method: "POST",
@@ -384,16 +384,6 @@ $(document).ready(function () {
         },
         error: function (jqXHR, textStatus, errorThrown) {
           console.log(textStatus, errorThrown);
-          Swal.fire({
-            icon: "success",
-            title: "Ingreso creado con éxito",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-          $(".formNuevoIngreso")[0].reset();
-          setTimeout(function () {
-            location.reload();
-          }, 1000);
         },
       });
     });
@@ -484,13 +474,6 @@ function flashAndPaintColor(color) {
   }, 1000); // 1000 milisegundos = 1 segundo
 }
 
-// Evento click para el botón de Ingreso Normal
-document.getElementById("genLot").addEventListener("click", function (e) {
-  e.preventDefault();
-  document.getElementById("stateLot").value = "7"; // Establece el estado por defecto como Ingresado
-  flashAndPaintColor("#adff2f"); // Aplica el destello de color y mantiene el estado pintado
-});
-
 /* Generar codigo de lote */
 function generarCodigoLote() {
   // Obtener las fechas de lote y vencimiento
@@ -535,14 +518,3 @@ function generarCodigoLote() {
     });
   }
 }
-
-// Asignar la función generarCodigoLote al evento click del botón Generar
-document.getElementById("genLot").addEventListener("click", generarCodigoLote);
-
-// Función para detener la animación después de 3 segundos
-setTimeout(function () {
-  var codLotInput = document.getElementById("codLot");
-  codLotInput.style.animation = "none";
-}, 3000);
-
-/* fin */

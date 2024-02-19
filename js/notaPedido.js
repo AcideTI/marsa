@@ -252,7 +252,7 @@ $(document).on("input", ".newPrice, .newCount", function () {
 /* fin */
 
 // Alerta para eliminar Nota de Pedido
-$(".table").on("click", ".btnDeleteNotaPe", function () {
+$(".dataTableSalidas").on("click", ".btnDeleteNotaPe", function () {
   var codNotaPe = $(this).attr("codNotaPe");
 
   swal
@@ -277,7 +277,7 @@ $(".table").on("click", ".btnDeleteNotaPe", function () {
 
 /* funcion con promesa js para Editar los datos  de una nota de pedido pro el id */
 
-$(".table").on("click", ".btnEditNotaPedido", function () {
+$(".dataTableSalidas").on("click", ".btnEditNotaPedido", function () {
   var codNotaPe = $(this).attr("codNotaPe");
 
   // Redirigir al usuario a la página de edición

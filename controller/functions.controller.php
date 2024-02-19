@@ -76,4 +76,64 @@ class FunctionsController
     // <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codDetNotPe="' . $codNotaPedido . '"><i class="fa-solid fa-magnifying-glass"></i></button>
     return $buttons;
   }
+
+  //  Botones para mostrar todos los productos
+  public static function ctrGetButtonsProductos($listaProductos)
+  {
+    $button = '<button class="btn btn-primary btnMostarProductos" data-products="' . htmlspecialchars($listaProductos) . '">Productos</button>';
+    return $button;
+  }
+
+  //  Estados para los lotes
+  public static function ctrGetStatesLotes($stateValue)
+  {
+    if ($stateValue == 1) {
+      $state = '<span class="badge rounded-pill bg-primary">Retirado</span>';
+    }
+    if ($stateValue == 2) {
+      $state = '<span class="badge rounded-pill bg-success">Ingresado</span>';
+    }
+    if ($stateValue == 3) {
+      $state = '<span class="badge rounded-pill bg-danger">Vendido</span>';
+    }
+    if ($stateValue == 4) {
+      $state = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
+    }
+    return $state;
+  }
+
+  //  Botones para la lista de lotes
+  public static function ctrGetButtonsLotes($stateValue, $codLote)
+  {
+    if ($stateValue == 1) {
+      $buttons = '
+      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '"><i class="fa-solid fa-pencil"></i></button>
+      <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '"><i class="fa-solid fa-trash"></i></button>
+      ';
+    }
+    if ($stateValue == 2) {
+      $buttons = '
+      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '"><i class="fa-solid fa-pencil"></i></button>
+      <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '"><i class="fa-solid fa-trash"></i></button>
+      ';
+    }
+    if ($stateValue == 3) {
+      $buttons = '
+      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '"><i class="fa-solid fa-pencil"></i></button>
+      <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '"><i class="fa-solid fa-trash"></i></button>
+      ';
+    }
+    if ($stateValue == 4) {
+      $buttons = '
+      <button class="btn btn-info btnViewDetallNotPe" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '"><i class="fa-solid fa-pencil"></i></button>
+      <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '"><i class="fa-solid fa-trash"></i></button>
+      ';
+    }
+    return $buttons;
+  }
+
 }
