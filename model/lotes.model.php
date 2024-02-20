@@ -152,4 +152,139 @@ class LotesModel
     }
   }
   /* fin */
+
+  /*  Descargar todos los Lotes para el reporte exel de Lotes */
+    public static function mdlGetAllDowlReportsExeLote($table)
+    {
+      $statement = Conexion::conn()->prepare("
+        SELECT
+          tb_lote.IdLote, 
+          tb_personal.NombrePer, 
+          tb_personal.ApellidoPer, 
+          tb_lote.IdPer, 
+          tb_cliente.NombreCli,
+          tb_cliente.RucCli,
+          tb_cliente.DireccionCli, 
+          tb_lote.CodigoLote, 
+          tb_lote.DescripcionLote, 
+          tb_lote.DatosLoteIngresoJson, 
+          tb_lote.FechaProduccionLote,
+          tb_lote.FechaVencimientoLote, 
+          CASE tb_lote.Estado
+            WHEN 1 THEN 'Retirado'
+            WHEN 2 THEN 'Ingresado'
+            WHEN 3 THEN 'Vendido'
+            WHEN 4 THEN 'Anulado'
+            ELSE 'Estado desconocido'
+          END AS Estado
+        FROM
+          tb_lote
+          INNER JOIN
+          tb_cliente
+          ON 
+            tb_lote.IdCliente = tb_cliente.IdCli
+          INNER JOIN
+          tb_personal
+          ON 
+            tb_lote.IdPer = tb_personal.IdPer ");
+      $statement->execute();
+      $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+      foreach ($results as &$result) {
+        // Procesar el campo JSON
+        if (isset($result['DatosLoteIngresoJson'])) {
+          $productsJson = json_decode($result['DatosLoteIngresoJson'], true);
+  
+          foreach ($productsJson as &$product) {
+            $statement = Conexion::conn()->prepare("
+            SELECT NombreProducto
+            FROM tb_producto
+            WHERE IdProd = :codProduct
+          ");
+  
+            $statement->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
+  
+            $statement->execute();
+  
+            $productResult = $statement->fetch(PDO::FETCH_ASSOC);
+  
+            $product['NombreProducto'] = $productResult['NombreProducto'];
+          }
+  
+          $result['DatosLoteIngresoJson'] = json_encode($productsJson);
+        }
+      }
+
+      return $results;
+    }
+
+    
+ /* Reporte excel Lotes por fechas  */
+  public static function mdlGetAllDowlReportsExeLoteFech($table,$fechaInicioLt, $fechaFinLt)
+  {
+    $statement = Conexion::conn()->prepare("
+          SELECT
+            tb_lote.IdLote, 
+            tb_personal.NombrePer, 
+            tb_personal.ApellidoPer, 
+            tb_lote.IdPer, 
+            tb_cliente.NombreCli,
+            tb_cliente.RucCli,
+            tb_cliente.DireccionCli, 
+            tb_lote.CodigoLote, 
+            tb_lote.DescripcionLote, 
+            tb_lote.DatosLoteIngresoJson, 
+            tb_lote.FechaProduccionLote,
+            tb_lote.FechaVencimientoLote, 
+            CASE tb_lote.Estado
+              WHEN 1 THEN 'Retirado'
+              WHEN 2 THEN 'Ingresado'
+              WHEN 3 THEN 'Vendido'
+              WHEN 4 THEN 'Anulado'
+              ELSE 'Estado desconocido'
+            END AS Estado
+          FROM
+            tb_lote
+            INNER JOIN
+            tb_cliente
+            ON tb_lote.IdCliente = tb_cliente.IdCli
+            INNER JOIN
+            tb_personal
+            ON tb_lote.IdPer = tb_personal.IdPer
+            WHERE FechaProduccionLote BETWEEN :fechaInicioLt AND :fechaFinLt ");
+
+          $statement->bindParam(":fechaInicioLt", $fechaInicioLt, PDO::PARAM_STR);
+          $statement->bindParam(":fechaFinLt", $fechaFinLt, PDO::PARAM_STR);
+
+          $statement->execute();
+
+          $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($results as &$result) {
+      // Procesar el campo JSON
+      if (isset($result['DatosLoteIngresoJson'])) {
+        $productsJson = json_decode($result['DatosLoteIngresoJson'], true);
+
+        foreach ($productsJson as &$product) {
+          $statement = Conexion::conn()->prepare("
+          SELECT NombreProducto
+          FROM tb_producto
+          WHERE IdProd = :codProduct
+        ");
+
+          $statement->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
+
+          $statement->execute();
+
+          $productResult = $statement->fetch(PDO::FETCH_ASSOC);
+
+          $product['NombreProducto'] = $productResult['NombreProducto'];
+        }
+
+        $result['DatosLoteIngresoJson'] = json_encode($productsJson);
+      }
+    }
+
+    return $results;
+  }
 }

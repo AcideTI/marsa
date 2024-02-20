@@ -2,11 +2,50 @@
 $(".closeNotaPedido").on("click", function () {
   window.location = "index.php?ruta=verSalidas";
 });
+/* fin */
 
 //  Crear una nueva nota de pedido
 // $("#btnNewNotaDePedido").on("click", function () {
 //   window.location = "index.php?ruta=notaPedido";
 // });
+
+
+//  Descargar todas las notas para el reporte exel de notas pedido
+$("#reporteExeNotaPe").on("click", function(){
+  window.location = "view/modules/Excel-Nota-Pedido.php?&reporteExeNotaPe";
+});
+
+//  Descargar reporte exel de notas por fechas 
+$(function() {
+  var boton = $('#reporteExeNotaPeFech');
+  boton.daterangepicker({
+    opens: 'left',
+    autoApply: false,
+    locale: {
+      format: 'YYYY-MM-DD'
+    }
+  }, function(start, end) {
+    boton.val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+  });
+  //agraga la fecha actual si no se selecciona ninguna fecha al clickear en el boton aplly
+  //tambien si solo se selciona una solo fecha
+  boton.on('apply.daterangepicker', function(ev, picker) {
+    var rangoFechas = $(this).val().split(' - ');
+    var fechaInicioNot = rangoFechas[0];
+    var fechaFinNot = rangoFechas[1];
+    var fechaActualNot = new Date().toISOString().split('T')[0]; // obtiene la fecha actual en formato YYYY-MM-DD
+    if (!fechaInicioNot && !fechaFinNot) {
+      fechaInicioNot = fechaActualNot;
+      fechaFinNot = fechaActualNot;
+    } else if (!fechaFinNot) {
+      fechaFinNot = fechaInicioNot;
+    } else if (!fechaInicioNot) {
+      fechaInicioNot = fechaFinNot;
+    }
+    window.location = "view/modules/Excel-Nota-Pedido.php?reporteExeNotaPeFech&fechaInicioNot=" + fechaInicioNot + "&fechaFinNot=" + fechaFinNot;
+  });
+});
+/* fin */
 
 //  cambiar cantidad de producto agregado
 $(".formNotaPedido").on("change", "input.newCount", function () {
@@ -409,22 +448,8 @@ function setTodayDate(fieldId) {
 
 // Llama a la función para establecer la fecha actual en los campos deseados por el id
 setTodayDate("notFechPe");
+/* fin */
 
-// Mostrar el bloque de botones de Notas Pedido cuando se presiona btnAllNotasSalida
-document.addEventListener('DOMContentLoaded', function() {
-  // Ocultar ambos bloques de botones al inicio
-  document.getElementById('bloqueBtnNotasPedido').style.display = 'none';
-  document.getElementById('bloqueBtnLotes').style.display = 'none';
 
-  // Mostrar el bloque de botones de Notas Pedido cuando se presiona btnAllNotasSalida
-  document.querySelector('.btnAllNotasSalida').addEventListener('click', function() {
-    document.getElementById('bloqueBtnNotasPedido').style.display = 'block';
-    document.getElementById('bloqueBtnLotes').style.display = 'none';
-  });
 
-  // Mostrar el bloque de botones de Lotes cuando se presiona btnAllLotes
-  document.querySelector('.btnAllLotes').addEventListener('click', function() {
-    document.getElementById('bloqueBtnLotes').style.display = 'block';
-    document.getElementById('bloqueBtnNotasPedido').style.display = 'none';
-  });
-});
+

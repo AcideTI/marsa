@@ -270,4 +270,78 @@ class NotaPedidoController
     $respuesta = NotaPedidoModel::mdlGetHistorialPerRes($table, $codPersonal);
     return $respuesta;
   }
+
+  /* Descargar todos los ingresos para el reporte exel de ingresos */
+
+  public static function ctrGetAllDowlReportsExeNotPe()
+  {
+    $table = "tb_notapedido";
+    $listAllDataExeNotPe = NotaPedidoModel::mdlGetAllDowlReportsExeNotPe($table);
+
+    $newlistAllDataExeNotPe = [];
+
+    // Iterar sobre cada registro
+    foreach ($listAllDataExeNotPe as $key => $Data) {
+      $recordlistAllDataExeNotPe = self::procesarJson($Data);
+      $newlistAllDataExeNotPe = array_merge($newlistAllDataExeNotPe, $recordlistAllDataExeNotPe);
+    }
+
+    return $newlistAllDataExeNotPe;
+  }
+
+  /* Función para procesar el campo JSON de un registro.*/
+
+  private static function procesarJson($Data)
+  {
+    $recordlistAllDataExeNotPe = [];
+
+    // Decodificar el JSON en el campo DatosProductosIngresoJson
+    $products = json_decode($Data['DatosProductosNotaPedidoJson'], true);
+
+    // Formatear los datos del producto
+    foreach ($products as $index => $product) {
+      $newData = $Data;
+      $newData['Producto'] = $product['NombreProducto'];
+      $newData['Cantidad'] = $product['countProduct'];
+      unset($newData['DatosProductosNotaPedidoJson']);
+
+      $recordlistAllDataExeNotPe[] = $newData;
+    }
+    return $recordlistAllDataExeNotPe;
+  }
+
+  /* fin */
+
+  /* Reporte excel Notas por fechas  */
+  public static function ctrGetAllDowlReportsExeNotPeFech($fechaInicioNot, $fechaFinNot)
+  {
+    $table = "tb_notapedido";
+    $listAllDataExeNotPeFech = NotaPedidoModel::mdlGetAllDowlReportsExeNotPeFech($table, $fechaInicioNot, $fechaFinNot);
+    $newlistAllDataExeNotPeFech = [];
+    // Iterar sobre cada registro
+    foreach ($listAllDataExeNotPeFech as $key => $Data) {
+      $recordlistAllDataExeNotPeFech = self::procesarJsonFech($Data);
+      $newlistAllDataExeNotPeFech = array_merge($newlistAllDataExeNotPeFech, $recordlistAllDataExeNotPeFech);
+    }
+    return $newlistAllDataExeNotPeFech;
+  }
+
+  private static function procesarJsonFech($Data)
+  {
+    $recordlistAllDataExeNotPeFech = [];
+    $products = json_decode($Data['DatosProductosNotaPedidoJson'], true);
+    foreach ($products as $index => $product) {
+      $newData = $Data; // Copiar el registro original
+      $newData['Producto'] = $product['NombreProducto'];
+      $newData['Cantidad'] = $product['countProduct'];
+      unset($newData['DatosProductosNotaPedidoJson']);
+      $recordlistAllDataExeNotPeFech[] = $newData;
+    }
+    return $recordlistAllDataExeNotPeFech;
+
+  }
+  /* fin */
+
+
+
 }

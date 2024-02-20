@@ -25,25 +25,30 @@
           Registros Lotes
           </button>
           <span style="margin: 0 10px;"></span>
-          <div id="bloqueBtnNotasPedido">
-            <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i class="fa-solid fa-file-arrow-down "></i>
-              Descargar Reporte Notas Pedido
+
+             <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i class="fa-solid fa-file-arrow-down "></i>
+             Descargar Reporte Notas Pedido
             </button>
+
             <span style="margin: 0 10px;"></span>
+
             <button type="button" class="btn btn-secondary" id="reporteExeNotaPeFech"><i class="fa-solid fa-calendar-days"></i>
-              Descargar Reporte Notas Pedido por fechas
+            Descargar Reporte Notas Pedido por fechas
             </button>
-          </div>
-          <span style="margin: 0 10px;"></span>
-          <div id="bloqueBtnLotes">
+
+            <span style="margin: 0 10px;"></span>
+          
             <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i class="fa-solid fa-file-arrow-down "></i>
               Descargar Reporte Lotes
             </button>
-            <span style="margin: 0 10px;"></span>
+
+           <span style="margin: 0 10px;"></span>
+
             <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i class="fa-solid fa-calendar-days"></i>
               Descargar Reporte Lotes por fechas
             </button>
-          </div>
+
+         
         </div>
         <div class="card mb-4">
           <div class="card-header">
