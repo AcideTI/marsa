@@ -27,6 +27,19 @@ class LotesController
     return $data;
   }
 
+  //  Obtener los datos de un lote para mostrar en el modal
+  public static function ctrGetDataLote($codLote)
+  {
+    $table = "tb_lote";
+    $data = LotesModel::mdlGetDataLote($table, $codLote);
+    //  Enviar los datos de los productos decodificados
+    $listaDatos = json_decode($data["DatosLoteIngresoJson"], true);
+    $nombreProducto = ProductsController::ctrGetDataProducto($listaDatos[0]["codProduct"]);
+    $listaDatos[0]["codProduct"] = $nombreProducto["NombreProducto"];
+    $data["DatosLoteIngresoJson"] = $listaDatos;
+    return $data;
+  }
+
   /*  funcion para crear un nuevo lote */
   public static function ctrCreateIngresoLoteAjx($newIngLote)
   {
@@ -89,86 +102,54 @@ class LotesController
   {
     if (isset($editLote)) {
       $table = "tb_lote";
-
-      // Decodificar el JSON
       $data = json_decode($editLote, true);
+      $codLote = $data["codLoteEditar"];
 
-      // Recuperar el stock actual
-      $stockActual = LotesModel::mdlGetStockActual($table, $data["idLoteEdit"]);
-      $stockActual = json_decode($stockActual["DatosLoteIngresoJson"], true);
+      $listaAntigua = LotesModel::mdlGetListaProductos($table, $codLote);
+      $listaAntigua = json_decode($listaAntigua["DatosLoteIngresoJson"], true);
+      $listaNueva = json_decode($data["listProducts"], true);
 
-      // Decodificar listProducts
-      if (isset($data["listProducts"])) {
-        $data["listProducts"] = json_decode($data["listProducts"], true);
+      $mapAntiguo = array_map('serialize', $listaAntigua);
+      $mapNuevo = array_map('serialize', $listaNueva);
+      sort($mapAntiguo);
+      sort($mapNuevo);
 
-        // Recorrer cada producto en $data["listProducts"]
-        foreach ($data["listProducts"] as $product) {
-          // Buscar el producto en $stockActual
-          foreach ($stockActual as $productActual) {
-            if ($productActual["codProduct"] == $product["codProduct"]) {
-              // Calcular la diferencia de stock
-              $diferenciaStock = $productActual["countProduct"] - $product["countProduct"];
-
-              // Si la diferencia de stock es positiva, devolver la diferencia al almacén
-              if ($diferenciaStock > 0) {
-                // Aquí puedes añadir el código para devolver la diferencia de stock al almacén
-                $stock = AlmacenController::ctrComprobarStockRes($product["codProduct"]);
-                $newStock = $stock["CantidadTotal"] + $diferenciaStock;
-                $dataUpdate = array(
-                  "CantidadTotal" => $newStock,
-                  "DateUpdate" => date("Y-m-d"),
-                  "HoraUpdate" => date("H:i:s"),
-                  "IdAlma" => $stock["IdAlma"]
-                );
-                AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
-              }
-              // Si la diferencia de stock es negativa, restar la diferencia del almacén
-              else if ($diferenciaStock < 0) {
-                // Aquí puedes añadir el código para restar la diferencia de stock del almacén
-                $stock = AlmacenController::ctrComprobarStockRes($product["codProduct"]);
-                $newStock = $stock["CantidadTotal"] + $diferenciaStock; // La diferencia es negativa, por lo que se restará
-                if ($newStock < 0) {
-                  $message = FunctionsController::ctrShowAlert('error', 'Error', 'La cantidad del producto en la nota de pedido es mayor que el stock existente', 'index.php?ruta=notaPedido');
-                  echo $message;
-                  return;
-                }
-                $dataUpdate = array(
-                  "CantidadTotal" => $newStock,
-                  "DateUpdate" => date("Y-m-d"),
-                  "HoraUpdate" => date("H:i:s"),
-                  "IdAlma" => $stock["IdAlma"]
-                );
-                AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
-              }
-            }
-          }
-        }
+      if ($mapAntiguo == $mapNuevo) {
+        //  Primero actualizamos los datos del lote en general
+        $dataUpdate = array(
+          "IdPer" => $data["editarResponsable"],
+          "IdCliente" => $data["notCli"],
+          "DescripcionLote" => $data["editarDescripcionLote"],
+          "FechaProduccionLote" => $data["editarFechaLote"],
+          "FechaVencimientoLote" => $data["editarFechaVencimiento"],
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+          "IdLote" => $codLote
+        );
+        $response = LotesModel::mdlEditIngresoLoteAjx($table, $dataUpdate);
       } else {
-        echo "No se encontró listProducts en los datos proporcionados.";
+        //  Si los productos son distintos, primero actualizamos el stock con ambas listas y luego actualizamos el registro, primero en el stock del almacén y luego en el lote
+        $actualizarStock = AlmacenController::ctrUpdateStockNota($listaAntigua, $listaNueva);
+        if ($actualizarStock == "ok") {
+          //  Actualizamos los datos del lote
+          $dataUpdate = array(
+            "IdPer" => $data["editarResponsable"],
+            "IdCliente" => $data["notCli"],
+            "DescripcionLote" => $data["editarDescripcionLote"],
+            "FechaProduccionLote" => $data["editarFechaLote"],
+            "FechaVencimientoLote" => $data["editarFechaVencimiento"],
+            "DatosLoteIngresoJson" => $data["listProducts"],
+            "DateUpdate" => date("Y-m-d\TH:i:sP"),
+            "IdLote" => $codLote
+          );
+        }
+        $response = LotesModel::mdlEditIngresoLoteCompletoAjx($table, $dataUpdate);
       }
-
-      $dataEditUpdate = array(
-        /* IdLote registro especificao a actualizar  */
-        "IdLote" => $data["idLoteEdit"],
-        "IdPer" => $data["nameResLot"],
-        "CodigoLote" => $data["codLot"],
-        "DescripcionLote" => $data["DesLot"],
-        "DatosLoteIngresoJson" => $data["listProducts"],
-        "FechaProduccionLote" => $data["dateCreatLot"],
-        "FechaVencimientoLote" => $data["dateVenciLot"],
-        "Estado" => $data["stateLot"],
-        "DateCreate" => date("Y-m-d\TH:i:sP"),
-        "DateUpdate" => date("Y-m-d\TH:i:sP")
-      );
-
-      $response = LotesModel::mdlEditIngresoLoteAjx($table, $dataEditUpdate);
-
       return $response;
     }
   }
   /* fin */
 
-  /* funcion para recuperar datos para Editar  lote por el boton  */
+  //  Obtener los datos del lote para la vista de editar
   public static function ctrGetEditLoteData($codLoteEdit)
   {
     $table = "tb_lote";
@@ -176,23 +157,51 @@ class LotesController
     return $response;
   }
 
-  /* fin */
-
   // Eliminar lote
   public static function ctrDeleteLote()
   {
     if (isset($_GET["codLoteDelet"])) {
       $table = "tb_lote";
       $codLoteDelet = $_GET["codLoteDelet"];
-      $response = LotesModel::mdlDeleteLote($table, $codLoteDelet);
-      if ($response == "ok") {
-        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Lote Eliminado Correctamente', 'lotes');
+
+      //  Verificar que el lote sea de estado 1 para que se pueda eliminar
+      $estadoLote = self::ctrGetEstadoLote($codLoteDelet);
+      if ($estadoLote["Estado"] != 1) {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar el Lote, solo se pueden eliminar los lotes en estado "Retirado"', 'verSalidas');
         echo $message;
       } else {
-        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar el Lote ', 'lotes');
-        echo $message;
+        $productos = LotesModel::mdlGetListaProductos($table, $codLoteDelet);
+        $productos = json_decode($productos["DatosLoteIngresoJson"], true);
+
+        //  Actualizar el stock del almacén
+        foreach ($productos as $producto) {
+          $stock = AlmacenController::ctrComprobarStockRes($producto["codProduct"]);
+          $nuevoStock = $stock["CantidadTotal"] + $producto["countProduct"];
+          $dataUpdate = array(
+            "CantidadTotal" => $nuevoStock,
+            "DateUpdate" => date("Y-m-d"),
+            "HoraUpdate" => date("H:i:s"),
+            "IdAlma" => $stock["IdAlma"]
+          );
+          AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
+        }
+        $response = LotesModel::mdlDeleteLote($table, $codLoteDelet);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Lote Eliminado Correctamente', 'verSalidas');
+          echo $message;
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar el Lote ', 'verSalidas');
+          echo $message;
+        }
       }
     }
   }
-  /* fin */
+
+  //  Obtener el estado del lote
+  public static function ctrGetEstadoLote($codLote)
+  {
+    $table = "tb_lote";
+    $response = LotesModel::mdlGetEstadoLote($table, $codLote);
+    return $response;
+  }
 }

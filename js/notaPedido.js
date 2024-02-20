@@ -180,38 +180,6 @@ $(document).ready(function () {
   });
 });
 
-/* fin */
-
-/* funcion para llamar los datos complementarios de la nota de pedido y mostrarlos en un modal */
-
-$(".table").on("click", ".btnViewDetallNotPe", function () {
-  var codDetNotPe = $(this).attr("codDetNotPe");
-  var data = new FormData();
-
-  data.append("codDetNotPeData", codDetNotPe);
-  $.ajax({
-    url: "ajax/notaPedido.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-
-    success: function (response) {
-      $("#detVendedor").val(response["NombrePerIdRes"]);
-      $("#detCliRuc").val(response["RucCli"]);
-      $("#detTotal").val(response["Total"]);
-      $("#detFactur").val(response["TipoNotaPeFactura"]);
-      $("#detLote").val(response["CodigoLote"]);
-      $("#detComDev").val(response["ComentarioNotaDev"]);
-      $("#detFechDev").val(response["FechaNotaDevolucion"]);
-    },
-  });
-});
-
-/* fin */
-
 /* Llama a calculateTotals() cuando se cierra el modal de agregar producto */
 $("#modalAddProdIng").on("hidden.bs.modal", calculateTotals);
 

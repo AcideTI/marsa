@@ -4,6 +4,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>Marsa</title>
+<link rel="shortcut icon" href="view/img/icon-marsa.ico" type="image/x-icon"> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>

@@ -65,26 +65,6 @@ if (isset($_POST["codFiltroLotes"])) {
 }
 /* fin */
 
-/* mostrar detalles complentarios de nota de pedido por el boton */
-class DetallesNotaPedAjax
-{
-  public $codDetNotPeData;
-  public function ajaxGetProductData()
-  {
-    $codDetNotPeData = $this->codDetNotPeData;
-    $response = NotaPedidoController::ctrGetDetallNotPeData($codDetNotPeData);
-    echo json_encode($response);
-  }
-}
-
-//  Show  detalles de la nota de pedido
-if (isset($_POST["codDetNotPeData"])) {
-  $getProductData = new DetallesNotaPedAjax();
-  $getProductData->codDetNotPeData = $_POST["codDetNotPeData"];
-  $getProductData->ajaxGetProductData();
-}
-/* fin */
-
 /* funcion Editar para mostrar detalles de nota de pedido por el boton  */
 class EditNotaPedAjax
 {

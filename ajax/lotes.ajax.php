@@ -4,9 +4,11 @@ require_once "../controller/lotes.controller.php";
 require_once "../model/lotes.model.php";
 require_once "../controller/almacen.controller.php";
 require_once "../model/almacen.model.php";
+require_once "../controller/products.controller.php";
+require_once "../model/products.model.php";
 require_once "../controller/functions.controller.php";
 //productos para gregar ala lista de formulario de lotes
-class AjaxMaterials
+class AjaxLotes
 {
   public $codProductAdd;
   public function ajaxAddMaterialInside()
@@ -25,28 +27,57 @@ class AjaxMaterials
     foreach ($respuesta as &$lote) {
       $lote['Buttons'] = FunctionsController::ctrGetButtonsLotes($lote["Estado"], $lote["IdLote"]);
       $lote['StateLote'] = FunctionsController::ctrGetStatesLotes($lote["Estado"]);
-      $lote['Productos'] = FunctionsController::ctrGetButtonsProductos($lote["DatosLoteIngresoJson"]);
     }
     echo json_encode($respuesta);
+  }
+
+  //  Mostrar los datos de los lotes verSalidas
+  public $codLoteMostrarData;
+  public function ajaxMostrarDataLote()
+  {
+    $codLoteMostrarData = $this->codLoteMostrarData;
+    $respuesta = LotesController::ctrGetDataLote($codLoteMostrarData);
+    echo json_encode($respuesta);
+  }  
+
+  //  Editar Lote
+  public $editLote;
+  public function EditIngresoLoteAjax()
+  {
+    $editLote = $this->editLote;
+    $response = LotesController::ctrEditIngresoLoteAjx($editLote);
+    echo json_encode($response);
   }
 }
 
 //  Add material to a list
 if (isset($_POST["codProductAdd"])) {
-  $addMaterialInside = new AjaxMaterials();
+  $addMaterialInside = new AjaxLotes();
   $addMaterialInside->codProductAdd = $_POST["codProductAdd"];
   $addMaterialInside->ajaxAddMaterialInside();
 }
 
 //  Mostrar los datos de los lotes verSalidas
 if (isset($_POST["codFiltroLotes"])) {
-  $mostrarLotes = new AjaxMaterials();
+  $mostrarLotes = new AjaxLotes();
   $mostrarLotes->codFiltroLotes = $_POST["codFiltroLotes"];
   $mostrarLotes->ajaxMostrarTablaLotes();
 }
 
-/* crear lote por json */
+//  Mostrar los datos de los lotes verSalidas
+if (isset($_POST["codLoteMostrarData"])) {
+  $mostrarDataLote = new AjaxLotes();
+  $mostrarDataLote->codLoteMostrarData = $_POST["codLoteMostrarData"];
+  $mostrarDataLote->ajaxMostrarDataLote();
+}
 
+if (isset($_POST["editLote"])) {
+  $jsonOriginData = new AjaxLotes();
+  $jsonOriginData->editLote = $_POST["editLote"];
+  $jsonOriginData->EditIngresoLoteAjax();
+}
+
+/* crear lote por json */
 class NewIngresoLoteAjax
 {
   public $newIngLote;
@@ -66,48 +97,5 @@ if (isset($_POST["newIngLote"])) {
   $jsonOriginData->newIngLote = $_POST["newIngLote"];
   $jsonOriginData->NewCreateIngresoLoteAjax();
 }
-/* fin */
-
-/* funcion Editar para mostrar detalles de nota de pedido por el boton  */
-class EditLoteAjax
-{
-  public $codLoteEdit;
-  public function ajaxGetProductEditData()
-  {
-    $codLoteEdit = $this->codLoteEdit;
-    $response = LotesController::ctrGetEditLoteData($codLoteEdit);
-    echo json_encode($response);
-  }
-}
-
-//  Show  detalles de la nota de pedido
-if (isset($_POST["codLoteEdit"])) {
-  $getProductData = new EditLoteAjax();
-  $getProductData->codLoteEdit = $_POST["codLoteEdit"];
-  $getProductData->ajaxGetProductEditData();
-}
-
-/* fin */
 
 /* crear lote por json */
-
-class NewEditarLoteAjax
-{
-  public $editLote;
-
-  public function EditIngresoLoteAjax()
-  {
-
-    $editLote = $this->editLote;
-    $response = LotesController::ctrEditIngresoLoteAjx($editLote);
-    echo json_encode($response);
-  }
-}
-
-// Crear Ingreso
-if (isset($_POST["editLote"])) {
-  $jsonOriginData = new NewEditarLoteAjax();
-  $jsonOriginData->editLote = $_POST["editLote"];
-  $jsonOriginData->EditIngresoLoteAjax();
-}
-/* fin */

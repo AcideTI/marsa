@@ -125,7 +125,6 @@ class NotaPedidoController
       if ($estadoNota["EstadoNota"] != 1) {
         $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar la Nota Pedido, solo se pueden eliminar las notas de pedido en estado "Retirado"', 'verSalidas');
         echo $message;
-        return;
       } else {
         //  Obtenemos la lista de productos de la nota de pedido
         $productos = NotaPedidoModel::mdlGetListaProductos($table, $codNotaPe);
