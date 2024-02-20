@@ -470,3 +470,24 @@ $(".dataTableSalidas").on("click", ".btnViewAllLote", function () {
     },
   });
 });
+
+$(".dataTableSalidas").on("click", ".btnUpdateLote", function () {
+  var codLoteUpdate = $(this).attr("codLoteUpdate");
+  swal
+    .fire({
+      title: "¿Está seguro de actualizar el Lote?",
+      text: "¡No podrá revertir el cambio!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, actualizar estado!",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        window.location =
+          "index.php?ruta=verSalidas&codUpateLote=" + codLoteUpdate;
+      }
+    });
+});

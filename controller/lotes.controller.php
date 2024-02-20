@@ -56,7 +56,7 @@ class LotesController
       $operador = $data["nameResLot"];
       $producto = $listProducts[0]["codProduct"];
 
-      $codigoLote = $dia . '_' . $mes . '_' . $operador . '_' . $producto;
+      $codigoLote = 'L-' . $dia . '_' . $mes . '_' . $operador . '_' . $producto;
 
       $dataCreate = array(
         "IdCliente" => $data["notCli"],
@@ -203,5 +203,28 @@ class LotesController
     $table = "tb_lote";
     $response = LotesModel::mdlGetEstadoLote($table, $codLote);
     return $response;
+  }
+
+  //  Actualizar el estado del lote
+  public static function ctrUpdateLoteEstado()
+  {
+    if(isset($_GET["codUpateLote"])) {
+      $table = "tb_lote";
+      $codLote = $_GET["codUpateLote"];
+      $estadoActual = self::ctrGetEstadoLote($codLote);
+      $dataUpdate = array(
+        "Estado" => intval($estadoActual["Estado"]) + 1,
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        "IdLote" => $codLote
+      );
+      $actualizarLote = LotesModel::mdlUpdateLoteEstado($table, $dataUpdate);
+      if ($actualizarLote == "ok") {
+        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Nota Pedido Actualizada Correctamente', 'verSalidas');
+        echo $message;
+      } else {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Actualizar la Nota Pedido', 'verSalidas');
+        echo $message;
+      }
+    }
   }
 }

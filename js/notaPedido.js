@@ -3,11 +3,6 @@ $(".closeNotaPedido").on("click", function () {
   window.location = "index.php?ruta=verSalidas";
 });
 
-//  Crear una nueva nota de pedido
-// $("#btnNewNotaDePedido").on("click", function () {
-//   window.location = "index.php?ruta=notaPedido";
-// });
-
 //  cambiar cantidad de producto agregado
 $(".formNotaPedido").on("change", "input.newCount", function () {
   var nuevoStock = Number($(this).attr("stock")) - $(this).val();
@@ -147,37 +142,35 @@ $(document).ready(function () {
 
 /* funcion para mostrar el mdoal con los productos de la nota de pedido que devuelve el modelo y el controaldor en json del campo DatosProductosNotaPedidoJson */
 
-$(document).ready(function () {
-  // Cuando se hace clic en un botón de "Ver productos"
-  $(".btnMostarProductos").click(function () {
-    // Obtiene los productos del atributo data-products del botón
-    var products = JSON.parse($(this).attr("data-products"));
+// Cuando se hace clic en un botón de "Ver productos"
+$(".dataTableSalidas").on("click", ".btnMostarProductos", function () {
+  // Obtiene los productos del atributo data-products del botón
+  var products = JSON.parse($(this).attr("data-products"));
 
-    // Vacía la tabla en el modal
-    $("#tablaProductosNotaPedido tbody").empty();
+  // Vacía la tabla en el modal
+  $("#tablaProductosNotaPedido tbody").empty();
 
-    // Llena la tabla en el modal con los productos
-    for (var i = 0; i < products.length; i++) {
-      $("#tablaProductosNotaPedido tbody").append(
-        "<tr>" +
-          "<td>" +
-          (i + 1) +
-          "</td>" +
-          "<td>" +
-          products[i].NombreProducto +
-          "</td>" +
-          /* '<td>' + products[i].codProduct + '</td>' + */
-          /* '<td>' + products[i].priceProduct + '</td>' + */
-          "<td>" +
-          products[i].countProduct +
-          "</td>" +
-          /* '<td>' + products[i].newSum + '</td>' + */
-          "</tr>"
-      );
-    }
-    // Muestra el modal
-    $("#modalProductosNotaPedido").modal("show");
-  });
+  // Llena la tabla en el modal con los productos
+  for (var i = 0; i < products.length; i++) {
+    $("#tablaProductosNotaPedido tbody").append(
+      "<tr>" +
+        "<td>" +
+        (i + 1) +
+        "</td>" +
+        "<td>" +
+        products[i].NombreProducto +
+        "</td>" +
+        /* '<td>' + products[i].codProduct + '</td>' + */
+        /* '<td>' + products[i].priceProduct + '</td>' + */
+        "<td>" +
+        products[i].countProduct +
+        "</td>" +
+        /* '<td>' + products[i].newSum + '</td>' + */
+        "</tr>"
+    );
+  }
+  // Muestra el modal
+  $("#modalProductosNotaPedido").modal("show");
 });
 
 /* Llama a calculateTotals() cuando se cierra el modal de agregar producto */
@@ -236,12 +229,31 @@ $(".dataTableSalidas").on("click", ".btnDeleteNotaPe", function () {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        window.location =
-          "index.php?ruta=verSalidas&codNotaPe=" + codNotaPe;
+        window.location = "index.php?ruta=verSalidas&codNotaPe=" + codNotaPe;
       }
     });
 });
 /* fin */
+$(".dataTableSalidas").on("click", ".btnUpdateNotaPedido", function () {
+  var codNotaPe = $(this).attr("codNotaPe");
+  swal
+    .fire({
+      title: "¿Está seguro de actualizar la Nota de Pedido?",
+      text: "¡No podrá revertir el cambio!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, actualizar estado!",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        window.location =
+          "index.php?ruta=verSalidas&codUpdateNota=" + codNotaPe;
+      }
+    });
+});
 
 /* funcion con promesa js para Editar los datos  de una nota de pedido pro el id */
 
@@ -251,7 +263,6 @@ $(".dataTableSalidas").on("click", ".btnEditNotaPedido", function () {
   // Redirigir al usuario a la página de edición
   window.location = "index.php?ruta=editNotaPedido&codNotaPe=" + codNotaPe;
 });
-
 
 function getUrlParameter(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

@@ -353,4 +353,17 @@ class NotaPedidoModel
     return $stmt->fetch();
   }
 
+  //  Actualizar el estado de la nota de pedido
+  public static function mdlUpdateNotaPedido($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET EstadoNota=:EstadoNota, DateUpdate=:DateUpdate WHERE IdNotaP=:IdNotaP");
+    $statement->bindParam(":EstadoNota", $dataUpdate["EstadoNota"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":IdNotaP", $dataUpdate["IdNotaP"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

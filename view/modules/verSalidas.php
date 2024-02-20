@@ -81,12 +81,51 @@
 //  Eliminar nota de pedido
 $deleteNotaPe = new NotaPedidoController();
 $deleteNotaPe->ctrDeleteNotaPedido();
+$updateNotaPe = new NotaPedidoController();
+$updateNotaPe->ctrUpdateNotaPedido();
 
 //  Eliminar lote
 $deleteLote = new LotesController();
 $deleteLote->ctrDeleteLote();
+$updateLote = new LotesController();
+$updateLote->ctrUpdateLoteEstado();
+
+
 ?>
 
+<!-- Modal para ver productos a través del botón "btnShowProducts" de la lista -->
+<div class="modal fade" id="modalProductosNotaPedido" tabindex="-1" role="dialog" aria-labelledby="modalProductosNotaPedido"
+  aria-hidden="true" style="display: none;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Listado de Productos Nota Pedido</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table id="tablaProductosNotaPedido" class="table table-striped dt-responsive" width="100%">
+          <thead>
+            <tr>
+              <th style="width:10px">#</th>
+              <th>Nombre Producto</th>
+             <!--  <th>Precio</th> -->
+              <th>Cantidad</th>
+              <!-- <th>Total</th> -->
+             <!--  <th>Nombre</th> -->
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary pull-left" data-bs-dismiss="modal">Salir</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal detalles del lote -->
 <div class="modal fade" id="modalViewDetallNotPe" tabindex="-1" role="dialog" aria-labelledby="modalViewDetallNotPe" aria-hidden="true">
