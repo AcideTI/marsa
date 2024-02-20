@@ -47,6 +47,25 @@ $(function() {
 });
 /* fin */
 
+//  Pdf de la nota de pedido
+
+$(".dataTableSalidas").on("click", ".btnPrintNotaPedido", function () {
+  var codNotaPe = $(this).attr("codNotaPe");
+  if(codNotaPe != null || codNotaPe != '')
+  {
+    window.open("library/FPDF/printOrderApproved.php?&codNotaPe=" + codNotaPe, "_blank");
+  }
+  else
+  {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: '¡No se puede imprimir este pedido!',
+    });
+  }
+});
+
+/* fin */
 //  cambiar cantidad de producto agregado
 $(".formNotaPedido").on("change", "input.newCount", function () {
   var nuevoStock = Number($(this).attr("stock")) - $(this).val();

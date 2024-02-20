@@ -1,6 +1,6 @@
 /* Fondo para el login */
 .fondoLogin{
-  background-image: url('../view/img/background.png');
+  background-image: url('../view/img/backgraund.png');
   background-repeat: no-repeat;
   background-size: cover;
 }

@@ -271,8 +271,7 @@ class NotaPedidoController
     return $respuesta;
   }
 
-  /* Descargar todos los ingresos para el reporte exel de ingresos */
-
+ /* Reporte excel de todas las Notas */
   public static function ctrGetAllDowlReportsExeNotPe()
   {
     $table = "tb_notapedido";
@@ -326,6 +325,7 @@ class NotaPedidoController
     return $newlistAllDataExeNotPeFech;
   }
 
+  /* Función para procesar el campo JSON de un registro.*/
   private static function procesarJsonFech($Data)
   {
     $recordlistAllDataExeNotPeFech = [];
@@ -342,6 +342,46 @@ class NotaPedidoController
   }
   /* fin */
 
+  /* Imprimir Pdf para Notas de Pedido */
+
+  public static function ctrGetAllPrintPDFNotPe($codNotaPe)
+  {
+    $table = "tb_notapedido";
+    $listAllDataPDFnotPe = NotaPedidoModel::mdlGetAllPrintPDFNotPe($table, $codNotaPe);
+
+    $newlistAllDataPDFnotPe = [];
+
+    // Iterar sobre cada registro
+    foreach ($listAllDataPDFnotPe as $key => $Data) {
+      $recordlistAllDataPDFnotPe = self::procesarJsonPDF($Data);
+      $newlistAllDataPDFnotPe = array_merge($newlistAllDataPDFnotPe, $recordlistAllDataPDFnotPe);
+    }
+
+    return $newlistAllDataPDFnotPe;
+  }
+
+  /* Función para procesar el campo JSON de un registro.*/
+
+  private static function procesarJsonPDF($Data)
+  {
+    $recordlistAllDataPDFnotPe = [];
+
+    // Decodificar el JSON en el campo DatosProductosIngresoJson
+    $products = json_decode($Data['DatosProductosNotaPedidoJson'], true);
+
+    // Formatear los datos del producto
+    foreach ($products as $index => $product) {
+      $newData = $Data;
+      $newData['Producto'] = $product['NombreProducto'];
+      $newData['Cantidad'] = $product['countProduct'];
+      unset($newData['DatosProductosNotaPedidoJson']);
+
+      $recordlistAllDataPDFnotPe[] = $newData;
+    }
+    return $recordlistAllDataPDFnotPe;
+  }
+
+  /* fin */
 
 
 }

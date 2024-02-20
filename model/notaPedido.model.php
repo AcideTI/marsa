@@ -353,7 +353,7 @@ class NotaPedidoModel
     return $stmt->fetch();
   }
 
-  /* Devolver todos las Notas pedido para el reporte exel */
+  /* Devolver todas las Notas pedido para el reporte exel */
   public static function mdlGetAllDowlReportsExeNotPe($table)
   {
     $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
@@ -468,5 +468,64 @@ class NotaPedidoModel
     return $results;
   }
 
-/* fin */
+  /* fin */
+
+
+  /* Imprimir Pdf para Notas de Pedido */
+  public static function mdlGetAllPrintPDFNotPe($table,$codNotaPe)
+  {
+    $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
+        CASE np.EstadoNota
+            WHEN 1 THEN 'Retirado'
+            WHEN 2 THEN 'Vendido'
+            WHEN 3 THEN 'Devolucion'
+            WHEN 4 THEN 'Anulado'
+            ELSE 'Estado desconocido'
+        END AS EstadoNota,
+        per.NombrePer AS NombrePerIdPer, 
+        per2.NombrePer AS NombrePerIdRes, 
+        cli.NombreCli AS NombreCliNota, 
+        cli.RucCli, 
+        cli.DireccionCli AS DireccionCliNota
+    FROM tb_notapedido AS np
+    INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
+    INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
+    INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
+    WHERE np.IdNotaP = :codNotaPe
+    ORDER BY 
+    IdNotaP DESC");
+  
+    $statement->bindParam(":codNotaPe", $codNotaPe, PDO::PARAM_STR);
+    $statement->execute();
+    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($results as &$result) {
+      // Procesar el campo JSON
+      if (isset($result['DatosProductosNotaPedidoJson'])) {
+        $productsJson = json_decode($result['DatosProductosNotaPedidoJson'], true);
+
+        foreach ($productsJson as &$product) {
+          $statement = Conexion::conn()->prepare("
+          SELECT NombreProducto
+          FROM tb_producto
+          WHERE IdProd = :codProduct
+        ");
+
+          $statement->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
+
+          $statement->execute();
+
+          $productResult = $statement->fetch(PDO::FETCH_ASSOC);
+
+          $product['NombreProducto'] = $productResult['NombreProducto'];
+        }
+
+        $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
+      }
+    }
+
+    return $results;
+  }
+
+  /* fin */
 }
