@@ -17,8 +17,22 @@ var table = $("#dataTableSalidas").DataTable({
 $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
   var filtro = $(this).attr("filtro");
   var data = new FormData();
-  $('.tituloSalidas').text('Notas de Pedido');
+  $(".tituloSalidas").text("Notas de Pedido");
+
+  $("#dataTableSalidas thead").html(`
+      <tr>
+        <th>ID</th>
+        <th>Responsable</th>
+        <th>Nombre Cliente</th>
+        <th>Estado</th>
+        <th>Fecha de Nota</th>
+        <th>Productos</th>
+        <th>Acciones</th>
+      </tr>
+    `);
+
   table.destroy();
+
   columnDefs = [
     { data: "IdNotaP" },
     { data: "NombrePerIdPer" },
@@ -33,7 +47,7 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
   });
 
   data.append("codFiltroNotas", filtro);
-  $.ajax({
+  +$.ajax({
     url: "ajax/notaPedido.ajax.php",
     method: "POST",
     data: data,
@@ -57,15 +71,28 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
 $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
   var filtro = $(this).attr("filtro");
   var data = new FormData();
-  $('.tituloSalidas').text('Lotes');
+  $(".tituloSalidas").text("Lotes");
+  
+  $("#dataTableSalidas thead").html(`
+  <tr>
+    <th>ID</th>
+    <th>Responsable</th>
+    <th>Nombre del Cliente</th>
+    <th>Código de Lote</th>
+    <th>Fecha de Lote</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+  </tr>
+`);
+
   table.destroy();
   columnDefs = [
     { data: "IdLote" },
-    { data: "NombrePer" },
+    { data: "FullNamePersonal" },
     { data: "NombreCli" },
-    { data: "StateLote" },
+    { data: "CodigoLote" },
     { data: "FechaProduccionLote" },
-    { data: "Productos" },
+    { data: "StateLote" },
     { data: "Buttons" },
   ];
   table = $("#dataTableSalidas").DataTable({

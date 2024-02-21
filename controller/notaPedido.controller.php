@@ -125,7 +125,6 @@ class NotaPedidoController
       if ($estadoNota["EstadoNota"] != 1) {
         $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Eliminar la Nota Pedido, solo se pueden eliminar las notas de pedido en estado "Retirado"', 'verSalidas');
         echo $message;
-        return;
       } else {
         //  Obtenemos la lista de productos de la nota de pedido
         $productos = NotaPedidoModel::mdlGetListaProductos($table, $codNotaPe);
@@ -154,6 +153,29 @@ class NotaPedidoController
     }
   }
   /* fin */
+
+  //  Actualizar el estado de la nota
+  public static function ctrUpdateNotaPedido()
+  {
+    if(isset($_GET["codUpdateNota"])) {
+      $table = "tb_notapedido";
+      $codNota = $_GET["codUpdateNota"];
+      $estadoActual = self::ctrGetEstadoNotaPedido($codNota);
+      $dataUpdate = array(
+        "EstadoNota" => intval($estadoActual["EstadoNota"]) + 1,
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        "IdNotaP" => $codNota
+      );
+      $actualizarNota = NotaPedidoModel::mdlUpdateNotaPedido($table, $dataUpdate);
+      if ($actualizarNota == "ok") {
+        $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Nota Pedido Actualizada Correctamente', 'verSalidas');
+        echo $message;
+      } else {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Actualizar la Nota Pedido', 'verSalidas');
+        echo $message;
+      }
+    }
+  }
 
   /* funcion para Editar nota de pedido por el boton  */
   public static function ctrGetEditNotPeData($codEditNotPeData)

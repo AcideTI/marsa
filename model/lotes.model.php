@@ -9,13 +9,10 @@ class LotesModel
   {
     $statement = Conexion::conn()->prepare("SELECT
     tb_lote.IdLote, 
-    tb_personal.NombrePer, 
-    tb_personal.ApellidoPer, 
+		CONCAT(tb_personal.NombrePer,tb_personal.ApellidoPer) AS FullNamePersonal,
     tb_lote.IdPer, 
     tb_cliente.NombreCli, 
     tb_lote.CodigoLote, 
-    tb_lote.DescripcionLote, 
-    tb_lote.DatosLoteIngresoJson, 
     tb_lote.FechaProduccionLote, 
     tb_lote.Estado
   FROM
@@ -89,7 +86,7 @@ class LotesModel
   /* fin */
 
   /* verifica el stoc actual en el campo  */
-  public static function mdlGetStockActual($table, $idLote)
+  public static function mdlGetListaProductos($table, $idLote)
   {
     $stmt = Conexion::conn()->prepare("SELECT DatosLoteIngresoJson FROM $table WHERE IdLote = :IdLote");
     $stmt->bindParam(":IdLote", $idLote, PDO::PARAM_INT);
@@ -101,17 +98,35 @@ class LotesModel
   /* funcion de ediutar  el lote */
   public static function mdlEditIngresoLoteAjx($table, $dataEditUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET IdPer = :IdPer, CodigoLote = :CodigoLote, DescripcionLote = :DescripcionLote, DatosLoteIngresoJson = :DatosLoteIngresoJson, FechaProduccionLote = :FechaProduccionLote, FechaVencimientoLote = :FechaVencimientoLote, Estado = :Estado, DateCreate = :DateCreate, DateUpdate = :DateUpdate WHERE IdLote = :IdLote");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET IdPer = :IdPer, IdCliente = :IdCliente, DescripcionLote = :DescripcionLote, FechaProduccionLote = :FechaProduccionLote, FechaVencimientoLote = :FechaVencimientoLote, DateUpdate = :DateUpdate WHERE IdLote = :IdLote");
 
     $statement->bindParam(":IdLote", $dataEditUpdate["IdLote"], PDO::PARAM_INT);
     $statement->bindParam(":IdPer", $dataEditUpdate["IdPer"], PDO::PARAM_INT);
-    $statement->bindParam(":CodigoLote", $dataEditUpdate["CodigoLote"], PDO::PARAM_STR);
+    $statement->bindParam(":IdCliente", $dataEditUpdate["IdCliente"], PDO::PARAM_STR);
     $statement->bindParam(":DescripcionLote", $dataEditUpdate["DescripcionLote"], PDO::PARAM_STR);
-    $statement->bindParam(":DatosLoteIngresoJson", $dataEditUpdate["DatosLoteIngresoJson"], PDO::PARAM_STR);
     $statement->bindParam(":FechaProduccionLote", $dataEditUpdate["FechaProduccionLote"], PDO::PARAM_STR);
     $statement->bindParam(":FechaVencimientoLote", $dataEditUpdate["FechaVencimientoLote"], PDO::PARAM_STR);
-    $statement->bindParam(":Estado", $dataEditUpdate["Estado"], PDO::PARAM_INT);
-    $statement->bindParam(":DateCreate", $dataEditUpdate["DateCreate"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataEditUpdate["DateUpdate"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  // Actualizar el lote en su totalidad
+  public static function mdlEditIngresoLoteCompletoAjx($table, $dataEditUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET IdPer = :IdPer, IdCliente = :IdCliente, DescripcionLote = :DescripcionLote, FechaProduccionLote = :FechaProduccionLote, DatosLoteIngresoJson=:DatosLoteIngresoJson, FechaVencimientoLote = :FechaVencimientoLote, DateUpdate = :DateUpdate WHERE IdLote = :IdLote");
+
+    $statement->bindParam(":IdLote", $dataEditUpdate["IdLote"], PDO::PARAM_INT);
+    $statement->bindParam(":IdPer", $dataEditUpdate["IdPer"], PDO::PARAM_INT);
+    $statement->bindParam(":IdCliente", $dataEditUpdate["IdCliente"], PDO::PARAM_STR);
+    $statement->bindParam(":DescripcionLote", $dataEditUpdate["DescripcionLote"], PDO::PARAM_STR);
+    $statement->bindParam(":FechaProduccionLote", $dataEditUpdate["FechaProduccionLote"], PDO::PARAM_STR);
+    $statement->bindParam(":DatosLoteIngresoJson", $dataEditUpdate["DatosLoteIngresoJson"], PDO::PARAM_STR);
+    $statement->bindParam(":FechaVencimientoLote", $dataEditUpdate["FechaVencimientoLote"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataEditUpdate["DateUpdate"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
@@ -123,19 +138,36 @@ class LotesModel
 
   /* fin */
 
-
-
-  /* funcion para recuperar el lote y Editar  lote por el boton  */
+  //  Obtener la información del lote para la vista de editar
   public static function mdlGetEditLoteData($table, $codLoteEdit)
   {
-    $statement = Conexion::conn()->prepare("SELECT * FROM $table WHERE IdLote = :codLoteEdit");
-
+    $statement = Conexion::conn()->prepare("SELECT
+    CONCAT(tb_personal.NombrePer,tb_personal.ApellidoPer) AS FullNamePersonal,
+    tb_lote.IdPer, 
+    tb_cliente.NombreCli, 
+    tb_cliente.RucCli, 
+    tb_cliente.DireccionCli, 
+    tb_lote.IdCliente, 
+    tb_lote.FechaProduccionLote, 
+    tb_lote.FechaVencimientoLote, 
+    tb_lote.CodigoLote, 
+    tb_lote.DescripcionLote, 
+    tb_lote.DatosLoteIngresoJson, 
+    tb_lote.Estado
+  FROM
+    $table
+    INNER JOIN
+    tb_personal
+    ON 
+      tb_lote.IdPer = tb_personal.IdPer
+    INNER JOIN
+    tb_cliente
+    ON 
+      tb_lote.IdCliente = tb_cliente.IdCli
+    WHERE tb_lote.IdLote = :codLoteEdit");
     $statement->bindParam(":codLoteEdit", $codLoteEdit, PDO::PARAM_INT);
-
     $statement->execute();
-
     $result = $statement->fetch(PDO::FETCH_ASSOC);
-
     return $result;
   }
 
@@ -218,7 +250,6 @@ class LotesModel
       return $results;
     }
 
-    
  /* Reporte excel Lotes por fechas  */
   public static function mdlGetAllDowlReportsExeLoteFech($table,$fechaInicioLt, $fechaFinLt)
   {
@@ -286,5 +317,56 @@ class LotesModel
     }
 
     return $results;
+
+  //  Obtener la data de un lote
+  public static function mdlGetDataLote($table, $codLote)
+  {
+    $statement = Conexion::conn()->prepare("SELECT
+    CONCAT(tb_personal.NombrePer,tb_personal.ApellidoPer) AS FullNamePersonal, 
+    tb_cliente.NombreCli, 
+    tb_lote.CodigoLote, 
+    tb_lote.DescripcionLote, 
+    tb_lote.FechaProduccionLote, 
+    tb_lote.FechaVencimientoLote, 
+    tb_lote.DatosLoteIngresoJson, 
+    tb_cliente.RucCli
+  FROM
+    $table
+    INNER JOIN
+    tb_cliente
+    ON 
+      tb_lote.IdCliente = tb_cliente.IdCli
+    INNER JOIN
+    tb_personal
+    ON 
+      tb_lote.IdPer = tb_personal.IdPer
+  WHERE
+    tb_lote.IdLote = $codLote");
+    $statement->execute();
+    return $statement->fetch();
+  }
+
+  //  Obtener el estado del lote
+  public static function mdlGetEstadoLote($table, $codLote)
+  {
+    $statement = Conexion::conn()->prepare("SELECT Estado FROM $table WHERE IdLote = :IdLote");
+    $statement->bindParam(":IdLote", $codLote, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch();    
+  }
+
+  //  Actualizar el estado del lote
+  public static function mdlUpdateLoteEstado($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET Estado=:Estado, DateUpdate=:DateUpdate WHERE IdLote=:IdLote");
+    $statement->bindParam(":Estado", $dataUpdate["Estado"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":IdLote", $dataUpdate["IdLote"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+
   }
 }
