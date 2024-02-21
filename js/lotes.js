@@ -8,6 +8,43 @@ $(".closelotes").on("click", function () {
   window.location = "verSalidas";
 });
 
+//  Descargar todos los lotes para el reporte exel de lotes
+$("#reporteExeLotes").on("click", function(){
+  window.location = "view/modules/Excel-Lotes.php?&reporteExeLotes";
+});
+
+//  Descargar reporte exel de lotes por fechas 
+$(function() {
+  var boton = $('#reporteExeLotesFech');
+  boton.daterangepicker({
+    opens: 'left',
+    autoApply: false,
+    locale: {
+      format: 'YYYY-MM-DD'
+    }
+  }, function(start, end) {
+    boton.val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+  });
+  //agraga la fecha actual si no se selecciona ninguna fecha al clickear en el boton aplly
+  //tambien si solo se selciona una solo fecha
+  boton.on('apply.daterangepicker', function(ev, picker) {
+    var rangoFechas = $(this).val().split(' - ');
+    var fechaInicioLt = rangoFechas[0];
+    var fechaFinLt = rangoFechas[1];
+    var fechaActualLt = new Date().toISOString().split('T')[0]; // obtiene la fecha actual en formato YYYY-MM-DD
+    if (!fechaInicioLt && !fechaFinLt) {
+      fechaInicioLt = fechaActualLt;
+      fechaFinLt = fechaActualLt;
+    } else if (!fechaFinLt) {
+      fechaFinLt = fechaInicioLt;
+    } else if (!fechaInicioLt) {
+      fechaInicioLt = fechaFinLt;
+    }
+    window.location = "view/modules/Excel-Lotes.php?reporteExeLotesFech&fechaInicioLt=" + fechaInicioLt + "&fechaFinLt=" + fechaFinLt;
+  });
+});
+/* fin */
+
 //  cambia el conteo de  lote
 $(".formNuevoLote").on("change", "input.newCount", function () {
   var nuevoStock = Number($(this).attr("stock")) - $(this).val();
@@ -491,3 +528,4 @@ $(".dataTableSalidas").on("click", ".btnUpdateLote", function () {
       }
     });
 });
+

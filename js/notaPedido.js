@@ -2,6 +2,71 @@
 $(".closeNotaPedido").on("click", function () {
   window.location = "index.php?ruta=verSalidas";
 });
+/* fin */
+
+
+//  Crear una nueva nota de pedido
+// $("#btnNewNotaDePedido").on("click", function () {
+//   window.location = "index.php?ruta=notaPedido";
+// });
+
+
+//  Descargar todas las notas para el reporte exel de notas pedido
+$("#reporteExeNotaPe").on("click", function(){
+  window.location = "view/modules/Excel-Nota-Pedido.php?&reporteExeNotaPe";
+});
+
+//  Descargar reporte exel de notas por fechas 
+$(function() {
+  var boton = $('#reporteExeNotaPeFech');
+  boton.daterangepicker({
+    opens: 'left',
+    autoApply: false,
+    locale: {
+      format: 'YYYY-MM-DD'
+    }
+  }, function(start, end) {
+    boton.val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+  });
+  //agraga la fecha actual si no se selecciona ninguna fecha al clickear en el boton aplly
+  //tambien si solo se selciona una solo fecha
+  boton.on('apply.daterangepicker', function(ev, picker) {
+    var rangoFechas = $(this).val().split(' - ');
+    var fechaInicioNot = rangoFechas[0];
+    var fechaFinNot = rangoFechas[1];
+    var fechaActualNot = new Date().toISOString().split('T')[0]; // obtiene la fecha actual en formato YYYY-MM-DD
+    if (!fechaInicioNot && !fechaFinNot) {
+      fechaInicioNot = fechaActualNot;
+      fechaFinNot = fechaActualNot;
+    } else if (!fechaFinNot) {
+      fechaFinNot = fechaInicioNot;
+    } else if (!fechaInicioNot) {
+      fechaInicioNot = fechaFinNot;
+    }
+    window.location = "view/modules/Excel-Nota-Pedido.php?reporteExeNotaPeFech&fechaInicioNot=" + fechaInicioNot + "&fechaFinNot=" + fechaFinNot;
+  });
+});
+/* fin */
+
+//  Pdf de la nota de pedido
+
+$(".dataTableSalidas").on("click", ".btnPrintNotaPedido", function () {
+  var codNotaPe = $(this).attr("codNotaPe");
+  if(codNotaPe != null || codNotaPe != '')
+  {
+    window.open("library/FPDF/printOrderApproved.php?&codNotaPe=" + codNotaPe, "_blank");
+  }
+  else
+  {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: '¡No se puede imprimir este pedido!',
+    });
+  }
+});
+
+/* fin */
 
 //  cambiar cantidad de producto agregado
 $(".formNotaPedido").on("change", "input.newCount", function () {
@@ -388,3 +453,8 @@ function setTodayDate(fieldId) {
 
 // Llama a la función para establecer la fecha actual en los campos deseados por el id
 setTodayDate("notFechPe");
+/* fin */
+
+
+
+

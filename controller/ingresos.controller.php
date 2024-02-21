@@ -231,27 +231,79 @@ class IngresosController
     return $respuesta;
   }
 
-  /* Devolver todos los ingreso para el reporte exel */
+  /* Descargar todos los ingresos para el reporte exel de ingresos */
+  /* 
+   * Función para obtener todos los ingresos para el reporte de Excel.
+   * Itera sobre cada registro devuelto por el modelo y procesa el campo JSON.
+   * Devuelve una lista de registros con los datos del producto formateados.
+   */
   public static function ctrGetAllDowlReportsExeIng()
   {
     $table = "tb_ingreso";
     $listAllDataExeIng = IngresosModel::mdlGetAllDowlReportsExeIng($table);
 
+    $newlistAllDataExeIng = [];
+
     // Iterar sobre cada registro
-    foreach ($listAllDataExeIng as $key => $record) {
-      // Decodificar el JSON en el campo DatosProductosIngresoJson
-      $products = json_decode($record['DatosProductosIngresoJson'], true);
-
-      // Formatear los datos del producto
-      foreach ($products as $index => $product) {
-        $products[$index] = ($index + 1) . '-PRODUCTO: ' . $product['NombreProducto'] . '   CANTIDAD : ' . $product['countProduct'];
-      }
-
-      // Unir los datos del producto en una cadena de texto con saltos de línea entre cada producto
-      $listAllDataExeIng[$key]['DatosProductosIngresoJson'] = implode("\n", $products);
+    foreach ($listAllDataExeIng as $key => $Data) {
+      $recordlistAllDataExeIng = self::procesarJson($Data);
+      $newlistAllDataExeIng = array_merge($newlistAllDataExeIng, $recordlistAllDataExeIng);
     }
 
-    return $listAllDataExeIng;
+    return $newlistAllDataExeIng;
+  }
+  /* 
+   * Función para procesar el campo JSON de un registro.
+   * Decodifica el JSON y formatea los datos del producto.
+   * Devuelve una lista de nuevos registros con los datos del producto formateados.
+   */
+  private static function procesarJson($Data)
+  {
+    $recordlistAllDataExeIng = [];
+
+    // Decodificar el JSON en el campo DatosProductosIngresoJson
+    $products = json_decode($Data['DatosProductosIngresoJson'], true);
+
+    // Formatear los datos del producto
+    foreach ($products as $index => $product) {
+      $newData = $Data; // Copiar el registro original
+      $newData['Producto'] = $product['NombreProducto'];
+      $newData['Cantidad'] = $product['countProduct'];
+      unset($newData['DatosProductosIngresoJson']); // Eliminar el campo DatosProductosIngresoJson
+
+      $recordlistAllDataExeIng[] = $newData; // Agregar el nuevo registro a la lista
+    }
+    return $recordlistAllDataExeIng;
+  }
+  /* fin */
+
+  /* Devolver todos los ingresos para el reporte exel por fechas */ 
+  public static function ctrGetAllDowlReportsExeIngFech($fechaInicio, $fechaFin)
+  {
+    $table = "tb_ingreso";
+    $listAllDataExeIngFech = IngresosModel::mdlGetAllDowlReportsExeIngFech($table, $fechaInicio, $fechaFin);
+    $newlistAllDataExeIng = [];
+    // Iterar sobre cada registro
+    foreach ($listAllDataExeIngFech as $key => $Data) {
+      $recordlistAllDataExeIng = self::procesarJsonFech($Data);
+      $newlistAllDataExeIng = array_merge($newlistAllDataExeIng, $recordlistAllDataExeIng);
+    }
+    return $newlistAllDataExeIng;
+  }
+ 
+  private static function procesarJsonFech($Data)
+  {
+    $recordlistAllDataExeIng = [];
+    $products = json_decode($Data['DatosProductosIngresoJson'], true);
+    foreach ($products as $index => $product) {
+      $newData = $Data; // Copiar el registro original
+      $newData['Producto'] = $product['NombreProducto'];
+      $newData['Cantidad'] = $product['countProduct'];
+      unset($newData['DatosProductosIngresoJson']); 
+      $recordlistAllDataExeIng[] = $newData; 
+    }
+    return $recordlistAllDataExeIng;
+   
   }
   /* fin */
 

@@ -227,4 +227,79 @@ class LotesController
       }
     }
   }
+  /* fin */
+
+  
+   /*  Descargar todos los Lotes para el reporte exel de Lotes */
+  
+  public static function ctrGetAllDowlReportsExeLote()
+  {
+    $table = "tb_lote";
+    $listAllDataExeLote = LotesModel::mdlGetAllDowlReportsExeLote($table);
+
+    $newlistAllDataExeLote = [];
+
+    // Iterar sobre cada registro
+    foreach ($listAllDataExeLote as $key => $Data) {
+      $recordlistAllDataExeLote = self::procesarJson($Data);
+      $newlistAllDataExeLote = array_merge($newlistAllDataExeLote, $recordlistAllDataExeLote);
+    }
+
+    return $newlistAllDataExeLote;
+  }
+
+  /* Función para procesar el campo JSON de un registro.*/
+
+  private static function procesarJson($Data)
+  {
+    $recordlistAllDataExeLote = [];
+
+    // Decodificar el JSON en el campo DatosProductosIngresoJson
+    $products = json_decode($Data['DatosLoteIngresoJson'], true);
+
+    // Formatear los datos del producto
+    foreach ($products as $index => $product) {
+      $newData = $Data;
+      $newData['Producto'] = $product['NombreProducto'];
+      $newData['Cantidad'] = $product['countProduct'];
+      unset($newData['DatosLoteIngresoJson']); 
+
+      $recordlistAllDataExeLote[] = $newData;
+    }
+    return $recordlistAllDataExeLote;
+  }
+
+  /* fin */
+
+   /* Reporte excel Lotes por fechas  */
+  public static function ctrGetAllDowlReportsExeLoteFech($fechaInicioLt, $fechaFinLt)
+  {
+    $table = "tb_notapedido";
+    $listAllDataExeLoteFech = LotesModel::mdlGetAllDowlReportsExeLoteFech($table, $fechaInicioLt, $fechaFinLt);
+    $newlistAllDataExeLoteFech = [];
+    // Iterar sobre cada registro
+    foreach ($listAllDataExeLoteFech as $key => $Data) {
+      $recordlistAllDataExeLoteFech = self::procesarJsonFech($Data);
+      $newlistAllDataExeLoteFech = array_merge($newlistAllDataExeLoteFech, $recordlistAllDataExeLoteFech);
+    }
+    return $newlistAllDataExeLoteFech;
+  }
+
+  private static function procesarJsonFech($Data)
+  {
+    $recordlistAllDataExeLoteFech = [];
+    $products = json_decode($Data['DatosLoteIngresoJson'], true);
+    foreach ($products as $index => $product) {
+      $newData = $Data; // Copiar el registro original
+      $newData['Producto'] = $product['NombreProducto'];
+      $newData['Cantidad'] = $product['countProduct'];
+      unset($newData['DatosLoteIngresoJson']);
+      $recordlistAllDataExeLoteFech[] = $newData;
+    }
+    return $recordlistAllDataExeLoteFech;
+
+  }
+  /* fin */
+
+
 }

@@ -119,3 +119,29 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
     },
   });
 });
+
+/* ocultar botones de descarga de reportes para verlosm cuando se haga clic en el botón correspondiente */
+$(document).ready(function() {
+  // Ocultar todos los botones de reporte al inicio
+  $('#reporteExeNotaPe').hide();
+  $('#reporteExeNotaPeFech').hide();
+  $('#reporteExeLotes').hide();
+  $('#reporteExeLotesFech').hide();
+
+  // Mostrar los botones de reporte correspondientes cuando se hace clic en btnAllNotasSalida
+  $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function() {
+    $('#reporteExeNotaPe').show();
+    $('#reporteExeNotaPeFech').show();
+    $('#reporteExeLotes').hide();
+    $('#reporteExeLotesFech').hide();
+  });
+
+  // Mostrar los botones de reporte correspondientes cuando se hace clic en btnAllLotes
+  $(".buttonsSalidas").on("click", ".btnAllLotes", function() {
+    $('#reporteExeNotaPe').hide();
+    $('#reporteExeNotaPeFech').hide();
+    $('#reporteExeLotes').show();
+    $('#reporteExeLotesFech').show();
+  });
+});
+/* fin */

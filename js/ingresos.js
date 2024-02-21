@@ -41,9 +41,40 @@ $(".formEditarIngreso").on("click", "button.deleteNuevoiIngreso", function () {
   listProductAdd();
 });
 
-//  Descargar reporte exel de ingresos
+//  Descargar todos los ingresos para el reporte exel de ingresos
 $("#reporteExeIngresos").on("click", function(){
   window.location = "view/modules/Excel-Ingresos.php?&reporteExeIngresos";
+});
+
+//  Descargar reporte exel de ingresos por fechas 
+$(function() {
+  var boton = $('#reporteIngPorFechas');
+  boton.daterangepicker({
+    opens: 'left',
+    autoApply: false,
+    locale: {
+      format: 'YYYY-MM-DD'
+    }
+  }, function(start, end) {
+    boton.val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+  });
+  //agraga la fecha actual si no se selecciona ninguna fecha al clickear en el boton aplly
+  //tambien si solo se selciona una solo fecha
+  boton.on('apply.daterangepicker', function(ev, picker) {
+    var rangoFechas = $(this).val().split(' - ');
+    var fechaInicio = rangoFechas[0];
+    var fechaFin = rangoFechas[1];
+    var fechaActual = new Date().toISOString().split('T')[0]; // obtiene la fecha actual en formato YYYY-MM-DD
+    if (!fechaInicio && !fechaFin) {
+      fechaInicio = fechaActual;
+      fechaFin = fechaActual;
+    } else if (!fechaFin) {
+      fechaFin = fechaInicio;
+    } else if (!fechaInicio) {
+      fechaInicio = fechaFin;
+    }
+    window.location = "view/modules/Excel-Ingresos.php?reporteIngPorFechas&fechaInicio=" + fechaInicio + "&fechaFin=" + fechaFin;
+  });
 });
 
 // agragar producto al listado de ingreso

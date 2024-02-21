@@ -27,23 +27,23 @@ require_once "../../vendor/autoload.php";
 -------------------------*/
 
 
-/*  Descargar todos los ingresos para el reporte exel de ingresos */
+/*  Descargar todos los Lotes para el reporte exel de Lotes */
 
-if(isset($_GET["reporteExeIngresos"]))
+if(isset($_GET["reporteExeLotes"]))
 {
-  $reporteExeIngresos =  new ControllerReportesExcel();
-  $reporteExeIngresos -> ctrDowlReportsExeIng();
+  $reporteExeLotes =  new ControllerReportesExcel();
+  $reporteExeLotes -> ctrDowlReportsExeLote();
 }
 
 /* fin */
 
-/* Reporte excel Ingresos por fechas  */
+/* Reporte excel Lotes por fechas  */
 
-if(isset($_GET["reporteIngPorFechas"])) {
-  $fechaInicio = $_GET["fechaInicio"];
-  $fechaFin = $_GET["fechaFin"];
-  $reporteIngPorFechas =  new ControllerReportesExcel();
-  $reporteIngPorFechas -> ctrDowlReportsExeIngFech($fechaInicio, $fechaFin);
+if(isset($_GET["reporteExeLotesFech"])) {
+  $fechaInicioLt = $_GET["fechaInicioLt"];
+  $fechaFinLt = $_GET["fechaFinLt"];
+  $reporteExeLotesFech =  new ControllerReportesExcel();
+  $reporteExeLotesFech -> ctrDowlReportsExeLoteFech($fechaInicioLt, $fechaFinLt);
 }
 
 /* fin */

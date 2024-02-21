@@ -11,6 +11,45 @@
 <div id="layoutSidenav_content">
   <main>
     <div class="container-fluid px-4">
+
+  <!-- Salidas --> 
+  <h1 class="mt-4 tituloSalidas">Notas de Pedido</h1>
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item active">Todas las Notas de Pedido</li>
+        </ol>
+        <div class="d-flex m-2 buttonsSalidas">
+          <button type="button" class="btn btn-secondary btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida"><i class="fa-solid fa-clipboard-check"></i>
+            Registros Notas Pedido
+          </button>
+           <span style="margin: 0 10px;"></span>
+          <button type="button" class="btn btn-info btnAllLotes" id="btnAllLotes" filtro="lotes"><i class="fa-solid fa-clipboard-check"></i>
+          Registros Lotes
+          </button>
+          <span style="margin: 0 10px;"></span>
+
+             <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i class="fa-solid fa-file-arrow-down "></i>
+             Descargar Reporte Notas Pedido
+            </button>
+
+            <span style="margin: 0 10px;"></span>
+
+            <button type="button" class="btn btn-secondary" id="reporteExeNotaPeFech"><i class="fa-solid fa-calendar-days"></i>
+            Descargar Reporte Notas Pedido por fechas
+            </button>
+
+            <span style="margin: 0 10px;"></span>
+          
+            <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i class="fa-solid fa-file-arrow-down "></i>
+              Descargar Reporte Lotes
+            </button>
+
+           <span style="margin: 0 10px;"></span>
+
+            <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i class="fa-solid fa-calendar-days"></i>
+              Descargar Reporte Lotes por fechas
+            </button>
+
+ 
       <!-- Salidas -->
       <h1 class="mt-4 tituloSalidas">Notas de Pedido</h1>
       <ol class="breadcrumb mb-4">
@@ -31,6 +70,7 @@
         <div class="card-header">
           <i class="fas fa-table me-1"></i>
           Todas las Salidas
+
         </div>
         <div class="card-body">
           <table id="dataTableSalidas" class="display dataTableSalidas" style="width: 100%">

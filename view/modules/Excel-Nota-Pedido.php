@@ -27,23 +27,23 @@ require_once "../../vendor/autoload.php";
 -------------------------*/
 
 
-/*  Descargar todos los ingresos para el reporte exel de ingresos */
+/*  Descargar todos las Notas para el reporte exel de Notas pedido */
 
-if(isset($_GET["reporteExeIngresos"]))
+if(isset($_GET["reporteExeNotaPe"]))
 {
-  $reporteExeIngresos =  new ControllerReportesExcel();
-  $reporteExeIngresos -> ctrDowlReportsExeIng();
+  $reporteExeNotaPe =  new ControllerReportesExcel();
+  $reporteExeNotaPe -> ctrDowlReportsExeNotPe();
 }
 
 /* fin */
 
-/* Reporte excel Ingresos por fechas  */
+/* Reporte excel Notas por fechas  */
 
-if(isset($_GET["reporteIngPorFechas"])) {
-  $fechaInicio = $_GET["fechaInicio"];
-  $fechaFin = $_GET["fechaFin"];
-  $reporteIngPorFechas =  new ControllerReportesExcel();
-  $reporteIngPorFechas -> ctrDowlReportsExeIngFech($fechaInicio, $fechaFin);
+if(isset($_GET["reporteExeNotaPeFech"])) {
+  $fechaInicioNot = $_GET["fechaInicioNot"];
+  $fechaFinNot = $_GET["fechaFinNot"];
+  $reporteExeNotaPeFech =  new ControllerReportesExcel();
+  $reporteExeNotaPeFech -> ctrDowlReportsExeNotPeFech($fechaInicioNot, $fechaFinNot);
 }
 
 /* fin */

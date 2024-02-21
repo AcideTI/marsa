@@ -43,7 +43,7 @@ class FunctionsController
   {
     if ($stateValue == 1) {
       $buttons = '
-        <button class="btn btn-info btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-print"></i></button>
+        <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-pencil"></i></button>
         <button class="btn btn-success  " codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-trash"></i></button>
@@ -51,7 +51,7 @@ class FunctionsController
     }
     if ($stateValue == 2) {
       $buttons = '
-        <button class="btn btn-info btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-print"></i></button>
+        <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
         <button class="btn btn-success btnUpdateNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
@@ -59,7 +59,7 @@ class FunctionsController
     }
     if ($stateValue == 3) {
       $buttons = '
-        <button class="btn btn-info btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-print"></i></button>
+        <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
         <button class="btn btn-success btnUpdateNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
@@ -67,12 +67,13 @@ class FunctionsController
     }
     if ($stateValue == 4) {
       $buttons = '
-        <button class="btn btn-info btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-print"></i></button>
+        <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
         <button class="btn btn-success btnUpdateNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
     }
+
     return $buttons;
   }
 
