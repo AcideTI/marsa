@@ -60,6 +60,21 @@ $(".formNuevoLote").on("change", "input.newCount", function () {
   listProductAddLotes();
 });
 
+//  cambia el conteo de  lote
+$(".formEditLote").on("change", "input.newCount", function () {
+  var nuevoStock = Number($(this).attr("stock")) - $(this).val();
+  if (nuevoStock < 0) {
+    $(this).val(1);
+    swal.fire({
+      title: "La cantidad supera el Stock",
+      text: "¡Sólo hay " + $(this).attr("stock") + " unidades!",
+      type: "error",
+      confirmButtonText: "¡Cerrar!",
+    });
+  }
+  listProductAddLotes();
+});
+
 //  borar producto agregado de la lista de lote
 $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
   $(this).parent().parent().parent().parent().remove();
@@ -250,99 +265,9 @@ $(document).ready(function () {
 
 /* funcion con promesa js para Editar los datos  de una nota de pedido por el id */
 
-$(".table").on("click", ".btnLoteEdit", function () {
+$(".dataTableSalidas").on("click", ".btnLoteEdit", function () {
   var codLoteEdit = $(this).attr("codLoteEdit");
-
-  // Redirigir al usuario a la página de edición
   window.location = "index.php?ruta=editLote&codLoteEdit=" + codLoteEdit;
-});
-
-$(document).ready(function () {
-  // Comprobar si estamos en la página de edición
-  if (window.location.href.indexOf("editLote") > -1) {
-    var codLoteEdit = getUrlParameter("codLoteEdit");
-    var data = new FormData();
-
-    data.append("codLoteEdit", codLoteEdit);
-    $.ajax({
-      url: "ajax/lotes.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        $("#nameResLot").val(response["IdPer"]);
-        $("#codLot").val(response["CodigoLote"]);
-        $("#DesLot").val(response["DescripcionLote"]);
-        $("#dateCreatLot").val(response["FechaProduccionLote"]);
-        $("#dateVenciLot").val(response["FechaVencimientoLote"]);
-        $("#stateLot").val(response["Estado"]);
-        $("#idLoteEdit").val(response["IdLote"]);
-        $("#listProducts").val(response["DatosLoteIngresoJson"]);
-        /* funcion para mostrar  los productos de la nota de pedido que devuelve el ajax en json campo DatosProductosNotaPedidoJson */
-        // Obtiene los productos del campo listProducts
-        var products = JSON.parse($("#listProducts").val());
-        // Vacía el div donde se mostrarán los productos
-        $(".newProductAddLote").empty();
-        // Llena el div con los productos
-        for (var i = 0; i < products.length; i++) {
-          (function (i) {
-            // Crea una función de cierre para capturar el valor actual de i
-            // Crea un nuevo FormData
-            var datos = new FormData();
-            // Agrega el codProduct al FormData
-            datos.append("codProductAdd", products[i].codProduct);
-            // Hace una solicitud AJAX para obtener los detalles del producto
-            $.ajax({
-              url: "ajax/lotes.ajax.php",
-              method: "POST",
-              data: datos,
-              cache: false,
-              contentType: false,
-              processData: false,
-              dataType: "json",
-              success: function (respuesta) {
-                // Obtiene los detalles del producto de la respuesta
-                var DescriptionProduct = respuesta["NombreProducto"];
-                var UnityProduct = respuesta["Unidad"];
-
-                // Agrega el producto al div
-                $(".newProductAddLote").append(
-                  '<div class="row" style="padding:5px 15px">' +
-                    '<div class="col-lg-5" style="padding-right:0px">' +
-                    '<div class="input-group">' +
-                    '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteEditLote" codProduct="' +
-                    products[i].codProduct +
-                    '"><i class="fa fa-times"></i></button></span>' +
-                    '<input type="text" class="form-control newProduct" codProduct="' +
-                    products[i].codProduct +
-                    '" value="' +
-                    DescriptionProduct +
-                    '" readonly>' +
-                    "</div>" +
-                    "</div>" +
-                    "<!-- Unity -->" +
-                    '<div class="col-lg-3 UnityProduct">' +
-                    '<input type="text" class="form-control newUnity" name="newUnity" value="' +
-                    UnityProduct +
-                    '" readonly>' +
-                    "</div>" +
-                    '<div class="col-lg-3 countMaterial">' +
-                    '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' +
-                    products[i].countProduct +
-                    '">' +
-                    "</div>" +
-                    "</div>"
-                );
-              },
-            });
-          })(i);
-        } /* fin */
-      }, //fin success
-    });
-  }
 });
 
 function getUrlParameter(name) {
@@ -397,19 +322,18 @@ $(document).ready(function () {
       $.ajax({
         url: "ajax/lotes.ajax.php",
         method: "POST",
-        data: { editLote: dataJson }, // Cambiado de 'data' a 'newIngLote'
+        data: { editLote: dataJson },
         dataType: "json",
         success: function (response) {
           if (response === "ok") {
             Swal.fire({
               icon: "success",
-              title: "Lote creado con éxito",
+              title: "Lote modificado con éxito",
               showConfirmButton: false,
               timer: 1000,
             });
-            $(".formNuevoLote")[0].reset();
-            setTimeout(function () {
-              location.reload();
+            setTimeout(function() {
+              window.location.href = "index.php?ruta=verSalidas";
             }, 1000);
           } else {
             Swal.fire({
@@ -467,7 +391,7 @@ $(document).ready(function () {
 /* fin */
 
 // Alerta para eliminar lote
-$(".table").on("click", ".btnLoteDelet", function () {
+$(".dataTableSalidas").on("click", ".btnLoteDelet", function () {
   var codLoteDelet = $(this).attr("codLoteDelet");
 
   swal
@@ -483,7 +407,7 @@ $(".table").on("click", ".btnLoteDelet", function () {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        window.location = "index.php?ruta=lotes&codLoteDelet=" + codLoteDelet;
+        window.location = "index.php?ruta=verSalidas&codLoteDelet=" + codLoteDelet;
       }
     });
 });
@@ -556,4 +480,52 @@ function generarCodigoLote() {
   }
 }
 
+$(".dataTableSalidas").on("click", ".btnViewAllLote", function () {
+  var codLote = $(this).attr("codLote");
+  var data = new FormData();
+
+  data.append("codLoteMostrarData", codLote);
+  $.ajax({
+    url: "ajax/lotes.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+
+    success: function (response) {
+      $("#nombreResponsable").val(response["FullNamePersonal"]);
+      $("#rucCliente").val(response["RucCli"]);
+      $("#nombreCliente").val(response["NombreCli"]);
+      $("#codigoLote").val(response["CodigoLote"]);
+      $("#fechaLote").val(response["FechaProduccionLote"]);
+      $("#fechaVencimiento").val(response["FechaVencimientoLote"]);
+      $("#descripcionLote").val(response["DescripcionLote"]);
+      $("#productoLote").val(response["DatosLoteIngresoJson"][0]["codProduct"]);
+      $("#cantidadProducto").val(response["DatosLoteIngresoJson"][0]["countProduct"]);
+    },
+  });
+});
+
+$(".dataTableSalidas").on("click", ".btnUpdateLote", function () {
+  var codLoteUpdate = $(this).attr("codLoteUpdate");
+  swal
+    .fire({
+      title: "¿Está seguro de actualizar el Lote?",
+      text: "¡No podrá revertir el cambio!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, actualizar estado!",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        window.location =
+          "index.php?ruta=verSalidas&codUpateLote=" + codLoteUpdate;
+      }
+    });
+});
 
