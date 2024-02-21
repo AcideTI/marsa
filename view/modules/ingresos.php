@@ -19,6 +19,7 @@
       </ol>
 
       <!-- Botones de acciones -->
+      <div class="d-flex m-2">
         <button type="button" class="btn btn-info btnNewIng" id="btnNewIng"><i class="fa-regular fa-clipboard "></i>
           Ingresar Producción Diaria
         </button>
@@ -30,7 +31,8 @@
         <button type="button" class="btn btn-secondary" id="reporteIngPorFechas"><i class="fa-solid fa-calendar-days"></i>
           Descargar Reporte por fechas
         </button>
-        <!--  <span style="margin: 0 10px;"></span> -->
+      </div>
+      <!--  <span style="margin: 0 10px;"></span> -->
       <!-- Tabla de ingresos -->
       <div class="card mb-4">
         <div class="card-header">

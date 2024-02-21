@@ -317,7 +317,7 @@ class LotesModel
     }
 
     return $results;
-
+  }
   //  Obtener la data de un lote
   public static function mdlGetDataLote($table, $codLote)
   {
