@@ -302,6 +302,7 @@ class NotaPedidoController
       $newData = $Data;
       $newData['Producto'] = $product['NombreProducto'];
       $newData['Cantidad'] = $product['countProduct'];
+      $newData['TotalP'] = $product['newSum'];
       unset($newData['DatosProductosNotaPedidoJson']);
 
       $recordlistAllDataExeNotPe[] = $newData;
@@ -334,6 +335,7 @@ class NotaPedidoController
       $newData = $Data; // Copiar el registro original
       $newData['Producto'] = $product['NombreProducto'];
       $newData['Cantidad'] = $product['countProduct'];
+      $newData['TotalP'] = $product['newSum'];
       unset($newData['DatosProductosNotaPedidoJson']);
       $recordlistAllDataExeNotPeFech[] = $newData;
     }
@@ -349,32 +351,26 @@ class NotaPedidoController
     $table = "tb_notapedido";
     $listAllDataPDFnotPe = NotaPedidoModel::mdlGetAllPrintPDFNotPe($table, $codNotaPe);
 
-    $newlistAllDataPDFnotPe = [];
+    // Como necesitamos devolver un solo registro y no un array, tomamos el primer elemento
+    $singleRecord = $listAllDataPDFnotPe[0];
 
-    // Iterar sobre cada registro
-    foreach ($listAllDataPDFnotPe as $key => $Data) {
-      $recordlistAllDataPDFnotPe = self::procesarJsonPDF($Data);
-      $newlistAllDataPDFnotPe = array_merge($newlistAllDataPDFnotPe, $recordlistAllDataPDFnotPe);
-    }
-
-    return $newlistAllDataPDFnotPe;
+    return $singleRecord;
   }
 
-  /* Función para procesar el campo JSON de un registro.*/
-
-  private static function procesarJsonPDF($Data)
+  public static function procesarJsonPDF($Data)
   {
     $recordlistAllDataPDFnotPe = [];
 
-    // Decodificar el JSON en el campo DatosProductosIngresoJson
+    // Decodificar el JSON en el campo DatosProductosNotaPedidoJson
     $products = json_decode($Data['DatosProductosNotaPedidoJson'], true);
 
     // Formatear los datos del producto
     foreach ($products as $index => $product) {
-      $newData = $Data;
+      $newData = [];
       $newData['Producto'] = $product['NombreProducto'];
       $newData['Cantidad'] = $product['countProduct'];
-      unset($newData['DatosProductosNotaPedidoJson']);
+      $newData['Total'] = $product['newSum'];
+      $newData['UnidadM'] = $product['Unidad'];
 
       $recordlistAllDataPDFnotPe[] = $newData;
     }
