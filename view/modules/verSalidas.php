@@ -12,59 +12,50 @@
   <main>
     <div class="container-fluid px-4">
 
-  <!-- Salidas --> 
-  <h1 class="mt-4 tituloSalidas">Notas de Pedido</h1>
-        <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item active">Todas las Notas de Pedido</li>
-        </ol>
-        <div class="d-flex m-2 buttonsSalidas">
-          <button type="button" class="btn btn-secondary btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida"><i class="fa-solid fa-clipboard-check"></i>
-            Registros Notas Pedido
-          </button>
-           <span style="margin: 0 10px;"></span>
-          <button type="button" class="btn btn-info btnAllLotes" id="btnAllLotes" filtro="lotes"><i class="fa-solid fa-clipboard-check"></i>
-          Registros Lotes
-          </button>
-          <span style="margin: 0 10px;"></span>
-
-             <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i class="fa-solid fa-file-arrow-down "></i>
-             Descargar Reporte Notas Pedido
-            </button>
-
-            <span style="margin: 0 10px;"></span>
-
-            <button type="button" class="btn btn-secondary" id="reporteExeNotaPeFech"><i class="fa-solid fa-calendar-days"></i>
-            Descargar Reporte Notas Pedido por fechas
-            </button>
-
-            <span style="margin: 0 10px;"></span>
-          
-            <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i class="fa-solid fa-file-arrow-down "></i>
-              Descargar Reporte Lotes
-            </button>
-
-           <span style="margin: 0 10px;"></span>
-
-            <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i class="fa-solid fa-calendar-days"></i>
-              Descargar Reporte Lotes por fechas
-            </button>
-
- 
       <!-- Salidas -->
       <h1 class="mt-4 tituloSalidas">Notas de Pedido</h1>
       <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">Todas las Notas de Pedido</li>
       </ol>
       <div class="d-flex m-2 buttonsSalidas">
-        <button type="button" class="btn btn-primary btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida">
-          Ver Notas de Pedido
+        <button type="button" class="btn btn-secondary btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida"><i
+            class="fa-solid fa-clipboard-check"></i>
+          Registros Notas Pedido
         </button>
-        <button type="button" class="btn btn-warning btnAllLotes" id="btnAllLotes" filtro="lotes">
-          Ver Lotes
+        <span style="margin: 0 10px;"></span>
+        <button type="button" class="btn btn-info btnAllLotes" id="btnAllLotes" filtro="lotes"><i
+            class="fa-solid fa-clipboard-check"></i>
+          Registros Lotes
         </button>
-        <button type="button" class="btn btn-success ReporteSalidas" id="ReporteSalidas" _blank>
-          Descargar Reporte Excel
+        <span style="margin: 0 10px;"></span>
+
+        <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i
+            class="fa-solid fa-file-arrow-down "></i>
+          Descargar Reporte Notas Pedido
         </button>
+
+        <span style="margin: 0 10px;"></span>
+
+        <button type="button" class="btn btn-secondary" id="reporteExeNotaPeFech"><i
+            class="fa-solid fa-calendar-days"></i>
+          Descargar Reporte Notas Pedido por fechas
+        </button>
+
+        <span style="margin: 0 10px;"></span>
+
+        <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i
+            class="fa-solid fa-file-arrow-down "></i>
+          Descargar Reporte Lotes
+        </button>
+
+        <span style="margin: 0 10px;"></span>
+
+        <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i
+            class="fa-solid fa-calendar-days"></i>
+          Descargar Reporte Lotes por fechas
+        </button>
+
+
       </div>
       <div class="card mb-4">
         <div class="card-header">
@@ -92,7 +83,7 @@
                 $estado = FunctionsController::ctrGetStateSalidas($value["EstadoNota"]);
                 $buttons = FunctionsController::ctrGetButtonsSalidas($value["EstadoNota"], $value["IdNotaP"]);
                 echo
-                '<tr>                
+                  '<tr>                
                       <td>' . $value["IdNotaP"] . '</td>
                       <td>' . $value["NombrePerIdPer"] . '</td>
                       <td>' . $value["NombreCliNota"] . '</td>
@@ -134,8 +125,8 @@ $updateLote->ctrUpdateLoteEstado();
 ?>
 
 <!-- Modal para ver productos a través del botón "btnShowProducts" de la lista -->
-<div class="modal fade" id="modalProductosNotaPedido" tabindex="-1" role="dialog" aria-labelledby="modalProductosNotaPedido"
-  aria-hidden="true" style="display: none;">
+<div class="modal fade" id="modalProductosNotaPedido" tabindex="-1" role="dialog"
+  aria-labelledby="modalProductosNotaPedido" aria-hidden="true" style="display: none;">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -150,10 +141,10 @@ $updateLote->ctrUpdateLoteEstado();
             <tr>
               <th style="width:10px">#</th>
               <th>Nombre Producto</th>
-             <!--  <th>Precio</th> -->
+              <!--  <th>Precio</th> -->
               <th>Cantidad</th>
               <!-- <th>Total</th> -->
-             <!--  <th>Nombre</th> -->
+              <!--  <th>Nombre</th> -->
             </tr>
           </thead>
           <tbody>
@@ -168,7 +159,8 @@ $updateLote->ctrUpdateLoteEstado();
 </div>
 
 <!-- Modal detalles del lote -->
-<div class="modal fade" id="modalViewDetallNotPe" tabindex="-1" role="dialog" aria-labelledby="modalViewDetallNotPe" aria-hidden="true">
+<div class="modal fade" id="modalViewDetallNotPe" tabindex="-1" role="dialog" aria-labelledby="modalViewDetallNotPe"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -178,7 +170,8 @@ $updateLote->ctrUpdateLoteEstado();
         <!-- Responsable -->
         <div class="form-group">
           <label for="nombreResponsable" class="col-form-label" style="font-weight: bold">Responsable:</label>
-          <input type="text" class="form-control" id="nombreResponsable" name="nombreResponsable" style="border:none" readonly>
+          <input type="text" class="form-control" id="nombreResponsable" name="nombreResponsable" style="border:none"
+            readonly>
         </div>
 
         <!-- Ruc Cliente -->
@@ -208,13 +201,15 @@ $updateLote->ctrUpdateLoteEstado();
         <!-- Fecha de Vencimiento -->
         <div class="form-group">
           <label for="fechaVencimiento" class="col-form-label" style="font-weight: bold">Fecha Vencimiento:</label>
-          <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento" style="border:none" readonly>
+          <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento" style="border:none"
+            readonly>
         </div>
 
         <!-- Descripción -->
         <div class="form-group">
           <label for="descripcionLote" class="col-form-label" style="font-weight: bold">Descripción: </label>
-          <input type="text" class="form-control" id="descripcionLote" name="descripcionLote" style="border:none" readonly>
+          <input type="text" class="form-control" id="descripcionLote" name="descripcionLote" style="border:none"
+            readonly>
         </div>
 
         <!-- Producto -->
@@ -226,7 +221,8 @@ $updateLote->ctrUpdateLoteEstado();
         <!-- Cantidad -->
         <div class="form-group">
           <label for="cantidadProducto" class="col-form-label" style="font-weight: bold">Cantidad: </label>
-          <input type="text" class="form-control" id="cantidadProducto" name="cantidadProducto" style="border:none" readonly>
+          <input type="text" class="form-control" id="cantidadProducto" name="cantidadProducto" style="border:none"
+            readonly>
         </div>
 
 
