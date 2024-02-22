@@ -136,7 +136,7 @@ class ControllerReportesExcel
     if (isset($_GET["reporteExeNotaPe"])) {
       $listAllDataExeNotPe = NotaPedidoController::ctrGetAllDowlReportsExeNotPe();
       //  cell Titles
-      $titleArray = ['Nr Registro','RESPONSABLE', 'ESTADO', 'FECHA NOTA', 'CLIENTE', 'RUC', 'DIRRECCION','PRODUCTO', 'CANTIDAD', 'TOTAL NOTA PEDIDO', 'VENDEDOR'];
+      $titleArray = ['Nr Registro','RESPONSABLE', 'ESTADO', 'FECHA NOTA', 'CLIENTE', 'RUC', 'DIRRECCION','PRODUCTO', 'CANTIDAD', 'TOTAL PRODUCTO','TOTAL NOTA PEDIDO', 'VENDEDOR'];
       $dataArray = [];
       $spreadsheet = new Spreadsheet();
       $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -153,6 +153,7 @@ class ControllerReportesExcel
           $value["DireccionCliNota"],
           $value["Producto"],
           $value["Cantidad"],
+          $value["TotalP"],
           $value["Total"],
           $value["NombrePerIdPer"],
         );
@@ -181,7 +182,7 @@ class ControllerReportesExcel
        $listAllDataExeNotPeFech = NotaPedidoController::ctrGetAllDowlReportsExeNotPeFech($fechaInicioNot, $fechaFinNot);
  
        //  cell Titles
-       $titleArray = ['Nr Registro','RESPONSABLE', 'ESTADO', 'FECHA NOTA', 'CLIENTE', 'RUC', 'DIRRECCION','PRODUCTO', 'CANTIDAD', 'TOTAL NOTA PEDIDO', 'VENDEDOR'];
+       $titleArray = ['Nr Registro','RESPONSABLE', 'ESTADO', 'FECHA NOTA', 'CLIENTE', 'RUC', 'DIRRECCION','PRODUCTO', 'CANTIDAD', 'TOTAL PRODUCTO', 'TOTAL NOTA PEDIDO', 'VENDEDOR'];
        $dataArray = [];
        $spreadsheet = new Spreadsheet();
        $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -198,6 +199,7 @@ class ControllerReportesExcel
            $value["DireccionCliNota"],
            $value["Producto"],
            $value["Cantidad"],
+           $value["TotalP"],
            $value["Total"],
            $value["NombrePerIdPer"],
          );

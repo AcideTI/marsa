@@ -67,12 +67,14 @@ $(function () {
 
 $(".dataTableSalidas").on("click", ".btnPrintNotaPedido", function () {
   var codNotaPe = $(this).attr("codNotaPe");
-  if (codNotaPe != null || codNotaPe != "") {
-    window.open(
-      "library/FPDF/printOrderApproved.php?&codNotaPe=" + codNotaPe,
-      "_blank"
-    );
-  } else {
+
+  if(codNotaPe != null || codNotaPe != '')
+  {
+    window.open("library/FPDF/pdfNotaPedido.php?&codNotaPe=" + codNotaPe, "_blank");
+  }
+  else
+  {
+
     Swal.fire({
       icon: "error",
       title: "Error",

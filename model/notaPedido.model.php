@@ -499,7 +499,6 @@ class NotaPedidoModel
     $statement->bindParam(":codNotaPe", $codNotaPe, PDO::PARAM_STR);
     $statement->execute();
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-
     foreach ($results as &$result) {
       // Procesar el campo JSON
       if (isset($result['DatosProductosNotaPedidoJson'])) {
@@ -507,7 +506,7 @@ class NotaPedidoModel
 
         foreach ($productsJson as &$product) {
           $statement = Conexion::conn()->prepare("
-          SELECT NombreProducto
+          SELECT NombreProducto, Unidad
           FROM tb_producto
           WHERE IdProd = :codProduct
         ");
@@ -519,6 +518,7 @@ class NotaPedidoModel
           $productResult = $statement->fetch(PDO::FETCH_ASSOC);
 
           $product['NombreProducto'] = $productResult['NombreProducto'];
+          $product['Unidad'] = $productResult['Unidad']; // Agregar la unidad al producto
         }
 
         $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
