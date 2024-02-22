@@ -142,10 +142,11 @@ class AlmacenModel
   //  Actualizar el almacén de la merma
   public static function mdlUpdateStockAlmacenMerma($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (IdProducto, IdSalida, Cantidad, TipoSalida, DateCreate, DateUpdate) VALUES (:IdProducto, :IdSalida, :Cantidad, :TipoSalida, :DateCreate, :DateUpdate)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (IdProducto, IdSalida, IdIngresoDev, Cantidad, TipoSalida, DateCreate, DateUpdate) VALUES (:IdProducto, :IdSalida, :IdIngresoDev, :Cantidad, :TipoSalida, :DateCreate, :DateUpdate)");
 
     $statement->bindParam(":IdProducto", $dataCreate["IdProducto"], PDO::PARAM_STR);
     $statement->bindParam(":IdSalida", $dataCreate["IdSalida"], PDO::PARAM_STR);
+    $statement->bindParam(":IdIngresoDev", $dataCreate["IdIngresoDev"], PDO::PARAM_STR);
     $statement->bindParam(":Cantidad", $dataCreate["Cantidad"], PDO::PARAM_STR);
     $statement->bindParam(":TipoSalida", $dataCreate["TipoSalida"], PDO::PARAM_STR);
     $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);

@@ -14,29 +14,32 @@ $(".closeVisualizarLote").on("click", function () {
 });
 
 //  Descargar todos los lotes para el reporte exel de lotes
-$("#reporteExeLotes").on("click", function(){
+$("#reporteExeLotes").on("click", function () {
   window.location = "view/modules/Excel-Lotes.php?&reporteExeLotes";
 });
 
-//  Descargar reporte exel de lotes por fechas 
-$(function() {
-  var boton = $('#reporteExeLotesFech');
-  boton.daterangepicker({
-    opens: 'left',
-    autoApply: false,
-    locale: {
-      format: 'YYYY-MM-DD'
+//  Descargar reporte exel de lotes por fechas
+$(function () {
+  var boton = $("#reporteExeLotesFech");
+  boton.daterangepicker(
+    {
+      opens: "left",
+      autoApply: false,
+      locale: {
+        format: "YYYY-MM-DD",
+      },
+    },
+    function (start, end) {
+      boton.val(start.format("YYYY-MM-DD") + " - " + end.format("YYYY-MM-DD"));
     }
-  }, function(start, end) {
-    boton.val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-  });
+  );
   //agraga la fecha actual si no se selecciona ninguna fecha al clickear en el boton aplly
   //tambien si solo se selciona una solo fecha
-  boton.on('apply.daterangepicker', function(ev, picker) {
-    var rangoFechas = $(this).val().split(' - ');
+  boton.on("apply.daterangepicker", function (ev, picker) {
+    var rangoFechas = $(this).val().split(" - ");
     var fechaInicioLt = rangoFechas[0];
     var fechaFinLt = rangoFechas[1];
-    var fechaActualLt = new Date().toISOString().split('T')[0]; // obtiene la fecha actual en formato YYYY-MM-DD
+    var fechaActualLt = new Date().toISOString().split("T")[0]; // obtiene la fecha actual en formato YYYY-MM-DD
     if (!fechaInicioLt && !fechaFinLt) {
       fechaInicioLt = fechaActualLt;
       fechaFinLt = fechaActualLt;
@@ -45,7 +48,11 @@ $(function() {
     } else if (!fechaInicioLt) {
       fechaInicioLt = fechaFinLt;
     }
-    window.location = "view/modules/Excel-Lotes.php?reporteExeLotesFech&fechaInicioLt=" + fechaInicioLt + "&fechaFinLt=" + fechaFinLt;
+    window.location =
+      "view/modules/Excel-Lotes.php?reporteExeLotesFech&fechaInicioLt=" +
+      fechaInicioLt +
+      "&fechaFinLt=" +
+      fechaFinLt;
   });
 });
 /* fin */
@@ -337,7 +344,7 @@ $(document).ready(function () {
               showConfirmButton: false,
               timer: 1000,
             });
-            setTimeout(function() {
+            setTimeout(function () {
               window.location.href = "index.php?ruta=verSalidas";
             }, 1000);
           } else {
@@ -412,7 +419,8 @@ $(".dataTableSalidas").on("click", ".btnLoteDelet", function () {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        window.location = "index.php?ruta=verSalidas&codLoteDelet=" + codLoteDelet;
+        window.location =
+          "index.php?ruta=verSalidas&codLoteDelet=" + codLoteDelet;
       }
     });
 });
@@ -508,17 +516,55 @@ $(".dataTableSalidas").on("click", ".btnViewAllLote", function () {
       $("#fechaVencimiento").val(response["FechaVencimientoLote"]);
       $("#descripcionLote").val(response["DescripcionLote"]);
       $("#productoLote").val(response["DatosLoteIngresoJson"][0]["codProduct"]);
-      $("#cantidadProducto").val(response["DatosLoteIngresoJson"][0]["countProduct"]);
+      $("#cantidadProducto").val(
+        response["DatosLoteIngresoJson"][0]["countProduct"]
+      );
     },
   });
 });
 
-$(".dataTableSalidas").on("click", ".btnUpdateLote", function () {
+$(".dataTableSalidas").on("click", ".btnUpdateLoteRetirado", function () {
   var codLoteUpdate = $(this).attr("codLoteUpdate");
   swal
     .fire({
-      title: "¿Está seguro de actualizar el Lote?",
-      text: "¡No podrá revertir el cambio!",
+      title: '¿Está seguro de enviar el lota al estado de "Vendido"?',
+      text: "Ingrese el número de factura:",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, actualizar estado!",
+      input: "text",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        if (result.value) {
+          var factura = result.value;
+          window.location =
+            "index.php?ruta=verSalidas&codUpateLote=" +
+            codLoteUpdate +
+            "&nroFactura=" +
+            factura;
+        } else {
+          swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "¡Ingrese el número de factura!",
+          });
+        }
+      }
+    });
+});
+
+//  Actualizar el estado de una n
+$(".dataTableSalidas").on("click", ".btnUpdateLoteVendido", function () {
+  var codLoteUpdate = $(this).attr("codLoteUpdateVendido");
+  swal
+    .fire({
+      title:
+        '¿Está seguro que desea devolver estos productos al almacén? Cambiará al estado de "Devolución"',
+      text: "¡No podrá deshacer los cambios!",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -529,8 +575,48 @@ $(".dataTableSalidas").on("click", ".btnUpdateLote", function () {
     .then((result) => {
       if (result.isConfirmed) {
         window.location =
-          "index.php?ruta=verSalidas&codUpateLote=" + codLoteUpdate;
+          "index.php?ruta=nuevaDevolucion&codLoteUpdate=" + codLoteUpdate;
       }
     });
 });
 
+//  Cambiar la cantida de los productos que se devolverán
+$(".formIngresoDevolucion").on("change", "input.countDevolucion", function () {
+  var nuevoStock = Number($(this).attr("stock")) - $(this).val();
+  if (nuevoStock < 0) {
+    $(this).val(1);
+    swal.fire({
+      title: "La cantidad supera el Stock",
+      text: "¡Sólo hay " + $(this).attr("stock") + " unidades!",
+      type: "error",
+      confirmButtonText: "¡Cerrar!",
+    });
+  }
+  listProductosDevolucion();
+});
+
+//  Listar todos los datos que se pondrán en los input de lista de productos devolver y lista de productos merma
+function listProductosDevolucion() {
+  var listProductsDevolucion = [];
+  var listProductsMerma = [];
+  var codProducto = $(".productDevolucion");
+  var countDevolucion = $(".countDevolucion");
+
+  for (var i = 0; i < codProducto.length; i++) {
+    var cantidadTotal = $(countDevolucion[i]).attr("stock");
+    var cantidadDevolucion = $(countDevolucion[i]).val();
+    var cantidadMerma = cantidadTotal - cantidadDevolucion;
+    if (cantidadMerma > 0) {
+      listProductsMerma.push({
+        codProduct: $(codProducto[i]).attr("codProduct"),
+        countProduct: cantidadMerma,
+      });
+    }
+    listProductsDevolucion.push({
+      codProduct: $(codProducto[i]).attr("codProduct"),
+      countProduct: cantidadDevolucion,
+    });
+  }
+  $("#listProductosDevolver").val(JSON.stringify(listProductsDevolucion));
+  $("#listProductosMerma").val(JSON.stringify(listProductsMerma));
+}

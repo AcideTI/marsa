@@ -354,7 +354,7 @@ $(".dataTableSalidas").on("click", ".btnUpdateNotaVendido", function () {
   swal
     .fire({
       title:
-        '¿Está seguro que desea devolver este producto al almacén? Cambiará al estado de "Devolución"',
+        '¿Está seguro que desea devolver estos productos al almacén? Cambiará al estado de "Devolución"',
       text: "¡No podrá deshacer los cambios!",
       type: "warning",
       showCancelButton: true,

@@ -276,7 +276,7 @@ class IngresosModel
   //  Obtener el ultimo ingreso creado
   public static function mdlGetLastIngreso($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT IdIng FROM $table ORDER BY IdIng DESC LIMIT 1");
+    $statement = Conexion::conn()->prepare("SELECT MAX(tb_ingreso.IdIng) AS IdIng FROM $table ");
     $statement->execute();
     return $statement->fetch();
   }

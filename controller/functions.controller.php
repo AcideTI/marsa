@@ -65,14 +65,6 @@ class FunctionsController
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
     }
-    /*if ($stateValue == 4) {
-      $buttons = '
-        <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
-        <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
-        <button class="btn btn-success btnUpdateNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
-        <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
-      ';
-    }*/
 
     return $buttons;
   }
@@ -96,9 +88,6 @@ class FunctionsController
     if ($stateValue == 3) {
       $state = '<span class="badge rounded-pill bg-danger" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Devolución</span>';
     }
-    // if ($stateValue == 4) {
-    //   $state = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
-    // }
     return $state;
   }
 
@@ -107,36 +96,28 @@ class FunctionsController
   {
     if ($stateValue == 1) {
       $buttons = '
-      <button class="btn btn-info btnViewAllLote" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="btn btn-info btnViewAllLote" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '"><i class="fa-solid fa-magnifying-glass"></i></button>
       <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '"><i class="fa-solid fa-pencil"></i></button>
-      <button class="btn btn-success btnUpdateLote" codLoteUpdate="' . $codLote . '"><i class="fa-solid fa fa-check-circle"></i></button>
+      <button class="btn btn-success btnUpdateLoteRetirado" codLoteUpdate="' . $codLote . '"><i class="fa-solid fa fa-check-circle"></i></button>
       <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '"><i class="fa-solid fa-trash"></i></button>
       ';
     }
     if ($stateValue == 2) {
       $buttons = '
-      <button class="btn btn-info btnViewAllLote" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="btn btn-info btnViewAllLote" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '"><i class="fa-solid fa-magnifying-glass"></i></button>
       <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '" disabled><i class="fa-solid fa-pencil"></i></button>
-      <button class="btn btn-success btnUpdateLote" codLoteUpdate="' . $codLote . '"><i class="fa-solid fa fa-check-circle"></i></button>
+      <button class="btn btn-danger btnUpdateLoteVendido" codLoteUpdateVendido="' . $codLote . '"><i class="fa-solid fa fa-check-circle"></i></button>
       <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
     }
     if ($stateValue == 3) {
       $buttons = '
-      <button class="btn btn-info btnViewAllLote" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="btn btn-info btnViewAllLote" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '"><i class="fa-solid fa-magnifying-glass"></i></button>
       <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '" disabled><i class="fa-solid fa-pencil"></i></button>
-      <button class="btn btn-success btnUpdateLote" codLoteUpdate="' . $codLote . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
+      <button class="btn btn-success" codLoteUpdate="' . $codLote . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
       <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
     }
-    /*if ($stateValue == 4) {
-      $buttons = '
-      <button class="btn btn-info btnViewAllLote" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
-      <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '" disabled><i class="fa-solid fa-pencil"></i></button>
-      <button class="btn btn-success btnUpdateLote" codLoteUpdate="' . $codLote . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
-      <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '" disabled><i class="fa-solid fa-trash"></i></button>
-      ';
-    }*/
     return $buttons;
   }
 

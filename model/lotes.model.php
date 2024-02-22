@@ -358,15 +358,30 @@ class LotesModel
   //  Actualizar el estado del lote
   public static function mdlUpdateLoteEstado($table, $dataUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET Estado=:Estado, DateUpdate=:DateUpdate WHERE IdLote=:IdLote");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET Estado=:Estado, DateUpdate=:DateUpdate, NroFactura=:NroFactura WHERE IdLote=:IdLote");
     $statement->bindParam(":Estado", $dataUpdate["Estado"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":NroFactura", $dataUpdate["NroFactura"], PDO::PARAM_STR);
     $statement->bindParam(":IdLote", $dataUpdate["IdLote"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return "ok";
     } else {
       return "error";
     }
-
   }
+
+  public static function mdlUpdateLoteDevolucion($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET Estado=:Estado, DateUpdate=:DateUpdate, FechaDevolucion=:FechaDevolucion WHERE IdLote=:IdLote");
+    $statement->bindParam(":Estado", $dataUpdate["Estado"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":FechaDevolucion", $dataUpdate["FechaDevolucion"], PDO::PARAM_STR);
+    $statement->bindParam(":IdLote", $dataUpdate["IdLote"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  
 }

@@ -305,12 +305,14 @@ class IngresosController
   }
   /* fin */
 
-  //  Crear un ingreso por devolucion de una nota de pedido
-  public static function ctrCrearIngresoDevolucionNota()
+  //  Crear un ingreso por devolucion de una nota de pedido o de un lote, dependiendo del $tipoSalida
+  public static function ctrCrearIngresoDevolucion()
   {
     if (isset($_POST["responsableDev"]) || isset($_POST["fechaDevolucion"]) || isset($_POST["motivoDevolucion"])) {
       $table = "tb_ingreso";
       $codSalida = $_POST["codSalida"];
+      $tipoSalida = $_POST["tipoSalida"];
+
       //  Si ambas lista que devuelven están vacias o nulas, significa que se devolvio toda la lista de productos al almacén
       if (empty($_POST["listProductosDevolver"]) && empty($_POST["listProductosMerma"])) {
         $listaProductos = NotaPedidoController::ctrGetListaProductos($codSalida);
@@ -330,7 +332,7 @@ class IngresosController
           //  Cuando se actualice el stock en el almacén se creará el ingreso por devolución en la tabla de ingresos
           $dataTipoSalida = array(
             "codSalida" => $codSalida,
-            "tipoSalida" => "Nota de Pedido"
+            "tipoSalida" => $tipoSalida
           );
           $dataTipoSalida = json_encode($dataTipoSalida);
 
@@ -346,15 +348,25 @@ class IngresosController
             "DateUpdate" => date("Y-m-d\TH:i:sP")
           );
           $ingreso = IngresosModel::mdlCrearIngresoDevolucionNota($table, $dataCreate);
+          //  Si se crea el ingreso por devolución se actualiza el estado del tipo de salida que se está haciendo
           if ($ingreso == "ok") {
-            //  Si se crea el ingreso por devolución se actualiza el estado de la nota de pedido
-            $dataUpdate = array(
-              "IdNotaP" => $codSalida,
-              "EstadoNota" => "3",
-              "FechaDevolucion" => $_POST["fechaDevolucion"],
-              "DateUpdate" => date("Y-m-d\TH:i:sP")
-            );
-            $updateSalida = NotaPedidoController::ctrUpdateNotaPedidoDevolucion($dataUpdate);
+            if ($tipoSalida == "Nota de Pedido") {
+              $dataUpdate = array(
+                "IdNotaP" => $codSalida,
+                "EstadoNota" => "3",
+                "FechaDevolucion" => $_POST["fechaDevolucion"],
+                "DateUpdate" => date("Y-m-d\TH:i:sP")
+              );
+              $updateSalida = NotaPedidoController::ctrUpdateNotaPedidoDevolucion($dataUpdate);
+            } else {
+              $dataUpdate = array(
+                "IdLote" => $codSalida,
+                "Estado" => "3",
+                "FechaDevolucion" => $_POST["fechaDevolucion"],
+                "DateUpdate" => date("Y-m-d\TH:i:sP")
+              );
+              $updateSalida = LotesController::ctrUpdateLoteDevolucion($dataUpdate);
+            }
             if ($updateSalida == "ok") {
               $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Ingreso por Devolución Creado Correctamente', 'ingresos');
               echo $message;
@@ -374,7 +386,7 @@ class IngresosController
         //  Primero creamos el ingreso por devolución para luego obtener el id de este registro creado y guardarlo en la tabla de stock de merma
         $dataTipoSalida = array(
           "codSalida" => $codSalida,
-          "tipoSalida" => "Nota de Pedido"
+          "tipoSalida" => $tipoSalida
         );
         $dataTipoSalida = json_encode($dataTipoSalida);
         $dataCreate = array(
@@ -421,14 +433,24 @@ class IngresosController
           }
 
           if ($updateStock == "ok") {
-            //  Si se crea el ingreso por devolución se actualiza el estado de la nota de pedido
-            $dataUpdate = array(
-              "IdNotaP" => $codSalida,
-              "EstadoNota" => "3",
-              "FechaDevolucion" => $_POST["fechaDevolucion"],
-              "DateUpdate" => date("Y-m-d\TH:i:sP")
-            );
-            $updateSalida = NotaPedidoController::ctrUpdateNotaPedidoDevolucion($dataUpdate);
+            //  Si se crea el ingreso por devolución se actualiza el estado de la salida que se está haciendo
+            if ($tipoSalida == "Nota de Pedido") {
+              $dataUpdate = array(
+                "IdNotaP" => $codSalida,
+                "EstadoNota" => "3",
+                "FechaDevolucion" => $_POST["fechaDevolucion"],
+                "DateUpdate" => date("Y-m-d\TH:i:sP")
+              );
+              $updateSalida = NotaPedidoController::ctrUpdateNotaPedidoDevolucion($dataUpdate);
+            } else {
+              $dataUpdate = array(
+                "IdLote" => $codSalida,
+                "Estado" => "3",
+                "FechaDevolucion" => $_POST["fechaDevolucion"],
+                "DateUpdate" => date("Y-m-d\TH:i:sP")
+              );
+              $updateSalida = LotesController::ctrUpdateLoteDevolucion($dataUpdate);
+            }
             if ($updateSalida == "ok") {
               $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Ingreso por Devolución Creado Correctamente', 'ingresos');
               echo $message;

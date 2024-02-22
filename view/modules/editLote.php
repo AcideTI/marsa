@@ -93,7 +93,7 @@
             <!-- Codigo de Lote -->
             <div class="form-group col-md-6 inl">
               <label for="editarCodigoLote" class="form-label" style="font-weight: bold"> Código de Lote:</label>
-              <input type="text" class="form-control" id="editarCodigoLote" name="editarCodigoLote" value="<?php echo $datosLote["CodigoLote"] ?>" required>
+              <input type="text" class="form-control" id="editarCodigoLote" name="editarCodigoLote" value="<?php echo $datosLote["CodigoLote"] ?>" disabled>
             </div>
 
             <div class="form-group col-md-6">
