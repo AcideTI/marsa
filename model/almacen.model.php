@@ -25,28 +25,6 @@ class AlmacenModel
     $statement->execute();
     return $statement->fetchAll();
   }
-  
-  
-
-public static function mdlCreateAlmacen($tableAlmacen, $dataCreateAlmacen) {
-  $statement = Conexion::conn()->prepare("INSERT INTO $tableAlmacen (IdIngDet, IdProd, CantidadTotal, FechaProduccion, FechaVencimiento, FechaReingreso, Estado, DateCreate, DateUpdate) VALUES (:IdIngDet, :IdProd, :CantidadTotal, :FechaProduccion, :FechaVencimiento, :FechaReingreso, :Estado, :DateCreate, :DateUpdate)");
-
-  $statement->bindParam(":IdIngDet", $dataCreateAlmacen["IdIngDet"], PDO::PARAM_INT);
-  $statement->bindParam(":IdProd", $dataCreateAlmacen["IdProd"], PDO::PARAM_STR);
-  $statement->bindParam(":CantidadTotal", $dataCreateAlmacen["CantidadTotal"], PDO::PARAM_INT);
-  $statement->bindParam(":FechaProduccion", $dataCreateAlmacen["FechaProduccion"], PDO::PARAM_STR);
-  $statement->bindParam(":FechaVencimiento", $dataCreateAlmacen["FechaVencimiento"], PDO::PARAM_STR);
-  $statement->bindParam(":FechaReingreso", $dataCreateAlmacen["FechaReingreso"], PDO::PARAM_STR);
-  $statement->bindParam(":Estado", $dataCreateAlmacen["Estado"], PDO::PARAM_INT);
-  $statement->bindParam(":DateCreate", $dataCreateAlmacen["DateCreate"], PDO::PARAM_STR);
-  $statement->bindParam(":DateUpdate", $dataCreateAlmacen["DateUpdate"], PDO::PARAM_STR);
-
-  if ($statement->execute()) {
-    return "ok";
-  } else {
-    return "error";
-  }
-}
 
   //  Comprobar stock
   public static function mdlComprobarStock($tabla, $codProduct) {
@@ -160,5 +138,54 @@ public static function mdlCreateAlmacen($tableAlmacen, $dataCreateAlmacen) {
       $stmt->execute();
       return $stmt->fetch();
   }
+
+  //  Actualizar el almacén de la merma
+  public static function mdlUpdateStockAlmacenMerma($table, $dataCreate)
+  {
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (IdProducto, IdSalida, Cantidad, TipoSalida, DateCreate, DateUpdate) VALUES (:IdProducto, :IdSalida, :Cantidad, :TipoSalida, :DateCreate, :DateUpdate)");
+
+    $statement->bindParam(":IdProducto", $dataCreate["IdProducto"], PDO::PARAM_STR);
+    $statement->bindParam(":IdSalida", $dataCreate["IdSalida"], PDO::PARAM_STR);
+    $statement->bindParam(":Cantidad", $dataCreate["Cantidad"], PDO::PARAM_STR);
+    $statement->bindParam(":TipoSalida", $dataCreate["TipoSalida"], PDO::PARAM_STR);
+    $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataCreate["DateUpdate"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
  
+  //  Mostrar todas las mermas
+  public static function mdlGetAllMerma($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT
+    tb_producto.NombreProducto, 
+    tb_producto.Unidad, 
+    tb_almacen_merma.Cantidad, 
+    tb_almacen_merma.TipoSalida,  
+    tb_ingreso.FechaProduccionIng, 
+    tb_almacen_merma.IdIngresoDev, 
+    tb_almacen_merma.IdSalida
+  FROM
+    $table
+    INNER JOIN
+    tb_producto
+    ON 
+      tb_almacen_merma.IdProducto = tb_producto.IdProd
+    INNER JOIN
+    tb_categoriaprod
+    ON 
+      tb_producto.IdCate = tb_categoriaprod.IdCate
+    INNER JOIN
+    tb_ingreso
+    ON 
+      tb_almacen_merma.IdIngresoDev = tb_ingreso.IdIng
+  ORDER BY
+    tb_almacen_merma.IdAlmacenMerma DESC");
+    $statement->execute();
+    return $statement->fetchAll();
+  }
 }

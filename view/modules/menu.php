@@ -14,8 +14,7 @@
 <div class="collapse" id="listInventory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="almacen"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Almacén</span></a>
-
-
+    <a class="nav-link" href="mermas"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Mermas</span></a>
   </nav>
 </div>
 <!-- Compras -->
@@ -29,7 +28,6 @@
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-plus"></i><span style="margin-left: 10px;">Crear Nuevo Ingreso</span></a>
     <a class="nav-link" href="ingresos"><i class="fa-solid fa-file-lines"></i><span style="margin-left: 10px;">Todos los Ingresos</span></a>
-    <!-- <a class="nav-link" href="index.php?ruta=ingresos&type=salidas">Salidas</a> -->
   </nav>
 </div>
 

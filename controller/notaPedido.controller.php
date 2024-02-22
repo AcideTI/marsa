@@ -127,7 +127,7 @@ class NotaPedidoController
         echo $message;
       } else {
         //  Obtenemos la lista de productos de la nota de pedido
-        $productos = NotaPedidoModel::mdlGetListaProductos($table, $codNotaPe);
+        $productos = self::ctrGetListaProductos($codNotaPe);
         $productos = json_decode($productos["DatosProductosNotaPedidoJson"], true);
         //  Actualizamos el stock de los productos
         foreach ($productos as $product) {
@@ -157,16 +157,18 @@ class NotaPedidoController
   //  Actualizar el estado de la nota
   public static function ctrUpdateNotaPedido()
   {
-    if(isset($_GET["codUpdateNota"])) {
+    //  En el caso se tenga estos datos, es un update de estado 1 a 2
+    if(isset($_GET["codUpdateNota"]) && isset($_GET["nroFactura"])) {
       $table = "tb_notapedido";
       $codNota = $_GET["codUpdateNota"];
-      $estadoActual = self::ctrGetEstadoNotaPedido($codNota);
+      $nroFactura = $_GET["nroFactura"];
       $dataUpdate = array(
-        "EstadoNota" => intval($estadoActual["EstadoNota"]) + 1,
+        "EstadoNota" => "2",
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        "NroFactura" => $nroFactura,
         "IdNotaP" => $codNota
       );
-      $actualizarNota = NotaPedidoModel::mdlUpdateNotaPedido($table, $dataUpdate);
+      $actualizarNota = NotaPedidoModel::mdlUpdateNotaPedidoRetirado($table, $dataUpdate);
       if ($actualizarNota == "ok") {
         $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Nota Pedido Actualizada Correctamente', 'verSalidas');
         echo $message;
@@ -203,7 +205,7 @@ class NotaPedidoController
       $data = json_decode($_POST["formDataJson"], true);
 
       //  Obtengo la lista antigua de productos y la comparo con la nueva
-      $productosAntiguos = NotaPedidoModel::mdlGetListaProductos($table, $_POST["codNotaPedido"]);
+      $productosAntiguos = self::ctrGetListaProductos($_POST["codNotaPedido"]);
       $productosAntiguos = json_decode($productosAntiguos["DatosProductosNotaPedidoJson"], true);
 
       $listaAntigua = array_map('serialize', $productosAntiguos);
@@ -404,6 +406,19 @@ class NotaPedidoController
   }
 
   /* fin */
+  //  Obtener la lista de productos de una nota de pedido
+  public static function ctrGetListaProductos($codNota) {
+    $table = "tb_notapedido";
+    $listaProductos = NotaPedidoModel::mdlGetListaProductos($table, $codNota);
+    return $listaProductos;
+  }
 
+  //  Actualizar la nota de pedido en una devolución
+  public static function ctrUpdateNotaPedidoDevolucion($dataUpdate)
+  {
+    $table = "tb_notapedido";
+    $response = NotaPedidoModel::mdlUpdateNotaPedidoDevolucion($table, $dataUpdate);
+    return $response;
+  }
 
 }

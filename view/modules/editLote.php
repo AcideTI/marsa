@@ -25,7 +25,7 @@
       <form role="form" method="post" class="row g-3 m-2 formEditLote">
         <span class="border border-3 p-3">
           <div class="container row g-3">
-            <h3>Datos de Lote a Editar </h3>
+            <h3>Datos del Lote </h3>
             <input type="hidden" id="idLoteEdit" name="idLoteEdit">
 
             <div class="form-group col-md-4">

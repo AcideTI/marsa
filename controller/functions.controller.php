@@ -24,17 +24,17 @@ class FunctionsController
   public static function ctrGetStateSalidas($stateValue)
   {
     if ($stateValue == 1) {
-      $state = '<span class="badge rounded-pill bg-primary">Retirado</span>';
+      $state = '<span class="badge rounded-pill bg-primary" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Retirado</span>';
     }
     if ($stateValue == 2) {
-      $state = '<span class="badge rounded-pill bg-success">Vendido</span>';
+      $state = '<span class="badge rounded-pill bg-success" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Vendido</span>';
     }
     if ($stateValue == 3) {
-      $state = '<span class="badge rounded-pill bg-danger">Devolucion</span>';
+      $state = '<span class="badge rounded-pill bg-danger" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Devolucion</span>';
     }
-    if ($stateValue == 4) {
-      $state = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
-    }
+    // if ($stateValue == 4) {
+    //   $state = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
+    // }
     return $state;
   }
 
@@ -45,7 +45,7 @@ class FunctionsController
       $buttons = '
         <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-pencil"></i></button>
-        <button class="btn btn-success  " codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
+        <button class="btn btn-success btnUpdateNotaRegistrado" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-trash"></i></button>
       ';
     }
@@ -53,7 +53,7 @@ class FunctionsController
       $buttons = '
         <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
-        <button class="btn btn-success btnUpdateNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
+        <button class="btn btn-danger btnUpdateNotaVendido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
     }
@@ -61,18 +61,18 @@ class FunctionsController
       $buttons = '
         <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
-        <button class="btn btn-success btnUpdateNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
+        <button class="btn btn-danger " codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
     }
-    if ($stateValue == 4) {
+    /*if ($stateValue == 4) {
       $buttons = '
         <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
         <button class="btn btn-success btnUpdateNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
-    }
+    }*/
 
     return $buttons;
   }
@@ -88,17 +88,17 @@ class FunctionsController
   public static function ctrGetStatesLotes($stateValue)
   {
     if ($stateValue == 1) {
-      $state = '<span class="badge rounded-pill bg-primary">Retirado</span>';
+      $state = '<span class="badge rounded-pill bg-primary" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Retirado</span>';
     }
     if ($stateValue == 2) {
-      $state = '<span class="badge rounded-pill bg-success">Vendido</span>';
+      $state = '<span class="badge rounded-pill bg-success" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Vendido</span>';
     }
     if ($stateValue == 3) {
-      $state = '<span class="badge rounded-pill bg-danger">Devolución</span>';
+      $state = '<span class="badge rounded-pill bg-danger" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Devolución</span>';
     }
-    if ($stateValue == 4) {
-      $state = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
-    }
+    // if ($stateValue == 4) {
+    //   $state = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
+    // }
     return $state;
   }
 
@@ -129,34 +129,75 @@ class FunctionsController
       <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
     }
-    if ($stateValue == 4) {
+    /*if ($stateValue == 4) {
       $buttons = '
       <button class="btn btn-info btnViewAllLote" data-bs-toggle="modal" data-bs-target="#modalViewDetallNotPe" codLote="' . $codLote . '" ><i class="fa-solid fa-magnifying-glass"></i></button>
       <button class="btn btn-warning btnLoteEdit" codLoteEdit="' . $codLote . '" disabled><i class="fa-solid fa-pencil"></i></button>
       <button class="btn btn-success btnUpdateLote" codLoteUpdate="' . $codLote . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
       <button class="btn btn-danger btnLoteDelet" codLoteDelet="' . $codLote . '" disabled><i class="fa-solid fa-trash"></i></button>
       ';
-    }
+    }*/
     return $buttons;
   }
 
   //  Obtener el valor del estado para la vista editar
   public static function ctrGetStateEditLote($codState)
   {
-    if($codState == 1) {
-      $estado = "Retirado"; 
-      $color = "bg-primary";
+    if ($codState == 1) {
+      $estado = "Retirado";
+      $color = "#82B2F1";
     }
-    if($codState == 2) {
-      $estado = "Completado"; 
-      $color = "bg-success";
+    if ($codState == 2) {
+      $estado = "Vendido";
+      $color = "#82F5A5";
     }
-    if($codState == 3) {
-      $estado = "Anulado"; 
-      $color = "bg-danger";
+    if ($codState == 3) {
+      $estado = "Devolución";
+      $color = "#F1907D";
     }
-    $input = '<input type="text" class="form-control '.$color.'" id="editarEstadoLote" name="editarEstadoLote" value="' . $estado . '" readonly>';
+    $input = '<input type="text" class="form-control" id="editarEstadoLote" name="editarEstadoLote" value="' . $estado . '"  style="background-color: ' . $color . '" disabled>';
     return $input;
   }
 
+  //  Obtener tipo de ignreso de un ingreso
+  public static function ctrGetTipoIngreso($tipoIngreso)
+  {
+    if ($tipoIngreso == 1) {
+      $tipo = "<span class='badge rounded-pill bg-success' style='font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;'>Producción</span>";
+    }
+    if ($tipoIngreso == 2) {
+      $tipo = "<span class='badge rounded-pill bg-danger' style='font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;'>Devolución</span>";
+    }
+    return $tipo;
+  }
+
+  //  Botones para los ingresos 6->Devolución 7->Ingresado
+  public static function ctrGetButtonsIngresos($stateValue, $codIngreso)
+  {
+    if ($stateValue == 7) {
+      $buttons = '
+        <button class="btn btn-info btnVisualizarIngreso" codIngreso="' . $codIngreso . '"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="btn btn-warning btnEditarIngreso" codIngreso="' . $codIngreso . '" ><i class="fa-solid fa-pencil"></i></button>
+        <button class="btn btn-danger btnIngresoDelet" codIngresoDelet="' . $codIngreso . '"><i class="fa-solid fa-trash"></i></button>
+      ';
+    }
+    if ($stateValue == 6) {
+      $buttons = '
+        <button class="btn btn-info btnVisualizarIngreso" codIngreso="' . $codIngreso . '"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="btn btn-warning btnEditarIngreso" codIngreso="' . $codIngreso . '" disabled><i class="fa-solid fa-pencil"></i></button>
+        <button class="btn btn-danger btnIngresoDelet" codIngresoDelet="' . $codIngreso . '" disabled><i class="fa-solid fa-trash"></i></button>
+      ';
+    }
+    return $buttons;
+  }
+
+  //  Botones para las mermas
+  public static function ctrGetButtonsMermas($codIngresoDev, $codSalida, $tipoSalida)
+  {
+    $buttons = '
+      <button class="btn btn-success btnVisualizarIngreso" codIngreso="' . $codIngresoDev . '"><i class="fa-solid fa-file-lines"></i></button>
+      <button class="btn btn-warning btnVisualizarSalida" codSalida="' . $codSalida . '" tipoSalida="' . $tipoSalida . '"><i class="fa-solid fa-layer-group"></i></button>
+    ';
+    return $buttons;
+  }
 }

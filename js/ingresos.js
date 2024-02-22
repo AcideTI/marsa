@@ -4,13 +4,24 @@ $("#btnNewIng").on("click", function () {
 });
 
 //  Edit order approved
-$(".btnEditarIngreso").on("click", function () {
+$(".table").on("click", ".btnEditarIngreso", function () {
   var codIngreso = $(this).attr("codIngreso");
   window.location = "index.php?ruta=editarIngreso&codIngreso=" + codIngreso;
 });
 
+//  Edit order approved
+$(".table").on("click", ".btnVisualizarIngreso", function () {
+  var codIngreso = $(this).attr("codIngreso");
+  window.location = "index.php?ruta=visualizarIngreso&codIngreso=" + codIngreso;
+});
+
 //  Cerrar movimiento Ingreso
 $(".closeIngresoNuevo").on("click", function () {
+  window.location = "index.php?ruta=ingresos";
+});
+
+//  Cerrar movimiento Ingreso
+$(".closeVisualizarIngreso").on("click", function () {
   window.location = "index.php?ruta=ingresos";
 });
 

@@ -8,6 +8,11 @@ $(".closelotes").on("click", function () {
   window.location = "verSalidas";
 });
 
+//  Cerrar visualizar lote
+$(".closeVisualizarLote").on("click", function () {
+  window.location = "verSalidas";
+});
+
 //  Descargar todos los lotes para el reporte exel de lotes
 $("#reporteExeLotes").on("click", function(){
   window.location = "view/modules/Excel-Lotes.php?&reporteExeLotes";
