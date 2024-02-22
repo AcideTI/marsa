@@ -41,9 +41,8 @@ class IngresosController
         "DatosProductosIngresoJson" => $data["listProducts"],
         "FechaProduccionIng" => $data["dateProduction"],
         "FechaVencimientoIng" => $data["dateVenci"],
-        "FechaReingresoIng" => $data["dateDev"],
-        "FechaMermaIng" => $data["dateMerma"],
-        "Estado" => $data["stateIng"],
+        "Estado" => "7",
+        "TipoIngreso" => "1",
         "DateCreate" => date("Y-m-d\TH:i:sP"),
         "DateUpdate" => date("Y-m-d\TH:i:sP")
       );
@@ -197,7 +196,7 @@ class IngresosController
               "HoraUpdate" => date("H:i:s"),
               "IdAlma" => $stockActual["IdAlma"]
             );
-            
+
             //  Luego de actualizar el stock, actualizamos la lista de productos del ingreso
             $dataUpdate = array(
               "DatosProductosIngresoJson" => $_POST["listProducts"],
@@ -277,7 +276,7 @@ class IngresosController
   }
   /* fin */
 
-  /* Devolver todos los ingresos para el reporte exel por fechas */ 
+  /* Devolver todos los ingresos para el reporte exel por fechas */
   public static function ctrGetAllDowlReportsExeIngFech($fechaInicio, $fechaFin)
   {
     $table = "tb_ingreso";
@@ -290,7 +289,7 @@ class IngresosController
     }
     return $newlistAllDataExeIng;
   }
- 
+
   private static function procesarJsonFech($Data)
   {
     $recordlistAllDataExeIng = [];
@@ -299,12 +298,175 @@ class IngresosController
       $newData = $Data; // Copiar el registro original
       $newData['Producto'] = $product['NombreProducto'];
       $newData['Cantidad'] = $product['countProduct'];
-      unset($newData['DatosProductosIngresoJson']); 
-      $recordlistAllDataExeIng[] = $newData; 
+      unset($newData['DatosProductosIngresoJson']);
+      $recordlistAllDataExeIng[] = $newData;
     }
     return $recordlistAllDataExeIng;
-   
   }
   /* fin */
 
+  //  Crear un ingreso por devolucion de una nota de pedido o de un lote, dependiendo del $tipoSalida
+  public static function ctrCrearIngresoDevolucion()
+  {
+    if (isset($_POST["responsableDev"]) || isset($_POST["fechaDevolucion"]) || isset($_POST["motivoDevolucion"])) {
+      $table = "tb_ingreso";
+      $codSalida = $_POST["codSalida"];
+      $tipoSalida = $_POST["tipoSalida"];
+
+      //  Si ambas lista que devuelven están vacias o nulas, significa que se devolvio toda la lista de productos al almacén
+      if (empty($_POST["listProductosDevolver"]) && empty($_POST["listProductosMerma"])) {
+        $listaProductos = NotaPedidoController::ctrGetListaProductos($codSalida);
+        $listaProductos = json_decode($listaProductos["DatosProductosNotaPedidoJson"], true);
+        foreach ($listaProductos as $value) {
+          $stock = AlmacenController::ctrComprobarStock($value["codProduct"]);
+          $nuevoStock = $stock["CantidadTotal"] + $value["countProduct"];
+          $dataStock = array(
+            "CantidadTotal" => $nuevoStock,
+            "DateUpdate" => date("Y-m-d"),
+            "HoraUpdate" => date("H:i:s"),
+            "IdAlma" => $stock["IdAlma"]
+          );
+          $updateStock = AlmacenController::ctrUpdateStockAlmacen($dataStock);
+        }
+        if ($updateStock == "ok") {
+          //  Cuando se actualice el stock en el almacén se creará el ingreso por devolución en la tabla de ingresos
+          $dataTipoSalida = array(
+            "codSalida" => $codSalida,
+            "tipoSalida" => $tipoSalida
+          );
+          $dataTipoSalida = json_encode($dataTipoSalida);
+
+          $dataCreate = array(
+            "IdPer" => $_POST["responsableDev"],
+            "DatosRefSalida" => $dataTipoSalida,
+            "DescripcionIng" => $_POST["motivoDevolucion"],
+            "DatosProductosIngresoJson" => json_encode($listaProductos),
+            "FechaProduccionIng" => $_POST["fechaDevolucion"],
+            "Estado" => "6",
+            "TipoIngreso" => "2",
+            "DateCreate" => date("Y-m-d\TH:i:sP"),
+            "DateUpdate" => date("Y-m-d\TH:i:sP")
+          );
+          $ingreso = IngresosModel::mdlCrearIngresoDevolucionNota($table, $dataCreate);
+          //  Si se crea el ingreso por devolución se actualiza el estado del tipo de salida que se está haciendo
+          if ($ingreso == "ok") {
+            if ($tipoSalida == "Nota de Pedido") {
+              $dataUpdate = array(
+                "IdNotaP" => $codSalida,
+                "EstadoNota" => "3",
+                "FechaDevolucion" => $_POST["fechaDevolucion"],
+                "DateUpdate" => date("Y-m-d\TH:i:sP")
+              );
+              $updateSalida = NotaPedidoController::ctrUpdateNotaPedidoDevolucion($dataUpdate);
+            } else {
+              $dataUpdate = array(
+                "IdLote" => $codSalida,
+                "Estado" => "3",
+                "FechaDevolucion" => $_POST["fechaDevolucion"],
+                "DateUpdate" => date("Y-m-d\TH:i:sP")
+              );
+              $updateSalida = LotesController::ctrUpdateLoteDevolucion($dataUpdate);
+            }
+            if ($updateSalida == "ok") {
+              $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Ingreso por Devolución Creado Correctamente', 'ingresos');
+              echo $message;
+            } else {
+              $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Crear el Ingreso por Devolución', 'ingresos');
+              echo $message;
+            }
+          } else {
+            $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Crear el Ingreso por Devolución', 'ingresos');
+            echo $message;
+          }
+        }
+      } else {
+        $productosDevolucion = json_decode($_POST["listProductosDevolver"], true);
+        $productosMerma = json_decode($_POST["listProductosMerma"], true);
+
+        //  Primero creamos el ingreso por devolución para luego obtener el id de este registro creado y guardarlo en la tabla de stock de merma
+        $dataTipoSalida = array(
+          "codSalida" => $codSalida,
+          "tipoSalida" => $tipoSalida
+        );
+        $dataTipoSalida = json_encode($dataTipoSalida);
+        $dataCreate = array(
+          "IdPer" => $_POST["responsableDev"],
+          "DatosRefSalida" => $dataTipoSalida,
+          "DescripcionIng" => $_POST["motivoDevolucion"],
+          "DatosProductosIngresoJson" => $_POST["listProductosDevolver"],
+          "FechaProduccionIng" => $_POST["fechaDevolucion"],
+          "Estado" => "6",
+          "TipoIngreso" => "2",
+          "DateCreate" => date("Y-m-d\TH:i:sP"),
+          "DateUpdate" => date("Y-m-d\TH:i:sP")
+        );
+        $ingreso = IngresosModel::mdlCrearIngresoDevolucionNota($table, $dataCreate);
+
+        if ($ingreso == "ok") {
+          //  Actualizar stock con la lista de productos que se devuelven al stock
+          foreach ($productosDevolucion as $value) {
+            $stock = AlmacenController::ctrComprobarStock($value["codProduct"]);
+            $nuevoStock = $stock["CantidadTotal"] + $value["countProduct"];
+            $dataStock = array(
+              "CantidadTotal" => $nuevoStock,
+              "DateUpdate" => date("Y-m-d"),
+              "HoraUpdate" => date("H:i:s"),
+              "IdAlma" => $stock["IdAlma"]
+            );
+            $updateStock = AlmacenController::ctrUpdateStockAlmacen($dataStock);
+          }
+
+          //  Obtener el id del ingreso por devolución
+          $codIngreso = IngresosModel::mdlGetLastIngreso($table);
+          //  Actualizar stock que se va a merma
+          foreach ($productosMerma as $value) {
+            $dataStock = array(
+              "IdProducto" => $value["codProduct"],
+              "IdSalida" => $codSalida,
+              "IdIngresoDev" => $codIngreso["IdIng"],
+              "Cantidad" => $value["countProduct"],
+              "TipoSalida" => "Nota de Pedido",
+              "DateCreate" => date("Y-m-d\TH:i:sP"),
+              "DateUpdate" => date("Y-m-d\TH:i:sP")
+            );
+            $updateStock = AlmacenController::ctrUpdateStockAlmacenMerma($dataStock);
+          }
+
+          if ($updateStock == "ok") {
+            //  Si se crea el ingreso por devolución se actualiza el estado de la salida que se está haciendo
+            if ($tipoSalida == "Nota de Pedido") {
+              $dataUpdate = array(
+                "IdNotaP" => $codSalida,
+                "EstadoNota" => "3",
+                "FechaDevolucion" => $_POST["fechaDevolucion"],
+                "DateUpdate" => date("Y-m-d\TH:i:sP")
+              );
+              $updateSalida = NotaPedidoController::ctrUpdateNotaPedidoDevolucion($dataUpdate);
+            } else {
+              $dataUpdate = array(
+                "IdLote" => $codSalida,
+                "Estado" => "3",
+                "FechaDevolucion" => $_POST["fechaDevolucion"],
+                "DateUpdate" => date("Y-m-d\TH:i:sP")
+              );
+              $updateSalida = LotesController::ctrUpdateLoteDevolucion($dataUpdate);
+            }
+            if ($updateSalida == "ok") {
+              $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Ingreso por Devolución Creado Correctamente', 'ingresos');
+              echo $message;
+            } else {
+              $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Crear el Ingreso por Devolución', 'ingresos');
+              echo $message;
+            }
+          } else {
+            $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Crear el Ingreso por Devolución', 'ingresos');
+            echo $message;
+          }
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Crear el Ingreso por Devolución', 'ingresos');
+          echo $message;
+        }
+      }
+    }
+  }
 }

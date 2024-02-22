@@ -211,9 +211,10 @@ class LotesController
     if(isset($_GET["codUpateLote"])) {
       $table = "tb_lote";
       $codLote = $_GET["codUpateLote"];
-      $estadoActual = self::ctrGetEstadoLote($codLote);
+      $nroFactura = $_GET["nroFactura"];
       $dataUpdate = array(
-        "Estado" => intval($estadoActual["Estado"]) + 1,
+        "Estado" => "2",
+        "NroFactura" => $nroFactura,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
         "IdLote" => $codLote
       );
@@ -227,6 +228,14 @@ class LotesController
       }
     }
   }
+
+  public static function ctrUpdateLoteDevolucion($dataUpdate)
+  {
+    $table = "tb_lote";
+    $response = LotesModel::mdlUpdateLoteDevolucion($table, $dataUpdate);
+    return $response;
+  }
+  
   /* fin */
 
   

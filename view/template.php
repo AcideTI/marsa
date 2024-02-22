@@ -40,6 +40,11 @@
           $_GET["ruta"] == "categorias" ||
           $_GET["ruta"] == "editarIngreso" ||
           $_GET["ruta"] == "verSalidas" ||
+          $_GET["ruta"] == "nuevaDevolucion" ||
+          $_GET["ruta"] == "mermas" ||
+          $_GET["ruta"] == "visualizarIngreso" ||
+          $_GET["ruta"] == "visualizarNotaPedido" ||
+          $_GET["ruta"] == "visualizarLote" ||
 
           $_GET["ruta"] == "signout" 
              )

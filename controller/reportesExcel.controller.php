@@ -13,24 +13,22 @@ class ControllerReportesExcel
       $listAllDataExeIng = IngresosController::ctrGetAllDowlReportsExeIng();
 
       //  cell Titles
-      $titleArray = ['Nr Registro','RESPONSABLE', 'ESTADO', 'FECHA INGRESO', 'OBSERVACIÓN', 'PRODUCTOS', 'CANTIDAD','FECHA VENCIMIENTO', 'FECHA REINGRESO', 'FECHA INGRESO MERMA'];
+      $titleArray = ['#', 'CODIGO','RESPONSABLE', 'ESTADO', 'FECHA INGRESO', 'OBSERVACIÓN', 'PRODUCTO', 'CANTIDAD'];
       $dataArray = [];
       $spreadsheet = new Spreadsheet();
       $activeWorksheet = $spreadsheet->getActiveSheet();
       $activeWorksheet->fromArray($titleArray, null, 'A1');
 
-      foreach ($listAllDataExeIng as $value) {
+      foreach ($listAllDataExeIng as $key => $value) {
         $data = array(
-         $value["IdIng"],
-          $value["NombrePerIdPer"],
+          $key + 1,
+          $value["IdIng"],
+          $value["FullNamePersonal"],
           $value["TipoEstado"],
           $value["FechaProduccionIng"],
           $value["DescripcionIng"],
           $value["Producto"],
           $value["Cantidad"],
-          $value["FechaVencimientoIng"],
-          $value["FechaReingresoIng"],
-          $value["FechaMermaIng"],
         );
         //  Data  cell
         array_push($dataArray, $data);
@@ -43,6 +41,7 @@ class ControllerReportesExcel
       $activeWorksheet->getColumnDimension('E')->setAutoSize(true);
       $activeWorksheet->getColumnDimension('F')->setAutoSize(true);
       $activeWorksheet->getColumnDimension('G')->setAutoSize(true);
+      $activeWorksheet->getColumnDimension('H')->setAutoSize(true);
       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       $writer = new Xlsx($spreadsheet);
       $writer->save('php://output');
@@ -57,7 +56,7 @@ class ControllerReportesExcel
        $listAllDataExeIngFech = IngresosController::ctrGetAllDowlReportsExeIngFech($fechaInicio, $fechaFin);
  
        //  cell Titles
-       $titleArray = ['Nr Registro','RESPONSABLE', 'ESTADO', 'FECHA INGRESO', 'OBSERVACIÓN', 'PRODUCTOS', 'CANTIDAD','FECHA VENCIMIENTO', 'FECHA REINGRESO', 'FECHA INGRESO MERMA'];
+       $titleArray = ['Nr Registro','RESPONSABLE', 'ESTADO', 'FECHA INGRESO', 'OBSERVACIÓN', 'PRODUCTOS', 'CANTIDAD','FECHA VENCIMIENTO'];
        $dataArray = [];
        $spreadsheet = new Spreadsheet();
        $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -73,8 +72,6 @@ class ControllerReportesExcel
            $value["Producto"],
            $value["Cantidad"],
            $value["FechaVencimientoIng"],
-           $value["FechaReingresoIng"],
-           $value["FechaMermaIng"],
          );
          //  Data  cell
          array_push($dataArray, $data);

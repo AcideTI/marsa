@@ -250,6 +250,7 @@ class NotaPedidoModel
     tb_notapedido.IdPer, 
     tb_notapedido.IdRes, 
     tb_notapedido.IdCliente, 
+    tb_notapedido.EstadoNota, 
     tb_notapedido.Total, 
     tb_notapedido.FechaNotaPedido, 
     tb_notapedido.DatosProductosNotaPedidoJson, 
@@ -529,10 +530,25 @@ class NotaPedidoModel
 
   /* fin */
   //  Actualizar el estado de la nota de pedido
-  public static function mdlUpdateNotaPedido($table, $dataUpdate)
+  public static function mdlUpdateNotaPedidoRetirado($table, $dataUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET EstadoNota=:EstadoNota, DateUpdate=:DateUpdate WHERE IdNotaP=:IdNotaP");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET EstadoNota=:EstadoNota, NroFactura=:NroFactura, DateUpdate=:DateUpdate WHERE IdNotaP=:IdNotaP");
     $statement->bindParam(":EstadoNota", $dataUpdate["EstadoNota"], PDO::PARAM_STR);
+    $statement->bindParam(":NroFactura", $dataUpdate["NroFactura"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":IdNotaP", $dataUpdate["IdNotaP"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  
+  public static function mdlUpdateNotaPedidoDevolucion($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET EstadoNota=:EstadoNota, FechaDevolucion=:FechaDevolucion, DateUpdate=:DateUpdate WHERE IdNotaP=:IdNotaP");
+    $statement->bindParam(":EstadoNota", $dataUpdate["EstadoNota"], PDO::PARAM_STR);
+    $statement->bindParam(":FechaDevolucion", $dataUpdate["FechaDevolucion"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
     $statement->bindParam(":IdNotaP", $dataUpdate["IdNotaP"], PDO::PARAM_STR);
     if ($statement->execute()) {

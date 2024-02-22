@@ -19,6 +19,7 @@
       </ol>
 
       <!-- Botones de acciones -->
+      <div class="d-flex m-2">
         <button type="button" class="btn btn-info btnNewIng" id="btnNewIng"><i class="fa-regular fa-clipboard "></i>
           Ingresar Producción Diaria
         </button>
@@ -30,7 +31,8 @@
         <button type="button" class="btn btn-secondary" id="reporteIngPorFechas"><i class="fa-solid fa-calendar-days"></i>
           Descargar Reporte por fechas
         </button>
-        <!--  <span style="margin: 0 10px;"></span> -->
+      </div>
+      <!--  <span style="margin: 0 10px;"></span> -->
       <!-- Tabla de ingresos -->
       <div class="card mb-4">
         <div class="card-header">
@@ -43,32 +45,31 @@
               <tr>
                 <th>#</th>
                 <th>Responsable</th>
+                <th>Tipo Ingreso</th>
                 <th>Detalle Ingreso</th>
-                <th>Fecha Ingreso</th>
                 <th>Productos</th>
+                <th>Fecha Ingreso</th>
                 <th>Fecha Vencimiento</th>
-                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <?php
+              //<?php
               $ListNotaPedido = IngresosController::ctrGetAllIngresos();
               foreach ($ListNotaPedido as $key => $value) {
-                $estado = $value["TipoEstado"] == "Ingresado" ? "<span class='badge bg-success' style='font-size: 14px; padding: 3px; width: 70px; text-align: center;'>Ingresado</span>" : "<span class='badge bg-danger' style='font-size: 14px; padding: 3px; width: 70px; text-align: center;'>Vencido</span>";
+                $tipoIngreso = FunctionsController::ctrGetTipoIngreso($value["TipoIngreso"]);
+                $botones = FunctionsController::ctrGetButtonsIngresos($value["Estado"], $value["IdIng"]);
                 echo
                 '<tr>                
-                      <td>' . $value["IdIng"] . '</td>
-                      <td>' . $value["NombrePerIdPer"] . '</td>
-                      <td>' . $value["DescripcionIng"] . '</td>
-                      <td>' . $value["FechaProduccionIng"] . '</td>
-                      <td><button class="btn btn-primary btnMostarProductosIng" data-products="' . htmlspecialchars($value["DatosProductosIngresoJson"]) . '">Productos</button></td>
-                      <td>' . $value["FechaVencimientoIng"] . '</td>
-                      <td>' . $estado . '</td>
-                      <td>
-                      <button class="btn btn-warning btnEditarIngreso" codIngreso="' . $value["IdIng"] . '"><i class="fa-solid fa-pencil"></i></button>
-                      <button class="btn btn-danger btnIngresoDelet" codIngresoDelet="' . $value["IdIng"] . '"><i class="fa-solid fa-trash"></i></button>
-                    </tr>';
+                  <td>' . $value["IdIng"] . '</td>
+                  <td>' . $value["NombrePerIdPer"] . '</td>
+                  <td>' . $tipoIngreso . '</td>
+                  <td>' . $value["DescripcionIng"] . '</td>
+                  <td><button class="btn btn-primary btnMostarProductosIng" data-products="' . htmlspecialchars($value["DatosProductosIngresoJson"]) . '">Productos</button></td>
+                  <td>' . $value["FechaProduccionIng"] . '</td>
+                  <td>' . $value["FechaVencimientoIng"] . '</td>
+                  <td>' . $botones . '</td>
+                </tr>';
               } ?>
             </tbody>
           </table>

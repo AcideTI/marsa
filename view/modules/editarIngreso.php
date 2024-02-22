@@ -55,14 +55,6 @@
               <input type="date" class="form-control" id="editFechaVencimiento" name="editFechaVencimiento" value="<?php echo $datosIngreso["FechaVencimientoIng"] ?>"" required><br><br>
             </div>
 
-            <div class=" col-md-3">
-              <div id="stateIngWrapper">
-                <label for="stateIng" class="form-label" style="font-weight: bold">Estado:</label>
-                <select class="form-control" id="stateIng" name="stateIng" readonly>
-                  <option value="7" selected>Ingresado</option>
-                </select>
-              </div>
-            </div>
           </div>
         </span>
 

@@ -25,7 +25,7 @@
       <form role="form" method="post" class="row g-3 m-2 formEditLote">
         <span class="border border-3 p-3">
           <div class="container row g-3">
-            <h3>Datos de Lote a Editar </h3>
+            <h3>Datos del Lote </h3>
             <input type="hidden" id="idLoteEdit" name="idLoteEdit">
 
             <div class="form-group col-md-4">
@@ -93,7 +93,7 @@
             <!-- Codigo de Lote -->
             <div class="form-group col-md-6 inl">
               <label for="editarCodigoLote" class="form-label" style="font-weight: bold"> Código de Lote:</label>
-              <input type="text" class="form-control" id="editarCodigoLote" name="editarCodigoLote" value="<?php echo $datosLote["CodigoLote"] ?>" required>
+              <input type="text" class="form-control" id="editarCodigoLote" name="editarCodigoLote" value="<?php echo $datosLote["CodigoLote"] ?>" disabled>
             </div>
 
             <div class="form-group col-md-6">

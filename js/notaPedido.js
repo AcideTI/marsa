@@ -1,40 +1,51 @@
 //  Cerrar movimiento Ingreso
+$(".closeDevolucion").on("click", function () {
+  window.location = "index.php?ruta=verSalidas";
+});
+
+//  Cerrar movimiento Ingreso
 $(".closeNotaPedido").on("click", function () {
   window.location = "index.php?ruta=verSalidas";
 });
-/* fin */
 
+//  Cerrar movimiento Ingreso
+$(".closeVisualizarNota").on("click", function () {
+  window.location = "index.php?ruta=verSalidas";
+});
+/* fin */
 
 //  Crear una nueva nota de pedido
 // $("#btnNewNotaDePedido").on("click", function () {
 //   window.location = "index.php?ruta=notaPedido";
 // });
 
-
 //  Descargar todas las notas para el reporte exel de notas pedido
-$("#reporteExeNotaPe").on("click", function(){
+$("#reporteExeNotaPe").on("click", function () {
   window.location = "view/modules/Excel-Nota-Pedido.php?&reporteExeNotaPe";
 });
 
-//  Descargar reporte exel de notas por fechas 
-$(function() {
-  var boton = $('#reporteExeNotaPeFech');
-  boton.daterangepicker({
-    opens: 'left',
-    autoApply: false,
-    locale: {
-      format: 'YYYY-MM-DD'
+//  Descargar reporte exel de notas por fechas
+$(function () {
+  var boton = $("#reporteExeNotaPeFech");
+  boton.daterangepicker(
+    {
+      opens: "left",
+      autoApply: false,
+      locale: {
+        format: "YYYY-MM-DD",
+      },
+    },
+    function (start, end) {
+      boton.val(start.format("YYYY-MM-DD") + " - " + end.format("YYYY-MM-DD"));
     }
-  }, function(start, end) {
-    boton.val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-  });
+  );
   //agraga la fecha actual si no se selecciona ninguna fecha al clickear en el boton aplly
   //tambien si solo se selciona una solo fecha
-  boton.on('apply.daterangepicker', function(ev, picker) {
-    var rangoFechas = $(this).val().split(' - ');
+  boton.on("apply.daterangepicker", function (ev, picker) {
+    var rangoFechas = $(this).val().split(" - ");
     var fechaInicioNot = rangoFechas[0];
     var fechaFinNot = rangoFechas[1];
-    var fechaActualNot = new Date().toISOString().split('T')[0]; // obtiene la fecha actual en formato YYYY-MM-DD
+    var fechaActualNot = new Date().toISOString().split("T")[0]; // obtiene la fecha actual en formato YYYY-MM-DD
     if (!fechaInicioNot && !fechaFinNot) {
       fechaInicioNot = fechaActualNot;
       fechaFinNot = fechaActualNot;
@@ -43,7 +54,11 @@ $(function() {
     } else if (!fechaInicioNot) {
       fechaInicioNot = fechaFinNot;
     }
-    window.location = "view/modules/Excel-Nota-Pedido.php?reporteExeNotaPeFech&fechaInicioNot=" + fechaInicioNot + "&fechaFinNot=" + fechaFinNot;
+    window.location =
+      "view/modules/Excel-Nota-Pedido.php?reporteExeNotaPeFech&fechaInicioNot=" +
+      fechaInicioNot +
+      "&fechaFinNot=" +
+      fechaFinNot;
   });
 });
 /* fin */
@@ -52,16 +67,18 @@ $(function() {
 
 $(".dataTableSalidas").on("click", ".btnPrintNotaPedido", function () {
   var codNotaPe = $(this).attr("codNotaPe");
+
   if(codNotaPe != null || codNotaPe != '')
   {
     window.open("library/FPDF/pdfNotaPedido.php?&codNotaPe=" + codNotaPe, "_blank");
   }
   else
   {
+
     Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: '¡No se puede imprimir este pedido!',
+      icon: "error",
+      title: "Error",
+      text: "¡No se puede imprimir este pedido!",
     });
   }
 });
@@ -299,12 +316,48 @@ $(".dataTableSalidas").on("click", ".btnDeleteNotaPe", function () {
     });
 });
 /* fin */
-$(".dataTableSalidas").on("click", ".btnUpdateNotaPedido", function () {
+$(".dataTableSalidas").on("click", ".btnUpdateNotaRegistrado", function () {
   var codNotaPe = $(this).attr("codNotaPe");
   swal
     .fire({
-      title: "¿Está seguro de actualizar la Nota de Pedido?",
-      text: "¡No podrá revertir el cambio!",
+      title: '¿Está seguro de enviar esta nota al estado de "Vendido"?',
+      text: "Ingrese el número de factura:",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, actualizar estado!",
+      input: "text",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        if (result.value) {
+          var factura = result.value;
+          window.location =
+            "index.php?ruta=verSalidas&codUpdateNota=" +
+            codNotaPe +
+            "&nroFactura=" +
+            factura;
+        } else {
+          swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "¡Ingrese el número de factura!",
+          });
+        }
+      }
+    });
+});
+
+//  Actualizar el estado de una n
+$(".dataTableSalidas").on("click", ".btnUpdateNotaVendido", function () {
+  var codNotaPe = $(this).attr("codNotaPe");
+  swal
+    .fire({
+      title:
+        '¿Está seguro que desea devolver estos productos al almacén? Cambiará al estado de "Devolución"',
+      text: "¡No podrá deshacer los cambios!",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -315,7 +368,7 @@ $(".dataTableSalidas").on("click", ".btnUpdateNotaPedido", function () {
     .then((result) => {
       if (result.isConfirmed) {
         window.location =
-          "index.php?ruta=verSalidas&codUpdateNota=" + codNotaPe;
+          "index.php?ruta=nuevaDevolucion&codUpdateNota=" + codNotaPe;
       }
     });
 });
@@ -422,18 +475,22 @@ function checkAndSetDate() {
   }
 }
 
-// Verifica si la URL de la página es la correcta
+$(document).ready(function() {
+  $('#notRuc').select2();
+  $('#notCli').select2();
+  $('#notDirec').select2();
 
-// Si la URL es la correcta, ejecuta el código
+  $('#notRuc').on('select2:select', function (e) {
+    var data = e.params.data;
+    $('#notCli').val(data.id).trigger('change');
+    $('#notDirec').val(data.id).trigger('change');
+  });
 
-document.getElementById("notRuc").addEventListener("change", function () {
-  document.getElementById("notCli").value = this.value;
-  document.getElementById("notDirec").value = this.value;
-});
-
-document.getElementById("notCli").addEventListener("change", function () {
-  document.getElementById("notRuc").value = this.value;
-  document.getElementById("notDirec").value = this.value;
+  $('#notCli').on('select2:select', function (e) {
+    var data = e.params.data;
+    $('#notRuc').val(data.id).trigger('change');
+    $('#notDirec').val(data.id).trigger('change');
+  });
 });
 
 // Verifica si la URL de la página es la correcta
@@ -455,6 +512,45 @@ function setTodayDate(fieldId) {
 setTodayDate("notFechPe");
 /* fin */
 
+//  Cambiar la cantida de los productos que se devolverán
+$(".formIngresoDevolucion").on("change", "input.countDevolucion", function () {
+  var nuevoStock = Number($(this).attr("stock")) - $(this).val();
+  if (nuevoStock < 0) {
+    $(this).val(1);
+    swal.fire({
+      title: "La cantidad supera el Stock",
+      text: "¡Sólo hay " + $(this).attr("stock") + " unidades!",
+      type: "error",
+      confirmButtonText: "¡Cerrar!",
+    });
+  }
+  listProductosDevolucion();
+});
 
+//  Listar todos los datos que se pondrán en los input de lista de productos devolver y lista de productos merma
+function listProductosDevolucion() {
+  var listProductsDevolucion = [];
+  var listProductsMerma = [];
+  var codProducto = $(".productDevolucion");
+  var countDevolucion = $(".countDevolucion");
+
+  for (var i = 0; i < codProducto.length; i++) {
+    var cantidadTotal = $(countDevolucion[i]).attr("stock");
+    var cantidadDevolucion = $(countDevolucion[i]).val();
+    var cantidadMerma = cantidadTotal - cantidadDevolucion;
+    if (cantidadMerma > 0) {
+      listProductsMerma.push({
+        codProduct: $(codProducto[i]).attr("codProduct"),
+        countProduct: cantidadMerma,
+      });
+    }
+    listProductsDevolucion.push({
+      codProduct: $(codProducto[i]).attr("codProduct"),
+      countProduct: cantidadDevolucion,
+    });
+  }
+  $("#listProductosDevolver").val(JSON.stringify(listProductsDevolucion));
+  $("#listProductosMerma").val(JSON.stringify(listProductsMerma));
+}
 
 

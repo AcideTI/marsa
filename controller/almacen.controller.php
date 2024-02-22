@@ -113,4 +113,20 @@ class AlmacenController
       return $response;
     }
   }
+
+  //  Actualizar stock del almacén de merma por una devolución
+  public static function ctrUpdateStockAlmacenMerma($dataCreate)
+  {
+    $table = "tb_almacen_merma";
+    $response = AlmacenModel::mdlUpdateStockAlmacenMerma($table, $dataCreate);
+    return $response;
+  }
+
+  //  Mostrar productos y cantidades del almacen de merma
+  public static function ctrGetAllMerma()
+  {
+    $table = "tb_almacen_merma";
+    $response = AlmacenModel::mdlGetAllMerma($table);
+    return $response;
+  }
 }

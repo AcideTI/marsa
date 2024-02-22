@@ -22,7 +22,7 @@
 
 
           <div class="container row g-3">
-            <h3>Datos de pedido</h3>
+            <h3>Datos Nota de Pedido</h3>
             <?php
             $codNotaPedido = $_GET["codNotaPe"];
             $datosNota = NotaPedidoController::ctrGetNotaPeById($codNotaPedido);
