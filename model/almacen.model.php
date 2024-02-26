@@ -13,7 +13,9 @@ class AlmacenModel
       tb_producto.NombreProducto,
       tb_categoriaprod.NombreCategoria,
       tb_producto.Unidad,
-      tb_almacen.CantidadTotal
+      tb_almacen.CantidadTotal,
+      tb_almacen.DateUpdate,
+      tb_almacen.HoraUpdate
     FROM 
       $table
     INNER JOIN 

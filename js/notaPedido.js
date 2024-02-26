@@ -87,7 +87,7 @@ $(".dataTableSalidas").on("click", ".btnPrintNotaPedido", function () {
 
 //  cambiar cantidad de producto agregado
 $(".formNotaPedido").on("change", "input.newCount", function () {
-  var nuevoStock = Number($(this).attr("stock")) - $(this).val();
+  /*var nuevoStock = Number($(this).attr("stock")) - $(this).val();
   if (nuevoStock < 0) {
     $(this).val(1);
     swal.fire({
@@ -96,7 +96,7 @@ $(".formNotaPedido").on("change", "input.newCount", function () {
       type: "error",
       confirmButtonText: "¡Cerrar!",
     });
-  }
+  }*/
   listProductAddNota();
 });
 

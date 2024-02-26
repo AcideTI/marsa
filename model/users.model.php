@@ -39,7 +39,7 @@ class UsersModel
   // Obtener todos los usuarios
   public static function mdlGetAllUsers($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT tb_usuario.IdUsu, tb_usuario.NombreUsu, tb_usuario.Nombre, tb_usuario.Apellido, tb_usuario.LastConnection, tb_TipoUsuario.DescripcionTipo FROM $table INNER JOIN tb_TipoUsuario ON tb_usuario.IdTipoUsu = tb_TipoUsuario.IdTipoUsu ORDER BY IdUsu ASC");
+    $statement = Conexion::conn()->prepare("SELECT tb_usuario.IdUsu, tb_usuario.NombreUsu, tb_usuario.Nombre, tb_usuario.Apellido, tb_usuario.LastConnection, tb_tipousuario.DescripcionTipo FROM $table INNER JOIN tb_tipousuario ON tb_usuario.IdTipoUsu = tb_tipousuario.IdTipoUsu ORDER BY IdUsu ASC");
     $statement -> execute();
     return $statement -> fetchAll();
   }
@@ -55,7 +55,7 @@ class UsersModel
   // Obtener todos los tipos de usuarios
   public static function mdlGetUsersType($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT tb_TipoUsuario.IdTipoUsu, tb_TipoUsuario.DescripcionTipo FROM $table");
+    $statement = Conexion::conn()->prepare("SELECT tb_tipousuario.IdTipoUsu, tb_tipousuario.DescripcionTipo FROM $table");
     $statement -> execute();
     return $statement -> fetchAll();
   }
