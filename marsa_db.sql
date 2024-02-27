@@ -125,7 +125,7 @@ INSERT INTO `tb_estado` (`IdEstado`, `TipoEstado`, `Descripcion`, `DateCreate`, 
 (4, 'Inactivo', 'Estado inactivo para personal', '2024-01-26 13:17:10', '2024-01-26 13:17:10'),
 (5, 'Completado', 'Estado completado para nota pedido', '2024-01-26 13:17:10', '2024-01-26 13:17:10'),
 (6, 'Devolucion', 'Estado de devolución para nota pedido y ingreso', '2024-01-26 13:17:10', '2024-01-26 13:17:10'),
-(7, 'Ingresado', 'Estado de detalle de ingreso', '2024-01-26 16:09:22', '2024-01-26 16:09:22'),
+(7, 'Produccion', 'Estado de detalle de ingreso', '2024-01-26 16:09:22', '2024-01-26 16:09:22'),
 (8, 'Retirado', 'Estado de salida para nota pedido', '2024-01-26 16:09:22', '2024-01-26 16:09:22'),
 (9, 'Merma', 'Estado de detalle de perdida para ingreso', '2024-01-29 10:51:07', '2024-01-29 10:51:07');
 
@@ -329,9 +329,7 @@ INSERT INTO `tb_producto` (`IdProd`, `IdCate`, `NombreProducto`, `DetalleProduct
 (91, 6, 'Vinagre de Manzana x 280', 'Spray', 'ml', 1, 0.00, '2024-01-26 16:14:30', '2024-01-26 16:14:30'),
 (92, 6, 'Vinagre de Manzana x 500', 'PET', 'ml', 1, 50.00, '2024-01-26 16:14:30', '2024-02-02 08:40:38'),
 (93, 6, 'Vinagre de Manzana x 500', 'Vidrio', 'ml', 1, 50.00, '2024-01-26 16:14:30', '2024-02-02 08:40:26'),
-(94, 6, 'Vinagre de Manzana x 500', 'Spray', 'ml', 1, 50.00, '2024-01-26 16:14:30', '2024-02-02 08:40:13'),
-(95, 5, 'Cañita de  Azucarrrr', 'Azucarararara', 'Kg', 1, 12.00, '2024-02-12 00:09:26', '2024-02-13 11:48:48'),
-(96, 4, 'Nuevo Producto', '1333', 'unidad', 0, 123.00, '2024-02-20 16:40:38', '2024-02-20 16:40:46');
+(94, 6, 'Vinagre de Manzana x 500', 'Spray', 'ml', 1, 50.00, '2024-01-26 16:14:30', '2024-02-02 08:40:13');
 
 -- --------------------------------------------------------
 

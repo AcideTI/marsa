@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('America/Bogota');
 class IngresosController
 {
   /* mostrar todos ingresos en la tabla */

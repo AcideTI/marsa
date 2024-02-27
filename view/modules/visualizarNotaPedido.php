@@ -138,7 +138,7 @@
                   <div class="row" style="padding:5px 15px">
                     <div class="col-lg-5" style="padding-right:0px">
                       <div class="input-group">
-                        <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoiIngreso" codProduct="' . $value["codProduct"] . '"><i class="fa fa-times"></i></button></span>
+                        <span class="input-group-addon"></span>
                         <input type="text" class="form-control newProduct" codProduct="' . $value["codProduct"] . '" value="' . $producto["NombreProducto"] . '" disabled>
                       </div>
                     </div>
