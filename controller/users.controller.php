@@ -14,7 +14,7 @@ class UsersController
   // Obtener todos los tipos de usuarios
   public static function ctrGetUsersType()
   {
-    $table = "tb_TipoUsuario";
+    $table = "tb_tipousuario";
     $typesList = UsersModel::mdlGetUsersType($table);
     return $typesList;
   }
