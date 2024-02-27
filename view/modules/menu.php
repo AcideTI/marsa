@@ -40,8 +40,8 @@
 </a>
 <div class="collapse" id="listNotaPedido" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
-    <a class="nav-link" href="notaPedido"><i class="fa-solid fa-cart-plus"></i><span style="margin-left: 5px;">Nota de Pedido</span></a>
-    <a class="nav-link" href="nuevoLote"><i class="fa-solid fa-file-circle-plus"></i><span style="margin-left: 5px;">Crear Lote</span></a>
+    <a class="nav-link" href="notaPedido"><i class="fa-solid fa-cart-plus"></i><span style="margin-left: 5px;">Nueva Nota</span></a>
+    <a class="nav-link" href="nuevoLote"><i class="fa-solid fa-file-circle-plus"></i><span style="margin-left: 5px;">Nueva Factura</span></a>
     <a class="nav-link" href="verSalidas"><i class="fa-solid fa-layer-group"></i><span style="margin-left: 5px;">Ver Salidas</span></a>
   </nav>
 </div>

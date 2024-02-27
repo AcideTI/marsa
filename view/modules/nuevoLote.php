@@ -12,7 +12,7 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Crear un Nuevo Lote
+        Crear Nueva Salida
       </h1>
     </div>
 
@@ -20,7 +20,7 @@
       <form role="form" method="post" class="row g-3 m-2 formNuevoLote">
         <span class="border border-3 p-3">
           <div class="container row g-3">
-            <h3>Datos de Lote</h3>
+            <h3>Datos de la Salida</h3>
 
             <div class="form-group col-md-4">
               <label for="notRuc" class="form-label" style="font-weight: bold">Ruc Cliente </label>
@@ -62,7 +62,7 @@
             </div>
 
             <!-- Select Provider-->
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-8">
               <label for="nameResLot" class="form-label" style="font-weight: bold">Responsable:</label>
               <select class="form-control input-lg" id="nameResLot" name="nameResLot" required>
                 <option value="">Seleccione el Responsable</option>
@@ -75,19 +75,31 @@
               </select>
             </div>
 
-            <div class="col-md-3">
-              <label for="dateCreatLot" class="form-label" style="font-weight: bold">Fecha Lote: </label>
-              <input type="date" class="form-control" id="dateCreatLot" name="dateCreatLot" required><br>
+            <div class="col-md-4">
+              <label for="dateCreatLot" class="form-label" style="font-weight: bold">Fecha Salida: </label>
+              <input type="date" class="form-control" id="dateCreatLot" name="dateCreatLot" required>
             </div>
 
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
               <label for="dateVenciLot" class="form-label" style="font-weight: bold">Fecha Vencimiento: </label>
-              <input type="date" class="form-control" id="dateVenciLot" name="dateVenciLot"><br><br>
+              <input type="date" class="form-control" id="dateVenciLot" name="dateVenciLot">
+            </div> -->
+
+            <div class="col-md-2">
+              <label for="nameResLot" class="form-label" style="font-weight: bold">Tipo de Salida:</label>
+              <select class="form-control input-lg" name="tipoSalida" id="tipoSalida">
+                <option value="Factura">Factura</option>
+                <option value="Lote">Lote</option>
+              </select>
             </div>
 
-            <div class="col-md-6">
-              <label for="DesLot" class="form-label" style="font-weight: bold">Descripcion Lote:</label>
-              <input type="text" class="form-control" id="DesLot" name="DesLot" placeholder="Ingrese Descripcion de Lote">
+            <div class="col-md-3">
+              <label for="numeroFactura" class="form-label" style="font-weight: bold">Número de Factura:</label>
+              <input type="text" class="form-control" id="numeroFactura" name="numeroFactura" placeholder="Ingrese el número de Factura">
+            </div>
+            <div class="col-md-3">
+              <label for="numeroLote" class="form-label" style="font-weight: bold">Código de Lote:</label>
+              <input type="text" class="form-control" id="numeroLote" name="numeroLote" placeholder="Ingrese el código de Lote">
             </div>
           </div>
         </span>
@@ -95,7 +107,7 @@
         <!-- List of materials -->
         <span class="border border-3 p-3">
           <div class="container row g-3">
-            <h3>Productos</h3>  
+            <h3>Productos</h3>
             <div class="d-inline-flex m-2">
               <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalAddProdLote">Agregar Productos</button>
             </div>
@@ -113,7 +125,7 @@
           </div>
           <div class="container row g-3 p-3 justify-content-between">
             <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closelotes" href="verSalidas">Cerrar</button>
-            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success ">Registrar Lote</button>
+            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success ">Registrar Salida</button>
           </div>
         </span>
       </form>

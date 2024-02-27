@@ -26,7 +26,7 @@
 
         <span style="margin: 0 10px;"></span>
         <button type="button" class="btn btn-info btnAllLotes" id="btnAllLotes" filtro="lotes"><i class="fa-solid fa-clipboard-check"></i>
-          Registros Lotes
+          Registros Facturas
         </button>
 
         <span style="margin: 0 10px;"></span>
@@ -43,13 +43,13 @@
         <span style="margin: 0 10px;"></span>
 
         <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i class="fa-solid fa-file-arrow-down "></i>
-          Descargar Reporte Lotes
+          Descargar Reporte Facturas
         </button>
 
         <span style="margin: 0 10px;"></span>
 
         <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i class="fa-solid fa-calendar-days"></i>
-          Descargar Reporte Lotes por fechas
+          Descargar Reporte Facturas por fechas
         </button>
 
         <span style="margin: 0 10px;"></span>
@@ -120,6 +120,8 @@ $deleteLote = new LotesController();
 $deleteLote->ctrDeleteLote();
 $updateLote = new LotesController();
 $updateLote->ctrUpdateLoteEstado();
+$nullLote = new LotesController();
+$nullLote->ctrNullLote();
 
 
 ?>
@@ -165,7 +167,7 @@ $updateLote->ctrUpdateLoteEstado();
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" style="font-weight: bold">Detalles Nota Pedido</h5>
+        <h5 class="modal-title" style="font-weight: bold">Detalle de la Salida</h5>
       </div>
       <div class="modal-body">
         <!-- Responsable -->
@@ -188,42 +190,24 @@ $updateLote->ctrUpdateLoteEstado();
 
         <!-- Codigo Lote -->
         <div class="form-group">
-          <label for="codigoLote" class="col-form-label" style="font-weight: bold">Codigo Lote:</label>
-          <input type="text" class="form-control" id="codigoLote" name="codigoLote" style="border:none" readonly>
+          <label for="mostrarTipoSalida" class="col-form-label" style="font-weight: bold">Tipo de Salida:</label>
+          <input type="text" class="form-control" id="mostrarTipoSalida" name="mostrarTipoSalida" style="border:none" readonly>
         </div>
 
         <!-- Fecha de Lote -->
         <div class="form-group">
-          <label for="fechaLote" class="col-form-label" style="font-weight: bold">Fecha Lote:</label>
+          <label for="fechaLote" class="col-form-label" style="font-weight: bold">Fecha Salida:</label>
           <input type="date" class="form-control" id="fechaLote" name="fechaLote" style="border:none" readonly>
-        </div>
-
-        <!-- Fecha de Vencimiento -->
-        <div class="form-group">
-          <label for="fechaVencimiento" class="col-form-label" style="font-weight: bold">Fecha Vencimiento:</label>
-          <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento" style="border:none" readonly>
         </div>
 
         <!-- Descripción -->
         <div class="form-group">
-          <label for="descripcionLote" class="col-form-label" style="font-weight: bold">Descripción: </label>
+          <label for="descripcionLote" class="col-form-label" style="font-weight: bold">Observacion: </label>
           <input type="text" class="form-control" id="descripcionLote" name="descripcionLote" style="border:none" readonly>
         </div>
 
-        <!-- Producto -->
-        <div class="form-group">
-          <label for="productoLote" class="col-form-label" style="font-weight: bold">Producto Lote:</label>
-          <input type="text" class="form-control" id="productoLote" name="productoLote" style="border:none" readonly>
-        </div>
-
-        <!-- Cantidad -->
-        <div class="form-group">
-          <label for="cantidadProducto" class="col-form-label" style="font-weight: bold">Cantidad: </label>
-          <input type="text" class="form-control" id="cantidadProducto" name="cantidadProducto" style="border:none" readonly>
-        </div>
-
-
         <div class="modal-footer">
+          <button type="button" class="btn btn-primary pull-right btnVisualizarSalida" id="btnVisualizarSalida">Ver más</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>

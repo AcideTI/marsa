@@ -32,11 +32,11 @@ class LotesController
   {
     $table = "tb_lote";
     $data = LotesModel::mdlGetDataLote($table, $codLote);
-    //  Enviar los datos de los productos decodificados
+    /*  Enviar los datos de los productos decodificados
     $listaDatos = json_decode($data["DatosLoteIngresoJson"], true);
     $nombreProducto = ProductsController::ctrGetDataProducto($listaDatos[0]["codProduct"]);
     $listaDatos[0]["codProduct"] = $nombreProducto["NombreProducto"];
-    $data["DatosLoteIngresoJson"] = $listaDatos;
+    $data["DatosLoteIngresoJson"] = $listaDatos;*/
     return $data;
   }
 
@@ -49,23 +49,24 @@ class LotesController
       // Decodificar el JSON
       $data = json_decode($newIngLote, true);
       $listProducts = json_decode($data["listProducts"], true);
-      //  El codigo de lote, está compuesto por el día_mes_operador_producto
+      /*  El codigo de lote, está compuesto por el día_mes_operador_producto
       $fecha = strtotime($data["dateCreatLot"]);
       $dia = date("d", $fecha);
       $mes = date("m", $fecha);
       $operador = $data["nameResLot"];
       $producto = $listProducts[0]["codProduct"];
 
-      $codigoLote = 'L-' . $dia . '_' . $mes . '_' . $operador . '_' . $producto;
+      $codigoLote = 'L-' . $dia . '_' . $mes . '_' . $operador . '_' . $producto;*/
 
       $dataCreate = array(
         "IdCliente" => $data["notCli"],
         "IdPer" => $data["nameResLot"],
-        "CodigoLote" => $codigoLote,
+        "CodigoLote" => $data["numeroLote"],
+        "NroFactura" => $data["numeroFactura"],
+        "TipoSalida" => $data["tipoSalida"],
         "DatosLoteIngresoJson" => $data["listProducts"],
         "FechaProduccionLote" => $data["dateCreatLot"],
         "FechaVencimientoLote" => $data["dateVenciLot"],
-        "DescripcionLote" => $data["DesLot"],
         "Estado" => "1",
         "DateCreate" => date("Y-m-d\TH:i:sP"),
         "DateUpdate" => date("Y-m-d\TH:i:sP")
@@ -119,7 +120,8 @@ class LotesController
         $dataUpdate = array(
           "IdPer" => $data["editarResponsable"],
           "IdCliente" => $data["notCli"],
-          "DescripcionLote" => $data["editarDescripcionLote"],
+          "NroFactura" => $data["editarNumeroFactura"],
+          "CodigoLote" => $data["editarNumeroLote"],
           "FechaProduccionLote" => $data["editarFechaLote"],
           "FechaVencimientoLote" => $data["editarFechaVencimiento"],
           "DateUpdate" => date("Y-m-d\TH:i:sP"),
@@ -134,7 +136,8 @@ class LotesController
           $dataUpdate = array(
             "IdPer" => $data["editarResponsable"],
             "IdCliente" => $data["notCli"],
-            "DescripcionLote" => $data["editarDescripcionLote"],
+            "NroFactura" => $data["editarNumeroFactura"],
+            "CodigoLote" => $data["editarNumeroLote"],
             "FechaProduccionLote" => $data["editarFechaLote"],
             "FechaVencimientoLote" => $data["editarFechaVencimiento"],
             "DatosLoteIngresoJson" => $data["listProducts"],
@@ -211,10 +214,12 @@ class LotesController
     if(isset($_GET["codUpateLote"])) {
       $table = "tb_lote";
       $codLote = $_GET["codUpateLote"];
-      $nroFactura = $_GET["nroFactura"];
+      $observacion = $_GET["observacion"];
+      $estado = self::ctrGetEstadoLote($codLote);
+      $estado = intval($estado["Estado"]) + 1;
       $dataUpdate = array(
-        "Estado" => "2",
-        "NroFactura" => $nroFactura,
+        "Estado" => $estado,
+        "Observacion" => $observacion,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
         "IdLote" => $codLote
       );
@@ -310,5 +315,31 @@ class LotesController
   }
   /* fin */
 
-
+  //  Anular una salida (Lote)
+  public static function ctrNullLote()
+  {
+    if(isset($_GET["codNullLote"])) {
+      $table = "tb_lote";
+      $codLote = $_GET["codNullLote"];
+      $estadoLote = self::ctrGetEstadoLote($codLote);
+      if ($estadoLote["Estado"] != 1) {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Anular el Lote, solo se pueden anular los lotes en estado "Retirado"', 'verSalidas');
+        echo $message;
+      } else {
+        $dataUpdate = array(
+          "Estado" => "5",
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+          "IdLote" => $codLote
+        );
+        $response = LotesModel::mdlNullLote($table, $dataUpdate);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Lote Anulado Correctamente', 'verSalidas');
+          echo $message;
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Anular el Lote', 'verSalidas');
+          echo $message;
+        }
+      }
+    }
+  }
 }

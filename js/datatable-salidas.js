@@ -78,8 +78,8 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
     <th>ID</th>
     <th>Responsable</th>
     <th>Nombre del Cliente</th>
-    <th>Código de Lote</th>
-    <th>Fecha de Lote</th>
+    <th>Tipo Salida</th>
+    <th>Fecha de Salida</th>
     <th>Estado</th>
     <th>Acciones</th>
   </tr>
@@ -90,7 +90,7 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
     { data: "IdLote" },
     { data: "FullNamePersonal" },
     { data: "NombreCli" },
-    { data: "CodigoLote" },
+    { data: "TipoSalida" },
     { data: "FechaProduccionLote" },
     { data: "StateLote" },
     { data: "Buttons" },

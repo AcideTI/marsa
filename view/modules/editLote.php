@@ -16,7 +16,7 @@
       $datosLote = LotesController::ctrGetEditLoteData($codLote);
       ?>
       <h1 class="mt-4">
-        Editar Lote
+        Editar Salida
       </h1>
 
     </div>
@@ -25,7 +25,7 @@
       <form role="form" method="post" class="row g-3 m-2 formEditLote">
         <span class="border border-3 p-3">
           <div class="container row g-3">
-            <h3>Datos del Lote </h3>
+            <h3>Datos de la Salida </h3>
             <input type="hidden" id="idLoteEdit" name="idLoteEdit">
 
             <div class="form-group col-md-4">
@@ -67,7 +67,7 @@
               </select>
             </div>
             <!-- Select Responsable-->
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-8">
               <label for="editarResponsable" class="form-label" style="font-weight: bold">Responsable:</label>
               <select class="form-control input-lg" id="editarResponsable" name="editarResponsable" required>
                 <?php
@@ -80,26 +80,46 @@
               </select>
             </div>
 
-            <div class="col-md-3">
-              <label for="editarFechaLote" class="form-label" style="font-weight: bold">Fecha Lote: </label>
+            <div class="col-md-4">
+              <label for="editarFechaLote" class="form-label" style="font-weight: bold">Fecha Salida: </label>
               <input type="date" class="form-control" id="editarFechaLote" name="editarFechaLote" value="<?php echo $datosLote["FechaProduccionLote"] ?>" required><br>
             </div>
 
-            <div class="col-md-3">
-              <label for="editarFechaVencimiento" class="form-label" style="font-weight: bold">Fecha Vencimiento: </label>
-              <input type="date" class="form-control" id="editarFechaVencimiento" name="editarFechaVencimiento" value="<?php echo $datosLote["FechaVencimientoLote"] ?>" required>
+            <div class="col-md-2">
+              <label for="nameResLot" class="form-label" style="font-weight: bold">Tipo de Salida:</label>
+              <?php
+              if ($datosLote["TipoSalida"] == "Factura") {
+                $color = '#90EE90';
+              } else {
+                $color = '#ADD8E6';
+              }
+              echo '<input type="text" class="form-control" value="' . $datosLote["TipoSalida"] . '" style="background-color: ' . $color . '" disabled>';
+              ?>
             </div>
 
-            <!-- Codigo de Lote -->
-            <div class="form-group col-md-6 inl">
-              <label for="editarCodigoLote" class="form-label" style="font-weight: bold"> Código de Lote:</label>
-              <input type="text" class="form-control" id="editarCodigoLote" name="editarCodigoLote" value="<?php echo $datosLote["CodigoLote"] ?>" disabled>
-            </div>
 
-            <div class="form-group col-md-6">
-              <label for="editarDescripcionLote" class="form-label" style="font-weight: bold">Descripcion Lote:</label>
-              <input type="text" class="form-control" id="editarDescripcionLote" name="editarDescripcionLote" value="<?php echo $datosLote["DescripcionLote"] ?>">
-            </div>
+            <?php
+            if ($datosLote["TipoSalida"] == "Factura") {
+            ?>
+              <div class="col-md-3">
+                <label for="editarNumeroFactura" class="form-label" style="font-weight: bold">Número de Factura:</label>
+                <input type="text" class="form-control" id="editarNumeroFactura" name="editarNumeroFactura" value="<?php echo $datosLote["NroFactura"] ?>">
+              </div>
+            <?php
+            } else {
+            ?>
+              <div class="col-md-3">
+                <label for="editarNumeroFactura" class="form-label" style="font-weight: bold">Número de Factura:</label>
+                <input type="text" class="form-control" id="editarNumeroFactura" name="editarNumeroFactura" value="<?php echo $datosLote["NroFactura"] ?>">
+              </div>
+
+              <div class="col-md-3">
+                <label for="editarNumeroLote" class="form-label" style="font-weight: bold">Código de Lote:</label>
+                <input type="text" class="form-control" id="editarNumeroLote" name="editarNumeroLote" value="<?php echo $datosLote["CodigoLote"] ?>">
+              </div>
+            <?php
+            }
+            ?>
 
             <!-- Estado Único -->
             <div class="form-group col-md-2">
@@ -156,7 +176,7 @@
           <div class="container row g-3 p-3 justify-content-between">
             <input type="hidden" name="codLoteEditar" id="codLoteEditar" class="codLoteEditar" value="<?php echo $codLote ?>">
             <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closelotes" href="index.php?ruta=lotes">Cerrar</button>
-            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success btnEditLoteBack ">Actualizar Lote</button>
+            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success btnEditLoteBack ">Actualizar Salida</button>
           </div>
         </span>
       </form>

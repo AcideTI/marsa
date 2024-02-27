@@ -18,6 +18,11 @@ $("#reporteExeLotes").on("click", function () {
   window.location = "view/modules/Excel-Lotes.php?&reporteExeLotes";
 });
 
+$(".btnVisualizarSalida").on("click", function () {
+  var codLote = $(this).attr("codLote");
+  window.location = "index.php?ruta=visualizarLote&codSalida=" + codLote;
+});
+
 //  Descargar reporte exel de lotes por fechas
 $(function () {
   var boton = $("#reporteExeLotesFech");
@@ -59,7 +64,7 @@ $(function () {
 
 //  cambia el conteo de  lote
 $(".formNuevoLote").on("change", "input.newCount", function () {
-  var nuevoStock = Number($(this).attr("stock")) - $(this).val();
+  /*var nuevoStock = Number($(this).attr("stock")) - $(this).val();
   if (nuevoStock < 0) {
     $(this).val(1);
     swal.fire({
@@ -68,13 +73,13 @@ $(".formNuevoLote").on("change", "input.newCount", function () {
       type: "error",
       confirmButtonText: "¡Cerrar!",
     });
-  }
+  }*/
   listProductAddLotes();
 });
 
 //  cambia el conteo de  lote
 $(".formEditLote").on("change", "input.newCount", function () {
-  var nuevoStock = Number($(this).attr("stock")) - $(this).val();
+  /*var nuevoStock = Number($(this).attr("stock")) - $(this).val();
   if (nuevoStock < 0) {
     $(this).val(1);
     swal.fire({
@@ -83,7 +88,7 @@ $(".formEditLote").on("change", "input.newCount", function () {
       type: "error",
       confirmButtonText: "¡Cerrar!",
     });
-  }
+  }*/
   listProductAddLotes();
 });
 
@@ -117,69 +122,69 @@ $(".formEditLote").on("click", "button.deleteEditLote", function () {
 $(".tableNuevoLote").on("click", ".btnAddProductLote", function () {
   var codProductAdd = $(this).attr("codProduct");
 
-  if (document.querySelector(".newProductAddLote").children.length > 1) {
+  /*if (document.querySelector(".newProductAddLote").children.length > 1) {
     swal.fire({
       title: "Solo puedes tener un producto",
       text: "¡Ya tienes un producto dentro del lote!",
       type: "error",
       confirmButtonText: "¡Cerrar!",
     });
-  } else {
-    $(this).removeClass("btn-primary btnAddProductLote");
-    $(this).addClass("btn-default");
+  } else {*/
+  $(this).removeClass("btn-primary btnAddProductLote");
+  $(this).addClass("btn-default");
 
-    var datos = new FormData();
-    datos.append("codProductAdd", codProductAdd);
-    $.ajax({
-      url: "ajax/lotes.ajax.php",
-      method: "POST",
-      data: datos,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (respuesta) {
-        var IdProduct = respuesta["IdProd"];
-        var DescriptionProduct = respuesta["NombreProducto"];
-        var UnityProduct = respuesta["Unidad"];
-        var Stock = respuesta["CantidadTotal"];
+  var datos = new FormData();
+  datos.append("codProductAdd", codProductAdd);
+  $.ajax({
+    url: "ajax/lotes.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuesta) {
+      var IdProduct = respuesta["IdProd"];
+      var DescriptionProduct = respuesta["NombreProducto"];
+      var UnityProduct = respuesta["Unidad"];
+      var Stock = respuesta["CantidadTotal"];
 
-        $(".newProductAddLote").append(
-          '<div class="row" style="padding:5px 15px">' +
-            "<!-- Description -->" +
-            '<div class="col-lg-5" style="padding-right:0px">' +
-            '<div class="input-group">' +
-            '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoLote" codProduct="' +
-            IdProduct +
-            '"><i class="fa fa-times"></i></button></span>' +
-            '<input type="text" class="form-control newProduct" codProduct="' +
-            IdProduct +
-            '" value="' +
-            DescriptionProduct +
-            '" readonly>' +
-            "</div>" +
-            "</div>" +
-            "<!-- Unity -->" +
-            '<div class="col-lg-3 UnityProduct">' +
-            '<input type="text" class="form-control newUnity" name="newUnity" value="' +
-            UnityProduct +
-            '" readonly>' +
-            "</div>" +
-            "<!-- Count -->" +
-            '<div class="col-lg-3 countMaterial">' +
-            '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="' +
-            Stock +
-            '" value="1.00" >' +
-            "</div>" +
-            "</div>"
-        );
-        listProductAddLotes();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        //console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
-    });
-  }
+      $(".newProductAddLote").append(
+        '<div class="row" style="padding:5px 15px">' +
+          "<!-- Description -->" +
+          '<div class="col-lg-5" style="padding-right:0px">' +
+          '<div class="input-group">' +
+          '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoLote" codProduct="' +
+          IdProduct +
+          '"><i class="fa fa-times"></i></button></span>' +
+          '<input type="text" class="form-control newProduct" codProduct="' +
+          IdProduct +
+          '" value="' +
+          DescriptionProduct +
+          '" readonly>' +
+          "</div>" +
+          "</div>" +
+          "<!-- Unity -->" +
+          '<div class="col-lg-3 UnityProduct">' +
+          '<input type="text" class="form-control newUnity" name="newUnity" value="' +
+          UnityProduct +
+          '" readonly>' +
+          "</div>" +
+          "<!-- Count -->" +
+          '<div class="col-lg-3 countMaterial">' +
+          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="' +
+          Stock +
+          '" value="1.00" >' +
+          "</div>" +
+          "</div>"
+      );
+      listProductAddLotes();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      //console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+    },
+  });
+  //}
 });
 /* fin */
 
@@ -265,7 +270,7 @@ $(document).ready(function () {
             showConfirmButton: false,
             timer: 1000,
           });
-          $(".formNuevoIngreso")[0].reset();
+          $(".formNuevoLote")[0].reset();
           setTimeout(function () {
             location.reload();
           }, 1000);
@@ -511,14 +516,12 @@ $(".dataTableSalidas").on("click", ".btnViewAllLote", function () {
       $("#nombreResponsable").val(response["FullNamePersonal"]);
       $("#rucCliente").val(response["RucCli"]);
       $("#nombreCliente").val(response["NombreCli"]);
-      $("#codigoLote").val(response["CodigoLote"]);
+      $("#mostrarTipoSalida").val(response["TipoSalida"]);
       $("#fechaLote").val(response["FechaProduccionLote"]);
       $("#fechaVencimiento").val(response["FechaVencimientoLote"]);
-      $("#descripcionLote").val(response["DescripcionLote"]);
-      $("#productoLote").val(response["DatosLoteIngresoJson"][0]["codProduct"]);
-      $("#cantidadProducto").val(
-        response["DatosLoteIngresoJson"][0]["countProduct"]
-      );
+      $("#descripcionLote").val(response["Observacion"]);
+
+      $("#btnVisualizarSalida").attr("codLote", codLote);
     },
   });
 });
@@ -527,8 +530,8 @@ $(".dataTableSalidas").on("click", ".btnUpdateLoteRetirado", function () {
   var codLoteUpdate = $(this).attr("codLoteUpdate");
   swal
     .fire({
-      title: '¿Está seguro de enviar el lota al estado de "Vendido"?',
-      text: "Ingrese el número de factura:",
+      title: '¿Está seguro de enviar el lota al estado de "Entregado"?',
+      text: "Ingrese una observación:",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -539,20 +542,59 @@ $(".dataTableSalidas").on("click", ".btnUpdateLoteRetirado", function () {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        if (result.value) {
-          var factura = result.value;
-          window.location =
-            "index.php?ruta=verSalidas&codUpateLote=" +
-            codLoteUpdate +
-            "&nroFactura=" +
-            factura;
-        } else {
-          swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "¡Ingrese el número de factura!",
-          });
-        }
+        var observacion = result.value;
+        window.location =
+          "index.php?ruta=verSalidas&codUpateLote=" +
+          codLoteUpdate +
+          "&observacion=" +
+          observacion;
+      }
+    });
+});
+
+$(".dataTableSalidas").on("click", ".btnUpdateLoteEntregado", function () {
+  var codLoteUpdate = $(this).attr("codLoteUpdateEntregado");
+  swal
+    .fire({
+      title: '¿Está seguro de enviar el lota al estado de "Cancelado"?',
+      text: "Ingrese una observación:",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, actualizar estado!",
+      input: "text",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        var observacion = result.value;
+        window.location =
+          "index.php?ruta=verSalidas&codUpateLote=" +
+          codLoteUpdate +
+          "&observacion=" +
+          observacion;
+      }
+    });
+});
+
+$(".dataTableSalidas").on("click", ".btnNullLote", function () {
+  var codLoteUpdate = $(this).attr("codLote");
+  swal
+    .fire({
+      title: '¿Está seguro que desea anular la Salida"?',
+      text: "¡No se podrán deshacer los cambios!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, borrar Lote!",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        window.location =
+          "index.php?ruta=verSalidas&codNullLote=" + codLoteUpdate;
       }
     });
 });
@@ -620,3 +662,20 @@ function listProductosDevolucion() {
   $("#listProductosDevolver").val(JSON.stringify(listProductsDevolucion));
   $("#listProductosMerma").val(JSON.stringify(listProductsMerma));
 }
+
+$(document).ready(function () {
+  $("#tipoSalida").css("background-color", "#90EE90");
+  $("#numeroLote").parent().hide();
+
+  $("#tipoSalida").change(function () {
+    var selectedOption = $(this).val();
+
+    if (selectedOption === "Factura") {
+      $(this).css("background-color", "#90EE90");
+      $("#numeroLote").parent().hide();
+    } else if (selectedOption === "Lote") {
+      $(this).css("background-color", "#ADD8E6");
+      $("#numeroLote").parent().show();
+    }
+  });
+});

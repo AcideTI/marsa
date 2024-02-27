@@ -47,7 +47,7 @@
 
             <div class="col-md-3">
               <label for="dateVenci" class="form-label" style="font-weight: bold">Fecha Vencimiento: </label>
-              <input type="date" class="form-control" id="dateVenci" name="dateVenci" required><br><br>
+              <input type="date" class="form-control" id="dateVenci" name="dateVenci">
             </div>
 
           </div>
