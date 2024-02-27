@@ -28,7 +28,7 @@
               </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-              <a class="small text-white stretched-link" href="allOrders">Ver Detalles</a>
+              <a class="small text-white stretched-link" href="verSalidas">Ver Detalles</a>
               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
           </div>
@@ -40,13 +40,13 @@
               <div class="d-flex justify-content-between align-items-center">
                 <i class="fas fa-box fa-3x"></i>
                 <div class="text-right">
-                  <h3>Salidas</h3>
+                  <h3>Inventario</h3>
                   <p class="display-4"></p>
                 </div>
               </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-              <a class="small text-white stretched-link" href="index.php?ruta=movements&type=outsides">Ver Detalles</a>
+              <a class="small text-white stretched-link" href="almacen">Ver Detalles</a>
               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
           </div>
@@ -64,7 +64,7 @@
               </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-              <a class="small text-white stretched-link" href="index.php?ruta=movements&type=insides">Ver Detalles</a>
+              <a class="small text-white stretched-link" href="ingresos">Ver Detalles</a>
               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
           </div>
@@ -82,7 +82,7 @@
               </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-              <a class="small text-white stretched-link" href="client">Ver Detalles</a>
+              <a class="small text-white stretched-link" href="clients">Ver Detalles</a>
               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
           </div>

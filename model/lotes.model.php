@@ -205,7 +205,8 @@ class LotesModel
           tb_lote.DescripcionLote, 
           tb_lote.DatosLoteIngresoJson, 
           tb_lote.FechaProduccionLote,
-          tb_lote.TipoSalida, 
+          tb_lote.TipoSalida,
+          tb_lote.NroFactura, 
           CASE tb_lote.Estado
             WHEN 1 THEN 'Retirado'
             WHEN 2 THEN 'Entregado'
@@ -271,7 +272,8 @@ class LotesModel
             tb_lote.DescripcionLote, 
             tb_lote.DatosLoteIngresoJson, 
             tb_lote.FechaProduccionLote,
-            tb_lote.TipoSalida, 
+            tb_lote.TipoSalida,
+            tb_lote.NroFactura, 
             CASE tb_lote.Estado
             WHEN 1 THEN 'Retirado'
             WHEN 2 THEN 'Entregado'
