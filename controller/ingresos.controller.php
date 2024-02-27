@@ -353,7 +353,7 @@ class IngresosController
             if ($tipoSalida == "Nota de Pedido") {
               $dataUpdate = array(
                 "IdNotaP" => $codSalida,
-                "EstadoNota" => "3",
+                "EstadoNota" => "4",
                 "FechaDevolucion" => $_POST["fechaDevolucion"],
                 "DateUpdate" => date("Y-m-d\TH:i:sP")
               );
@@ -361,7 +361,7 @@ class IngresosController
             } else {
               $dataUpdate = array(
                 "IdLote" => $codSalida,
-                "Estado" => "3",
+                "Estado" => "4",
                 "FechaDevolucion" => $_POST["fechaDevolucion"],
                 "DateUpdate" => date("Y-m-d\TH:i:sP")
               );

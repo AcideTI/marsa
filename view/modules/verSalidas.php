@@ -88,7 +88,7 @@
                       <td>' . $estado . '</td>
                       <td>' . $value["FechaNotaPedido"] . '</td>
                       <td>
-                        <button class="btn btn-primary btnMostarProductos" data-products="' . htmlspecialchars($value["DatosProductosNotaPedidoJson"]) . '">Productos</button>
+                        <button class="btn btn-primary btnMostarProductos" data-products="' . htmlspecialchars($value["DatosProductosNotaPedidoJson"]) . '" codNotaPe="'.$value["IdNotaP"].'">Productos</button>
                       </td>
                       <td>
                         ' . $buttons . '
@@ -112,6 +112,8 @@ $deleteNotaPe = new NotaPedidoController();
 $deleteNotaPe->ctrDeleteNotaPedido();
 $updateNotaPe = new NotaPedidoController();
 $updateNotaPe->ctrUpdateNotaPedido();
+$nullNotaPe = new NotaPedidoController();
+$nullNotaPe->ctrNullNotaPedido();
 
 //  Eliminar lote
 $deleteLote = new LotesController();
@@ -129,7 +131,7 @@ $updateLote->ctrUpdateLoteEstado();
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Listado de Productos Nota Pedido</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Detale Nota Pedido</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -151,6 +153,7 @@ $updateLote->ctrUpdateLoteEstado();
         </table>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-primary pull-right btnVisualizarNota" id="btnVisualizarNota">Ver más</button>
         <button type="button" class="btn btn-secondary pull-left" data-bs-dismiss="modal">Salir</button>
       </div>
     </div>

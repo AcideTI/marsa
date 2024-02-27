@@ -157,15 +157,17 @@ class NotaPedidoController
   //  Actualizar el estado de la nota
   public static function ctrUpdateNotaPedido()
   {
-    //  En el caso se tenga estos datos, es un update de estado 1 a 2
-    if(isset($_GET["codUpdateNota"]) && isset($_GET["nroFactura"])) {
+    //  En el caso se tenga estos datos, es un update de estado 1 a 2 || 2 a 3 
+    if (isset($_GET["codUpdateNota"]) && isset($_GET["observacion"])) {
       $table = "tb_notapedido";
       $codNota = $_GET["codUpdateNota"];
-      $nroFactura = $_GET["nroFactura"];
+      $observacion = $_GET["observacion"];
+      $estadoNota = self::ctrGetEstadoNotaPedido($codNota);
+      $estadoNota = intval($estadoNota["EstadoNota"]) + 1;
       $dataUpdate = array(
-        "EstadoNota" => "2",
+        "EstadoNota" => $estadoNota,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
-        "NroFactura" => $nroFactura,
+        "Observacion" => $observacion,
         "IdNotaP" => $codNota
       );
       $actualizarNota = NotaPedidoModel::mdlUpdateNotaPedidoRetirado($table, $dataUpdate);
@@ -174,6 +176,48 @@ class NotaPedidoController
         echo $message;
       } else {
         $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Actualizar la Nota Pedido', 'verSalidas');
+        echo $message;
+      }
+    }
+  }
+
+  //  Anular una nota de pedido
+  public static function ctrNullNotaPedido()
+  {
+    if (isset($_GET["codNotaNull"])) {
+      $table = "tb_notapedido";
+      $codNotaPe = $_GET["codNotaNull"];
+      //  Obtenemos la lista de productos de la nota de pedido
+      $productos = self::ctrGetListaProductos($codNotaPe);
+      $productos = json_decode($productos["DatosProductosNotaPedidoJson"], true);
+      //  Actualizamos el stock de los productos
+      foreach ($productos as $product) {
+        $stock = AlmacenController::ctrComprobarStockRes($product["codProduct"]);
+        $nuevoStock = $stock["CantidadTotal"] + $product["countProduct"];
+        $dataUpdate = array(
+          "CantidadTotal" => $nuevoStock,
+          "DateUpdate" => date("Y-m-d"),
+          "HoraUpdate" => date("H:i:s"),
+          "IdAlma" => $stock["IdAlma"]
+        );
+        $updateStock = AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
+      }
+      if ($updateStock == "ok") {
+        $dataUpdate = array(
+          "EstadoNota" => "5",
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+          "IdNotaP" => $codNotaPe
+        );
+        $response = NotaPedidoModel::mdlUpdateNotaPedidoRetirado($table, $dataUpdate);
+        if ($response == "ok") {
+          $message = FunctionsController::ctrShowAlert('success', 'Correcto', 'Nota Pedido Anulada Correctamente', 'verSalidas');
+          echo $message;
+        } else {
+          $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Anulada la Nota Pedido', 'verSalidas');
+          echo $message;
+        }
+      } else {
+        $message = FunctionsController::ctrShowAlert('error', 'Error', 'Error al Anulada la Nota Pedido', 'verSalidas');
         echo $message;
       }
     }
@@ -295,7 +339,7 @@ class NotaPedidoController
     return $respuesta;
   }
 
- /* Reporte excel de todas las Notas */
+  /* Reporte excel de todas las Notas */
   public static function ctrGetAllDowlReportsExeNotPe()
   {
     $table = "tb_notapedido";
@@ -364,7 +408,6 @@ class NotaPedidoController
       $recordlistAllDataExeNotPeFech[] = $newData;
     }
     return $recordlistAllDataExeNotPeFech;
-
   }
   /* fin */
 
@@ -403,7 +446,8 @@ class NotaPedidoController
 
   /* fin */
   //  Obtener la lista de productos de una nota de pedido
-  public static function ctrGetListaProductos($codNota) {
+  public static function ctrGetListaProductos($codNota)
+  {
     $table = "tb_notapedido";
     $listaProductos = NotaPedidoModel::mdlGetListaProductos($table, $codNota);
     return $listaProductos;
@@ -416,5 +460,4 @@ class NotaPedidoController
     $response = NotaPedidoModel::mdlUpdateNotaPedidoDevolucion($table, $dataUpdate);
     return $response;
   }
-
 }

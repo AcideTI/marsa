@@ -27,14 +27,17 @@ class FunctionsController
       $state = '<span class="badge rounded-pill bg-primary" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Retirado</span>';
     }
     if ($stateValue == 2) {
-      $state = '<span class="badge rounded-pill bg-success" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Vendido</span>';
+      $state = '<span class="badge rounded-pill bg-warning" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Entregado</span>';
     }
     if ($stateValue == 3) {
-      $state = '<span class="badge rounded-pill bg-danger" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Devolucion</span>';
+      $state = '<span class="badge rounded-pill bg-success" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Cancelado</span>';
     }
-    // if ($stateValue == 4) {
-    //   $state = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
-    // }
+    if ($stateValue == 4) {
+      $state = '<span class="badge rounded-pill bg-danger" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Devolución</span>';
+    }
+    if ($stateValue == 5) {
+      $state = '<span class="badge rounded-pill bg-secondary" style="font-size: 16px; padding: 2px; width: 100px; height: 25px; text-align: center;">Anulado</span>';
+    }
     return $state;
   }
 
@@ -47,22 +50,43 @@ class FunctionsController
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-pencil"></i></button>
         <button class="btn btn-success btnUpdateNotaRegistrado" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-secondary btnNullNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-ban"></i></button>
       ';
     }
     if ($stateValue == 2) {
       $buttons = '
         <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
-        <button class="btn btn-danger btnUpdateNotaVendido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
+        <button class="btn btn-success btnUpdateNotaCancelado" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-secondary btnNullNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-ban"></i></button>
       ';
     }
     if ($stateValue == 3) {
       $buttons = '
         <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
+        <button class="btn btn-danger btnUpdateNotaVendido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
+        <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-secondary btnNullNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-ban"></i></button>
+      ';
+    }
+    if ($stateValue == 4) {
+      $buttons = '
+        <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
+        <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
         <button class="btn btn-danger " codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-secondary btnNullNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-ban"></i></button>
+      ';
+    }
+    if ($stateValue == 5) {
+      $buttons = '
+        <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
+        <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
+        <button class="btn btn-danger " codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
+        <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-secondary btnNullNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-ban"></i></button>
       ';
     }
 

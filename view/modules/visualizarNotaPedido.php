@@ -27,12 +27,20 @@
               $tipoIngreso = "Retirado";
             }
             if ($datosNota["EstadoNota"] == "2") {
-              $color = "#82F5A5";
-              $tipoIngreso = "Vendido";
+              $color = "#FFFCAE";
+              $tipoIngreso = "Entregado";
             }
             if ($datosNota["EstadoNota"] == "3") {
+              $color = "#82F5A5";
+              $tipoIngreso = "Cancelado";
+            }
+            if ($datosNota["EstadoNota"] == "4") {
               $color = "#F1907D";
               $tipoIngreso = "Devolución";
+            }
+            if ($datosNota["EstadoNota"] == "5") {
+              $color = "#C7C7C7";
+              $tipoIngreso = "Anulado";
             }
             ?>
 
@@ -88,6 +96,13 @@
                 echo '<option value="' . $datosNota["IdPer"] . '">' . $datosNota["nombreVendedor"] . '</option>';
                 ?>
               </select>
+            </div>
+          </div>
+
+          <div class="container row g-3">
+            <div class="form-group col-md-12">
+              <label for="visualizarObservacion" class="form-label" style="font-weight: bold">Observación </label>
+              <input type="text" class="form-control" id="visualizarObservacion" name="visualizarObservacion" value="<?php echo $datosNota["Observacion"] ?>" disabled>
             </div>
           </div>
 

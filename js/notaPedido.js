@@ -12,6 +12,12 @@ $(".closeNotaPedido").on("click", function () {
 $(".closeVisualizarNota").on("click", function () {
   window.location = "index.php?ruta=verSalidas";
 });
+
+$(".btnVisualizarNota").on("click", function () {
+  var codNotaPe = $(this).attr("codNota");
+  window.location = "index.php?ruta=visualizarNotaPedido&codSalida=" + codNotaPe;
+});
+
 /* fin */
 
 //  Crear una nueva nota de pedido
@@ -68,13 +74,12 @@ $(function () {
 $(".dataTableSalidas").on("click", ".btnPrintNotaPedido", function () {
   var codNotaPe = $(this).attr("codNotaPe");
 
-  if(codNotaPe != null || codNotaPe != '')
-  {
-    window.open("library/FPDF/pdfNotaPedido.php?&codNotaPe=" + codNotaPe, "_blank");
-  }
-  else
-  {
-
+  if (codNotaPe != null || codNotaPe != "") {
+    window.open(
+      "library/FPDF/pdfNotaPedido.php?&codNotaPe=" + codNotaPe,
+      "_blank"
+    );
+  } else {
     Swal.fire({
       icon: "error",
       title: "Error",
@@ -228,6 +233,7 @@ $(document).ready(function () {
 $(".dataTableSalidas").on("click", ".btnMostarProductos", function () {
   // Obtiene los productos del atributo data-products del botón
   var products = JSON.parse($(this).attr("data-products"));
+  var codNota = $(this).attr("codNotaPe");
 
   // Vacía la tabla en el modal
   $("#tablaProductosNotaPedido tbody").empty();
@@ -251,7 +257,8 @@ $(".dataTableSalidas").on("click", ".btnMostarProductos", function () {
         "</tr>"
     );
   }
-  // Muestra el modal
+  // Muestra el modal 
+  $("#btnVisualizarNota").attr("codNota", codNota);
   $("#modalProductosNotaPedido").modal("show");
 });
 
@@ -320,8 +327,8 @@ $(".dataTableSalidas").on("click", ".btnUpdateNotaRegistrado", function () {
   var codNotaPe = $(this).attr("codNotaPe");
   swal
     .fire({
-      title: '¿Está seguro de enviar esta nota al estado de "Vendido"?',
-      text: "Ingrese el número de factura:",
+      title: '¿Está seguro de enviar esta nota al estado de "Entregado"?',
+      text: "Ingrese alguna observación:",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -332,20 +339,38 @@ $(".dataTableSalidas").on("click", ".btnUpdateNotaRegistrado", function () {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        if (result.value) {
-          var factura = result.value;
-          window.location =
-            "index.php?ruta=verSalidas&codUpdateNota=" +
-            codNotaPe +
-            "&nroFactura=" +
-            factura;
-        } else {
-          swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "¡Ingrese el número de factura!",
-          });
-        }
+        var observacion = result.value;
+        window.location =
+          "index.php?ruta=verSalidas&codUpdateNota=" +
+          codNotaPe +
+          "&observacion=" +
+          observacion;
+      }
+    });
+});
+
+$(".dataTableSalidas").on("click", ".btnUpdateNotaCancelado", function () {
+  var codNotaPe = $(this).attr("codNotaPe");
+  swal
+    .fire({
+      title: '¿Está seguro de enviar esta nota al estado de "Cancelado"?',
+      text: "Ingrese alguna observación:",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, actualizar estado!",
+      input: "text",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        var observacion = result.value;
+        window.location =
+          "index.php?ruta=verSalidas&codUpdateNota=" +
+          codNotaPe +
+          "&observacion=" +
+          observacion;
       }
     });
 });
@@ -380,6 +405,26 @@ $(".dataTableSalidas").on("click", ".btnEditNotaPedido", function () {
 
   // Redirigir al usuario a la página de edición
   window.location = "index.php?ruta=editNotaPedido&codNotaPe=" + codNotaPe;
+});
+
+$(".dataTableSalidas").on("click", ".btnNullNotaPedido", function () {
+  var codNotaPe = $(this).attr("codNotaPe");
+  swal
+    .fire({
+      title: "¿Está seguro que desea Anular esta nota de pedido?",
+      text: "¡No podrá deshacer los cambios!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, anular nota!",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        window.location = "index.php?ruta=verSalidas&codNotaNull=" + codNotaPe;
+      }
+    });
 });
 
 function getUrlParameter(name) {
@@ -475,21 +520,21 @@ function checkAndSetDate() {
   }
 }
 
-$(document).ready(function() {
-  $('#notRuc').select2();
-  $('#notCli').select2();
-  $('#notDirec').select2();
+$(document).ready(function () {
+  $("#notRuc").select2();
+  $("#notCli").select2();
+  $("#notDirec").select2();
 
-  $('#notRuc').on('select2:select', function (e) {
+  $("#notRuc").on("select2:select", function (e) {
     var data = e.params.data;
-    $('#notCli').val(data.id).trigger('change');
-    $('#notDirec').val(data.id).trigger('change');
+    $("#notCli").val(data.id).trigger("change");
+    $("#notDirec").val(data.id).trigger("change");
   });
 
-  $('#notCli').on('select2:select', function (e) {
+  $("#notCli").on("select2:select", function (e) {
     var data = e.params.data;
-    $('#notRuc').val(data.id).trigger('change');
-    $('#notDirec').val(data.id).trigger('change');
+    $("#notRuc").val(data.id).trigger("change");
+    $("#notDirec").val(data.id).trigger("change");
   });
 });
 
@@ -552,5 +597,3 @@ function listProductosDevolucion() {
   $("#listProductosDevolver").val(JSON.stringify(listProductsDevolucion));
   $("#listProductosMerma").val(JSON.stringify(listProductsMerma));
 }
-
-
