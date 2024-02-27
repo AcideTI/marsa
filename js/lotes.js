@@ -94,27 +94,27 @@ $(".formEditLote").on("change", "input.newCount", function () {
 
 //  borar producto agregado de la lista de lote
 $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
-  $(this).parent().parent().parent().parent().remove();
+  /* $(this).parent().parent().parent().parent().remove();
   var IdProd = $(this).attr("codProduct");
   $("button.takeButtonLote[codProduct='" + IdProd + "']").removeClass(
     "btn-default"
   );
   $("button.takeButtonLote[codProduct='" + IdProd + "']").addClass(
     "btn-primary btnAddProductLote"
-  );
+  ); */
   listProductAddLotes();
 });
 
 //  borar producto agregado de la lista de lote
 $(".formEditLote").on("click", "button.deleteEditLote", function () {
-  $(this).parent().parent().parent().parent().remove();
+  /* $(this).parent().parent().parent().parent().remove();
   var IdProd = $(this).attr("codProduct");
   $("button.takeButtonLote[codProduct='" + IdProd + "']").removeClass(
     "btn-default"
   );
   $("button.takeButtonLote[codProduct='" + IdProd + "']").addClass(
     "btn-primary btnAddProductLote"
-  );
+  ); */
   listProductAddLotes();
 });
 
@@ -130,9 +130,9 @@ $(".tableNuevoLote").on("click", ".btnAddProductLote", function () {
       confirmButtonText: "¡Cerrar!",
     });
   } else {*/
-  $(this).removeClass("btn-primary btnAddProductLote");
+ /*  $(this).removeClass("btn-primary btnAddProductLote");
   $(this).addClass("btn-default");
-
+ */
   var datos = new FormData();
   datos.append("codProductAdd", codProductAdd);
   $.ajax({

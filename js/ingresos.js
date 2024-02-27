@@ -36,10 +36,10 @@ $(".formEditarIngreso").on("change", "input.newCount", function () {
 
 //  borar producto agregado de la lista de ingreso
 $(".formNuevoIngreso").on("click", "button.deleteNuevoiIngreso", function () {
-  $(this).parent().parent().parent().parent().remove();
+ /*  $(this).parent().parent().parent().parent().remove();
   var IdProd = $(this).attr("codProduct");
   $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
-  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
+  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct"); */
   listProductAdd();
 });
 
@@ -92,9 +92,9 @@ $(function() {
 $(".tableNuevoIng").on("click", ".btnAddProduct", function () {
   var codProductAdd = $(this).attr("codProduct");
 
-  $(this).removeClass("btn-primary btnAddProduct");
+ /*  $(this).removeClass("btn-primary btnAddProduct");
   $(this).addClass("btn-default");
-
+ */
   var datos = new FormData();
   datos.append("codProductAdd", codProductAdd);
   $.ajax({
