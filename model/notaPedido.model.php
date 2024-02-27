@@ -361,9 +361,10 @@ class NotaPedidoModel
     $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
         CASE np.EstadoNota
             WHEN 1 THEN 'Retirado'
-            WHEN 2 THEN 'Vendido'
-            WHEN 3 THEN 'Devolucion'
-            WHEN 4 THEN 'Anulado'
+            WHEN 2 THEN 'Entregado'
+            WHEN 3 THEN 'Cancelado'
+            WHEN 4 THEN 'Devolución'
+            WHEN 5 THEN 'Anulado'
             ELSE 'Estado desconocido'
         END AS EstadoNota,
         per.NombrePer AS NombrePerIdPer, 
@@ -416,11 +417,12 @@ class NotaPedidoModel
   {
     $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
       CASE np.EstadoNota
-          WHEN 1 THEN 'Retirado'
-          WHEN 2 THEN 'Vendido'
-          WHEN 3 THEN 'Devolucion'
-          WHEN 4 THEN 'Anulado'
-          ELSE 'Estado desconocido'
+      WHEN 1 THEN 'Retirado'
+            WHEN 2 THEN 'Entregado'
+            WHEN 3 THEN 'Cancelado'
+            WHEN 4 THEN 'Devolución'
+            WHEN 5 THEN 'Anulado'
+            ELSE 'Estado desconocido'
       END AS EstadoNota,
       per.NombrePer AS NombrePerIdPer, 
       per2.NombrePer AS NombrePerIdRes, 
@@ -478,10 +480,11 @@ class NotaPedidoModel
   {
     $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
         CASE np.EstadoNota
-            WHEN 1 THEN 'Retirado'
-            WHEN 2 THEN 'Vendido'
-            WHEN 3 THEN 'Devolucion'
-            WHEN 4 THEN 'Anulado'
+        WHEN 1 THEN 'Retirado'
+            WHEN 2 THEN 'Entregado'
+            WHEN 3 THEN 'Cancelado'
+            WHEN 4 THEN 'Devolución'
+            WHEN 5 THEN 'Anulado'
             ELSE 'Estado desconocido'
         END AS EstadoNota,
         per.NombrePer AS NombrePerIdPer, 

@@ -228,7 +228,7 @@ class ControllerReportesExcel
       $listAllDataExeLote = LotesController::ctrGetAllDowlReportsExeLote();
 
       //  cell Titles
-      $titleArray = ['Nr REGISTRO','RESPONSABLE', 'ESTADO', 'DESCRIPCION', 'CODIGO', 'FECHA LOTE','FECHA VENCIMIENTO','CLIENTE','RUC', 'PRODUCTO', 'CANTIDAD'];
+      $titleArray = ['Nr REGISTRO','RESPONSABLE', 'ESTADO', 'DESCRIPCION', 'CODIGO', 'FECHA LOTE','TIPO SALIDA','CLIENTE','RUC', 'PRODUCTO', 'CANTIDAD'];
       $dataArray = [];
       $spreadsheet = new Spreadsheet();
       $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -242,7 +242,7 @@ class ControllerReportesExcel
           $value["DescripcionLote"],
           $value["CodigoLote"],
           $value["FechaProduccionLote"],
-          $value["FechaVencimientoLote"],
+          $value["TipoSalida"],
           $value["NombreCli"],
           $value["RucCli"],
           $value["Producto"],
@@ -273,7 +273,7 @@ class ControllerReportesExcel
        $listAllDataExeLoteFech = LotesController::ctrGetAllDowlReportsExeLoteFech($fechaInicioLt, $fechaFinLt);
  
        //  cell Titles
-       $titleArray = ['Nr REGISTRO','RESPONSABLE', 'ESTADO', 'DESCRIPCION', 'CODIGO', 'FECHA LOTE','FECHA VENCIMIENTO','CLIENTE','RUC', 'PRODUCTO','CANTIDAD'];
+       $titleArray = ['Nr REGISTRO','RESPONSABLE', 'ESTADO', 'DESCRIPCION', 'CODIGO', 'FECHA LOTE','TIPO SALIDA','CLIENTE','RUC', 'PRODUCTO','CANTIDAD'];
        $dataArray = [];
        $spreadsheet = new Spreadsheet();
        $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -287,7 +287,7 @@ class ControllerReportesExcel
           $value["DescripcionLote"],
           $value["CodigoLote"],
           $value["FechaProduccionLote"],
-          $value["FechaVencimientoLote"],
+          $value["TipoSalida"],
           $value["NombreCli"],
           $value["RucCli"],
           $value["Producto"],

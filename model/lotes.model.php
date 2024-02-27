@@ -205,12 +205,13 @@ class LotesModel
           tb_lote.DescripcionLote, 
           tb_lote.DatosLoteIngresoJson, 
           tb_lote.FechaProduccionLote,
-          tb_lote.FechaVencimientoLote, 
+          tb_lote.TipoSalida, 
           CASE tb_lote.Estado
             WHEN 1 THEN 'Retirado'
-            WHEN 2 THEN 'Ingresado'
-            WHEN 3 THEN 'Vendido'
-            WHEN 4 THEN 'Anulado'
+            WHEN 2 THEN 'Entregado'
+            WHEN 3 THEN 'Cancelado'
+            WHEN 4 THEN 'Devolución'
+            WHEN 5 THEN 'Anulado'
             ELSE 'Estado desconocido'
           END AS Estado
         FROM
@@ -270,12 +271,13 @@ class LotesModel
             tb_lote.DescripcionLote, 
             tb_lote.DatosLoteIngresoJson, 
             tb_lote.FechaProduccionLote,
-            tb_lote.FechaVencimientoLote, 
+            tb_lote.TipoSalida, 
             CASE tb_lote.Estado
-              WHEN 1 THEN 'Retirado'
-              WHEN 2 THEN 'Ingresado'
-              WHEN 3 THEN 'Vendido'
-              WHEN 4 THEN 'Anulado'
+            WHEN 1 THEN 'Retirado'
+            WHEN 2 THEN 'Entregado'
+            WHEN 3 THEN 'Cancelado'
+            WHEN 4 THEN 'Devolución'
+            WHEN 5 THEN 'Anulado'
               ELSE 'Estado desconocido'
             END AS Estado
           FROM
