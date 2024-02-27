@@ -66,7 +66,7 @@ class AlmacenController
     $listAllDataExeAlmacen = AlmacenModel::mdlGetAllDowlReprtAlmacen($table);
     // Filtrar los registros donde la cantidad es mayor a cero
     $listAllDataExeAlmacen = array_filter($listAllDataExeAlmacen, function($record) {
-      return $record['CantidadTotal'] > 0;
+      return $record['CantidadTotal'] != 0;
     });
 
     return $listAllDataExeAlmacen;

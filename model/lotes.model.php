@@ -63,12 +63,13 @@ class LotesModel
   /* funcion de controlador que toma el json de newIngJs */
   public static function mdlCreateIngresoLoteAjx($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (IdCliente, IdPer, CodigoLote, NroFactura, TipoSalida, DatosLoteIngresoJson, FechaProduccionLote, FechaVencimientoLote, Estado, DateCreate, DateUpdate) VALUES(:IdCliente, :IdPer, :CodigoLote, :NroFactura, :TipoSalida, :DatosLoteIngresoJson, :FechaProduccionLote, :FechaVencimientoLote, :Estado, :DateCreate, :DateUpdate)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (IdCliente, IdPer, CodigoLote, NroFactura,TotalFactura, TipoSalida, DatosLoteIngresoJson, FechaProduccionLote, FechaVencimientoLote, Estado, DateCreate, DateUpdate) VALUES(:IdCliente, :IdPer, :CodigoLote, :NroFactura,:TotalFactura, :TipoSalida, :DatosLoteIngresoJson, :FechaProduccionLote, :FechaVencimientoLote, :Estado, :DateCreate, :DateUpdate)");
 
     $statement->bindParam(":IdCliente", $dataCreate["IdCliente"], PDO::PARAM_INT);
     $statement->bindParam(":IdPer", $dataCreate["IdPer"], PDO::PARAM_INT);
     $statement->bindParam(":CodigoLote", $dataCreate["CodigoLote"], PDO::PARAM_STR);
     $statement->bindParam(":NroFactura", $dataCreate["NroFactura"], PDO::PARAM_STR);
+    $statement->bindParam(":TotalFactura", $dataCreate["TotalFactura"], PDO::PARAM_STR);
     $statement->bindParam(":TipoSalida", $dataCreate["TipoSalida"], PDO::PARAM_STR);
     $statement->bindParam(":DatosLoteIngresoJson", $dataCreate["DatosLoteIngresoJson"], PDO::PARAM_STR);
     $statement->bindParam(":FechaProduccionLote", $dataCreate["FechaProduccionLote"], PDO::PARAM_STR);
@@ -157,6 +158,7 @@ class LotesModel
     tb_lote.DatosLoteIngresoJson, 
     tb_lote.Estado,
     tb_lote.NroFactura,
+    tb_lote.TotalFactura,
     tb_lote.TipoSalida
   FROM
     $table
@@ -206,7 +208,8 @@ class LotesModel
           tb_lote.DatosLoteIngresoJson, 
           tb_lote.FechaProduccionLote,
           tb_lote.TipoSalida,
-          tb_lote.NroFactura, 
+          tb_lote.NroFactura,
+          tb_lote.TotalFactura,
           CASE tb_lote.Estado
             WHEN 1 THEN 'Retirado'
             WHEN 2 THEN 'Entregado'
@@ -273,7 +276,8 @@ class LotesModel
             tb_lote.DatosLoteIngresoJson, 
             tb_lote.FechaProduccionLote,
             tb_lote.TipoSalida,
-            tb_lote.NroFactura, 
+            tb_lote.NroFactura,
+            tb_lote.TotalFactura,
             CASE tb_lote.Estado
             WHEN 1 THEN 'Retirado'
             WHEN 2 THEN 'Entregado'
@@ -334,6 +338,7 @@ class LotesModel
     tb_cliente.NombreCli, 
     tb_lote.NroFactura, 
     tb_lote.TipoSalida,
+    tb_lote.TotalFactura,
     tb_lote.Observacion, 
     tb_lote.FechaProduccionLote,  
     tb_lote.DatosLoteIngresoJson, 

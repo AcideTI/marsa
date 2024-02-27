@@ -520,6 +520,7 @@ $(".dataTableSalidas").on("click", ".btnViewAllLote", function () {
       $("#fechaLote").val(response["FechaProduccionLote"]);
       $("#fechaVencimiento").val(response["FechaVencimientoLote"]);
       $("#descripcionLote").val(response["Observacion"]);
+      $("#totalFactura").val(response["TotalFactura"]);
 
       $("#btnVisualizarSalida").attr("codLote", codLote);
     },

@@ -54,7 +54,7 @@
               </tr>
             </thead>
             <tbody>
-              //<?php
+              <?php
               $ListNotaPedido = IngresosController::ctrGetAllIngresos();
               foreach ($ListNotaPedido as $key => $value) {
                 $tipoIngreso = FunctionsController::ctrGetTipoIngreso($value["TipoIngreso"]);

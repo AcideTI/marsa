@@ -12,7 +12,7 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Crear Nueva Salida
+        Crear Nueva Salida Factura / Lote
       </h1>
     </div>
 
@@ -100,6 +100,10 @@
             <div class="col-md-3">
               <label for="numeroLote" class="form-label" style="font-weight: bold">Código de Lote:</label>
               <input type="text" class="form-control" id="numeroLote" name="numeroLote" placeholder="Ingrese el código de Lote">
+            </div>
+            <div class="col-md-3">
+              <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
+              <input type="text" class="form-control" id="totalFactura" name="totalFactura" placeholder="Ingrese el Total">
             </div>
           </div>
         </span>

@@ -63,6 +63,7 @@ class LotesController
         "IdPer" => $data["nameResLot"],
         "CodigoLote" => $data["numeroLote"],
         "NroFactura" => $data["numeroFactura"],
+        "TotalFactura" => $data["totalFactura"],
         "TipoSalida" => $data["tipoSalida"],
         "DatosLoteIngresoJson" => $data["listProducts"],
         "FechaProduccionLote" => $data["dateCreatLot"],

@@ -105,6 +105,10 @@
                 <label for="editarNumeroFactura" class="form-label" style="font-weight: bold">Número de Factura:</label>
                 <input type="text" class="form-control" id="editarNumeroFactura" name="editarNumeroFactura" value="<?php echo $datosLote["NroFactura"] ?>">
               </div>
+              <div class="col-md-3">
+              <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
+              <input type="text" class="form-control" id="totalFactura" name="totalFactura" value="<?php echo $datosLote["TotalFactura"] ?>">
+              </div>
             <?php
             } else {
             ?>
@@ -116,6 +120,11 @@
               <div class="col-md-3">
                 <label for="editarNumeroLote" class="form-label" style="font-weight: bold">Código de Lote:</label>
                 <input type="text" class="form-control" id="editarNumeroLote" name="editarNumeroLote" value="<?php echo $datosLote["CodigoLote"] ?>">
+              </div>
+
+              <div class="col-md-3">
+              <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
+              <input type="text" class="form-control" id="totalFactura" name="totalFactura" value="<?php echo $datosLote["TotalFactura"] ?>">
               </div>
             <?php
             }

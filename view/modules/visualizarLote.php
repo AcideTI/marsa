@@ -30,7 +30,7 @@
 
             <div class="form-group col-md-4">
               <label for="notRuc" class="form-label" style="font-weight: bold">Ruc Cliente </label>
-              <select class="form-control input-lg" id="notRuc" name="notRuc">
+              <select class="form-control input-lg" id="notRuc" name="notRuc"disabled>
                 <?php
                 echo '<option value="' . $datosLote["IdCliente"] . '">' . $datosLote["RucCli"] . '</option>';
                 $listClientes = NotaPedidoController::ctrGetNotaPeCli();
@@ -43,7 +43,7 @@
 
             <div class="form-group col-md-4">
               <label for="notCli" class="form-label" style="font-weight: bold">Nombre Cliente</label>
-              <select class="form-control input-lg" id="notCli" name="notCli" required>
+              <select class="form-control input-lg" id="notCli" name="notCli" disabled>
                 <?php
                 echo '<option value="' . $datosLote["IdCliente"] . '">' . $datosLote["NombreCli"] . '</option>';
                 $listClientes = NotaPedidoController::ctrGetNotaPeCli();
@@ -69,7 +69,7 @@
             <!-- Select Responsable-->
             <div class="form-group col-md-8">
               <label for="editarResponsable" class="form-label" style="font-weight: bold">Responsable:</label>
-              <select class="form-control input-lg" id="editarResponsable" name="editarResponsable" required>
+              <select class="form-control input-lg" id="editarResponsable" name="editarResponsable" disabled>
                 <?php
                 echo '<option value="' . $datosLote["IdPer"] . '" >' . $datosLote["FullNamePersonal"] . '</option>';
                 $listResponsables = PersonalController::ctrGetPersonalByType("1");
@@ -82,7 +82,7 @@
 
             <div class="col-md-4">
               <label for="editarFechaLote" class="form-label" style="font-weight: bold">Fecha Salida: </label>
-              <input type="date" class="form-control" id="editarFechaLote" name="editarFechaLote" value="<?php echo $datosLote["FechaProduccionLote"] ?>" required><br>
+              <input type="date" class="form-control" id="editarFechaLote" name="editarFechaLote" value="<?php echo $datosLote["FechaProduccionLote"] ?>" readonly><br>
             </div>
 
             <div class="col-md-2">
@@ -103,19 +103,29 @@
             ?>
               <div class="col-md-3">
                 <label for="editarNumeroFactura" class="form-label" style="font-weight: bold">Número de Factura:</label>
-                <input type="text" class="form-control" id="editarNumeroFactura" name="editarNumeroFactura" value="<?php echo $datosLote["NroFactura"] ?>">
+                <input type="text" class="form-control" id="editarNumeroFactura" name="editarNumeroFactura" value="<?php echo $datosLote["NroFactura"] ?>"readonly>
+              </div>
+
+              <div class="col-md-3">
+              <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
+              <input type="text" class="form-control" id="totalFactura" name="totalFactura" value="<?php echo $datosLote["TotalFactura"] ?>"readonly>
               </div>
             <?php
             } else {
             ?>
               <div class="col-md-3">
                 <label for="editarNumeroFactura" class="form-label" style="font-weight: bold">Número de Factura:</label>
-                <input type="text" class="form-control" id="editarNumeroFactura" name="editarNumeroFactura" value="<?php echo $datosLote["NroFactura"] ?>">
+                <input type="text" class="form-control" id="editarNumeroFactura" name="editarNumeroFactura" value="<?php echo $datosLote["NroFactura"] ?>"readonly>
               </div>
 
               <div class="col-md-3">
                 <label for="editarNumeroLote" class="form-label" style="font-weight: bold">Código de Lote:</label>
-                <input type="text" class="form-control" id="editarNumeroLote" name="editarNumeroLote" value="<?php echo $datosLote["CodigoLote"] ?>">
+                <input type="text" class="form-control" id="editarNumeroLote" name="editarNumeroLote" value="<?php echo $datosLote["CodigoLote"] ?>"readonly>
+              </div>
+
+              <div class="col-md-3">
+              <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
+              <input type="text" class="form-control" id="totalFactura" name="totalFactura" value="<?php echo $datosLote["TotalFactura"] ?>"readonly>
               </div>
             <?php
             }

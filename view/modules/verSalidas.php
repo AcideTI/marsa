@@ -194,6 +194,12 @@ $nullLote->ctrNullLote();
           <input type="text" class="form-control" id="mostrarTipoSalida" name="mostrarTipoSalida" style="border:none" readonly>
         </div>
 
+        <!-- Total -->
+        <div class="form-group">
+          <label for="totalFactura" class="col-form-label" style="font-weight: bold">Total:</label>
+          <input type="text" class="form-control" id="totalFactura" name="totalFactura" style="border:none" readonly>
+        </div>
+
         <!-- Fecha de Lote -->
         <div class="form-group">
           <label for="fechaLote" class="col-form-label" style="font-weight: bold">Fecha Salida:</label>
