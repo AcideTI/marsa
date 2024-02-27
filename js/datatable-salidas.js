@@ -71,7 +71,7 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
 $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
   var filtro = $(this).attr("filtro");
   var data = new FormData();
-  $(".tituloSalidas").text("Lotes");
+  $(".tituloSalidas").text("Facturas");
   
   $("#dataTableSalidas thead").html(`
   <tr>

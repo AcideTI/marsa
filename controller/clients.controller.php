@@ -27,6 +27,7 @@ class ClientsController
       $table = "tb_cliente";
       $dataCreate = array(
         "RucCli" => $_POST["Ru"],
+        "RazonSocial" => $_POST["razonSocial"],
         "NombreCli" => $_POST["NameCli"],
         "CorreoCli" => $_POST["EmailCli"],
         "DireccionCli" => $_POST["AddressCli"],

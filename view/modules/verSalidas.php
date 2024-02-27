@@ -15,7 +15,7 @@
       <!-- Salidas -->
       <h1 class="mt-4 tituloSalidas">Notas de Pedido</h1>
       <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Todas las Notas de Pedido</li>
+        <li class="breadcrumb-item active">Todos los Registros</li>
       </ol>
       <div class="d-flex m-2 buttonsSalidas">
 

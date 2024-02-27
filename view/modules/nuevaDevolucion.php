@@ -100,7 +100,12 @@
                   ?>
                 </select>
               </div>
-            </div>
+
+              <div class="form-group col-md-12">
+                <label for="retiradoDescripcion" class="form-label" style="font-weight: bold">Descripcion:</label>
+                <input type="text" class="form-control" id="retiradoDescripcion" name="retiradoDescripcion" value="<?php echo $datosNota["Observacion"] ?>"  disabled>
+              </div>
+
 
             <div class="container row g-3">
               <div class="col-md-2">
@@ -176,7 +181,7 @@
 
               <div class="form-group col-md-6">
                 <label for="devolucionDescripcion" class="form-label" style="font-weight: bold">Descripcion Lote:</label>
-                <input type="text" class="form-control" id="devolucionDescripcion" name="devolucionDescripcion" value="<?php echo $datosLote["DescripcionLote"] ?>" disabled>
+                <input type="text" class="form-control" id="devolucionDescripcion" name="devolucionDescripcion" value="<?php echo $datosLote["Observacion"] ?>" disabled>
               </div>
             </div>
           </span>

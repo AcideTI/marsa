@@ -66,7 +66,7 @@ class FunctionsController
       $buttons = '
         <button class="btn btn-outline-dark btnPrintNotaPedido" codNotaPe="' . $codNotaPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
         <button class="btn btn-warning btnEditNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-pencil"></i></button>
-        <button class="btn btn-danger btnUpdateNotaVendido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa fa-check-circle"></i></button>
+        <button class="btn btn-danger btnUpdateNotaVendido" codNotaPe="' . $codNotaPedido . '" ><i class="fa-solid fa fa-check-circle"></i></button>
         <button class="btn btn-danger btnDeleteNotaPe" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-trash"></i></button>
         <button class="btn btn-secondary btnNullNotaPedido" codNotaPe="' . $codNotaPedido . '" disabled><i class="fa-solid fa-ban"></i></button>
       ';

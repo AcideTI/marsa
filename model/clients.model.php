@@ -22,7 +22,8 @@ class ClientsModel
     tb_cliente.NombreCli, 
     tb_cliente.CorreoCli, 
     tb_cliente.DireccionCli, 
-    tb_cliente.TelefonoCli, 
+    tb_cliente.TelefonoCli,
+    tb_cliente.RazonSocial, 
     tb_estado.TipoEstado AS Estado, 
     tb_cliente.DateCreate 
     -- tb_cliente.DateUpdate 
@@ -41,9 +42,10 @@ class ClientsModel
   // Create clients
   public static function mdlCreateClient($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (RucCli, NombreCli, CorreoCli, DireccionCli, TelefonoCli, Estado, DateCreate, DateUpdate)
-     VALUES(:RucCli, :NombreCli, :CorreoCli, :DireccionCli, :TelefonoCli, :Estado, :DateCreate, :DateUpdate)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (RucCli, RazonSocial,NombreCli, CorreoCli, DireccionCli, TelefonoCli, Estado, DateCreate, DateUpdate)
+     VALUES(:RucCli,:RazonSocial,:NombreCli, :CorreoCli, :DireccionCli, :TelefonoCli, :Estado, :DateCreate, :DateUpdate)");
     $statement->bindParam(":RucCli", $dataCreate["RucCli"], PDO::PARAM_STR);
+    $statement->bindParam(":RazonSocial", $dataCreate["RazonSocial"], PDO::PARAM_STR);
     $statement->bindParam(":NombreCli", $dataCreate["NombreCli"], PDO::PARAM_STR);
     $statement->bindParam(":CorreoCli", $dataCreate["CorreoCli"], PDO::PARAM_STR);
     $statement->bindParam(":DireccionCli", $dataCreate["DireccionCli"], PDO::PARAM_STR);

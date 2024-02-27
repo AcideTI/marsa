@@ -108,7 +108,7 @@
           <!-- Apellido del Personal -->
           <div class="form-group">
             <label for="lastNamePer" class="col-form-label">Apellidos:</label>
-            <input type="text" class="form-control" id="lastNamePer" name="lastNamePer" required>
+            <input type="text" class="form-control" id="lastNamePer" name="lastNamePer" >
           </div>
 
           <!-- DNI del Personal -->
@@ -120,13 +120,13 @@
           <!-- Número de Contacto del Personal -->
           <div class="form-group">
             <label for="phoneNumberPer" class="col-form-label">Telefono</label>
-            <input type="text" class="form-control" id="phoneNumberPer" name="phoneNumberPer" required>
+            <input type="text" class="form-control" id="phoneNumberPer" name="phoneNumberPer" >
           </div>
 
           <!-- Dirección del Personal -->
           <div class="form-group">
             <label for="addressPer" class="col-form-label">Dirección:</label>
-            <input type="text" class="form-control" id="addressPer" name="addressPer" required>
+            <input type="text" class="form-control" id="addressPer" name="addressPer" >
           </div>
 
           <div class="modal-footer">
@@ -180,7 +180,7 @@
           <!-- Apellido del Personal -->
           <div class="form-group">
             <label for="editLastNamePer" class="col-form-label">Apellidos:</label>
-            <input type="text" class="form-control" id="editLastNamePer" name="editLastNamePer" required>
+            <input type="text" class="form-control" id="editLastNamePer" name="editLastNamePer" >
           </div>
 
           <!-- DNI del Personal -->
@@ -192,13 +192,13 @@
           <!-- Número de Contacto del Personal -->
           <div class="form-group">
             <label for="editPhoneNumberPer" class="col-form-label">Telefono</label>
-            <input type="text" class="form-control" id="editPhoneNumberPer" name="editPhoneNumberPer" required>
+            <input type="text" class="form-control" id="editPhoneNumberPer" name="editPhoneNumberPer" >
           </div>
 
           <!-- Dirección del Personal -->
           <div class="form-group">
             <label for="editAddressPer" class="col-form-label">Dirección:</label>
-            <input type="text" class="form-control" id="editAddressPer" name="editAddressPer" required>
+            <input type="text" class="form-control" id="editAddressPer" name="editAddressPer" >
           </div>
 
           <!-- Estado del Personal -->

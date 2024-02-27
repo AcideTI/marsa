@@ -31,12 +31,13 @@
               <tr>
                 <th>#</th>
                 <th>RUC</th>
+                <th>Razon Social</th>
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Dirección</th>
                 <th>Teléfono</th>
                 <th>Estado</th>
-                <th>Fecha de Registro</th>
+                
           <!--       <th>Fecha de Actualización</th> -->
                 <th>Acciones</th>
               </tr>
@@ -50,12 +51,13 @@
                 '<tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["RucCli"] . '</td>
+                  <td>' . $value["RazonSocial"] . '</td>
                   <td>' . $value["NombreCli"] . '</td>
                   <td>' . $value["CorreoCli"] . '</td>
                   <td>' . $value["DireccionCli"] . '</td>
                   <td>' . $value["TelefonoCli"] . '</td>
                   <td>' . $estado . '</td>
-                  <td>' . $value["DateCreate"] . '</td>
+                 
                   <td>
                     <button class="btn btn-warning btnEditClients" codClient="' . $value["IdCli"] . '" data-toggle="modal" data-target="#modalEditClients"><i class="fa-solid fa-pencil"></i></button>
                     <button class="btn btn-danger btnDeleteClient" codClient="' . $value["IdCli"] . '" userType="' . $_SESSION['IdTipoUsu'] . '"><i class="fa-solid fa-trash"></i></button>
@@ -89,7 +91,12 @@
            <!-- RUC Client -->
            <div class="form-group">
             <label for="Ru" class="col-form-label">RUC:</label>
-            <input type="text" class="form-control" id="Ru" name="Ru" required>
+            <input type="text" class="form-control" id="Ru" name="Ru" >
+          </div>
+          <!-- Razon social -->
+          <div class="form-group">
+            <label for="razonSocial" class="col-form-label">Razon social:</label>
+            <input type="text" class="form-control" id="razonSocial" name="razonSocial" >
           </div>
           <!-- Name Client -->
           <div class="form-group">
@@ -99,17 +106,17 @@
           <!-- Email Client -->
           <div class="form-group">
             <label for="EmailCli" class="col-form-label">Correo Electrónico:</label>
-            <input type="email" class="form-control" id="EmailCli" name="EmailCli" required>
+            <input type="email" class="form-control" id="EmailCli" name="EmailCli" >
           </div>
           <!-- Address Client -->
           <div class="form-group">
             <label for="AddressCli" class="col-form-label">Dirección:</label>
-            <input type="text" class="form-control" id="AddressCli" name="AddressCli" required>
+            <input type="text" class="form-control" id="AddressCli" name="AddressCli" >
           </div>
           <!-- Phone Client -->
           <div class="form-group">
             <label for="PhoneCli" class="col-form-label">Número de Teléfono:</label>
-            <input type="number" class="form-control" id="PhoneCli" name="PhoneCli" required>
+            <input type="number" class="form-control" id="PhoneCli" name="PhoneCli" >
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -151,17 +158,17 @@
           <!-- Email Client -->
           <div class="form-group">
             <label for="EditEmailCli" class="col-form-label">Correo Electrónico:</label>
-            <input type="email" class="form-control" id="EditEmailCli" name="EditEmailCli" required>
+            <input type="email" class="form-control" id="EditEmailCli" name="EditEmailCli" >
           </div>
           <!-- Address Client -->
           <div class="form-group">
             <label for="EditAddressCli" class="col-form-label">Dirección:</label>
-            <input type="text" class="form-control" id="EditAddressCli" name="EditAddressCli" required>
+            <input type="text" class="form-control" id="EditAddressCli" name="EditAddressCli" >
           </div>
           <!-- Phone Client -->
           <div class="form-group">
             <label for="EditPhoneCli" class="col-form-label">Número de Teléfono:</label>
-            <input type="number" class="form-control" id="EditPhoneCli" name="EditPhoneCli" required>
+            <input type="number" class="form-control" id="EditPhoneCli" name="EditPhoneCli" >
           </div>
           <!-- State Client -->
           <div class="form-group">

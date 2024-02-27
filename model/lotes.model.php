@@ -159,6 +159,7 @@ class LotesModel
     tb_lote.Estado,
     tb_lote.NroFactura,
     tb_lote.TotalFactura,
+    tb_lote.Observacion,
     tb_lote.TipoSalida
   FROM
     $table
