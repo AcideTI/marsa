@@ -15,6 +15,7 @@ $(".table").on("click", ".btnEditClients", function () {
 
     success: function (response) {
       $("#EditRu").val(response["RucCli"]);
+      $("#EditRazonSocial").val(response["RazonSocial"]);
       $("#EditNameCli").val(response["NombreCli"]);
       $("#EditEmailCli").val(response["CorreoCli"]);
       $("#EditAddressCli").val(response["DireccionCli"]);

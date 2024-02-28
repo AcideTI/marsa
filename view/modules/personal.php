@@ -114,7 +114,7 @@
           <!-- DNI del Personal -->
           <div class="form-group">
             <label for="dniNumberPer" class="col-form-label">DNI:</label>
-            <input type="text" class="form-control" id="dniNumberPer" name="dniNumberPer" required>
+            <input type="text" class="form-control" id="dniNumberPer" name="dniNumberPer">
           </div>
 
           <!-- Número de Contacto del Personal -->
@@ -186,7 +186,7 @@
           <!-- DNI del Personal -->
           <div class="form-group">
             <label for="editDniNumberPer" class="col-form-label">DNI:</label>
-            <input type="text" class="form-control" id="editDniNumberPer" name="editDniNumberPer" required>
+            <input type="text" class="form-control" id="editDniNumberPer" name="editDniNumberPer">
           </div>
 
           <!-- Número de Contacto del Personal -->
