@@ -13,7 +13,8 @@ class LotesModel
     tb_lote.IdPer, 
     tb_cliente.NombreCli, 
     tb_lote.TipoSalida, 
-    tb_lote.FechaProduccionLote, 
+    tb_lote.FechaProduccionLote,
+    tb_lote.NroFactura,
     tb_lote.Estado
   FROM
     tb_lote

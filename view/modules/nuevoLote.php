@@ -152,26 +152,28 @@
       <div class="modal-body">
 
         <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoLote" width="100%">
-          <thead>
+        <thead>
             <tr>
               <th style="width:10px">#</th>
-              <th>Descripción del Producto</th>
-              <th>Almacen</th>
+              <th>Producto</th>
+              <th>Categoria</th>
+              <th>Unidad</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <?php
-            $listProducts = LotesController::ctrGetListProducts();
+            $listProducts = IngresosController::ctrGetListProducts();
             foreach ($listProducts as $key => $value) {
               echo '
                 <tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["NombreProducto"] . '</td>
-                  <td>' . $value["CantidadTotal"] . '</td>
+                  <td>' . $value["NombreCategoria"] . '</td>
+                  <td>' . $value["Unidad"] . '</td>
                   <td>
-                    <div class="btn-group"> 
-                      <button class="btn btn-primary btnAddProductLote takeButtonLote" codProduct="' . $value["IdProd"] . '">Agregar</button> 
+                    <div class="btn-group">
+                      <button class="btn btn-primary btnAddProduct takeButton" codProduct="' . $value["IdProd"] . '">Agregar</button> 
                     </div>
                   </td>
                 </tr>';

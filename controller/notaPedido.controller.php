@@ -26,9 +26,9 @@ class NotaPedidoController
         $table = "tb_notapedido";
         $dataCreate = array(
           "IdCliente" => $data["notRuc"],
-          "IdRes" => $data["notRes"],
+          "IdRes" => $data["notVend"],
           "FechaNotaPedido" => $data["notFechPe"],
-          "IdPer" => $data["notVend"],
+          "IdPer" => $data["notRes"],
           "EstadoNota" => "1",
           "DatosProductosNotaPedidoJson" => json_encode($data["listProducts"]),
           "Total" => $data["notTotal"],

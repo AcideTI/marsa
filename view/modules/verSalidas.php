@@ -68,6 +68,7 @@
                 <th>ID</th>
                 <th>Responsable</th>
                 <th>Nombre Cliente</th>
+                <th>Vendedor</th>
                 <th>Estado</th>
                 <th>Fecha de Nota</th>
                 <th>Productos</th>
@@ -85,6 +86,7 @@
                       <td>' . $value["IdNotaP"] . '</td>
                       <td>' . $value["NombrePerIdPer"] . '</td>
                       <td>' . $value["NombreCliNota"] . '</td>
+                      <td>' . $value["NombrePerIdRes"] . '</td>
                       <td>' . $estado . '</td>
                       <td>' . $value["FechaNotaPedido"] . '</td>
                       <td>

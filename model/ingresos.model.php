@@ -43,7 +43,17 @@ class IngresosModel
   // Mostrar los productos a agregar
   public static function mdlGetProductData($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT IdProd, NombreProducto, Unidad FROM $table ORDER BY IdProd DESC");
+    $statement = Conexion::conn()->prepare("SELECT 
+    tb_producto.IdProd, 
+    tb_producto.NombreProducto, 
+    tb_producto.Unidad,
+    tb_categoriaprod.NombreCategoria
+  FROM 
+  $table 
+  INNER JOIN 
+    tb_categoriaprod ON tb_producto.IdCate = tb_categoriaprod.IdCate
+  ORDER BY 
+    tb_producto.IdProd DESC");
     $statement->execute();
     return $statement->fetchAll();
   }

@@ -148,7 +148,7 @@
            <!-- RUC Client -->
            <div class="form-group">
             <label for="EditRu" class="col-form-label">RUC:</label>
-            <input type="text" class="form-control" id="EditRu" name="EditRu" required>
+            <input type="text" class="form-control" id="EditRu" name="EditRu" >
           </div>
           <!-- Name Client -->
           <div class="form-group">

@@ -100,20 +100,22 @@ $pdf->Cell(80, 10, 'Datos del Cliente', 0, 'L');
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(12, 8, 'Ruc :', 0);
 $pdf->SetFont('DejaVu', '', 12);
-$pdf->Cell(77, 8, $dataHeader["RucCli"], 0);
+$pdf->Cell(0, 8, $dataHeader["RucCli"], 0);
 
 $pdf->Ln(8);
 
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(18, 8, 'Cliente :', 0);
 $pdf->SetFont('DejaVu', '', 12);
-$pdf->Cell(35, 8, $dataHeader["NombreCliNota"], 0);
+$pdf->Cell(0, 8, $dataHeader["NombreCliNota"], 0);
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(23, 8, 'Direccion :', 0);
-$pdf->SetFont('DejaVu', '', 12);
-$pdf->Cell(35, 8, $dataHeader["DireccionCliNota"], 0);
 
 $pdf->Ln(8);
+$pdf->Cell(23, 8, 'Direccion :', 0);
+$pdf->SetFont('DejaVu', '', 12);
+$pdf->MultiCell(0, 8, $dataHeader["DireccionCliNota"], 0);
+
+//$pdf->Ln(4);
 
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(40, 8, 'Fecha de Pedido:', 0);

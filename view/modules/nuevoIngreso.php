@@ -100,6 +100,7 @@
             <tr>
               <th style="width:10px">#</th>
               <th>Producto</th>
+              <th>Categoria</th>
               <th>Unidad</th>
               <th>Acciones</th>
             </tr>
@@ -112,6 +113,7 @@
                 <tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["NombreProducto"] . '</td>
+                  <td>' . $value["NombreCategoria"] . '</td>
                   <td>' . $value["Unidad"] . '</td>
                   <td>
                     <div class="btn-group">

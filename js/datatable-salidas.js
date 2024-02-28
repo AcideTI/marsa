@@ -3,6 +3,7 @@ var columnDefs = [
   { data: "IdNotaP" },
   { data: "NombrePerIdPer" },
   { data: "NombreCliNota" },
+  { data: "NombrePerIdRes" },
   { data: "StateNota" },
   { data: "FechaNotaPedido" },
   { data: "Productos" },
@@ -24,6 +25,7 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
         <th>ID</th>
         <th>Responsable</th>
         <th>Nombre Cliente</th>
+        <th>Vendedor</th>
         <th>Estado</th>
         <th>Fecha de Nota</th>
         <th>Productos</th>
@@ -37,6 +39,7 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
     { data: "IdNotaP" },
     { data: "NombrePerIdPer" },
     { data: "NombreCliNota" },
+    { data: "NombrePerIdRes" },
     { data: "StateNota" },
     { data: "FechaNotaPedido" },
     { data: "Productos" },
@@ -79,6 +82,7 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
     <th>Responsable</th>
     <th>Nombre del Cliente</th>
     <th>Tipo Salida</th>
+    <th>Nr Factura</th>
     <th>Fecha de Salida</th>
     <th>Estado</th>
     <th>Acciones</th>
@@ -91,6 +95,7 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
     { data: "FullNamePersonal" },
     { data: "NombreCli" },
     { data: "TipoSalida" },
+    { data: "NroFactura" },
     { data: "FechaProduccionLote" },
     { data: "StateLote" },
     { data: "Buttons" },
