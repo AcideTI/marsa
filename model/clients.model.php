@@ -87,6 +87,7 @@ class ClientsModel
   {
     $statement = Conexion::conn()->prepare("SELECT
     tb_cliente.IdCli, 
+    tb_cliente.RazonSocial, 
     tb_cliente.RucCli, 
     tb_cliente.NombreCli, 
     tb_cliente.CorreoCli, 

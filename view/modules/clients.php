@@ -150,6 +150,11 @@
             <label for="EditRu" class="col-form-label">RUC:</label>
             <input type="text" class="form-control" id="EditRu" name="EditRu" >
           </div>
+          <!-- Razon social -->
+          <div class="form-group">
+            <label for="EditRazonSocial" class="col-form-label">Razon social:</label>
+            <input type="text" class="form-control" id="EditRazonSocial" name="EditRazonSocial" >
+          </div>
           <!-- Name Client -->
           <div class="form-group">
             <label for="EditNameCli" class="col-form-label">Nombre Cliente:</label>
