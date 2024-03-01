@@ -435,6 +435,7 @@ class NotaPedidoController
     foreach ($products as $index => $product) {
       $newData = [];
       $newData['Producto'] = $product['NombreProducto'];
+      $newData['PrecioUnitario'] = $product['priceProduct'];
       $newData['Cantidad'] = $product['countProduct'];
       $newData['Total'] = $product['newSum'];
       $newData['UnidadM'] = $product['Unidad'];

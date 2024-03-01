@@ -40,27 +40,29 @@ class PDFOrder extends TFPDF
 
   function TableDetailOrder($header, $detailList)
   {
-    $this->SetFont('Arial', 'B', 12);
+    //$header=array('Nr','Descripcion','Und','P.U.','Cantidad','Total');
+    $this->SetFont('Arial', 'B', 11);
     $this->SetTextColor(0, 0, 0);
-    $this->Cell(15,8,$header[0],0,0,'C'); //Titulo de Nr
-    $this->Cell(25,8,$header[1],0,0,'C'); //Titulo de PRODUCTO
-    $this->Cell(107,8,$header[2],0,0,'C'); //Titulo de CANTIDAD
-    $this->Cell(-73,8,$header[3],0,0,'C'); //Titulo de Unidad
-    $this->Cell(215 ,8,$header[4],0,0,'C'); //Titulo de TOTAL
+    $this->Cell(10,8,$header[0],0,0,'C'); 
+    $this->Cell(115,8,$header[1],0,0,'C');
+    //$this->Cell(15,8,$header[2],0,0,'C'); 
+    $this->Cell(20,8,$header[3],0,0,'C'); 
+    $this->Cell(20,8,$header[4],0,0,'C');
+    $this->Cell(30 ,8,$header[5],0,0,'C');
 
     $count = 1; // Contador de productos
     foreach($detailList as $value)
     {
-      $this->SetFont('DejaVu', '', 12);
+      $this->SetFont('DejaVu', '', 11);
       $this->SetTextColor(0, 0, 0);
       $this->Ln();
-      $this->Cell(14,5,$count,0, 0, 'C'); // Número de producto
-      $this->Cell(25,5,$value["Producto"],0, 0, 'L'); // Alinear a la izquierda
-      $this->Cell(65,5,$value["Cantidad"],0, 0, 'R'); // Alinear a la derecha
-      $this->Cell(9,5,$value["UnidadM"],0, 0, 'R'); // Alinear a la izquierda
+      $this->Cell(10,5,$count,0, 0, 'C'); // Número de producto
+      $this->Cell(115,5,$value["Producto"],0, 0, 'L'); // Alinear a la izquierda
+      //$this->Cell(15,5,$value["UnidadM"],0, 0, 'C'); // Alinear a la izquierda
+      $this->Cell(20,5,$value["Cantidad"],0, 0, 'C'); // Alinear a la izquierda
+      $this->Cell(20,5,'S/.'.' '.number_format($value["PrecioUnitario"], 2),0, 0, 'C'); // Alinear a la derecha
 
-      $this->Cell(55,5,'S/.',0, 0, 'R'); // Alinear a la derecha el símbolo
-      $this->Cell(20,5,$value["Total"],0, 0, 'R'); // Alinear a la derecha el total
+      $this->Cell(30,5,'S/.'.' '.$value["Total"],0, 0, 'C'); // Alinear a la derecha el total
       $x = $this->GetX();
       $y = $this->GetY();
       $this->SetDrawColor(200, 200, 200); 
@@ -135,7 +137,7 @@ $pdf->Line(10, $pdf->GetY(), 200, $pdf->GetY()); // Dibujar una línea
 $pdf->Ln(8);
 
 
-$header=array('Nr','Descripcion','Cantidad','Und','Total');
+$header=array('Nr','Descripcion','Und','Cantidad','P.U.','Total');
 $pdf->TableDetailOrder($header, $dataDetail);
 
 $pdf->Ln(16);
