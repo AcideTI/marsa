@@ -12,7 +12,7 @@ class NotaPedidoModel
       cli.NombreCli AS NombreCliNota, 
     cli.RucCli, 
     cli.DireccionCli AS DireccionCliNota
-  FROM tb_notapedido AS np
+  FROM $table AS np
   INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
   INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
   INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
@@ -41,7 +41,7 @@ class NotaPedidoModel
 
           $productResult = $statement->fetch(PDO::FETCH_ASSOC);
 
-          $product['NombreProducto'] = $productResult['NombreProducto'];
+          //$product['NombreProducto'] = $productResult['NombreProducto'];
         }
 
         $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);

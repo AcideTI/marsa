@@ -2,6 +2,8 @@
 
 require_once "../controller/notaPedido.controller.php";
 require_once "../model/notaPedido.model.php";
+require_once "../controller/ingresos.controller.php";
+require_once "../model/ingresos.model.php";
 require_once "../controller/functions.controller.php";
 class notaPedidoAjax
 {
@@ -10,7 +12,8 @@ class notaPedidoAjax
   public function ajaxAddProdModalSa()
   {
     $codProductAdd = $this->codProductAdd;
-    $respuesta = NotaPedidoController::ctrGetProductDataAjx($codProductAdd);
+    //$respuesta = NotaPedidoController::ctrGetProductDataAjx($codProductAdd);
+    $respuesta = IngresosController::ctrGetProductDataAjx($codProductAdd);
     echo json_encode($respuesta);
   }
 

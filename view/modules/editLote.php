@@ -160,7 +160,6 @@
               $listaProductos = json_decode($datosLote["DatosLoteIngresoJson"], true);
               foreach ($listaProductos as $value) {
                 $producto = LotesController::ctrGetProductDataAjx($value["codProduct"]);
-                $stock = $producto["CantidadTotal"] + $value["countProduct"];
                 echo '
                   <div class="row" style="padding:5px 15px">
                     <div class="col-lg-5" style="padding-right:0px">
@@ -173,7 +172,7 @@
                       <input type="text" class="form-control" name="newUnity" value="' . $producto["Unidad"] . '" readonly>
                     </div>
                     <div class="col-lg-3 countMaterial">
-                      <input type="number" class="form-control newCount" min="1.00" step="1.00" name="newCount" value="' . $value["countProduct"] . '" stock="' . $stock . '">
+                      <input type="number" class="form-control newCount" min="1.00" step="1.00" name="newCount" value="' . $value["countProduct"] . '" >
                     </div>
                   </div>
                   ';
@@ -211,8 +210,8 @@
           <thead>
             <tr>
               <th style="width:10px">#</th>
-              <th>Descripción del Producto</th>
-              <th>Almacen</th>
+              <th>Descripción</th>
+              <th>Categoría</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -225,7 +224,6 @@
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["NombreProducto"] . '</td>
                   <td>' . $value["NombreCategoria"] . '</td>
-                  <td>' . $value["Unidad"] . '</td>
                   <td>
                     <div class="btn-group"> 
                       <button class="btn btn-primary btnAddProductLote takeButtonLote" codProduct="' . $value["IdProd"] . '">Agregar</button> 

@@ -107,8 +107,8 @@ $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
 
 //  borar producto agregado de la lista de lote
 $(".formEditLote").on("click", "button.deleteEditLote", function () {
-  /* $(this).parent().parent().parent().parent().remove();
-  var IdProd = $(this).attr("codProduct");
+  $(this).parent().parent().parent().parent().remove();
+  /*var IdProd = $(this).attr("codProduct");
   $("button.takeButtonLote[codProduct='" + IdProd + "']").removeClass(
     "btn-default"
   );
@@ -147,7 +147,8 @@ $(".tableNuevoLote").on("click", ".btnAddProductLote", function () {
       var IdProduct = respuesta["IdProd"];
       var DescriptionProduct = respuesta["NombreProducto"];
       var UnityProduct = respuesta["Unidad"];
-      var Stock = respuesta["CantidadTotal"];
+      //var UnityProduct = respuesta["Unidad"];
+      //var Stock = respuesta["CantidadTotal"];
 
       $(".newProductAddLote").append(
         '<div class="row" style="padding:5px 15px">' +
@@ -172,9 +173,7 @@ $(".tableNuevoLote").on("click", ".btnAddProductLote", function () {
           "</div>" +
           "<!-- Count -->" +
           '<div class="col-lg-3 countMaterial">' +
-          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="' +
-          Stock +
-          '" value="1.00" >' +
+          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="1.00" >' +
           "</div>" +
           "</div>"
       );
@@ -360,8 +359,24 @@ $(document).ready(function () {
             });
           }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log(textStatus, errorThrown);
+        error: function (response) {
+          if (response === "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "Lote modificado con éxito",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            setTimeout(function () {
+              window.location.href = "index.php?ruta=verSalidas";
+            }, 1000);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Hubo un error al crear el Lote",
+              showConfirmButton: true,
+            });
+          }
         },
       });
     });

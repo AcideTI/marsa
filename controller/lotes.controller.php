@@ -22,7 +22,7 @@ class LotesController
   //  Devolver productos para agregarlos a la lista de ingreso ajx
   public static function ctrGetProductDataAjx($codProductAdd)
   {
-    $table = "tb_almacen";
+    $table = "tb_producto";
     $data = LotesModel::mdlGetProductDataAjx($table, $codProductAdd);
     return $data;
   }
@@ -79,18 +79,29 @@ class LotesController
         foreach ($listProducts as $product) {
           //  Obtener el codigo del producto del almacén y la cantidad que se tiene actualmente
           $stock = AlmacenController::ctrComprobarStockRes($product["codProduct"]);
-          $newStock = $stock["CantidadTotal"] - $product["countProduct"];
+          if ($stock != null) {
+            $newStock = $stock["CantidadTotal"] - $product["countProduct"];
+            // Prepara los datos para la actualización en la base de datos
+            $dataUpdate = array(
+              "CantidadTotal" => $newStock,
+              "DateUpdate" => date("Y-m-d"),
+              "HoraUpdate" => date("H:i:s"),
+              "IdAlma" => $stock["IdAlma"]
+            );
 
-          // Prepara los datos para la actualización en la base de datos
-          $dataUpdate = array(
-            "CantidadTotal" => $newStock,
-            "DateUpdate" => date("Y-m-d"),
-            "HoraUpdate" => date("H:i:s"),
-            "IdAlma" => $stock["IdAlma"]
-          );
-
-          // Actualiza el stock del producto en la base de datos
-          $response = AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
+            // Actualiza el stock del producto en la base de datos
+            $response = AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
+          } else {
+            $dataCreateStock = array(
+              "IdProd" => $product["codProduct"],
+              "CantidadTotal" => intval($product["countProduct"]) * (-1),
+              "DateCreate" => date("Y-m-d"),
+              "HoraCreate" => date("H:i:s"),
+              "DateUpdate" => date("Y-m-d"),
+              "HoraUpdate" => date("H:i:s")
+            );
+            $updateStock = AlmacenController::ctrCreateStockAlmacen($dataCreateStock);
+          }
         }
       } else {
         $response = "error";
@@ -111,42 +122,71 @@ class LotesController
       $listaAntigua = json_decode($listaAntigua["DatosLoteIngresoJson"], true);
       $listaNueva = json_decode($data["listProducts"], true);
 
+      $tipoSalida = LotesModel::mdlGetTipoSalida($table, $codLote);
+
       $mapAntiguo = array_map('serialize', $listaAntigua);
       $mapNuevo = array_map('serialize', $listaNueva);
       sort($mapAntiguo);
       sort($mapNuevo);
 
       if ($mapAntiguo == $mapNuevo) {
-        //  Primero actualizamos los datos del lote en general
-        $dataUpdate = array(
-          "IdPer" => $data["editarResponsable"],
-          "IdCliente" => $data["notCli"],
-          "NroFactura" => $data["editarNumeroFactura"],
-          "CodigoLote" => $data["editarNumeroLote"],
-          "FechaProduccionLote" => $data["editarFechaLote"],
-          "FechaVencimientoLote" => $data["editarFechaVencimiento"],
-          "DateUpdate" => date("Y-m-d\TH:i:sP"),
-          "IdLote" => $codLote
-        );
-        $response = LotesModel::mdlEditIngresoLoteAjx($table, $dataUpdate);
-      } else {
-        //  Si los productos son distintos, primero actualizamos el stock con ambas listas y luego actualizamos el registro, primero en el stock del almacén y luego en el lote
-        $actualizarStock = AlmacenController::ctrUpdateStockNota($listaAntigua, $listaNueva);
-        if ($actualizarStock == "ok") {
-          //  Actualizamos los datos del lote
+        //  Verificamos si tiene codigo de lote, en el caso que tenga codigo de lote, significa que es un lote, caso contrario es una salida por factura.
+        if ($tipoSalida["TipoSalida"] == "Factura") {
           $dataUpdate = array(
             "IdPer" => $data["editarResponsable"],
             "IdCliente" => $data["notCli"],
             "NroFactura" => $data["editarNumeroFactura"],
-            "CodigoLote" => $data["editarNumeroLote"],
+            "TotalFactura" => $data["totalFactura"],
             "FechaProduccionLote" => $data["editarFechaLote"],
-            "FechaVencimientoLote" => $data["editarFechaVencimiento"],
-            "DatosLoteIngresoJson" => $data["listProducts"],
             "DateUpdate" => date("Y-m-d\TH:i:sP"),
             "IdLote" => $codLote
           );
+          $response = LotesModel::mdlEditSalidaFactura($table, $dataUpdate);
+        } else {
+          $dataUpdate = array(
+            "IdPer" => $data["editarResponsable"],
+            "IdCliente" => $data["notCli"],
+            "NroFactura" => $data["editarNumeroFactura"],
+            "TotalFactura" => $data["totalFactura"],
+            "CodigoLote" => $data["editarNumeroLote"],
+            "FechaProduccionLote" => $data["editarFechaLote"],
+            "DateUpdate" => date("Y-m-d\TH:i:sP"),
+            "IdLote" => $codLote
+          );
+          $response = LotesModel::mdlEditSalidaLote($table, $dataUpdate);
         }
-        $response = LotesModel::mdlEditIngresoLoteCompletoAjx($table, $dataUpdate);
+      } else {
+        //  Si los productos son distintos, primero actualizamos el stock con ambas listas y luego actualizamos el registro, primero en el stock del almacén y luego en el lote
+        $actualizarStock = AlmacenController::ctrUpdateStockNota($listaAntigua, $listaNueva);
+        if ($actualizarStock == "ok") {
+          //  Actualizamos los datos de la salida, si es un lote. Modificamos el numero de lote más, caso contrario solo modificamos el número de factura y el total
+          if ($tipoSalida["TipoSalida"] == "Factura") {
+            $dataUpdate = array(
+              "IdPer" => $data["editarResponsable"],
+              "IdCliente" => $data["notCli"],
+              "NroFactura" => $data["editarNumeroFactura"],
+              "TotalFactura" => $data["totalFactura"],
+              "FechaProduccionLote" => $data["editarFechaLote"],
+              "DatosLoteIngresoJson" => $data["listProducts"],
+              "DateUpdate" => date("Y-m-d\TH:i:sP"),
+              "IdLote" => $codLote
+            );
+            $response = LotesModel::mdlEditSalidaFacturaCompleto($table, $dataUpdate);
+          } else {
+            $dataUpdate = array(
+              "IdPer" => $data["editarResponsable"],
+              "IdCliente" => $data["notCli"],
+              "NroFactura" => $data["editarNumeroFactura"],
+              "TotalFactura" => $data["totalFactura"],
+              "CodigoLote" => $data["editarNumeroLote"],
+              "FechaProduccionLote" => $data["editarFechaLote"],
+              "DatosLoteIngresoJson" => $data["listProducts"],
+              "DateUpdate" => date("Y-m-d\TH:i:sP"),
+              "IdLote" => $codLote
+            );
+            $response = LotesModel::mdlEditSalidaLoteCompleto($table, $dataUpdate);
+          }
+        }
       }
       return $response;
     }
@@ -212,7 +252,7 @@ class LotesController
   //  Actualizar el estado del lote
   public static function ctrUpdateLoteEstado()
   {
-    if(isset($_GET["codUpateLote"])) {
+    if (isset($_GET["codUpateLote"])) {
       $table = "tb_lote";
       $codLote = $_GET["codUpateLote"];
       $observacion = $_GET["observacion"];
@@ -241,12 +281,12 @@ class LotesController
     $response = LotesModel::mdlUpdateLoteDevolucion($table, $dataUpdate);
     return $response;
   }
-  
+
   /* fin */
 
-  
-   /*  Descargar todos los Lotes para el reporte exel de Lotes */
-  
+
+  /*  Descargar todos los Lotes para el reporte exel de Lotes */
+
   public static function ctrGetAllDowlReportsExeLote()
   {
     $table = "tb_lote";
@@ -277,7 +317,7 @@ class LotesController
       $newData = $Data;
       $newData['Producto'] = $product['NombreProducto'];
       $newData['Cantidad'] = $product['countProduct'];
-      unset($newData['DatosLoteIngresoJson']); 
+      unset($newData['DatosLoteIngresoJson']);
 
       $recordlistAllDataExeLote[] = $newData;
     }
@@ -286,7 +326,7 @@ class LotesController
 
   /* fin */
 
-   /* Reporte excel Lotes por fechas  */
+  /* Reporte excel Lotes por fechas  */
   public static function ctrGetAllDowlReportsExeLoteFech($fechaInicioLt, $fechaFinLt)
   {
     $table = "tb_notapedido";
@@ -312,14 +352,13 @@ class LotesController
       $recordlistAllDataExeLoteFech[] = $newData;
     }
     return $recordlistAllDataExeLoteFech;
-
   }
   /* fin */
 
   //  Anular una salida (Lote)
   public static function ctrNullLote()
   {
-    if(isset($_GET["codNullLote"])) {
+    if (isset($_GET["codNullLote"])) {
       $table = "tb_lote";
       $codLote = $_GET["codNullLote"];
       $estadoLote = self::ctrGetEstadoLote($codLote);

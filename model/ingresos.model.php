@@ -61,7 +61,7 @@ class IngresosModel
   //   Ajax que devuelve  los productos a agregar en la lista
   public static function mdlGetProductDataAjx($table, $codProductAdd)
   {
-    $statement = Conexion::conn()->prepare("SELECT tb_producto.IdProd, tb_producto.NombreProducto, tb_producto.Unidad FROM $table WHERE IdProd = $codProductAdd");
+    $statement = Conexion::conn()->prepare("SELECT tb_producto.IdProd, tb_producto.NombreProducto, tb_producto.Precio, tb_producto.Unidad FROM $table WHERE IdProd = $codProductAdd");
     $statement->execute();
     return $statement->fetch();
   }

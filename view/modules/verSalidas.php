@@ -83,7 +83,7 @@
                 $buttons = FunctionsController::ctrGetButtonsSalidas($value["EstadoNota"], $value["IdNotaP"]);
                 echo
                 '<tr>                
-                      <td>' . $value["IdNotaP"] . '</td>
+                      <td>' . $key + 1 . '</td>
                       <td>' . $value["NombrePerIdPer"] . '</td>
                       <td>' . $value["NombreCliNota"] . '</td>
                       <td>' . $value["NombrePerIdRes"] . '</td>

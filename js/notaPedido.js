@@ -129,7 +129,7 @@ $(".tableNuevoIng").on("click", ".btnAddProduct", function () {
       var IdProduct = respuesta["IdProd"];
       var DescriptionProduct = respuesta["NombreProducto"];
       var PriceProNotaP = respuesta["Precio"];
-      var stock = respuesta["CantidadTotal"];
+      //var stock = respuesta["CantidadTotal"];
 
       $(".newProductAddNotaP").append(
         '<div class="row" style="padding:5px 15px">' +
@@ -155,9 +155,7 @@ $(".tableNuevoIng").on("click", ".btnAddProduct", function () {
           "</div>" +
           "<!-- cantidad producto -->" +
           '<div class="col-lg-2 countMaterial">' +
-          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="' +
-          stock +
-          '" value="1.00" >' +
+          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="1.00" >' +
           "</div>" +
           "<!-- suma de cantidad y precio -->" +
           '<div class="col-lg-2 sumMaterial">' +

@@ -64,6 +64,17 @@ class NotaPedidoController
 
               // Actualiza el stock del producto en la base de datos
               AlmacenController::ctrUpdateStockAlmacenRes($dataUpdate);
+            } else {
+              //  Se puede crear negativos, en el caso que se cree notas de pedido con productos que no tienen ingreso, se creará el registro como si fuese un ingreso pero negativo.
+              $dataCreateStock = array(
+                "IdProd" => $product["codProduct"],
+                "CantidadTotal" => intval($product["countProduct"])*(-1),
+                "DateCreate" => date("Y-m-d"),
+                "HoraCreate" => date("H:i:s"),
+                "DateUpdate" => date("Y-m-d"),
+                "HoraUpdate" => date("H:i:s")
+              );
+              $updateStock = AlmacenController::ctrCreateStockAlmacen($dataCreateStock);
             }
           }
 

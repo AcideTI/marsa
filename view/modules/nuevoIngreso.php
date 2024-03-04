@@ -94,17 +94,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- <div class="form-group">
+        <div class="form-group">
           <select name="categoriaModal" id="categoriaModal" class="form-control input-lg">
             <option value="">Seleccione la Categoría</option>
             <?php
-            // $listCategories = ProductsController::ctrGetAllCategories();
-            // foreach ($listCategories as $value) {
-            //   echo '<option value="' . $value["IdCate"] . '">' . $value["NombreCategoria"] . '</option>';
-            // }
+            $listCategories = ProductsController::ctrGetAllCategories();
+            foreach ($listCategories as $value) {
+              echo '<option value="' . $value["IdCate"] . '">' . $value["NombreCategoria"] . '</option>';
+            }
             ?>
           </select>
-        </div> -->
+        </div>
         <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoIng" width="100%">
           <thead>
             <tr>

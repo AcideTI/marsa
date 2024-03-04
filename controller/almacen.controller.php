@@ -75,7 +75,7 @@ class AlmacenController
   //  Obtener la data de un producto para enviar a la vista de editar una nota de pedido
   public static function ctrGerProductDataById($codProduct)
   {
-    $table = "tb_almacen";
+    $table = "tb_producto";
     $respuesta = AlmacenModel::mdlGerProductDataById($table, $codProduct);
     return $respuesta;
   }

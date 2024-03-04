@@ -127,16 +127,11 @@ class AlmacenModel
   public static function mdlGerProductDataById($table, $codProduct)
   {
     $stmt = Conexion::conn()->prepare("SELECT
-    tb_almacen.CantidadTotal, 
     tb_producto.NombreProducto
   FROM
     $table
-    INNER JOIN
-    tb_producto
-    ON 
-      tb_almacen.IdProd = tb_producto.IdProd
   WHERE
-    tb_almacen.IdProd = $codProduct");
+    tb_producto.IdProd = $codProduct");
       $stmt->execute();
       return $stmt->fetch();
   }

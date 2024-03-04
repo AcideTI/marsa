@@ -36,7 +36,12 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
   table.destroy();
 
   columnDefs = [
-    { data: "IdNotaP" },
+    {
+      data: "IdNotaP",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
     { data: "NombrePerIdPer" },
     { data: "NombreCliNota" },
     { data: "NombrePerIdRes" },
@@ -91,7 +96,12 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
 
   table.destroy();
   columnDefs = [
-    { data: "IdLote" },
+    {
+      data: "IdNotaP",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
     { data: "FullNamePersonal" },
     { data: "NombreCli" },
     { data: "TipoSalida" },

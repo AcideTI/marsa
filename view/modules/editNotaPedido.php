@@ -129,7 +129,6 @@
               <?php
               foreach ($listaProductos as $value) {
                 $producto = AlmacenController::ctrGerProductDataById($value["codProduct"]);
-                $stock = $value["countProduct"] + $producto["CantidadTotal"];
                 echo '
                   <div class="row" style="padding:5px 15px">
                     <div class="col-lg-5" style="padding-right:0px">
@@ -144,7 +143,7 @@
                     </div>
 
                     <div class="col-lg-2 countMaterial">
-                      <input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" stock="' . $stock . '" value="' . $value["countProduct"] . '" >
+                      <input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="' . $value["countProduct"] . '" >
                     </div>
                     
                     <div class="col-lg-2 sumMaterial">
@@ -191,8 +190,7 @@
             <tr>
               <th style="width:10px">#</th>
               <th>Descripción</th>
-              <th>Unidad</th>
-              <th>Cantidad</th>
+              <th>Categoría</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -205,7 +203,6 @@
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["NombreProducto"] . '</td>
                   <td>' . $value["NombreCategoria"] . '</td>
-                  <td>' . $value["Unidad"] . '</td>
                   <td>
                     <div class="btn-group">
                       <button class="btn btn-primary btnAddProduct takeButton" codProduct="' . $value["IdProd"] . '">Agregar</button> 

@@ -7,6 +7,8 @@ require_once "../model/almacen.model.php";
 require_once "../controller/products.controller.php";
 require_once "../model/products.model.php";
 require_once "../controller/functions.controller.php";
+require_once "../controller/ingresos.controller.php";
+require_once "../model/ingresos.model.php";
 //productos para gregar ala lista de formulario de lotes
 class AjaxLotes
 {
@@ -14,7 +16,8 @@ class AjaxLotes
   public function ajaxAddMaterialInside()
   {
     $codProductAdd = $this->codProductAdd;
-    $respuesta = LotesController::ctrGetProductDataAjx($codProductAdd);
+    //$respuesta = LotesController::ctrGetProductDataAjx($codProductAdd);
+    $respuesta = IngresosController::ctrGetProductDataAjx($codProductAdd);
     echo json_encode($respuesta);
   }
 
