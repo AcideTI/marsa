@@ -50,7 +50,7 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
   });
 
   data.append("codFiltroNotas", filtro);
-  +$.ajax({
+  $.ajax({
     url: "ajax/notaPedido.ajax.php",
     method: "POST",
     data: data,
@@ -75,7 +75,7 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
   var filtro = $(this).attr("filtro");
   var data = new FormData();
   $(".tituloSalidas").text("Facturas");
-  
+
   $("#dataTableSalidas thead").html(`
   <tr>
     <th>ID</th>
@@ -126,27 +126,27 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
 });
 
 /* ocultar botones de descarga de reportes para verlosm cuando se haga clic en el botón correspondiente */
-$(document).ready(function() {
+$(document).ready(function () {
   // Ocultar todos los botones de reporte al inicio
-  $('#reporteExeNotaPe').hide();
-  $('#reporteExeNotaPeFech').hide();
-  $('#reporteExeLotes').hide();
-  $('#reporteExeLotesFech').hide();
+  $("#reporteExeNotaPe").hide();
+  $("#reporteExeNotaPeFech").hide();
+  $("#reporteExeLotes").hide();
+  $("#reporteExeLotesFech").hide();
 
   // Mostrar los botones de reporte correspondientes cuando se hace clic en btnAllNotasSalida
-  $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function() {
-    $('#reporteExeNotaPe').show();
-    $('#reporteExeNotaPeFech').show();
-    $('#reporteExeLotes').hide();
-    $('#reporteExeLotesFech').hide();
+  $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
+    $("#reporteExeNotaPe").show();
+    $("#reporteExeNotaPeFech").show();
+    $("#reporteExeLotes").hide();
+    $("#reporteExeLotesFech").hide();
   });
 
   // Mostrar los botones de reporte correspondientes cuando se hace clic en btnAllLotes
-  $(".buttonsSalidas").on("click", ".btnAllLotes", function() {
-    $('#reporteExeNotaPe').hide();
-    $('#reporteExeNotaPeFech').hide();
-    $('#reporteExeLotes').show();
-    $('#reporteExeLotesFech').show();
+  $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
+    $("#reporteExeNotaPe").hide();
+    $("#reporteExeNotaPeFech").hide();
+    $("#reporteExeLotes").show();
+    $("#reporteExeLotesFech").show();
   });
 });
 /* fin */

@@ -74,7 +74,7 @@
               <label for="notRes" class="form-label" style="font-weight: bold">Responsable</label>
               <select class="form-control input-lg" id="notRes" name="notRes" required>
                 <?php
-                echo '<option value="' . $datosNota["IdRes"] . '">' . $datosNota["nombreResponsable"] . '</option>';
+                echo '<option value="' . $datosNota["IdRes"] . '">' . $datosNota["NombreResponsable"] . ' ' . $datosNota["ApellidoResponsable"] . '</option>';
                 $listResponsables = PersonalController::ctrGetPersonalByType("1");
                 foreach ($listResponsables as $value) {
                   echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
@@ -93,7 +93,7 @@
               <label for="notVend" class="form-label" style="font-weight: bold">Vendedor</label>
               <select class="form-control" id="notVend" name="notVend" required>
                 <?php
-                echo '<option value="' . $datosNota["IdPer"] . '">' . $datosNota["nombreVendedor"] . '</option>';
+                echo '<option value="' . $datosNota["IdPer"] . '">' . $datosNota["NombreVendedor"] . ' ' . $datosNota["ApellidoVendedor"] . '</option>';
                 $listVendedores = PersonalController::ctrGetPersonalByType("3");
                 foreach ($listVendedores as $value) {
                   echo '<option value="' . $value["IdPer"] . '">' . $value["NombrePer"] . ' ' . $value["ApellidoPer"] . '</option>';
@@ -198,13 +198,13 @@
           </thead>
           <tbody>
             <?php
-            $listProducts = NotaPedidoController::ctrGetListProducts();
+            $listProducts = IngresosController::ctrGetListProducts();
             foreach ($listProducts as $key => $value) {
               echo '
                 <tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["NombreProducto"] . '</td>
-                  <td>' . $value["CantidadTotal"] . '</td>
+                  <td>' . $value["NombreCategoria"] . '</td>
                   <td>' . $value["Unidad"] . '</td>
                   <td>
                     <div class="btn-group">

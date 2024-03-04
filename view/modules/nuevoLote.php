@@ -173,7 +173,7 @@
                   <td>' . $value["Unidad"] . '</td>
                   <td>
                     <div class="btn-group">
-                      <button class="btn btn-primary btnAddProduct takeButton" codProduct="' . $value["IdProd"] . '">Agregar</button> 
+                      <button class="btn btn-primary btnAddProductLote takeButtonLote" codProduct="' . $value["IdProd"] . '">Agregar</button> 
                     </div>
                   </td>
                 </tr>';

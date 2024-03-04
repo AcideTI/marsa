@@ -36,8 +36,8 @@ $(".formEditarIngreso").on("change", "input.newCount", function () {
 
 //  borar producto agregado de la lista de ingreso
 $(".formNuevoIngreso").on("click", "button.deleteNuevoiIngreso", function () {
- /*  $(this).parent().parent().parent().parent().remove();
-  var IdProd = $(this).attr("codProduct");
+  $(this).parent().parent().parent().parent().remove();
+  /* var IdProd = $(this).attr("codProduct");
   $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
   $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct"); */
   listProductAdd();
@@ -46,9 +46,9 @@ $(".formNuevoIngreso").on("click", "button.deleteNuevoiIngreso", function () {
 //  borar producto agregado de la lista de ingreso
 $(".formEditarIngreso").on("click", "button.deleteNuevoiIngreso", function () {
   $(this).parent().parent().parent().parent().remove();
-  var IdProd = $(this).attr("codProduct");
-  $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
-  $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
+  // var IdProd = $(this).attr("codProduct");
+  // $("button.takeButton[codProduct='" + IdProd + "']").removeClass("btn-default");
+  // $("button.takeButton[codProduct='" + IdProd + "']").addClass("btn-primary btnAddProduct");
   listProductAdd();
 });
 

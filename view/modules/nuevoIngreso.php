@@ -91,10 +91,20 @@
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Listado de Productos</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <!-- <div class="form-group">
+          <select name="categoriaModal" id="categoriaModal" class="form-control input-lg">
+            <option value="">Seleccione la Categoría</option>
+            <?php
+            // $listCategories = ProductsController::ctrGetAllCategories();
+            // foreach ($listCategories as $value) {
+            //   echo '<option value="' . $value["IdCate"] . '">' . $value["NombreCategoria"] . '</option>';
+            // }
+            ?>
+          </select>
+        </div> -->
         <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoIng" width="100%">
           <thead>
             <tr>

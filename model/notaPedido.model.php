@@ -258,8 +258,10 @@ class NotaPedidoModel
     tb_cliente.NombreCli, 
     tb_cliente.RucCli, 
     tb_cliente.DireccionCli, 
-    CONCAT(vendedor.NombrePer, ' ', vendedor.ApellidoPer) AS nombreVendedor,
-    CONCAT(responsable.NombrePer, ' ', responsable.ApellidoPer) AS nombreResponsable
+    vendedor.NombrePer AS NombreVendedor, 
+		vendedor.ApellidoPer AS ApellidoVendedor,
+    responsable.NombrePer AS NombreResponsable, 
+		responsable.ApellidoPer AS ApellidoResponsable
     FROM
         $table
         INNER JOIN
