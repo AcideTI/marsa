@@ -47,6 +47,7 @@ class IngresosModel
     tb_producto.IdProd, 
     tb_producto.NombreProducto, 
     tb_producto.Unidad,
+    tb_categoriaprod.IdCate,
     tb_categoriaprod.NombreCategoria
   FROM 
   $table 

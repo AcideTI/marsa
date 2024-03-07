@@ -18,6 +18,12 @@ $(".btnVisualizarNota").on("click", function () {
   window.location = "index.php?ruta=visualizarNotaPedido&codSalida=" + codNotaPe;
 });
 
+var tableProductsNota = $('.dataTableProductosNota').DataTable();
+$('body').on('change', '.categoriaModal', function() {
+  var selectedValue = $(this).val();
+  tableProductsNota.column(2).search(selectedValue).draw();
+});
+
 /* fin */
 
 //  Crear una nueva nota de pedido
@@ -111,13 +117,13 @@ $(".formNotaPedido").on("change", "input.newCount", function () {
 });
 
 //  borar producto agregado de la lista de ingreso
-$(".formNotaPedido").on("click", "button.deleteNuevoiIngreso", function () {
+$(".formNotaPedido").on("click", "button.deleteProductNota", function () {
   $(this).parent().parent().parent().parent().remove();
   listProductAddNota();
 });
 
 /*  agragar producto al listado de ingreso */
-$(".tableNuevoIng").on("click", ".btnAddProduct", function () {
+$(".dataTableProductosNota").on("click", ".btnAddProduct", function () {
   var codProductAdd = $(this).attr("codProduct");
 
   var datos = new FormData();
@@ -141,7 +147,7 @@ $(".tableNuevoIng").on("click", ".btnAddProduct", function () {
           "<!-- Description -->" +
           '<div class="col-lg-5" style="padding-right:0px">' +
           '<div class="input-group">' +
-          '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoiIngreso" codProduct="' +
+          '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteProductNota" codProduct="' +
           IdProduct +
           '"><i class="fa fa-times"></i></button></span>' +
           "<!-- Idproducto -->" +
@@ -286,7 +292,7 @@ function calculateTotals() {
 // Llama a calculateTotals() cuando cambias la cantidad o el precio
 $(document).on("input", ".newCount, .newPrice", calculateTotals);
 
-$(document).on("click", ".deleteNuevoiIngreso", function () {
+$(document).on("click", ".deleteProductNota", function () {
   setTimeout(calculateTotals, 1);
 });
 

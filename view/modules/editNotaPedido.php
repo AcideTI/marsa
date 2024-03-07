@@ -133,7 +133,7 @@
                   <div class="row" style="padding:5px 15px">
                     <div class="col-lg-5" style="padding-right:0px">
                       <div class="input-group">
-                        <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoiIngreso" codProduct="' . $value["codProduct"] . '"><i class="fa fa-times"></i></button></span>
+                        <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteProductNota" codProduct="' . $value["codProduct"] . '"><i class="fa fa-times"></i></button></span>
                         <input type="text" class="form-control newProduct" codProduct="' . $value["codProduct"] . '" value="' . $producto["NombreProducto"] . '" readonly>
                       </div>
                     </div>
@@ -185,7 +185,18 @@
       </div>
 
       <div class="modal-body">
-        <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoIng" width="100%">
+        <div class="form-group">
+          <select name="categoriaModal" id="categoriaModal" class="form-control input-lg categoriaModal">
+            <option value="">Seleccione la Categoría</option>
+            <?php
+            $listCategories = ProductsController::ctrGetAllCategories();
+            foreach ($listCategories as $value) {
+              echo '<option value="' . $value["NombreCategoria"] . '">' . $value["NombreCategoria"] . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+        <table id="dataTableProductosNota" class="display dataTableProductosNota" width="100%">
           <thead>
             <tr>
               <th style="width:10px">#</th>

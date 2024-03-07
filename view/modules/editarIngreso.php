@@ -130,12 +130,23 @@
         </button>
       </div>
       <div class="modal-body">
-        <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoIng" width="100%">
+      <div class="form-group">
+          <select name="categoriaModal" id="categoriaModal" class="form-control input-lg categoriaModal">
+            <option value="">Seleccione la Categoría</option>
+            <?php
+            $listCategories = ProductsController::ctrGetAllCategories();
+            foreach ($listCategories as $value) {
+              echo '<option value="' . $value["NombreCategoria"] . '">' . $value["NombreCategoria"] . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+        <table id="dataTableProducts" class="display dataTableProducts" width="100%">
           <thead>
             <tr>
               <th style="width:10px">#</th>
               <th>Producto</th>
-              <th>Unidad</th>
+              <th>Categoria</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -147,7 +158,7 @@
                 <tr>
                   <td>' . ($key + 1) . '</td>
                   <td>' . $value["NombreProducto"] . '</td>
-                  <td>' . $value["Unidad"] . '</td>
+                  <td>' . $value["NombreCategoria"] . '</td>
                   <td>
                     <div class="btn-group">
                       <button class="btn btn-primary btnAddProduct takeButton" codProduct="' . $value["IdProd"] . '">Agregar</button> 

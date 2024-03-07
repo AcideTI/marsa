@@ -3,6 +3,12 @@ $("#btnNewIng").on("click", function () {
   window.location = "index.php?ruta=nuevoIngreso";
 });
 
+var tableProducts = $('.dataTableProducts').DataTable();
+$('body').on('change', '.categoriaModal', function() {
+  var selectedValue = $(this).val();
+  tableProducts.column(2).search(selectedValue).draw();
+});
+
 //  Edit order approved
 $(".table").on("click", ".btnEditarIngreso", function () {
   var codIngreso = $(this).attr("codIngreso");
@@ -89,7 +95,7 @@ $(function() {
 });
 
 // agragar producto al listado de ingreso
-$(".tableNuevoIng").on("click", ".btnAddProduct", function () {
+$(".dataTableProducts").on("click", ".btnAddProduct", function () {
   var codProductAdd = $(this).attr("codProduct");
 
  /*  $(this).removeClass("btn-primary btnAddProduct");
@@ -360,4 +366,3 @@ document.getElementById('IngNormal').addEventListener('click', function (e) {
 });
 
   /* fin */
-

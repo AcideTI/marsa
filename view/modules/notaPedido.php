@@ -129,8 +129,8 @@
 
         <!-- botones par enviar el formulario productos  -->
         <div class="container row g-3 p-3 justify-content-between">
-            <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closeNotaPedido">Cerrar</button>
-            <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success" name="submitNotaPedido">Registrar Nota Pedido</button>
+          <button type="button" class="col-3 d-inline-flex-center p-2 btn btn-danger closeNotaPedido">Cerrar</button>
+          <button type="submit" class="col-4 d-inline-flex-center p-2 btn btn-success" name="submitNotaPedido">Registrar Nota Pedido</button>
         </div>
         <!-- Campo de entrada oculto para la cadena JSON -->
         <input type="hidden" id="formDataJson" name="formDataJson">
@@ -153,8 +153,19 @@
       </div>
 
       <div class="modal-body">
-        <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoIng" width="100%">
-        <thead>
+        <div class="form-group">
+          <select name="categoriaModal" id="categoriaModal" class="form-control input-lg categoriaModal">
+            <option value="">Seleccione la Categoría</option>
+            <?php
+            $listCategories = ProductsController::ctrGetAllCategories();
+            foreach ($listCategories as $value) {
+              echo '<option value="' . $value["NombreCategoria"] . '">' . $value["NombreCategoria"] . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+        <table id="dataTableProductosNota" class="display dataTableProductosNota" width="100%">
+          <thead>
             <tr>
               <th style="width:10px">#</th>
               <th>Producto</th>

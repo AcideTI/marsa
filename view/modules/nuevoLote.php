@@ -150,9 +150,19 @@
         </button>
       </div>
       <div class="modal-body">
-
-        <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoLote" width="100%">
-        <thead>
+        <div class="form-group">
+          <select name="categoriaModal" id="categoriaModal" class="form-control input-lg categoriaModal">
+            <option value="">Seleccione la Categoría</option>
+            <?php
+            $listCategories = ProductsController::ctrGetAllCategories();
+            foreach ($listCategories as $value) {
+              echo '<option value="' . $value["NombreCategoria"] . '">' . $value["NombreCategoria"] . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+        <table id="dataTableProductosLote" class="display dataTableProductosLote" width="100%">
+          <thead>
             <tr>
               <th style="width:10px">#</th>
               <th>Producto</th>

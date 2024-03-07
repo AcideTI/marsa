@@ -106,8 +106,8 @@
                 <input type="text" class="form-control" id="editarNumeroFactura" name="editarNumeroFactura" value="<?php echo $datosLote["NroFactura"] ?>">
               </div>
               <div class="col-md-3">
-              <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
-              <input type="text" class="form-control" id="totalFactura" name="totalFactura" value="<?php echo $datosLote["TotalFactura"] ?>">
+                <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
+                <input type="text" class="form-control" id="totalFactura" name="totalFactura" value="<?php echo $datosLote["TotalFactura"] ?>">
               </div>
             <?php
             } else {
@@ -123,8 +123,8 @@
               </div>
 
               <div class="col-md-3">
-              <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
-              <input type="text" class="form-control" id="totalFactura" name="totalFactura" value="<?php echo $datosLote["TotalFactura"] ?>">
+                <label for="totalFactura" class="form-label" style="font-weight: bold">Total:</label>
+                <input type="text" class="form-control" id="totalFactura" name="totalFactura" value="<?php echo $datosLote["TotalFactura"] ?>">
               </div>
             <?php
             }
@@ -205,8 +205,18 @@
         </button>
       </div>
       <div class="modal-body">
-
-        <table id="datatablesSimple" class="table table-striped dt-responsive tableNuevoLote" width="100%">
+        <div class="form-group">
+          <select name="categoriaModal" id="categoriaModal" class="form-control input-lg categoriaModal">
+            <option value="">Seleccione la Categoría</option>
+            <?php
+            $listCategories = ProductsController::ctrGetAllCategories();
+            foreach ($listCategories as $value) {
+              echo '<option value="' . $value["NombreCategoria"] . '">' . $value["NombreCategoria"] . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+        <table id="dataTableProductosLote" class="display dataTableProductosLote" width="100%">
           <thead>
             <tr>
               <th style="width:10px">#</th>

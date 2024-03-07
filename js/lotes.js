@@ -28,6 +28,12 @@ $(".btnVisualizarSalida").on("click", function () {
   window.location = "index.php?ruta=visualizarLote&codSalida=" + codLote;
 });
 
+var tableProductsLote = $('.dataTableProductosLote').DataTable();
+$('body').on('change', '.categoriaModal', function() {
+  var selectedValue = $(this).val();
+  tableProductsLote.column(2).search(selectedValue).draw();
+});
+
 //  Descargar reporte exel de lotes por fechas
 $(function () {
   var boton = $("#reporteExeLotesFech");
@@ -99,8 +105,8 @@ $(".formEditLote").on("change", "input.newCount", function () {
 
 //  borar producto agregado de la lista de lote
 $(".formNuevoLote").on("click", "button.deleteNuevoLote", function () {
-  /* $(this).parent().parent().parent().parent().remove();
-  var IdProd = $(this).attr("codProduct");
+  $(this).parent().parent().parent().parent().remove();
+  /* var IdProd = $(this).attr("codProduct");
   $("button.takeButtonLote[codProduct='" + IdProd + "']").removeClass(
     "btn-default"
   );
@@ -122,9 +128,13 @@ $(".formEditLote").on("click", "button.deleteEditLote", function () {
   ); */
   listProductAddLotes();
 });
+$(".formEditLote").on("click", "button.deleteNuevoLote", function () {
+  $(this).parent().parent().parent().parent().remove();
+  listProductAddLotes();
+});
 
 // agragar producto al listado de lote
-$(".tableNuevoLote").on("click", ".btnAddProductLote", function () {
+$(".dataTableProductosLote").on("click", ".btnAddProductLote", function () {
   var codProductAdd = $(this).attr("codProduct");
 
   /*if (document.querySelector(".newProductAddLote").children.length > 1) {
