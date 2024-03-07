@@ -303,6 +303,14 @@ class LotesController
     return $newlistAllDataExeLote;
   }
 
+  //  Descargar las facturas en excel de manera general
+  public static function ctrDownloadExcelFacturas()
+  {
+    $table = "tb_lote";
+    $listFacturasGeneral = LotesModel::mdlDownloadExcelFacturas($table);
+    return $listFacturasGeneral;
+  }
+
   /* Función para procesar el campo JSON de un registro.*/
 
   private static function procesarJson($Data)

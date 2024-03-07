@@ -138,25 +138,34 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
 /* ocultar botones de descarga de reportes para verlosm cuando se haga clic en el botón correspondiente */
 $(document).ready(function () {
   // Ocultar todos los botones de reporte al inicio
+  $("#reporteGeneralNotas").hide();
   $("#reporteExeNotaPe").hide();
   $("#reporteExeNotaPeFech").hide();
+
+  $("#reporteGeneralFacturas").hide();
   $("#reporteExeLotes").hide();
   $("#reporteExeLotesFech").hide();
+  
 
   // Mostrar los botones de reporte correspondientes cuando se hace clic en btnAllNotasSalida
   $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
+    $("#reporteGeneralNotas").show();
     $("#reporteExeNotaPe").show();
     $("#reporteExeNotaPeFech").show();
+
+    $("#reporteGeneralFacturas").hide();
     $("#reporteExeLotes").hide();
     $("#reporteExeLotesFech").hide();
   });
 
   // Mostrar los botones de reporte correspondientes cuando se hace clic en btnAllLotes
   $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
+    $("#reporteGeneralNotas").hide();
     $("#reporteExeNotaPe").hide();
     $("#reporteExeNotaPeFech").hide();
+
+    $("#reporteGeneralFacturas").show();
     $("#reporteExeLotes").show();
     $("#reporteExeLotesFech").show();
   });
 });
-/* fin */

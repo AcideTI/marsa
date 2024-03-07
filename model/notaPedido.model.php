@@ -41,7 +41,12 @@ class NotaPedidoModel
 
           $productResult = $statement->fetch(PDO::FETCH_ASSOC);
 
-          //$product['NombreProducto'] = $productResult['NombreProducto'];
+          // Verificar que $productResult no es false antes de intentar acceder a su índice 'NombreProducto'
+          if ($productResult !== false) {
+            $product['NombreProducto'] = $productResult['NombreProducto'];
+          } else {
+            $product['NombreProducto'] = "";
+          }
         }
 
         $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
@@ -333,16 +338,18 @@ class NotaPedidoModel
     return $statement->fetch();
   }
 
-   // Verificar un Cliente si se esta usando en nota pedido
-   public static function mdlGetHistorialCliente($table, $codClient) {
+  // Verificar un Cliente si se esta usando en nota pedido
+  public static function mdlGetHistorialCliente($table, $codClient)
+  {
     $stmt = Conexion::conn()->prepare("SELECT COUNT(IdCliente) as IdCliente FROM $table WHERE IdCliente = :IdCliente");
     $stmt->bindParam(":IdCliente", $codClient, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetch();
   }
 
-   // Verificar un vendedor si se esta usando en nota pedido
-   public static function mdlGetHistorialPerVend($table, $codPersonal) {
+  // Verificar un vendedor si se esta usando en nota pedido
+  public static function mdlGetHistorialPerVend($table, $codPersonal)
+  {
     $stmt = Conexion::conn()->prepare("SELECT COUNT(IdRes) as IdRes FROM $table WHERE IdRes = :IdRes");
     $stmt->bindParam(":IdRes", $codPersonal, PDO::PARAM_STR);
     $stmt->execute();
@@ -350,7 +357,8 @@ class NotaPedidoModel
   }
 
   // Verificar un responsable si se esta usando en nota pedido
-  public static function mdlGetHistorialPerRes($table, $codPersonal) {
+  public static function mdlGetHistorialPerRes($table, $codPersonal)
+  {
     $stmt = Conexion::conn()->prepare("SELECT COUNT(IdPer) as IdPer FROM $table WHERE IdPer = :IdPer");
     $stmt->bindParam(":IdPer", $codPersonal, PDO::PARAM_STR);
     $stmt->execute();
@@ -374,7 +382,7 @@ class NotaPedidoModel
         cli.NombreCli AS NombreCliNota, 
         cli.RucCli, 
         cli.DireccionCli AS DireccionCliNota
-    FROM tb_notapedido AS np
+    FROM $table AS np
     INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
     INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
     INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
@@ -402,7 +410,11 @@ class NotaPedidoModel
 
           $productResult = $statement->fetch(PDO::FETCH_ASSOC);
 
-          $product['NombreProducto'] = $productResult['NombreProducto'];
+          if ($productResult !== false) {
+            $product['NombreProducto'] = $productResult['NombreProducto'];
+          } else {
+            $product['NombreProducto'] = ""; 
+          }
         }
 
         $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
@@ -412,9 +424,35 @@ class NotaPedidoModel
     return $results;
   }
 
+  //  Get list of notas de pedido en general 
+  public static function mdlDownloadExcelNotas($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
+        CASE np.EstadoNota
+            WHEN 1 THEN 'Retirado'
+            WHEN 2 THEN 'Entregado'
+            WHEN 3 THEN 'Cancelado'
+            WHEN 4 THEN 'Devolución'
+            WHEN 5 THEN 'Anulado'
+            ELSE 'Estado desconocido'
+        END AS EstadoNota,
+        per.NombrePer AS NombrePerIdPer, 
+        per2.NombrePer AS NombrePerIdRes, 
+        cli.NombreCli AS NombreCliNota, 
+        cli.RucCli, 
+        cli.DireccionCli AS DireccionCliNota
+    FROM $table AS np
+    INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
+    INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
+    INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
+    ORDER BY 
+    IdNotaP DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
   /* fin */
 
-/* Reporte excel Notas por fechas  */
+  /* Reporte excel Notas por fechas  */
   public static function mdlGetAllDowlReportsExeNotPeFech($table, $fechaInicioNot, $fechaFinNot)
   {
     $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
@@ -464,7 +502,11 @@ class NotaPedidoModel
 
           $productResult = $statement->fetch(PDO::FETCH_ASSOC);
 
-          $product['NombreProducto'] = $productResult['NombreProducto'];
+          if ($productResult !== false) {
+            $product['NombreProducto'] = $productResult['NombreProducto'];
+          } else {
+            $product['NombreProducto'] = ""; 
+          }
         }
 
         $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
@@ -478,7 +520,7 @@ class NotaPedidoModel
 
 
   /* Imprimir Pdf para Notas de Pedido */
-  public static function mdlGetAllPrintPDFNotPe($table,$codNotaPe)
+  public static function mdlGetAllPrintPDFNotPe($table, $codNotaPe)
   {
     $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
         CASE np.EstadoNota
@@ -501,7 +543,7 @@ class NotaPedidoModel
     WHERE np.IdNotaP = :codNotaPe
     ORDER BY 
     IdNotaP DESC");
-  
+
     $statement->bindParam(":codNotaPe", $codNotaPe, PDO::PARAM_STR);
     $statement->execute();
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -549,7 +591,7 @@ class NotaPedidoModel
       return "error";
     }
   }
-  
+
   public static function mdlUpdateNotaPedidoDevolucion($table, $dataUpdate)
   {
     $statement = Conexion::conn()->prepare("UPDATE $table SET EstadoNota=:EstadoNota, FechaDevolucion=:FechaDevolucion, DateUpdate=:DateUpdate WHERE IdNotaP=:IdNotaP");

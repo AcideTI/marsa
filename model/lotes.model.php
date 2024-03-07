@@ -293,7 +293,11 @@ class LotesModel
 
           $productResult = $statement->fetch(PDO::FETCH_ASSOC);
 
-          $product['NombreProducto'] = $productResult['NombreProducto'];
+          if ($productResult !== false) {
+            $product['NombreProducto'] = $productResult['NombreProducto'];
+          } else {
+            $product['NombreProducto'] = "";
+          }
         }
 
         $result['DatosLoteIngresoJson'] = json_encode($productsJson);
@@ -301,6 +305,47 @@ class LotesModel
     }
 
     return $results;
+  }
+
+  //  Obtener los datos para descargar reporte general de las facturas en excel
+  public static function mdlDownloadExcelFacturas($table)
+  {
+    $statement = Conexion::conn()->prepare("
+        SELECT
+          tb_lote.IdLote, 
+          tb_personal.NombrePer, 
+          tb_personal.ApellidoPer, 
+          tb_lote.IdPer, 
+          tb_cliente.NombreCli,
+          tb_cliente.RucCli,
+          tb_cliente.DireccionCli, 
+          tb_lote.CodigoLote, 
+          tb_lote.DescripcionLote, 
+          tb_lote.DatosLoteIngresoJson, 
+          tb_lote.FechaProduccionLote,
+          tb_lote.TipoSalida,
+          tb_lote.NroFactura,
+          tb_lote.TotalFactura,
+          CASE tb_lote.Estado
+            WHEN 1 THEN 'Retirado'
+            WHEN 2 THEN 'Entregado'
+            WHEN 3 THEN 'Cancelado'
+            WHEN 4 THEN 'Devolución'
+            WHEN 5 THEN 'Anulado'
+            ELSE 'Estado desconocido'
+          END AS Estado
+        FROM
+          tb_lote
+          INNER JOIN
+          tb_cliente
+          ON 
+            tb_lote.IdCliente = tb_cliente.IdCli
+          INNER JOIN
+          tb_personal
+          ON 
+            tb_lote.IdPer = tb_personal.IdPer ");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /* Reporte excel Lotes por fechas  */
@@ -365,7 +410,11 @@ class LotesModel
 
           $productResult = $statement->fetch(PDO::FETCH_ASSOC);
 
-          $product['NombreProducto'] = $productResult['NombreProducto'];
+          if ($productResult !== false) {
+            $product['NombreProducto'] = $productResult['NombreProducto'];
+          } else {
+            $product['NombreProducto'] = "";
+          }
         }
 
         $result['DatosLoteIngresoJson'] = json_encode($productsJson);

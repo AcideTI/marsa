@@ -29,21 +29,23 @@ require_once "../../vendor/autoload.php";
 
 /*  Descargar todos las Notas para el reporte exel de Notas pedido */
 
-if(isset($_GET["reporteExeNotaPe"]))
-{
+if (isset($_GET["reporteExeNotaPe"])) {
   $reporteExeNotaPe =  new ControllerReportesExcel();
-  $reporteExeNotaPe -> ctrDowlReportsExeNotPe();
+  $reporteExeNotaPe->ctrDowlReportsExeNotPe();
 }
 
 /* fin */
 
 /* Reporte excel Notas por fechas  */
 
-if(isset($_GET["reporteExeNotaPeFech"])) {
+if (isset($_GET["reporteExeNotaPeFech"])) {
   $fechaInicioNot = $_GET["fechaInicioNot"];
   $fechaFinNot = $_GET["fechaFinNot"];
   $reporteExeNotaPeFech =  new ControllerReportesExcel();
-  $reporteExeNotaPeFech -> ctrDowlReportsExeNotPeFech($fechaInicioNot, $fechaFinNot);
+  $reporteExeNotaPeFech->ctrDowlReportsExeNotPeFech($fechaInicioNot, $fechaFinNot);
 }
 
-/* fin */
+if (isset($_GET["reporteGeneralNotas"])) {
+  $reporteGeneralExcel =  new ControllerReportesExcel();
+  $reporteGeneralExcel->ctrDownloadExcelNotasGeneral();
+}

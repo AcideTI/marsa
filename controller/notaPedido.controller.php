@@ -367,6 +367,14 @@ class NotaPedidoController
     return $newlistAllDataExeNotPe;
   }
 
+  //  Obtener la data para imprimir en el excel general de las notas
+  public static function ctrDownloadExcelNotas()
+  {
+    $table = "tb_notapedido";
+    $listNotasGeneral = NotaPedidoModel::mdlDownloadExcelNotas($table);
+    return $listNotasGeneral;
+  }
+
   /* Función para procesar el campo JSON de un registro.*/
 
   private static function procesarJson($Data)

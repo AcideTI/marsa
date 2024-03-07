@@ -46,4 +46,11 @@ if(isset($_GET["reporteExeLotesFech"])) {
   $reporteExeLotesFech -> ctrDowlReportsExeLoteFech($fechaInicioLt, $fechaFinLt);
 }
 
+if(isset($_GET["reporteGeneralFacturas"]))
+{
+  $reporteGeneralFacturas =  new ControllerReportesExcel();
+  $reporteGeneralFacturas -> ctrDownloadGeneralFacturas();
+}
+
+
 /* fin */

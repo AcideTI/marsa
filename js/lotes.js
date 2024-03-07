@@ -18,6 +18,11 @@ $("#reporteExeLotes").on("click", function () {
   window.location = "view/modules/Excel-Lotes.php?&reporteExeLotes";
 });
 
+//  Descargar todos los lotes para el reporte exel de lotes
+$("#reporteGeneralFacturas").on("click", function () {
+  window.location = "view/modules/Excel-Lotes.php?&reporteGeneralFacturas";
+});
+
 $(".btnVisualizarSalida").on("click", function () {
   var codLote = $(this).attr("codLote");
   window.location = "index.php?ruta=visualizarLote&codSalida=" + codLote;

@@ -23,33 +23,33 @@
           Registros Notas Pedido
         </button>
         <span style="margin: 0 10px;"></span>
-
-        <span style="margin: 0 10px;"></span>
         <button type="button" class="btn btn-info btnAllLotes" id="btnAllLotes" filtro="lotes"><i class="fa-solid fa-clipboard-check"></i>
           Registros Facturas
         </button>
+        <span style="margin: 0 10px;"></span>
 
+        <button type="button" class="btn btn-success" id="reporteGeneralNotas"><i class="fa-solid fa-file-arrow-down"></i>
+          Reporte General Notas
+        </button>
         <span style="margin: 0 10px;"></span>
         <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i class="fa-solid fa-file-arrow-down "></i>
-          Descargar Reporte Notas Pedido
+          Reporte Notas
         </button>
-
         <span style="margin: 0 10px;"></span>
-
         <button type="button" class="btn btn-secondary" id="reporteExeNotaPeFech"><i class="fa-solid fa-calendar-days"></i>
-          Descargar Reporte Notas Pedido por fechas
+          Reporte Notas Por Fechas
         </button>
 
+        <button type="button" class="btn btn-success" id="reporteGeneralFacturas"><i class="fa-solid fa-file-arrow-down"></i>
+          Reporte General Facturas
+        </button>
         <span style="margin: 0 10px;"></span>
-
         <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i class="fa-solid fa-file-arrow-down "></i>
-          Descargar Reporte Facturas
+          Reporte Facturas
         </button>
-
         <span style="margin: 0 10px;"></span>
-
         <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i class="fa-solid fa-calendar-days"></i>
-          Descargar Reporte Facturas por fechas
+          Reporte Facturas Por Fechas
         </button>
 
         <span style="margin: 0 10px;"></span>

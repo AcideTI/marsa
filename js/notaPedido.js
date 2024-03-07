@@ -30,6 +30,11 @@ $("#reporteExeNotaPe").on("click", function () {
   window.location = "view/modules/Excel-Nota-Pedido.php?&reporteExeNotaPe";
 });
 
+//  Descargar todas las notas para el reporte exel de notas pedido
+$("#reporteGeneralNotas").on("click", function () {
+  window.location = "view/modules/Excel-Nota-Pedido.php?&reporteGeneralNotas";
+});
+
 //  Descargar reporte exel de notas por fechas
 $(function () {
   var boton = $("#reporteExeNotaPeFech");
