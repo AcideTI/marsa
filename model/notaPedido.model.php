@@ -365,10 +365,17 @@ class NotaPedidoModel
     return $stmt->fetch();
   }
 
-  /* Devolver todas las Notas pedido para el reporte exel */
+  /* Devolver todas las Notas pedido para el reporte exel - OPTIMIZADO */
   public static function mdlGetAllDowlReportsExeNotPe($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
+    // PASO 1: Obtener todas las notas de pedido
+    $statement = Conexion::conn()->prepare("SELECT 
+        np.DatosProductosNotaPedidoJson, 
+        np.IdPer, 
+        np.IdRes, 
+        np.IdNotaP, 
+        np.FechaNotaPedido, 
+        np.Total,
         CASE np.EstadoNota
             WHEN 1 THEN 'Retirado'
             WHEN 2 THEN 'Entregado'
@@ -386,38 +393,66 @@ class NotaPedidoModel
     INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
     INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
     INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
-    ORDER BY 
-    IdNotaP DESC");
+    ORDER BY IdNotaP DESC");
+    
     $statement->execute();
-
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($results as &$result) {
-      // Procesar el campo JSON
+    // PASO 2: Obtener TODOS los IDs de productos únicos de todos los JSONs
+    $productIds = [];
+    foreach ($results as $result) {
       if (isset($result['DatosProductosNotaPedidoJson'])) {
         $productsJson = json_decode($result['DatosProductosNotaPedidoJson'], true);
-
-        foreach ($productsJson as &$product) {
-          $statement = Conexion::conn()->prepare("
-          SELECT NombreProducto
-          FROM tb_producto
-          WHERE IdProd = :codProduct
-        ");
-
-          $statement->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
-
-          $statement->execute();
-
-          $productResult = $statement->fetch(PDO::FETCH_ASSOC);
-
-          if ($productResult !== false) {
-            $product['NombreProducto'] = $productResult['NombreProducto'];
-          } else {
-            $product['NombreProducto'] = ""; 
+        if (is_array($productsJson)) {
+          foreach ($productsJson as $product) {
+            if (isset($product['codProduct'])) {
+              $productIds[] = (int)$product['codProduct'];
+            }
           }
         }
+      }
+    }
+    
+    // PASO 3: Obtener nombres de TODOS los productos en UNA SOLA consulta
+    $productNames = [];
+    if (!empty($productIds)) {
+      $uniqueIds = array_values(array_unique($productIds)); // Reindexar para PDO
+      $placeholders = implode(',', array_fill(0, count($uniqueIds), '?'));
+      
+      $stmtProducts = Conexion::conn()->prepare("
+        SELECT IdProd, NombreProducto
+        FROM tb_producto
+        WHERE IdProd IN ($placeholders)
+      ");
+      
+      $stmtProducts->execute($uniqueIds);
+      $productResults = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
+      
+      // Crear array asociativo [IdProd => NombreProducto]
+      foreach ($productResults as $prod) {
+        $productNames[$prod['IdProd']] = $prod['NombreProducto'];
+      }
+    }
 
-        $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
+    // PASO 4: Agregar nombres a los productos en el JSON
+    foreach ($results as &$result) {
+      if (isset($result['DatosProductosNotaPedidoJson'])) {
+        $productsJson = json_decode($result['DatosProductosNotaPedidoJson'], true);
+        
+        if (is_array($productsJson)) {
+          foreach ($productsJson as &$product) {
+            $codProduct = isset($product['codProduct']) ? (int)$product['codProduct'] : 0;
+            
+            // Asignar nombre desde el array precargado
+            if (isset($productNames[$codProduct])) {
+              $product['NombreProducto'] = $productNames[$codProduct];
+            } else {
+              $product['NombreProducto'] = "Producto no encontrado";
+            }
+          }
+          
+          $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
+        }
       }
     }
 
@@ -452,64 +487,95 @@ class NotaPedidoModel
   }
   /* fin */
 
-  /* Reporte excel Notas por fechas  */
+  /* Reporte excel Notas por fechas - OPTIMIZADO */
   public static function mdlGetAllDowlReportsExeNotPeFech($table, $fechaInicioNot, $fechaFinNot)
   {
-    $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
-      CASE np.EstadoNota
-      WHEN 1 THEN 'Retirado'
+    // PASO 1: Obtener notas por fecha
+    $statement = Conexion::conn()->prepare("SELECT 
+        np.DatosProductosNotaPedidoJson, 
+        np.IdPer, 
+        np.IdRes, 
+        np.IdNotaP, 
+        np.FechaNotaPedido, 
+        np.Total,
+        CASE np.EstadoNota
+            WHEN 1 THEN 'Retirado'
             WHEN 2 THEN 'Entregado'
             WHEN 3 THEN 'Cancelado'
             WHEN 4 THEN 'Devolución'
             WHEN 5 THEN 'Anulado'
             ELSE 'Estado desconocido'
-      END AS EstadoNota,
-      per.NombrePer AS NombrePerIdPer, 
-      per2.NombrePer AS NombrePerIdRes, 
-      cli.NombreCli AS NombreCliNota, 
-      cli.RucCli, 
-      cli.DireccionCli AS DireccionCliNota
+        END AS EstadoNota,
+        per.NombrePer AS NombrePerIdPer, 
+        per2.NombrePer AS NombrePerIdRes, 
+        cli.NombreCli AS NombreCliNota, 
+        cli.RucCli, 
+        cli.DireccionCli AS DireccionCliNota
     FROM tb_notapedido AS np
     INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
     INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
     INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
     WHERE np.FechaNotaPedido BETWEEN :fechaInicioNot AND :fechaFinNot
-    ORDER BY 
-    IdNotaP DESC");
+    ORDER BY IdNotaP DESC");
 
     $statement->bindParam(":fechaInicioNot", $fechaInicioNot, PDO::PARAM_STR);
     $statement->bindParam(":fechaFinNot", $fechaFinNot, PDO::PARAM_STR);
-
     $statement->execute();
-
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($results as &$result) {
-      // Procesar el campo JSON
+    // PASO 2: Obtener todos los IDs de productos
+    $productIds = [];
+    foreach ($results as $result) {
       if (isset($result['DatosProductosNotaPedidoJson'])) {
         $productsJson = json_decode($result['DatosProductosNotaPedidoJson'], true);
-
-        foreach ($productsJson as &$product) {
-          $statement = Conexion::conn()->prepare("
-         SELECT NombreProducto
-         FROM tb_producto
-         WHERE IdProd = :codProduct
-       ");
-
-          $statement->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
-
-          $statement->execute();
-
-          $productResult = $statement->fetch(PDO::FETCH_ASSOC);
-
-          if ($productResult !== false) {
-            $product['NombreProducto'] = $productResult['NombreProducto'];
-          } else {
-            $product['NombreProducto'] = ""; 
+        if (is_array($productsJson)) {
+          foreach ($productsJson as $product) {
+            if (isset($product['codProduct'])) {
+              $productIds[] = (int)$product['codProduct'];
+            }
           }
         }
+      }
+    }
+    
+    // PASO 3: Una sola consulta para todos los productos
+    $productNames = [];
+    if (!empty($productIds)) {
+      $uniqueIds = array_values(array_unique($productIds)); // Reindexar para PDO
+      $placeholders = implode(',', array_fill(0, count($uniqueIds), '?'));
+      
+      $stmtProducts = Conexion::conn()->prepare("
+        SELECT IdProd, NombreProducto
+        FROM tb_producto
+        WHERE IdProd IN ($placeholders)
+      ");
+      
+      $stmtProducts->execute($uniqueIds);
+      $productResults = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
+      
+      foreach ($productResults as $prod) {
+        $productNames[$prod['IdProd']] = $prod['NombreProducto'];
+      }
+    }
 
-        $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
+    // PASO 4: Agregar nombres a los productos
+    foreach ($results as &$result) {
+      if (isset($result['DatosProductosNotaPedidoJson'])) {
+        $productsJson = json_decode($result['DatosProductosNotaPedidoJson'], true);
+        
+        if (is_array($productsJson)) {
+          foreach ($productsJson as &$product) {
+            $codProduct = isset($product['codProduct']) ? (int)$product['codProduct'] : 0;
+            
+            if (isset($productNames[$codProduct])) {
+              $product['NombreProducto'] = $productNames[$codProduct];
+            } else {
+              $product['NombreProducto'] = "Producto no encontrado";
+            }
+          }
+          
+          $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
+        }
       }
     }
 

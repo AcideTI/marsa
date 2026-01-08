@@ -384,12 +384,38 @@ class NotaPedidoController
     // Decodificar el JSON en el campo DatosProductosIngresoJson
     $products = json_decode($Data['DatosProductosNotaPedidoJson'], true);
 
+    // Validar que el JSON se decodificó correctamente
+    if (!is_array($products)) {
+      return $recordlistAllDataExeNotPe;
+    }
+
     // Formatear los datos del producto
     foreach ($products as $index => $product) {
       $newData = $Data;
-      $newData['Producto'] = $product['NombreProducto'];
-      $newData['Cantidad'] = $product['countProduct'];
-      $newData['TotalP'] = $product['newSum'];
+      
+      // Asignar datos del producto con validación
+      $newData['Producto'] = isset($product['NombreProducto']) ? $product['NombreProducto'] : '';
+      $newData['Cantidad'] = isset($product['countProduct']) ? $product['countProduct'] : 0;
+      
+      // Calcular el total del producto (precio * cantidad)
+      // Intentar diferentes nombres de campos para el precio
+      $price = 0;
+      if (isset($product['newPrice'])) {
+        $price = $product['newPrice'];
+      } elseif (isset($product['price'])) {
+        $price = $product['price'];
+      } elseif (isset($product['newSum'])) {
+        // Si ya viene el total calculado
+        $newData['TotalP'] = $product['newSum'];
+      }
+      
+      // Si tenemos precio y cantidad, calcular el total
+      if ($price > 0 && isset($product['countProduct'])) {
+        $newData['TotalP'] = $price * $product['countProduct'];
+      } elseif (!isset($newData['TotalP'])) {
+        $newData['TotalP'] = 0;
+      }
+      
       unset($newData['DatosProductosNotaPedidoJson']);
 
       $recordlistAllDataExeNotPe[] = $newData;
@@ -417,12 +443,39 @@ class NotaPedidoController
   private static function procesarJsonFech($Data)
   {
     $recordlistAllDataExeNotPeFech = [];
+    
+    // Decodificar el JSON
     $products = json_decode($Data['DatosProductosNotaPedidoJson'], true);
+    
+    // Validar que el JSON se decodificó correctamente
+    if (!is_array($products)) {
+      return $recordlistAllDataExeNotPeFech;
+    }
+    
     foreach ($products as $index => $product) {
       $newData = $Data; // Copiar el registro original
-      $newData['Producto'] = $product['NombreProducto'];
-      $newData['Cantidad'] = $product['countProduct'];
-      $newData['TotalP'] = $product['newSum'];
+      
+      // Asignar datos del producto con validación
+      $newData['Producto'] = isset($product['NombreProducto']) ? $product['NombreProducto'] : '';
+      $newData['Cantidad'] = isset($product['countProduct']) ? $product['countProduct'] : 0;
+      
+      // Calcular el total del producto (precio * cantidad)
+      $price = 0;
+      if (isset($product['newPrice'])) {
+        $price = $product['newPrice'];
+      } elseif (isset($product['price'])) {
+        $price = $product['price'];
+      } elseif (isset($product['newSum'])) {
+        $newData['TotalP'] = $product['newSum'];
+      }
+      
+      // Si tenemos precio y cantidad, calcular el total
+      if ($price > 0 && isset($product['countProduct'])) {
+        $newData['TotalP'] = $price * $product['countProduct'];
+      } elseif (!isset($newData['TotalP'])) {
+        $newData['TotalP'] = 0;
+      }
+      
       unset($newData['DatosProductosNotaPedidoJson']);
       $recordlistAllDataExeNotPeFech[] = $newData;
     }
