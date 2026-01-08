@@ -1,0 +1,113 @@
+[14-Sep-2024 21:27:42 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[28000] [1045] Access denied for user 'admin_marsa'@'localhost' (using password: YES) in /home/pruebasbetaacide/public_html/marsa/model/conexion.php:6
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/model/conexion.php(6): PDO->__construct()
+#1 /home/pruebasbetaacide/public_html/marsa/model/users.model.php(24): Conexion::conn()
+#2 /home/pruebasbetaacide/public_html/marsa/controller/users.controller.php(26): UsersModel::mdlGetUserDataVerify()
+#3 /home/pruebasbetaacide/public_html/marsa/controller/users.controller.php(47): UsersController::ctrVerifyUser()
+#4 /home/pruebasbetaacide/public_html/marsa/view/modules/login.php(28): UsersController::ctrLogIn()
+#5 /home/pruebasbetaacide/public_html/marsa/view/template.php(71): include('/home/pruebasbe...')
+#6 /home/pruebasbetaacide/public_html/marsa/controller/template.controller.php(7): include('/home/pruebasbe...')
+#7 /home/pruebasbetaacide/public_html/marsa/index.php(30): TemplateController::ctrTemplate()
+#8 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/model/conexion.php on line 6
+[14-Sep-2024 21:28:25 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[28000] [1045] Access denied for user 'admin_marsa'@'localhost' (using password: YES) in /home/pruebasbetaacide/public_html/marsa/model/conexion.php:6
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/model/conexion.php(6): PDO->__construct()
+#1 /home/pruebasbetaacide/public_html/marsa/model/users.model.php(24): Conexion::conn()
+#2 /home/pruebasbetaacide/public_html/marsa/controller/users.controller.php(26): UsersModel::mdlGetUserDataVerify()
+#3 /home/pruebasbetaacide/public_html/marsa/controller/users.controller.php(47): UsersController::ctrVerifyUser()
+#4 /home/pruebasbetaacide/public_html/marsa/view/modules/login.php(28): UsersController::ctrLogIn()
+#5 /home/pruebasbetaacide/public_html/marsa/view/template.php(71): include('/home/pruebasbe...')
+#6 /home/pruebasbetaacide/public_html/marsa/controller/template.controller.php(7): include('/home/pruebasbe...')
+#7 /home/pruebasbetaacide/public_html/marsa/index.php(30): TemplateController::ctrTemplate()
+#8 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/model/conexion.php on line 6
+[14-Sep-2024 21:28:29 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[28000] [1045] Access denied for user 'admin_marsa'@'localhost' (using password: YES) in /home/pruebasbetaacide/public_html/marsa/model/conexion.php:6
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/model/conexion.php(6): PDO->__construct()
+#1 /home/pruebasbetaacide/public_html/marsa/model/users.model.php(24): Conexion::conn()
+#2 /home/pruebasbetaacide/public_html/marsa/controller/users.controller.php(26): UsersModel::mdlGetUserDataVerify()
+#3 /home/pruebasbetaacide/public_html/marsa/controller/users.controller.php(47): UsersController::ctrVerifyUser()
+#4 /home/pruebasbetaacide/public_html/marsa/view/modules/login.php(28): UsersController::ctrLogIn()
+#5 /home/pruebasbetaacide/public_html/marsa/view/template.php(71): include('/home/pruebasbe...')
+#6 /home/pruebasbetaacide/public_html/marsa/controller/template.controller.php(7): include('/home/pruebasbe...')
+#7 /home/pruebasbetaacide/public_html/marsa/index.php(30): TemplateController::ctrTemplate()
+#8 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/model/conexion.php on line 6
+[16-Sep-2024 12:14:48 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[16-Sep-2024 12:14:48 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[16-Sep-2024 12:14:48 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[16-Sep-2024 12:14:48 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/home.php on line 5
+[16-Sep-2024 12:15:02 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[16-Sep-2024 12:15:02 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[16-Sep-2024 12:15:02 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[16-Sep-2024 12:15:02 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/notaPedido.php on line 6
+[16-Sep-2024 12:15:04 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[16-Sep-2024 12:15:04 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[16-Sep-2024 12:15:04 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[16-Sep-2024 12:15:04 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/verSalidas.php on line 6
+[16-Sep-2024 12:15:24 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[16-Sep-2024 12:15:24 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[16-Sep-2024 12:15:24 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[16-Sep-2024 12:15:24 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/verSalidas.php on line 6
+[08-Feb-2025 10:29:28 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[08-Feb-2025 10:29:28 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[08-Feb-2025 10:29:28 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[08-Feb-2025 10:29:28 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/home.php on line 5
+[08-Feb-2025 10:29:33 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[08-Feb-2025 10:29:33 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[08-Feb-2025 10:29:33 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[08-Feb-2025 10:29:33 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/almacen.php on line 5
+[08-Feb-2025 10:30:53 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[08-Feb-2025 10:30:53 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[08-Feb-2025 10:30:53 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[08-Feb-2025 10:30:53 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/nuevoIngreso.php on line 6
+[08-Feb-2025 10:31:05 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[08-Feb-2025 10:31:05 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[08-Feb-2025 10:31:05 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[08-Feb-2025 10:31:05 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/home.php on line 5
+[08-Feb-2025 10:31:08 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 13
+[08-Feb-2025 10:31:08 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/navbar.php on line 15
+[08-Feb-2025 10:31:08 America/Bogota] PHP Warning:  Undefined array key "IdTipoUsu" in /home/pruebasbetaacide/public_html/marsa/view/modules/menu.php on line 62
+[08-Feb-2025 10:31:08 America/Bogota] PHP Warning:  Undefined array key "Nombre" in /home/pruebasbetaacide/public_html/marsa/view/modules/almacen.php on line 5
+[16-Apr-2025 10:10:54 America/Bogota] PHP Warning:  Undefined array key "notRuc" in /home/pruebasbetaacide/public_html/marsa/controller/notaPedido.controller.php on line 28
+[16-Apr-2025 10:10:54 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'IdCliente' cannot be null in /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php:78
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php(78): PDOStatement->execute()
+#1 /home/pruebasbetaacide/public_html/marsa/controller/notaPedido.controller.php(40): NotaPedidoModel::mdlCreateNotaPedido()
+#2 /home/pruebasbetaacide/public_html/marsa/view/modules/notaPedido.php(206): NotaPedidoController::ctrCreateNotaPedido()
+#3 /home/pruebasbetaacide/public_html/marsa/view/template.php(52): include('/home/pruebasbe...')
+#4 /home/pruebasbetaacide/public_html/marsa/controller/template.controller.php(7): include('/home/pruebasbe...')
+#5 /home/pruebasbetaacide/public_html/marsa/index.php(30): TemplateController::ctrTemplate()
+#6 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php on line 78
+[16-Apr-2025 10:10:57 America/Bogota] PHP Warning:  Undefined array key "notRuc" in /home/pruebasbetaacide/public_html/marsa/controller/notaPedido.controller.php on line 28
+[16-Apr-2025 10:10:57 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'IdCliente' cannot be null in /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php:78
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php(78): PDOStatement->execute()
+#1 /home/pruebasbetaacide/public_html/marsa/controller/notaPedido.controller.php(40): NotaPedidoModel::mdlCreateNotaPedido()
+#2 /home/pruebasbetaacide/public_html/marsa/view/modules/notaPedido.php(206): NotaPedidoController::ctrCreateNotaPedido()
+#3 /home/pruebasbetaacide/public_html/marsa/view/template.php(52): include('/home/pruebasbe...')
+#4 /home/pruebasbetaacide/public_html/marsa/controller/template.controller.php(7): include('/home/pruebasbe...')
+#5 /home/pruebasbetaacide/public_html/marsa/index.php(30): TemplateController::ctrTemplate()
+#6 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php on line 78
+[17-Apr-2025 08:40:04 America/Bogota] PHP Warning:  Trying to access array offset on value of type bool in /home/pruebasbetaacide/public_html/marsa/controller/almacen.controller.php on line 102
+[17-Apr-2025 08:40:04 America/Bogota] PHP Warning:  Trying to access array offset on value of type bool in /home/pruebasbetaacide/public_html/marsa/controller/almacen.controller.php on line 107
+[17-Apr-2025 08:40:04 America/Bogota] PHP Warning:  Trying to access array offset on value of type bool in /home/pruebasbetaacide/public_html/marsa/controller/almacen.controller.php on line 102
+[17-Apr-2025 08:40:04 America/Bogota] PHP Warning:  Trying to access array offset on value of type bool in /home/pruebasbetaacide/public_html/marsa/controller/almacen.controller.php on line 107
+[06-Aug-2025 10:49:49 America/Bogota] PHP Warning:  Trying to access array offset on value of type bool in /home/pruebasbetaacide/public_html/marsa/controller/almacen.controller.php on line 102
+[06-Aug-2025 10:49:49 America/Bogota] PHP Warning:  Trying to access array offset on value of type bool in /home/pruebasbetaacide/public_html/marsa/controller/almacen.controller.php on line 107
+[13-Aug-2025 09:59:51 America/Bogota] PHP Warning:  Trying to access array offset on value of type bool in /home/pruebasbetaacide/public_html/marsa/controller/almacen.controller.php on line 102
+[13-Aug-2025 09:59:51 America/Bogota] PHP Warning:  Trying to access array offset on value of type bool in /home/pruebasbetaacide/public_html/marsa/controller/almacen.controller.php on line 107
+[19-Nov-2025 21:32:48 America/Bogota] PHP Warning:  Undefined array key "notRuc" in /home/pruebasbetaacide/public_html/marsa/controller/notaPedido.controller.php on line 28
+[19-Nov-2025 21:32:48 America/Bogota] PHP Fatal error:  Uncaught PDOException: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'IdCliente' cannot be null in /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php:78
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php(78): PDOStatement->execute()
+#1 /home/pruebasbetaacide/public_html/marsa/controller/notaPedido.controller.php(40): NotaPedidoModel::mdlCreateNotaPedido()
+#2 /home/pruebasbetaacide/public_html/marsa/view/modules/notaPedido.php(206): NotaPedidoController::ctrCreateNotaPedido()
+#3 /home/pruebasbetaacide/public_html/marsa/view/template.php(52): include('/home/pruebasbe...')
+#4 /home/pruebasbetaacide/public_html/marsa/controller/template.controller.php(7): include('/home/pruebasbe...')
+#5 /home/pruebasbetaacide/public_html/marsa/index.php(30): TemplateController::ctrTemplate()
+#6 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/model/notaPedido.model.php on line 78

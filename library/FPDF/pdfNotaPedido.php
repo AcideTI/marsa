@@ -15,7 +15,7 @@ class PDFOrder extends TFPDF
   function Header()
   {
     // Logo
-    $this->Image('../../view/img/head-pdf-marsa.png', 10, 1, 190); // Logo de AGROINDUSTRIAS MARSA
+    $this->Image('../../view/img/head-pdf-marsa.png', 12, 10, 190); // Logo de AGROINDUSTRIAS MARSA
     $this->Ln(15);
     $this->Ln(5);
    // Titulo centrado al logo

@@ -1,0 +1,86 @@
+[16-Sep-2024 11:18:20 America/Bogota] PHP Warning:  fopen(/home/u553466910/domains/pruebasbetaacide.com/public_html/marsa/library/FPDF/font/unifont/DejaVuSansCondensed.ttf): Failed to open stream: No such file or directory in /home/pruebasbetaacide/public_html/marsa/library/FPDF/font/unifont/ttfonts.php on line 501
+[16-Sep-2024 11:18:26 America/Bogota] PHP Warning:  fopen(/home/u553466910/domains/pruebasbetaacide.com/public_html/marsa/library/FPDF/font/unifont/DejaVuSansCondensed.ttf): Failed to open stream: No such file or directory in /home/pruebasbetaacide/public_html/marsa/library/FPDF/font/unifont/ttfonts.php on line 501
+[16-Sep-2024 11:18:29 America/Bogota] PHP Warning:  fopen(/home/u553466910/domains/pruebasbetaacide.com/public_html/marsa/library/FPDF/font/unifont/DejaVuSansCondensed.ttf): Failed to open stream: No such file or directory in /home/pruebasbetaacide/public_html/marsa/library/FPDF/font/unifont/ttfonts.php on line 501
+[16-Sep-2024 11:18:36 America/Bogota] PHP Warning:  fopen(/home/u553466910/domains/pruebasbetaacide.com/public_html/marsa/library/FPDF/font/unifont/DejaVuSansCondensed.ttf): Failed to open stream: No such file or directory in /home/pruebasbetaacide/public_html/marsa/library/FPDF/font/unifont/ttfonts.php on line 501
+[16-Sep-2024 11:18:46 America/Bogota] PHP Warning:  fopen(/home/u553466910/domains/pruebasbetaacide.com/public_html/marsa/library/FPDF/font/unifont/DejaVuSansCondensed.ttf): Failed to open stream: No such file or directory in /home/pruebasbetaacide/public_html/marsa/library/FPDF/font/unifont/ttfonts.php on line 501
+[16-Sep-2024 11:21:26 America/Bogota] PHP Warning:  fopen(/home/u553466910/domains/pruebasbetaacide.com/public_html/marsa/library/FPDF/font/unifont/DejaVuSansCondensed.ttf): Failed to open stream: No such file or directory in /home/pruebasbetaacide/public_html/marsa/library/FPDF/font/unifont/ttfonts.php on line 501
+[16-Sep-2024 12:05:01 America/Bogota] PHP Warning:  fopen(/home/u553466910/domains/pruebasbetaacide.com/public_html/marsa/library/FPDF/font/unifont/DejaVuSansCondensed.ttf): Failed to open stream: No such file or directory in /home/pruebasbetaacide/public_html/marsa/library/FPDF/font/unifont/ttfonts.php on line 501
+[16-Sep-2024 12:15:09 America/Bogota] PHP Warning:  fopen(/home/u553466910/domains/pruebasbetaacide.com/public_html/marsa/library/FPDF/font/unifont/DejaVuSansCondensed.ttf): Failed to open stream: No such file or directory in /home/pruebasbetaacide/public_html/marsa/library/FPDF/font/unifont/ttfonts.php on line 501
+[05-Dec-2025 09:19:47 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[05-Dec-2025 09:20:03 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[05-Dec-2025 09:22:12 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[05-Dec-2025 09:22:17 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 09:58:49 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 09:58:57 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 09:59:55 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 10:00:02 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 10:02:58 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 10:03:03 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 10:03:12 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 10:03:18 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
+[22-Dec-2025 10:03:24 America/Bogota] PHP Fatal error:  Uncaught TypeError: number_format(): Argument #1 ($num) must be of type float, string given in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php:63
+Stack trace:
+#0 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(63): number_format()
+#1 /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php(141): PDFOrder->TableDetailOrder()
+#2 {main}
+  thrown in /home/pruebasbetaacide/public_html/marsa/library/FPDF/pdfNotaPedido.php on line 63
