@@ -38,7 +38,82 @@ class ClientsModel
     $statement->execute();
     return $statement->fetchAll();
   }
-  
+
+  // Obtener clientes con paginación server-side para DataTables
+  public static function mdlGetClientsPaginated($draw, $start, $length, $searchValue, $orderColumn, $orderDir)
+  {
+    $conn = Conexion::conn();
+
+    // Columnas para ordenamiento
+    $columns = ['IdCli', 'RucCli', 'RazonSocial', 'NombreCli', 'CorreoCli', 'DireccionCli', 'TelefonoCli', 'Estado'];
+    $orderColumnName = isset($columns[$orderColumn]) ? $columns[$orderColumn] : 'IdCli';
+    $orderDir = ($orderDir === 'asc') ? 'ASC' : 'DESC';
+
+    // Consulta base
+    $baseQuery = "FROM tb_cliente 
+                  INNER JOIN tb_estado ON tb_cliente.Estado = tb_estado.IdEstado 
+                  WHERE tb_estado.TipoEstado IN ('Activo', 'Inactivo')";
+
+    // Agregar búsqueda si hay término
+    $searchQuery = "";
+    if (!empty($searchValue)) {
+      $searchQuery = " AND (
+        tb_cliente.RucCli LIKE :search OR 
+        tb_cliente.RazonSocial LIKE :search OR 
+        tb_cliente.NombreCli LIKE :search OR 
+        tb_cliente.CorreoCli LIKE :search OR 
+        tb_cliente.DireccionCli LIKE :search OR 
+        tb_cliente.TelefonoCli LIKE :search
+      )";
+    }
+
+    // Total sin filtrar
+    $totalQuery = $conn->prepare("SELECT COUNT(*) as total FROM tb_cliente 
+                                   INNER JOIN tb_estado ON tb_cliente.Estado = tb_estado.IdEstado 
+                                   WHERE tb_estado.TipoEstado IN ('Activo', 'Inactivo')");
+    $totalQuery->execute();
+    $totalRecords = $totalQuery->fetch(PDO::FETCH_ASSOC)['total'];
+
+    // Total filtrado
+    $filteredQuery = $conn->prepare("SELECT COUNT(*) as total $baseQuery $searchQuery");
+    if (!empty($searchValue)) {
+      $searchParam = "%$searchValue%";
+      $filteredQuery->bindParam(':search', $searchParam, PDO::PARAM_STR);
+    }
+    $filteredQuery->execute();
+    $filteredRecords = $filteredQuery->fetch(PDO::FETCH_ASSOC)['total'];
+
+    // Datos paginados
+    $dataQuery = $conn->prepare("SELECT 
+      tb_cliente.IdCli, 
+      tb_cliente.RucCli, 
+      tb_cliente.NombreCli, 
+      tb_cliente.CorreoCli, 
+      tb_cliente.DireccionCli, 
+      tb_cliente.TelefonoCli,
+      tb_cliente.RazonSocial, 
+      tb_estado.TipoEstado AS Estado
+      $baseQuery $searchQuery 
+      ORDER BY $orderColumnName $orderDir 
+      LIMIT :start, :length");
+
+    if (!empty($searchValue)) {
+      $searchParam = "%$searchValue%";
+      $dataQuery->bindParam(':search', $searchParam, PDO::PARAM_STR);
+    }
+    $dataQuery->bindParam(':start', $start, PDO::PARAM_INT);
+    $dataQuery->bindParam(':length', $length, PDO::PARAM_INT);
+    $dataQuery->execute();
+    $data = $dataQuery->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+      'draw' => intval($draw),
+      'recordsTotal' => intval($totalRecords),
+      'recordsFiltered' => intval($filteredRecords),
+      'data' => $data
+    ];
+  }
+
   // Create clients
   public static function mdlCreateClient($table, $dataCreate)
   {

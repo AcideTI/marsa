@@ -26,7 +26,7 @@
           Todos los Clientes
         </div>
         <div class="card-body">
-          <table id="datatablesSimple" class="data-table-Clients table">
+          <table id="tableClients" class="table table-striped table-bordered" style="width:100%">
             <thead>
               <tr>
                 <th>#</th>
@@ -37,34 +37,11 @@
                 <th>Dirección</th>
                 <th>Teléfono</th>
                 <th>Estado</th>
-                
-          <!--       <th>Fecha de Actualización</th> -->
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <?php
-              $listClients = ClientsController::ctrGetAllClients();
-              foreach ($listClients as $key => $value) {
-                $estado = $value["Estado"] == "Activo" ? "<span class='badge bg-success'>Activo</span>" : "<span class='badge bg-danger'>Inactivo</span>";
-                echo
-                '<tr>
-                  <td>' . ($key + 1) . '</td>
-                  <td>' . $value["RucCli"] . '</td>
-                  <td>' . $value["RazonSocial"] . '</td>
-                  <td>' . $value["NombreCli"] . '</td>
-                  <td>' . $value["CorreoCli"] . '</td>
-                  <td>' . $value["DireccionCli"] . '</td>
-                  <td>' . $value["TelefonoCli"] . '</td>
-                  <td>' . $estado . '</td>
-                 
-                  <td>
-                    <button class="btn btn-warning btnEditClients" codClient="' . $value["IdCli"] . '" data-toggle="modal" data-target="#modalEditClients"><i class="fa-solid fa-pencil"></i></button>
-                    <button class="btn btn-danger btnDeleteClient" codClient="' . $value["IdCli"] . '" userType="' . $_SESSION['IdTipoUsu'] . '"><i class="fa-solid fa-trash"></i></button>
-                  </td>
-                </tr>';
-              }
-              ?>
+              <!-- Los datos se cargan vía AJAX con server-side processing -->
             </tbody>
           </table>
         </div>
@@ -76,7 +53,8 @@
 </div>
 
 <!-- Modal Add Clients -->
-<div class="modal fade" id="modalAddClients" tabindex="-1" role="dialog" aria-labelledby="modalAddClients" aria-hidden="true">
+<div class="modal fade" id="modalAddClients" tabindex="-1" role="dialog" aria-labelledby="modalAddClients"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -88,15 +66,15 @@
       <!-- Cuerpo modal -->
       <div class="modal-body">
         <form role="form" method="post">
-           <!-- RUC Client -->
-           <div class="form-group">
+          <!-- RUC Client -->
+          <div class="form-group">
             <label for="Ru" class="col-form-label">RUC:</label>
-            <input type="text" class="form-control" id="Ru" name="Ru" >
+            <input type="text" class="form-control" id="Ru" name="Ru">
           </div>
           <!-- Razon social -->
           <div class="form-group">
             <label for="razonSocial" class="col-form-label">Razon social:</label>
-            <input type="text" class="form-control" id="razonSocial" name="razonSocial" >
+            <input type="text" class="form-control" id="razonSocial" name="razonSocial">
           </div>
           <!-- Name Client -->
           <div class="form-group">
@@ -106,24 +84,24 @@
           <!-- Email Client -->
           <div class="form-group">
             <label for="EmailCli" class="col-form-label">Correo Electrónico:</label>
-            <input type="email" class="form-control" id="EmailCli" name="EmailCli" >
+            <input type="email" class="form-control" id="EmailCli" name="EmailCli">
           </div>
           <!-- Address Client -->
           <div class="form-group">
             <label for="AddressCli" class="col-form-label">Dirección:</label>
-            <input type="text" class="form-control" id="AddressCli" name="AddressCli" >
+            <input type="text" class="form-control" id="AddressCli" name="AddressCli">
           </div>
           <!-- Phone Client -->
           <div class="form-group">
             <label for="PhoneCli" class="col-form-label">Número de Teléfono:</label>
-            <input type="number" class="form-control" id="PhoneCli" name="PhoneCli" >
+            <input type="number" class="form-control" id="PhoneCli" name="PhoneCli">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Crear Cliente</button>
           </div>
           <?php
-          $createClient= new ClientsController();
+          $createClient = new ClientsController();
           $createClient->ctrCreateClient();
           ?>
         </form>
@@ -133,7 +111,8 @@
 </div>
 
 <!-- Modal Edit Clients -->
-<div class="modal fade" id="modalEditClients" tabindex="-1" role="dialog" aria-labelledby="modalEditClients" aria-hidden="true">
+<div class="modal fade" id="modalEditClients" tabindex="-1" role="dialog" aria-labelledby="modalEditClients"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -145,15 +124,15 @@
       <!-- Cuerpo modal -->
       <div class="modal-body">
         <form role="form" method="post">
-           <!-- RUC Client -->
-           <div class="form-group">
+          <!-- RUC Client -->
+          <div class="form-group">
             <label for="EditRu" class="col-form-label">RUC:</label>
-            <input type="text" class="form-control" id="EditRu" name="EditRu" >
+            <input type="text" class="form-control" id="EditRu" name="EditRu">
           </div>
           <!-- Razon social -->
           <div class="form-group">
             <label for="EditRazonSocial" class="col-form-label">Razon social:</label>
-            <input type="text" class="form-control" id="EditRazonSocial" name="EditRazonSocial" >
+            <input type="text" class="form-control" id="EditRazonSocial" name="EditRazonSocial">
           </div>
           <!-- Name Client -->
           <div class="form-group">
@@ -163,17 +142,17 @@
           <!-- Email Client -->
           <div class="form-group">
             <label for="EditEmailCli" class="col-form-label">Correo Electrónico:</label>
-            <input type="email" class="form-control" id="EditEmailCli" name="EditEmailCli" >
+            <input type="email" class="form-control" id="EditEmailCli" name="EditEmailCli">
           </div>
           <!-- Address Client -->
           <div class="form-group">
             <label for="EditAddressCli" class="col-form-label">Dirección:</label>
-            <input type="text" class="form-control" id="EditAddressCli" name="EditAddressCli" >
+            <input type="text" class="form-control" id="EditAddressCli" name="EditAddressCli">
           </div>
           <!-- Phone Client -->
           <div class="form-group">
             <label for="EditPhoneCli" class="col-form-label">Número de Teléfono:</label>
-            <input type="number" class="form-control" id="EditPhoneCli" name="EditPhoneCli" >
+            <input type="number" class="form-control" id="EditPhoneCli" name="EditPhoneCli">
           </div>
           <!-- State Client -->
           <div class="form-group">
@@ -184,12 +163,12 @@
             </select>
           </div>
           <div class="modal-footer">
-          <input type="hidden" id="codClient" name="codClient" class="codClient">
+            <input type="hidden" id="codClient" name="codClient" class="codClient">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Editar Cliente</button>
           </div>
           <?php
-          $updateClient= new ClientsController();
+          $updateClient = new ClientsController();
           $updateClient->ctrUpdateClients();
           ?>
         </form>
@@ -203,3 +182,8 @@
 $deleteClient = new ClientsController();
 $deleteClient->ctrDeleteClient();
 ?>
+
+<script>
+  // Variable global para el tipo de usuario (usada en clients.js para permisos)
+  window.currentUserType = <?php echo isset($_SESSION['IdTipoUsu']) ? $_SESSION['IdTipoUsu'] : 0; ?>;
+</script>

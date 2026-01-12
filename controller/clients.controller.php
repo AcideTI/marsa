@@ -17,7 +17,13 @@ class ClientsController
   {
     $table = "tb_cliente";
     $listClients = ClientsModel::mdlGetAllClients($table);
-    return $listClients; 
+    return $listClients;
+  }
+
+  // Obtener clientes con paginación para DataTables server-side
+  public static function ctrGetClientsPaginated($draw, $start, $length, $searchValue, $orderColumn, $orderDir)
+  {
+    return ClientsModel::mdlGetClientsPaginated($draw, $start, $length, $searchValue, $orderColumn, $orderDir);
   }
 
   // crear cliente nuevo
