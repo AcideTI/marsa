@@ -365,11 +365,11 @@ class NotaPedidoController
     return $respuesta;
   }
 
-  /* Reporte excel de todas las Notas */
-  public static function ctrGetAllDowlReportsExeNotPe()
+  /* Reporte excel de todas las Notas - CON FILTRO DE AÑO */
+  public static function ctrGetAllDowlReportsExeNotPe($anio = null)
   {
     $table = "tb_notapedido";
-    $listAllDataExeNotPe = NotaPedidoModel::mdlGetAllDowlReportsExeNotPe($table);
+    $listAllDataExeNotPe = NotaPedidoModel::mdlGetAllDowlReportsExeNotPe($table, $anio);
 
     $newlistAllDataExeNotPe = [];
 
@@ -382,11 +382,11 @@ class NotaPedidoController
     return $newlistAllDataExeNotPe;
   }
 
-  //  Obtener la data para imprimir en el excel general de las notas
-  public static function ctrDownloadExcelNotas()
+  //  Obtener la data para imprimir en el excel general de las notas - CON FILTRO DE AÑO
+  public static function ctrDownloadExcelNotas($anio = null)
   {
     $table = "tb_notapedido";
-    $listNotasGeneral = NotaPedidoModel::mdlDownloadExcelNotas($table);
+    $listNotasGeneral = NotaPedidoModel::mdlDownloadExcelNotas($table, $anio);
     return $listNotasGeneral;
   }
 

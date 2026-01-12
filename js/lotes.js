@@ -13,14 +13,68 @@ $(".closeVisualizarLote").on("click", function () {
   window.location = "verSalidas";
 });
 
-//  Descargar todos los lotes para el reporte exel de lotes
+//  Descargar todos los lotes para el reporte excel de lotes - CON FILTRO DE AÑO
 $("#reporteExeLotes").on("click", function () {
-  window.location = "view/modules/Excel-Lotes.php?&reporteExeLotes";
+  var currentYear = new Date().getFullYear();
+  var yearOptions = {};
+  for (var y = currentYear; y >= 2020; y--) {
+    yearOptions[y] = y.toString();
+  }
+  yearOptions['todos'] = 'Todos los años (puede tardar mucho)';
+
+  Swal.fire({
+    title: 'Seleccione el Año',
+    text: 'El reporte Excel Detallado de Facturas incluye todos los productos. Seleccione un año para optimizar la consulta:',
+    icon: 'question',
+    input: 'select',
+    inputOptions: yearOptions,
+    inputValue: currentYear,
+    showCancelButton: true,
+    confirmButtonText: '<i class="fa-solid fa-file-excel"></i> Descargar Excel',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#198754',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var selectedYear = result.value;
+      if (selectedYear === 'todos') {
+        window.location = "view/modules/Excel-Lotes.php?reporteExeLotes";
+      } else {
+        window.location = "view/modules/Excel-Lotes.php?reporteExeLotes&anio=" + selectedYear;
+      }
+    }
+  });
 });
 
-//  Descargar todos los lotes para el reporte exel de lotes
+//  Descargar reporte general de facturas - CON FILTRO DE AÑO
 $("#reporteGeneralFacturas").on("click", function () {
-  window.location = "view/modules/Excel-Lotes.php?&reporteGeneralFacturas";
+  var currentYear = new Date().getFullYear();
+  var yearOptions = {};
+  for (var y = currentYear; y >= 2020; y--) {
+    yearOptions[y] = y.toString();
+  }
+  yearOptions['todos'] = 'Todos los años (puede tardar mucho)';
+
+  Swal.fire({
+    title: 'Seleccione el Año',
+    text: 'Seleccione el año para generar el reporte Excel General de Facturas:',
+    icon: 'question',
+    input: 'select',
+    inputOptions: yearOptions,
+    inputValue: currentYear,
+    showCancelButton: true,
+    confirmButtonText: '<i class="fa-solid fa-file-excel"></i> Descargar Excel',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#198754',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var selectedYear = result.value;
+      if (selectedYear === 'todos') {
+        window.location = "view/modules/Excel-Lotes.php?reporteGeneralFacturas";
+      } else {
+        window.location = "view/modules/Excel-Lotes.php?reporteGeneralFacturas&anio=" + selectedYear;
+      }
+    }
+  });
 });
 
 $(".btnVisualizarSalida").on("click", function () {
@@ -29,7 +83,7 @@ $(".btnVisualizarSalida").on("click", function () {
 });
 
 var tableProductsLote = $('.dataTableProductosLote').DataTable();
-$('body').on('change', '.categoriaModal', function() {
+$('body').on('change', '.categoriaModal', function () {
   var selectedValue = $(this).val();
   tableProductsLote.column(2).search(selectedValue).draw();
 });
@@ -145,9 +199,9 @@ $(".dataTableProductosLote").on("click", ".btnAddProductLote", function () {
       confirmButtonText: "¡Cerrar!",
     });
   } else {*/
- /*  $(this).removeClass("btn-primary btnAddProductLote");
-  $(this).addClass("btn-default");
- */
+  /*  $(this).removeClass("btn-primary btnAddProductLote");
+   $(this).addClass("btn-default");
+  */
   var datos = new FormData();
   datos.append("codProductAdd", codProductAdd);
   $.ajax({
@@ -167,30 +221,30 @@ $(".dataTableProductosLote").on("click", ".btnAddProductLote", function () {
 
       $(".newProductAddLote").append(
         '<div class="row" style="padding:5px 15px">' +
-          "<!-- Description -->" +
-          '<div class="col-lg-5" style="padding-right:0px">' +
-          '<div class="input-group">' +
-          '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoLote" codProduct="' +
-          IdProduct +
-          '"><i class="fa fa-times"></i></button></span>' +
-          '<input type="text" class="form-control newProduct" codProduct="' +
-          IdProduct +
-          '" value="' +
-          DescriptionProduct +
-          '" readonly>' +
-          "</div>" +
-          "</div>" +
-          "<!-- Unity -->" +
-          '<div class="col-lg-3 UnityProduct">' +
-          '<input type="text" class="form-control newUnity" name="newUnity" value="' +
-          UnityProduct +
-          '" readonly>' +
-          "</div>" +
-          "<!-- Count -->" +
-          '<div class="col-lg-3 countMaterial">' +
-          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="1.00" >' +
-          "</div>" +
-          "</div>"
+        "<!-- Description -->" +
+        '<div class="col-lg-5" style="padding-right:0px">' +
+        '<div class="input-group">' +
+        '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteNuevoLote" codProduct="' +
+        IdProduct +
+        '"><i class="fa fa-times"></i></button></span>' +
+        '<input type="text" class="form-control newProduct" codProduct="' +
+        IdProduct +
+        '" value="' +
+        DescriptionProduct +
+        '" readonly>' +
+        "</div>" +
+        "</div>" +
+        "<!-- Unity -->" +
+        '<div class="col-lg-3 UnityProduct">' +
+        '<input type="text" class="form-control newUnity" name="newUnity" value="' +
+        UnityProduct +
+        '" readonly>' +
+        "</div>" +
+        "<!-- Count -->" +
+        '<div class="col-lg-3 countMaterial">' +
+        '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="1.00" >' +
+        "</div>" +
+        "</div>"
       );
       listProductAddLotes();
     },
@@ -413,20 +467,20 @@ $(document).ready(function () {
     for (var i = 0; i < products.length; i++) {
       $("#tablaProductosLote tbody").append(
         "<tr>" +
-          "<td>" +
-          (i + 1) +
-          "</td>" +
-          "<td>" +
-          products[i].NombreProducto +
-          "</td>" +
-          /* '<td>' + products[i].codProduct + '</td>' + */
-          /* '<td>' + products[i].priceProduct + '</td>' + */
-          "<td>" +
-          products[i].countProduct +
-          "</td>" +
-          /* '<td>' + products[i].newSum + '</td>' + */
+        "<td>" +
+        (i + 1) +
+        "</td>" +
+        "<td>" +
+        products[i].NombreProducto +
+        "</td>" +
+        /* '<td>' + products[i].codProduct + '</td>' + */
+        /* '<td>' + products[i].priceProduct + '</td>' + */
+        "<td>" +
+        products[i].countProduct +
+        "</td>" +
+        /* '<td>' + products[i].newSum + '</td>' + */
 
-          "</tr>"
+        "</tr>"
       );
     }
 

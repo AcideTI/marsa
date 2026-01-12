@@ -17,51 +17,90 @@
       <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">Todos los Registros</li>
       </ol>
-      <div class="d-flex m-2 buttonsSalidas">
+      <!-- ============================================ -->
+      <!-- SELECTOR DE TIPO DE REGISTROS (Tabs Style) -->
+      <!-- ============================================ -->
+      <div class="card mb-3">
+        <div class="card-body p-2">
+          <div class="row">
+            <!-- Sección: NOTAS DE PEDIDO -->
+            <div class="col-md-6">
+              <div class="card border-primary h-100" id="cardNotas" style="border-width: 2px;">
+                <div class="card-header bg-primary text-white py-2">
+                  <i class="fa-solid fa-clipboard-list me-2"></i>
+                  <strong>Notas de Pedido</strong>
+                </div>
+                <div class="card-body py-2">
+                  <p class="card-text small text-muted mb-2">
+                    <i class="fa-solid fa-info-circle me-1"></i>
+                    Pedidos de clientes antes de generar factura
+                  </p>
+                  <div class="d-flex flex-wrap gap-2 buttonsSalidas">
+                    <button type="button" class="btn btn-primary btn-sm btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida">
+                      <i class="fa-solid fa-eye me-1"></i>
+                      Ver Notas de Pedido
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm" id="reporteGeneralNotas" title="Descargar todas las notas en Excel">
+                      <i class="fa-solid fa-file-excel me-1"></i>
+                      Excel General
+                    </button>
+                    <button type="button" class="btn btn-outline-success btn-sm" id="reporteExeNotaPe" title="Descargar notas con detalle de productos">
+                      <i class="fa-solid fa-file-arrow-down me-1"></i>
+                      Excel Detallado
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="reporteExeNotaPeFech" title="Descargar notas por rango de fechas">
+                      <i class="fa-solid fa-calendar-days me-1"></i>
+                      Por Fechas
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        <button type="button" class="btn btn-secondary btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida"><i
-            class="fa-solid fa-clipboard-check"></i>
-          Registros Notas Pedido
-        </button>
-        <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-info btnAllLotes" id="btnAllLotes" filtro="lotes"><i
-            class="fa-solid fa-clipboard-check"></i>
-          Registros Facturas
-        </button>
-        <span style="margin: 0 10px;"></span>
-
-        <button type="button" class="btn btn-success" id="reporteGeneralNotas"><i
-            class="fa-solid fa-file-arrow-down"></i>
-          Reporte General Notas
-        </button>
-        <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i
-            class="fa-solid fa-file-arrow-down "></i>
-          Reporte Notas
-        </button>
-        <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-secondary" id="reporteExeNotaPeFech"><i
-            class="fa-solid fa-calendar-days"></i>
-          Reporte Notas Por Fechas
-        </button>
-
-        <button type="button" class="btn btn-success" id="reporteGeneralFacturas"><i
-            class="fa-solid fa-file-arrow-down"></i>
-          Reporte General Facturas
-        </button>
-        <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i
-            class="fa-solid fa-file-arrow-down "></i>
-          Reporte Facturas
-        </button>
-        <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i
-            class="fa-solid fa-calendar-days"></i>
-          Reporte Facturas Por Fechas
-        </button>
-
-        <span style="margin: 0 10px;"></span>
+            <!-- Sección: FACTURAS/LOTES -->
+            <div class="col-md-6">
+              <div class="card border-info h-100" id="cardFacturas" style="border-width: 2px; opacity: 0.7;">
+                <div class="card-header bg-info text-white py-2">
+                  <i class="fa-solid fa-file-invoice-dollar me-2"></i>
+                  <strong>Facturas / Lotes</strong>
+                </div>
+                <div class="card-body py-2">
+                  <p class="card-text small text-muted mb-2">
+                    <i class="fa-solid fa-info-circle me-1"></i>
+                    Salidas facturadas y lotes de productos
+                  </p>
+                  <div class="d-flex flex-wrap gap-2 buttonsSalidas">
+                    <button type="button" class="btn btn-info btn-sm btnAllLotes" id="btnAllLotes" filtro="lotes">
+                      <i class="fa-solid fa-eye me-1"></i>
+                      Ver Facturas
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm" id="reporteGeneralFacturas" title="Descargar todas las facturas en Excel">
+                      <i class="fa-solid fa-file-excel me-1"></i>
+                      Excel General
+                    </button>
+                    <button type="button" class="btn btn-outline-success btn-sm" id="reporteExeLotes" title="Descargar facturas con detalle de productos">
+                      <i class="fa-solid fa-file-arrow-down me-1"></i>
+                      Excel Detallado
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="reporteExeLotesFech" title="Descargar facturas por rango de fechas">
+                      <i class="fa-solid fa-calendar-days me-1"></i>
+                      Por Fechas
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- Indicador de datos actuales -->
+      <div class="alert alert-light border mb-3 py-2" role="alert">
+        <i class="fa-solid fa-database me-2"></i>
+        <strong>Mostrando:</strong> <span class="tituloSalidas badge bg-primary">Notas de Pedido</span>
+        <small class="text-muted ms-2">Haga clic en "Ver Notas de Pedido" o "Ver Facturas" para cambiar la vista</small>
+      </div>
+
 
       <div class="card mb-4">
         <div class="card-header">

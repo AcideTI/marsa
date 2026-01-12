@@ -27,11 +27,12 @@ require_once "../../vendor/autoload.php";
 -------------------------*/
 
 
-/*  Descargar todos las Notas para el reporte exel de Notas pedido */
+/*  Descargar todos las Notas para el reporte exel de Notas pedido - CON FILTRO DE AÑO */
 
 if (isset($_GET["reporteExeNotaPe"])) {
-  $reporteExeNotaPe =  new ControllerReportesExcel();
-  $reporteExeNotaPe->ctrDowlReportsExeNotPe();
+  $anio = isset($_GET["anio"]) ? $_GET["anio"] : null;
+  $reporteExeNotaPe = new ControllerReportesExcel();
+  $reporteExeNotaPe->ctrDowlReportsExeNotPe($anio);
 }
 
 /* fin */
@@ -41,11 +42,13 @@ if (isset($_GET["reporteExeNotaPe"])) {
 if (isset($_GET["reporteExeNotaPeFech"])) {
   $fechaInicioNot = $_GET["fechaInicioNot"];
   $fechaFinNot = $_GET["fechaFinNot"];
-  $reporteExeNotaPeFech =  new ControllerReportesExcel();
+  $reporteExeNotaPeFech = new ControllerReportesExcel();
   $reporteExeNotaPeFech->ctrDowlReportsExeNotPeFech($fechaInicioNot, $fechaFinNot);
 }
 
+/* Reporte General Notas - CON FILTRO DE AÑO */
 if (isset($_GET["reporteGeneralNotas"])) {
-  $reporteGeneralExcel =  new ControllerReportesExcel();
-  $reporteGeneralExcel->ctrDownloadExcelNotasGeneral();
+  $anio = isset($_GET["anio"]) ? $_GET["anio"] : null;
+  $reporteGeneralExcel = new ControllerReportesExcel();
+  $reporteGeneralExcel->ctrDownloadExcelNotasGeneral($anio);
 }

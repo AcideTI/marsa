@@ -285,12 +285,12 @@ class LotesController
   /* fin */
 
 
-  /*  Descargar todos los Lotes para el reporte exel de Lotes */
+  /*  Descargar todos los Lotes para el reporte excel de Lotes - CON FILTRO DE AÑO */
 
-  public static function ctrGetAllDowlReportsExeLote()
+  public static function ctrGetAllDowlReportsExeLote($anio = null)
   {
     $table = "tb_lote";
-    $listAllDataExeLote = LotesModel::mdlGetAllDowlReportsExeLote($table);
+    $listAllDataExeLote = LotesModel::mdlGetAllDowlReportsExeLote($table, $anio);
 
     $newlistAllDataExeLote = [];
 
@@ -303,11 +303,11 @@ class LotesController
     return $newlistAllDataExeLote;
   }
 
-  //  Descargar las facturas en excel de manera general
-  public static function ctrDownloadExcelFacturas()
+  //  Descargar las facturas en excel de manera general - CON FILTRO DE AÑO
+  public static function ctrDownloadExcelFacturas($anio = null)
   {
     $table = "tb_lote";
-    $listFacturasGeneral = LotesModel::mdlDownloadExcelFacturas($table);
+    $listFacturasGeneral = LotesModel::mdlDownloadExcelFacturas($table, $anio);
     return $listFacturasGeneral;
   }
 

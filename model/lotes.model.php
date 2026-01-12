@@ -235,9 +235,14 @@ class LotesModel
   }
   /* fin */
 
-  /*  Descargar todos los Lotes para el reporte exel de Lotes */
-  public static function mdlGetAllDowlReportsExeLote($table)
+  /*  Descargar todos los Lotes para el reporte excel de Lotes - CON FILTRO DE AÑO */
+  public static function mdlGetAllDowlReportsExeLote($table, $anio = null)
   {
+    $whereClause = "";
+    if ($anio !== null && $anio !== 'todos') {
+      $whereClause = "WHERE YEAR(tb_lote.FechaProduccionLote) = :anio";
+    }
+
     $statement = Conexion::conn()->prepare("
         SELECT
           tb_lote.IdLote, 
@@ -271,7 +276,14 @@ class LotesModel
           INNER JOIN
           tb_personal
           ON 
-            tb_lote.IdPer = tb_personal.IdPer ");
+            tb_lote.IdPer = tb_personal.IdPer
+        $whereClause
+        ORDER BY tb_lote.IdLote DESC");
+
+    if ($anio !== null && $anio !== 'todos') {
+      $statement->bindParam(":anio", $anio, PDO::PARAM_INT);
+    }
+
     $statement->execute();
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -307,9 +319,14 @@ class LotesModel
     return $results;
   }
 
-  //  Obtener los datos para descargar reporte general de las facturas en excel
-  public static function mdlDownloadExcelFacturas($table)
+  //  Obtener los datos para descargar reporte general de las facturas en excel - CON FILTRO DE AÑO
+  public static function mdlDownloadExcelFacturas($table, $anio = null)
   {
+    $whereClause = "";
+    if ($anio !== null && $anio !== 'todos') {
+      $whereClause = "WHERE YEAR(tb_lote.FechaProduccionLote) = :anio";
+    }
+
     $statement = Conexion::conn()->prepare("
         SELECT
           tb_lote.IdLote, 
@@ -343,7 +360,14 @@ class LotesModel
           INNER JOIN
           tb_personal
           ON 
-            tb_lote.IdPer = tb_personal.IdPer ");
+            tb_lote.IdPer = tb_personal.IdPer
+        $whereClause
+        ORDER BY tb_lote.IdLote DESC");
+
+    if ($anio !== null && $anio !== 'todos') {
+      $statement->bindParam(":anio", $anio, PDO::PARAM_INT);
+    }
+
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

@@ -27,29 +27,30 @@ require_once "../../vendor/autoload.php";
 -------------------------*/
 
 
-/*  Descargar todos los Lotes para el reporte exel de Lotes */
+/*  Descargar todos los Lotes para el reporte excel de Lotes - CON FILTRO DE AÑO */
 
-if(isset($_GET["reporteExeLotes"]))
-{
-  $reporteExeLotes =  new ControllerReportesExcel();
-  $reporteExeLotes -> ctrDowlReportsExeLote();
+if (isset($_GET["reporteExeLotes"])) {
+  $anio = isset($_GET["anio"]) ? $_GET["anio"] : null;
+  $reporteExeLotes = new ControllerReportesExcel();
+  $reporteExeLotes->ctrDowlReportsExeLote($anio);
 }
 
 /* fin */
 
 /* Reporte excel Lotes por fechas  */
 
-if(isset($_GET["reporteExeLotesFech"])) {
+if (isset($_GET["reporteExeLotesFech"])) {
   $fechaInicioLt = $_GET["fechaInicioLt"];
   $fechaFinLt = $_GET["fechaFinLt"];
-  $reporteExeLotesFech =  new ControllerReportesExcel();
-  $reporteExeLotesFech -> ctrDowlReportsExeLoteFech($fechaInicioLt, $fechaFinLt);
+  $reporteExeLotesFech = new ControllerReportesExcel();
+  $reporteExeLotesFech->ctrDowlReportsExeLoteFech($fechaInicioLt, $fechaFinLt);
 }
 
-if(isset($_GET["reporteGeneralFacturas"]))
-{
-  $reporteGeneralFacturas =  new ControllerReportesExcel();
-  $reporteGeneralFacturas -> ctrDownloadGeneralFacturas();
+/* Reporte General Facturas - CON FILTRO DE AÑO */
+if (isset($_GET["reporteGeneralFacturas"])) {
+  $anio = isset($_GET["anio"]) ? $_GET["anio"] : null;
+  $reporteGeneralFacturas = new ControllerReportesExcel();
+  $reporteGeneralFacturas->ctrDownloadGeneralFacturas($anio);
 }
 
 

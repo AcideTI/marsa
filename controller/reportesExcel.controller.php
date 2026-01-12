@@ -130,11 +130,11 @@ class ControllerReportesExcel
   }
   /* fin */
 
-  /*  Descargar todos las Notas para el reporte exel de Notas pedido */
-  public static function ctrDowlReportsExeNotPe()
+  /*  Descargar todos las Notas para el reporte excel de Notas pedido - CON FILTRO DE AÑO */
+  public static function ctrDowlReportsExeNotPe($anio = null)
   {
     if (isset($_GET["reporteExeNotaPe"])) {
-      $listAllDataExeNotPe = NotaPedidoController::ctrGetAllDowlReportsExeNotPe();
+      $listAllDataExeNotPe = NotaPedidoController::ctrGetAllDowlReportsExeNotPe($anio);
       //  cell Titles
       $titleArray = ['Nr Registro', 'VENDEDOR', 'ESTADO', 'FECHA NOTA', 'CLIENTE', 'RUC', 'DIRRECCION', 'PRODUCTO', 'CANTIDAD', 'TOTAL PRODUCTO', 'TOTAL NOTA PEDIDO', 'RESPONSABLE'];
       $dataArray = [];
@@ -221,11 +221,11 @@ class ControllerReportesExcel
   }
   /* fin */
 
-  /*  Descargar todos los Lotes para el reporte exel de Lotes */
-  public static function ctrDowlReportsExeLote()
+  /*  Descargar todos los Lotes para el reporte excel de Lotes - CON FILTRO DE AÑO */
+  public static function ctrDowlReportsExeLote($anio = null)
   {
     if (isset($_GET["reporteExeLotes"])) {
-      $listAllDataExeLote = LotesController::ctrGetAllDowlReportsExeLote();
+      $listAllDataExeLote = LotesController::ctrGetAllDowlReportsExeLote($anio);
 
       //  cell Titles
       $titleArray = ['Nr REGISTRO', 'RESPONSABLE', 'ESTADO', 'DESCRIPCION', 'CODIGO', 'FECHA LOTE', 'TIPO SALIDA', 'N° FACTURA', 'CLIENTE', 'RUC', 'PRODUCTO', 'CANTIDAD', 'TOTAL'];
@@ -315,13 +315,13 @@ class ControllerReportesExcel
   }
   /* fin */
 
-  // Descargar reporte general de Notas
-  public static function ctrDownloadExcelNotasGeneral()
+  // Descargar reporte general de Notas - CON FILTRO DE AÑO
+  public static function ctrDownloadExcelNotasGeneral($anio = null)
   {
     if (isset($_GET["reporteGeneralNotas"])) {
-      $listNotasGeneral = NotaPedidoController::ctrDownloadExcelNotas();
+      $listNotasGeneral = NotaPedidoController::ctrDownloadExcelNotas($anio);
       //  cell Titles
-      $titleArray = ['Nr Registro', 'VENDEDOR', 'ESTADO', 'TOTAL NOTA PEDIDO', 'FECHA NOTA', 'RESPONSABLE','CLIENTE', 'RUC'];
+      $titleArray = ['Nr Registro', 'VENDEDOR', 'ESTADO', 'TOTAL NOTA PEDIDO', 'FECHA NOTA', 'RESPONSABLE', 'CLIENTE', 'RUC'];
       $dataArray = [];
       $spreadsheet = new Spreadsheet();
       $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -357,11 +357,11 @@ class ControllerReportesExcel
     }
   }
 
-  //  Reporte general para excel para las salidas por facturas o lotes
-  public static function ctrDownloadGeneralFacturas()
+  //  Reporte general para excel para las salidas por facturas o lotes - CON FILTRO DE AÑO
+  public static function ctrDownloadGeneralFacturas($anio = null)
   {
     if (isset($_GET["reporteGeneralFacturas"])) {
-      $listAllDataExeLote = LotesController::ctrDownloadExcelFacturas();
+      $listAllDataExeLote = LotesController::ctrDownloadExcelFacturas($anio);
 
       //  cell Titles
       $titleArray = ['Nr REGISTRO', 'RESPONSABLE', 'ESTADO', 'DESCRIPCION', 'CODIGO', 'FECHA LOTE', 'TIPO SALIDA', 'N° FACTURA', 'CLIENTE', 'RUC', 'TOTAL'];

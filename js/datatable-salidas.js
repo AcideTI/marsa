@@ -25,18 +25,34 @@ var languageConfig = {
 // ============================================
 // INICIALIZACIÓN CON SERVER-SIDE PROCESSING
 // ============================================
-$(document).ready(function() {
+$(document).ready(function () {
   // Inicializar tabla con Notas de Pedido por defecto (server-side)
   initNotasPedidoTable();
-  
-  // Mostrar botones de reportes de notas por defecto
-  $("#reporteGeneralNotas").show();
-  $("#reporteExeNotaPe").show();
-  $("#reporteExeNotaPeFech").show();
-  $("#reporteGeneralFacturas").hide();
-  $("#reporteExeLotes").hide();
-  $("#reporteExeLotesFech").hide();
+
+  // Activar card de Notas por defecto
+  activarCardNotas();
 });
+
+// ============================================
+// FUNCIONES PARA CAMBIAR ESTADO VISUAL DE CARDS
+// ============================================
+function activarCardNotas() {
+  // Activar card de Notas
+  $("#cardNotas").css("opacity", "1").addClass("shadow");
+  $("#cardFacturas").css("opacity", "0.6").removeClass("shadow");
+
+  // Actualizar badge indicador
+  $(".tituloSalidas").text("Notas de Pedido").removeClass("bg-info").addClass("bg-primary");
+}
+
+function activarCardFacturas() {
+  // Activar card de Facturas
+  $("#cardFacturas").css("opacity", "1").addClass("shadow");
+  $("#cardNotas").css("opacity", "0.6").removeClass("shadow");
+
+  // Actualizar badge indicador
+  $(".tituloSalidas").text("Facturas / Lotes").removeClass("bg-primary").addClass("bg-info");
+}
 
 // ============================================
 // FUNCIÓN: Inicializar tabla de Notas de Pedido
@@ -72,17 +88,17 @@ function initNotasPedidoTable() {
     ajax: {
       url: "ajax/notaPedido.ajax.php",
       type: "POST",
-      data: function(d) {
+      data: function (d) {
         d.serverSideNotas = true;
       },
-      error: function(xhr, error, thrown) {
+      error: function (xhr, error, thrown) {
         console.error("Error en la solicitud AJAX:", error, thrown);
       }
     },
     columns: [
-      { 
+      {
         data: "IdNotaP",
-        render: function(data, type, row, meta) {
+        render: function (data, type, row, meta) {
           return meta.row + meta.settings._iDisplayStart + 1;
         }
       },
@@ -145,7 +161,7 @@ function initLotesTable() {
   // Cargar datos via AJAX tradicional (se optimizará en siguiente fase)
   var data = new FormData();
   data.append("codFiltroLotes", "lotes");
-  
+
   $.ajax({
     url: "ajax/lotes.ajax.php",
     method: "POST",
@@ -154,10 +170,10 @@ function initLotesTable() {
     contentType: false,
     processData: false,
     dataType: "json",
-    success: function(response) {
+    success: function (response) {
       table.clear();
       // Mapear datos para las columnas correctas
-      var mappedData = response.map(function(item, index) {
+      var mappedData = response.map(function (item, index) {
         return [
           index + 1,
           item.FullNamePersonal || '',
@@ -172,7 +188,7 @@ function initLotesTable() {
       table.rows.add(mappedData);
       table.draw();
     },
-    error: function(jqXHR, textStatus, errorThrown) {
+    error: function (jqXHR, textStatus, errorThrown) {
       console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
     }
   });
@@ -182,34 +198,20 @@ function initLotesTable() {
 // EVENTOS DE BOTONES DE FILTRO
 // ============================================
 
-// Botón "Registros Notas Pedido"
-$(".buttonsSalidas").on("click", ".btnAllNotasSalida", function() {
-  $(".tituloSalidas").text("Notas de Pedido");
-  
+// Botón "Ver Notas de Pedido"
+$(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
+  // Cambiar estado visual de las cards
+  activarCardNotas();
+
   // Inicializar tabla con server-side
   initNotasPedidoTable();
-  
-  // Mostrar/ocultar botones de reportes
-  $("#reporteGeneralNotas").show();
-  $("#reporteExeNotaPe").show();
-  $("#reporteExeNotaPeFech").show();
-  $("#reporteGeneralFacturas").hide();
-  $("#reporteExeLotes").hide();
-  $("#reporteExeLotesFech").hide();
 });
 
-// Botón "Registros Facturas"
-$(".buttonsSalidas").on("click", ".btnAllLotes", function() {
-  $(".tituloSalidas").text("Facturas");
-  
+// Botón "Ver Facturas"
+$(".buttonsSalidas").on("click", ".btnAllLotes", function () {
+  // Cambiar estado visual de las cards
+  activarCardFacturas();
+
   // Inicializar tabla de lotes
   initLotesTable();
-  
-  // Mostrar/ocultar botones de reportes
-  $("#reporteGeneralNotas").hide();
-  $("#reporteExeNotaPe").hide();
-  $("#reporteExeNotaPeFech").hide();
-  $("#reporteGeneralFacturas").show();
-  $("#reporteExeLotes").show();
-  $("#reporteExeLotesFech").show();
 });

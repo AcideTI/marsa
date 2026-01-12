@@ -19,7 +19,7 @@ $(".btnVisualizarNota").on("click", function () {
 });
 
 var tableProductsNota = $('.dataTableProductosNota').DataTable();
-$('body').on('change', '.categoriaModal', function() {
+$('body').on('change', '.categoriaModal', function () {
   var selectedValue = $(this).val();
   tableProductsNota.column(2).search(selectedValue).draw();
 });
@@ -31,14 +31,69 @@ $('body').on('change', '.categoriaModal', function() {
 //   window.location = "index.php?ruta=notaPedido";
 // });
 
-//  Descargar todas las notas para el reporte exel de notas pedido
+//  Descargar todas las notas para el reporte excel de notas pedido - CON FILTRO DE AÑO
 $("#reporteExeNotaPe").on("click", function () {
-  window.location = "view/modules/Excel-Nota-Pedido.php?&reporteExeNotaPe";
+  // Generar opciones de años (desde 2020 hasta el año actual)
+  var currentYear = new Date().getFullYear();
+  var yearOptions = {};
+  for (var y = currentYear; y >= 2020; y--) {
+    yearOptions[y] = y.toString();
+  }
+  yearOptions['todos'] = 'Todos los años (puede tardar mucho)';
+
+  Swal.fire({
+    title: 'Seleccione el Año',
+    text: 'El reporte Excel Detallado de Notas incluye todos los productos. Seleccione un año para optimizar la consulta:',
+    icon: 'question',
+    input: 'select',
+    inputOptions: yearOptions,
+    inputValue: currentYear,
+    showCancelButton: true,
+    confirmButtonText: '<i class="fa-solid fa-file-excel"></i> Descargar Excel',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#198754',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var selectedYear = result.value;
+      if (selectedYear === 'todos') {
+        window.location = "view/modules/Excel-Nota-Pedido.php?reporteExeNotaPe";
+      } else {
+        window.location = "view/modules/Excel-Nota-Pedido.php?reporteExeNotaPe&anio=" + selectedYear;
+      }
+    }
+  });
 });
 
-//  Descargar todas las notas para el reporte exel de notas pedido
+//  Descargar reporte general de notas - CON FILTRO DE AÑO
 $("#reporteGeneralNotas").on("click", function () {
-  window.location = "view/modules/Excel-Nota-Pedido.php?&reporteGeneralNotas";
+  var currentYear = new Date().getFullYear();
+  var yearOptions = {};
+  for (var y = currentYear; y >= 2020; y--) {
+    yearOptions[y] = y.toString();
+  }
+  yearOptions['todos'] = 'Todos los años (puede tardar mucho)';
+
+  Swal.fire({
+    title: 'Seleccione el Año',
+    text: 'Seleccione el año para generar el reporte Excel General de Notas:',
+    icon: 'question',
+    input: 'select',
+    inputOptions: yearOptions,
+    inputValue: currentYear,
+    showCancelButton: true,
+    confirmButtonText: '<i class="fa-solid fa-file-excel"></i> Descargar Excel',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#198754',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var selectedYear = result.value;
+      if (selectedYear === 'todos') {
+        window.location = "view/modules/Excel-Nota-Pedido.php?reporteGeneralNotas";
+      } else {
+        window.location = "view/modules/Excel-Nota-Pedido.php?reporteGeneralNotas&anio=" + selectedYear;
+      }
+    }
+  });
 });
 
 //  Descargar reporte exel de notas por fechas
@@ -144,37 +199,37 @@ $(".dataTableProductosNota").on("click", ".btnAddProduct", function () {
 
       $(".newProductAddNotaP").append(
         '<div class="row" style="padding:5px 15px">' +
-          "<!-- Description -->" +
-          '<div class="col-lg-5" style="padding-right:0px">' +
-          '<div class="input-group">' +
-          '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteProductNota" codProduct="' +
-          IdProduct +
-          '"><i class="fa fa-times"></i></button></span>' +
-          "<!-- Idproducto -->" +
-          '<input type="text" class="form-control newProduct" codProduct="' +
-          IdProduct +
-          '" value="' +
-          DescriptionProduct +
-          '" readonly>' +
-          "</div>" +
-          "</div>" +
-          "<!-- precio producto -->" +
-          '<div class="col-lg-2 PriceProNotaP">' +
-          '<input type="text" class="form-control newPrice" name="newPrice" value="' +
-          PriceProNotaP +
-          '" >' +
-          "</div>" +
-          "<!-- cantidad producto -->" +
-          '<div class="col-lg-2 countMaterial">' +
-          '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="1.00" >' +
-          "</div>" +
-          "<!-- suma de cantidad y precio -->" +
-          '<div class="col-lg-2 sumMaterial">' +
-          '<div style="font-size:24px; display: flex; align-items: center;"><span style="margin-right: 2px;">S/</span><input type="text" class="form-control newSum" name="newSum" value="' +
-          PriceProNotaP +
-          '" readonly>' +
-          "</div>" +
-          "</div>"
+        "<!-- Description -->" +
+        '<div class="col-lg-5" style="padding-right:0px">' +
+        '<div class="input-group">' +
+        '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs deleteProductNota" codProduct="' +
+        IdProduct +
+        '"><i class="fa fa-times"></i></button></span>' +
+        "<!-- Idproducto -->" +
+        '<input type="text" class="form-control newProduct" codProduct="' +
+        IdProduct +
+        '" value="' +
+        DescriptionProduct +
+        '" readonly>' +
+        "</div>" +
+        "</div>" +
+        "<!-- precio producto -->" +
+        '<div class="col-lg-2 PriceProNotaP">' +
+        '<input type="text" class="form-control newPrice" name="newPrice" value="' +
+        PriceProNotaP +
+        '" >' +
+        "</div>" +
+        "<!-- cantidad producto -->" +
+        '<div class="col-lg-2 countMaterial">' +
+        '<input type="number" min="1.00" step="1.00" class="form-control newCount" name="newCount" value="1.00" >' +
+        "</div>" +
+        "<!-- suma de cantidad y precio -->" +
+        '<div class="col-lg-2 sumMaterial">' +
+        '<div style="font-size:24px; display: flex; align-items: center;"><span style="margin-right: 2px;">S/</span><input type="text" class="form-control newSum" name="newSum" value="' +
+        PriceProNotaP +
+        '" readonly>' +
+        "</div>" +
+        "</div>"
       );
       listProductAddNota();
     },
@@ -251,19 +306,19 @@ $(".dataTableSalidas").on("click", ".btnMostarProductos", function () {
   for (var i = 0; i < products.length; i++) {
     $("#tablaProductosNotaPedido tbody").append(
       "<tr>" +
-        "<td>" +
-        (i + 1) +
-        "</td>" +
-        "<td>" +
-        products[i].NombreProducto +
-        "</td>" +
-        /* '<td>' + products[i].codProduct + '</td>' + */
-        /* '<td>' + products[i].priceProduct + '</td>' + */
-        "<td>" +
-        products[i].countProduct +
-        "</td>" +
-        /* '<td>' + products[i].newSum + '</td>' + */
-        "</tr>"
+      "<td>" +
+      (i + 1) +
+      "</td>" +
+      "<td>" +
+      products[i].NombreProducto +
+      "</td>" +
+      /* '<td>' + products[i].codProduct + '</td>' + */
+      /* '<td>' + products[i].priceProduct + '</td>' + */
+      "<td>" +
+      products[i].countProduct +
+      "</td>" +
+      /* '<td>' + products[i].newSum + '</td>' + */
+      "</tr>"
     );
   }
   // Muestra el modal 
@@ -280,8 +335,8 @@ function calculateTotals() {
 
   $(".newProductAddNotaP .row").each(function () {
     /* aqui actualiza el subtotal */ var price = Number(
-      $(this).find(".newPrice").val()
-    );
+    $(this).find(".newPrice").val()
+  );
     var quantity = Number($(this).find(".newCount").val());
     total += price * quantity;
   });

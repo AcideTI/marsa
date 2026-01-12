@@ -487,10 +487,15 @@ class NotaPedidoModel
     return $stmt->fetch();
   }
 
-  /* Devolver todas las Notas pedido para el reporte exel - OPTIMIZADO */
-  public static function mdlGetAllDowlReportsExeNotPe($table)
+  /* Devolver todas las Notas pedido para el reporte excel - OPTIMIZADO CON FILTRO DE AÑO */
+  public static function mdlGetAllDowlReportsExeNotPe($table, $anio = null)
   {
-    // PASO 1: Obtener todas las notas de pedido
+    // PASO 1: Obtener todas las notas de pedido (con filtro de año opcional)
+    $whereClause = "";
+    if ($anio !== null && $anio !== 'todos') {
+      $whereClause = "WHERE YEAR(np.FechaNotaPedido) = :anio";
+    }
+
     $statement = Conexion::conn()->prepare("SELECT 
         np.DatosProductosNotaPedidoJson, 
         np.IdPer, 
@@ -515,7 +520,12 @@ class NotaPedidoModel
     INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
     INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
     INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
+    $whereClause
     ORDER BY IdNotaP DESC");
+
+    if ($anio !== null && $anio !== 'todos') {
+      $statement->bindParam(":anio", $anio, PDO::PARAM_INT);
+    }
 
     $statement->execute();
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -581,9 +591,14 @@ class NotaPedidoModel
     return $results;
   }
 
-  //  Get list of notas de pedido en general 
-  public static function mdlDownloadExcelNotas($table)
+  //  Get list of notas de pedido en general - CON FILTRO DE AÑO
+  public static function mdlDownloadExcelNotas($table, $anio = null)
   {
+    $whereClause = "";
+    if ($anio !== null && $anio !== 'todos') {
+      $whereClause = "WHERE YEAR(np.FechaNotaPedido) = :anio";
+    }
+
     $statement = Conexion::conn()->prepare("SELECT np.DatosProductosNotaPedidoJson, np.IdPer, np.IdRes, np.IdNotaP, np.FechaNotaPedido, np.Total,
         CASE np.EstadoNota
             WHEN 1 THEN 'Retirado'
@@ -602,8 +617,14 @@ class NotaPedidoModel
     INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
     INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
     INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
+    $whereClause
     ORDER BY 
     IdNotaP DESC");
+
+    if ($anio !== null && $anio !== 'todos') {
+      $statement->bindParam(":anio", $anio, PDO::PARAM_INT);
+    }
+
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
