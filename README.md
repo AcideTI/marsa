@@ -10,7 +10,7 @@
 
 ## 📋 Descripción
 
-Sistema integral de gestión logística desarrollado exclusivamente para **Agro Industrias Marsa**. Esta plataforma permite la administración completa de operaciones internas, incluyendo control de inventarios, gestión de almacén, seguimiento de lotes, notas de pedido, ingresos, salidas y personal.
+Sistema integral de gestión logística desarrollado exclusivamente para **Agro Industrias Marsa**. Esta plataforma permite la administración completa de operaciones internas.
 
 El sistema ha sido diseñado específicamente para adaptarse a los procesos y necesidades operativas de Agro Industrias Marsa.
 
@@ -21,18 +21,6 @@ El sistema ha sido diseñado específicamente para adaptarse a los procesos y ne
 Este es un sistema propietario desarrollado exclusivamente para uso interno de Agro Industrias Marsa. Queda estrictamente prohibida la reproducción, distribución, modificación o uso no autorizado de este software sin el consentimiento expreso y por escrito de Agro Industrias Marsa.
 
 **Este NO es un proyecto de código abierto.**
-
-## ✨ Características Principales
-
-- 📦 **Gestión de Inventario**: Control completo de productos y stock
-- 🏭 **Control de Almacén**: Administración de entradas y salidas
-- 📝 **Notas de Pedido**: Generación y seguimiento de pedidos
-- 🔢 **Gestión de Lotes**: Trazabilidad de productos por lotes
-- 👥 **Administración de Personal**: Gestión de usuarios y permisos
-- 👤 **Gestión de Clientes**: Base de datos de clientes y contactos
-- 📊 **Reportes Excel**: Exportación de datos en formato Excel
-- 📄 **Generación de PDF**: Documentos y reportes en formato PDF
-- 🔍 **Códigos de Barras**: Generación e integración de códigos de barras
 
 ## 🛠️ Tecnologías Implementadas
 
@@ -64,23 +52,6 @@ El sistema implementa múltiples capas de seguridad:
 - ✅ **Control de sesiones**: Gestión segura de autenticación
 - ✅ **HTTPS Ready**: Compatible con comunicación encriptada SSL/TLS
 - ✅ **Control de acceso**: Sistema de permisos por roles
-
-## 📁 Estructura del Proyecto
-
-```
-marsa/
-├── ajax/              # Endpoints AJAX para comunicación asíncrona
-├── controller/        # Controladores (lógica de negocio)
-├── model/            # Modelos (acceso a datos)
-├── view/             # Vistas (interfaz de usuario)
-│   ├── modules/      # Módulos del sistema
-│   └── img/          # Recursos gráficos
-├── js/               # Scripts JavaScript
-├── css/              # Hojas de estilo
-├── library/          # Librerías externas (FPDF, etc.)
-├── vendor/           # Dependencias de Composer
-└── public/           # Recursos públicos
-```
 
 ## 👨‍💻 Módulos del Sistema
 

@@ -1,26 +1,56 @@
-// Definición inicial de las columnas
-var columnDefs = [
-  { data: "IdNotaP" },
-  { data: "NombrePerIdPer" },
-  { data: "NombreCliNota" },
-  { data: "NombrePerIdRes" },
-  { data: "StateNota" },
-  { data: "FechaNotaPedido" },
-  { data: "Productos" },
-  { data: "Buttons" },
-];
+// ============================================
+// DATATABLE SALIDAS - SERVER-SIDE PROCESSING
+// ============================================
 
-var table = $("#dataTableSalidas").DataTable({
-  columns: columnDefs,
+// Variable global para el DataTable
+var table = null;
+
+// Configuración de idioma en español
+var languageConfig = {
+  processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i> Cargando datos...',
+  lengthMenu: "Mostrar _MENU_ registros",
+  zeroRecords: "No se encontraron resultados",
+  info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+  infoEmpty: "Mostrando 0 a 0 de 0 registros",
+  infoFiltered: "(filtrado de _MAX_ registros totales)",
+  search: "Buscar:",
+  paginate: {
+    first: "Primero",
+    last: "Último",
+    next: "Siguiente",
+    previous: "Anterior"
+  }
+};
+
+// ============================================
+// INICIALIZACIÓN CON SERVER-SIDE PROCESSING
+// ============================================
+$(document).ready(function() {
+  // Inicializar tabla con Notas de Pedido por defecto (server-side)
+  initNotasPedidoTable();
+  
+  // Mostrar botones de reportes de notas por defecto
+  $("#reporteGeneralNotas").show();
+  $("#reporteExeNotaPe").show();
+  $("#reporteExeNotaPeFech").show();
+  $("#reporteGeneralFacturas").hide();
+  $("#reporteExeLotes").hide();
+  $("#reporteExeLotesFech").hide();
 });
 
-//  Actualizar la tabla de visualización con los productos Registrados
-$(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
-  var filtro = $(this).attr("filtro");
-  var data = new FormData();
-  $(".tituloSalidas").text("Notas de Pedido");
+// ============================================
+// FUNCIÓN: Inicializar tabla de Notas de Pedido
+// ============================================
+function initNotasPedidoTable() {
+  // Destruir tabla existente si existe
+  if (table !== null) {
+    table.destroy();
+    $("#dataTableSalidas").empty();
+  }
 
-  $("#dataTableSalidas thead").html(`
+  // Actualizar encabezado
+  $("#dataTableSalidas").html(`
+    <thead>
       <tr>
         <th>ID</th>
         <th>Responsable</th>
@@ -31,90 +61,91 @@ $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
         <th>Productos</th>
         <th>Acciones</th>
       </tr>
-    `);
+    </thead>
+    <tbody></tbody>
+  `);
 
-  table.destroy();
-
-  columnDefs = [
-    {
-      data: "IdNotaP",
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
-      },
-    },
-    { data: "NombrePerIdPer" },
-    { data: "NombreCliNota" },
-    { data: "NombrePerIdRes" },
-    { data: "StateNota" },
-    { data: "FechaNotaPedido" },
-    { data: "Productos" },
-    { data: "Buttons" },
-  ];
+  // Inicializar DataTable con SERVER-SIDE PROCESSING
   table = $("#dataTableSalidas").DataTable({
-    columns: columnDefs,
+    processing: true,
+    serverSide: true,
+    ajax: {
+      url: "ajax/notaPedido.ajax.php",
+      type: "POST",
+      data: function(d) {
+        d.serverSideNotas = true;
+      },
+      error: function(xhr, error, thrown) {
+        console.error("Error en la solicitud AJAX:", error, thrown);
+      }
+    },
+    columns: [
+      { 
+        data: "IdNotaP",
+        render: function(data, type, row, meta) {
+          return meta.row + meta.settings._iDisplayStart + 1;
+        }
+      },
+      { data: "NombrePerIdPer" },
+      { data: "NombreCliNota" },
+      { data: "NombrePerIdRes" },
+      { data: "StateNota" },
+      { data: "FechaNotaPedido" },
+      { data: "Productos" },
+      { data: "Buttons" }
+    ],
+    order: [[0, 'desc']],
+    pageLength: 25,
+    lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+    language: languageConfig,
+    // Permitir HTML en las columnas
+    columnDefs: [
+      { targets: [4, 6, 7], orderable: false } // Estado, Productos y Acciones no ordenables
+    ]
+  });
+}
+
+// ============================================
+// FUNCIÓN: Inicializar tabla de Lotes/Facturas
+// ============================================
+function initLotesTable() {
+  // Destruir tabla existente si existe
+  if (table !== null) {
+    table.destroy();
+    $("#dataTableSalidas").empty();
+  }
+
+  // Actualizar encabezado para Lotes
+  $("#dataTableSalidas").html(`
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Responsable</th>
+        <th>Nombre del Cliente</th>
+        <th>Tipo Salida</th>
+        <th>Nr Factura</th>
+        <th>Fecha de Salida</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `);
+
+  // Inicializar DataTable - Por ahora sin server-side para lotes
+  // TODO: Implementar server-side para lotes en siguiente fase
+  table = $("#dataTableSalidas").DataTable({
+    processing: true,
+    language: languageConfig,
+    pageLength: 25,
+    lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+    order: [[0, 'desc']]
   });
 
-  data.append("codFiltroNotas", filtro);
-  $.ajax({
-    url: "ajax/notaPedido.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-
-    success: function (response) {
-      table.clear();
-      table.rows.add(response);
-      table.draw();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
-  });
-});
-
-//  Actualizar la tabla de visualización con los productos Registrados
-$(".buttonsSalidas").on("click", ".btnAllLotes", function () {
-  var filtro = $(this).attr("filtro");
+  // Cargar datos via AJAX tradicional (se optimizará en siguiente fase)
   var data = new FormData();
-  $(".tituloSalidas").text("Facturas");
-
-  $("#dataTableSalidas thead").html(`
-  <tr>
-    <th>ID</th>
-    <th>Responsable</th>
-    <th>Nombre del Cliente</th>
-    <th>Tipo Salida</th>
-    <th>Nr Factura</th>
-    <th>Fecha de Salida</th>
-    <th>Estado</th>
-    <th>Acciones</th>
-  </tr>
-`);
-
-  table.destroy();
-  columnDefs = [
-    {
-      data: "IdNotaP",
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
-      },
-    },
-    { data: "FullNamePersonal" },
-    { data: "NombreCli" },
-    { data: "TipoSalida" },
-    { data: "NroFactura" },
-    { data: "FechaProduccionLote" },
-    { data: "StateLote" },
-    { data: "Buttons" },
-  ];
-  table = $("#dataTableSalidas").DataTable({
-    columns: columnDefs,
-  });
-
-  data.append("codFiltroLotes", filtro);
+  data.append("codFiltroLotes", "lotes");
+  
   $.ajax({
     url: "ajax/lotes.ajax.php",
     method: "POST",
@@ -123,49 +154,62 @@ $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
     contentType: false,
     processData: false,
     dataType: "json",
-
-    success: function (response) {
+    success: function(response) {
       table.clear();
-      table.rows.add(response);
+      // Mapear datos para las columnas correctas
+      var mappedData = response.map(function(item, index) {
+        return [
+          index + 1,
+          item.FullNamePersonal || '',
+          item.NombreCli || '',
+          item.TipoSalida || '',
+          item.NroFactura || '',
+          item.FechaProduccionLote || '',
+          item.StateLote || '',
+          item.Buttons || ''
+        ];
+      });
+      table.rows.add(mappedData);
       table.draw();
     },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
+    }
   });
-});
+}
 
-/* ocultar botones de descarga de reportes para verlosm cuando se haga clic en el botón correspondiente */
-$(document).ready(function () {
-  // Ocultar todos los botones de reporte al inicio
-  $("#reporteGeneralNotas").hide();
-  $("#reporteExeNotaPe").hide();
-  $("#reporteExeNotaPeFech").hide();
+// ============================================
+// EVENTOS DE BOTONES DE FILTRO
+// ============================================
 
+// Botón "Registros Notas Pedido"
+$(".buttonsSalidas").on("click", ".btnAllNotasSalida", function() {
+  $(".tituloSalidas").text("Notas de Pedido");
+  
+  // Inicializar tabla con server-side
+  initNotasPedidoTable();
+  
+  // Mostrar/ocultar botones de reportes
+  $("#reporteGeneralNotas").show();
+  $("#reporteExeNotaPe").show();
+  $("#reporteExeNotaPeFech").show();
   $("#reporteGeneralFacturas").hide();
   $("#reporteExeLotes").hide();
   $("#reporteExeLotesFech").hide();
+});
+
+// Botón "Registros Facturas"
+$(".buttonsSalidas").on("click", ".btnAllLotes", function() {
+  $(".tituloSalidas").text("Facturas");
   
-
-  // Mostrar los botones de reporte correspondientes cuando se hace clic en btnAllNotasSalida
-  $(".buttonsSalidas").on("click", ".btnAllNotasSalida", function () {
-    $("#reporteGeneralNotas").show();
-    $("#reporteExeNotaPe").show();
-    $("#reporteExeNotaPeFech").show();
-
-    $("#reporteGeneralFacturas").hide();
-    $("#reporteExeLotes").hide();
-    $("#reporteExeLotesFech").hide();
-  });
-
-  // Mostrar los botones de reporte correspondientes cuando se hace clic en btnAllLotes
-  $(".buttonsSalidas").on("click", ".btnAllLotes", function () {
-    $("#reporteGeneralNotas").hide();
-    $("#reporteExeNotaPe").hide();
-    $("#reporteExeNotaPeFech").hide();
-
-    $("#reporteGeneralFacturas").show();
-    $("#reporteExeLotes").show();
-    $("#reporteExeLotesFech").show();
-  });
+  // Inicializar tabla de lotes
+  initLotesTable();
+  
+  // Mostrar/ocultar botones de reportes
+  $("#reporteGeneralNotas").hide();
+  $("#reporteExeNotaPe").hide();
+  $("#reporteExeNotaPeFech").hide();
+  $("#reporteGeneralFacturas").show();
+  $("#reporteExeLotes").show();
+  $("#reporteExeLotesFech").show();
 });

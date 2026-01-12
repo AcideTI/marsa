@@ -56,6 +56,128 @@ class NotaPedidoModel
     return $results;
   }
 
+  // NUEVO: Método optimizado con paginación server-side para DataTables
+  public static function mdlGetNotasPaginadas($start, $length, $search, $orderColumn, $orderDir)
+  {
+    $conn = Conexion::conn();
+
+    // Mapeo de columnas para ordenamiento seguro
+    $columns = ['np.IdNotaP', 'per.NombrePer', 'cli.NombreCli', 'per2.NombrePer', 'np.EstadoNota', 'np.FechaNotaPedido'];
+    $orderBy = isset($columns[$orderColumn]) ? $columns[$orderColumn] : 'np.IdNotaP';
+    $orderDir = strtoupper($orderDir) === 'ASC' ? 'ASC' : 'DESC';
+
+    // Query base con JOINs
+    $baseQuery = "FROM tb_notapedido AS np
+        INNER JOIN tb_personal AS per ON np.IdPer = per.IdPer
+        INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
+        INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli";
+
+    // Condición de búsqueda
+    $searchCondition = "";
+    $searchParam = "";
+    if (!empty($search)) {
+      $searchParam = "%$search%";
+      $searchCondition = " WHERE (
+          per.NombrePer LIKE :search1 OR 
+          cli.NombreCli LIKE :search2 OR 
+          per2.NombrePer LIKE :search3 OR
+          np.FechaNotaPedido LIKE :search4 OR
+          np.IdNotaP LIKE :search5
+      )";
+    }
+
+    // 1. Contar total de registros (sin filtro)
+    $stmtTotal = $conn->prepare("SELECT COUNT(*) as total FROM tb_notapedido");
+    $stmtTotal->execute();
+    $totalRecords = $stmtTotal->fetch(PDO::FETCH_ASSOC)['total'];
+
+    // 2. Contar registros filtrados
+    $sqlFiltered = "SELECT COUNT(*) as total $baseQuery $searchCondition";
+    $stmtFiltered = $conn->prepare($sqlFiltered);
+    if (!empty($search)) {
+      $stmtFiltered->bindParam(':search1', $searchParam, PDO::PARAM_STR);
+      $stmtFiltered->bindParam(':search2', $searchParam, PDO::PARAM_STR);
+      $stmtFiltered->bindParam(':search3', $searchParam, PDO::PARAM_STR);
+      $stmtFiltered->bindParam(':search4', $searchParam, PDO::PARAM_STR);
+      $stmtFiltered->bindParam(':search5', $searchParam, PDO::PARAM_STR);
+    }
+    $stmtFiltered->execute();
+    $filteredRecords = $stmtFiltered->fetch(PDO::FETCH_ASSOC)['total'];
+
+    // 3. Query principal con LIMIT para paginación
+    $sql = "SELECT np.IdNotaP, np.EstadoNota, np.FechaNotaPedido, np.Total,
+                   np.DatosProductosNotaPedidoJson,
+                   per.NombrePer AS NombrePerIdPer,
+                   per2.NombrePer AS NombrePerIdRes,
+                   cli.NombreCli AS NombreCliNota,
+                   cli.RucCli,
+                   cli.DireccionCli AS DireccionCliNota
+            $baseQuery
+            $searchCondition
+            ORDER BY $orderBy $orderDir
+            LIMIT :start, :length";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':start', (int) $start, PDO::PARAM_INT);
+    $stmt->bindValue(':length', (int) $length, PDO::PARAM_INT);
+    if (!empty($search)) {
+      $stmt->bindParam(':search1', $searchParam, PDO::PARAM_STR);
+      $stmt->bindParam(':search2', $searchParam, PDO::PARAM_STR);
+      $stmt->bindParam(':search3', $searchParam, PDO::PARAM_STR);
+      $stmt->bindParam(':search4', $searchParam, PDO::PARAM_STR);
+      $stmt->bindParam(':search5', $searchParam, PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 4. Procesar JSON de productos - OPTIMIZADO con batch query
+    $productIds = [];
+    foreach ($data as $row) {
+      if (!empty($row['DatosProductosNotaPedidoJson'])) {
+        $products = json_decode($row['DatosProductosNotaPedidoJson'], true);
+        if (is_array($products)) {
+          foreach ($products as $product) {
+            if (isset($product['codProduct'])) {
+              $productIds[] = (int) $product['codProduct'];
+            }
+          }
+        }
+      }
+    }
+
+    // Obtener nombres de productos en una sola consulta
+    $productNames = [];
+    if (!empty($productIds)) {
+      $uniqueIds = array_values(array_unique($productIds));
+      $placeholders = implode(',', array_fill(0, count($uniqueIds), '?'));
+      $stmtProducts = $conn->prepare("SELECT IdProd, NombreProducto FROM tb_producto WHERE IdProd IN ($placeholders)");
+      $stmtProducts->execute($uniqueIds);
+      $productResults = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
+      foreach ($productResults as $prod) {
+        $productNames[$prod['IdProd']] = $prod['NombreProducto'];
+      }
+    }
+
+    // Agregar nombres a los productos en el JSON
+    foreach ($data as &$row) {
+      if (!empty($row['DatosProductosNotaPedidoJson'])) {
+        $products = json_decode($row['DatosProductosNotaPedidoJson'], true);
+        if (is_array($products)) {
+          foreach ($products as &$product) {
+            $codProduct = isset($product['codProduct']) ? (int) $product['codProduct'] : 0;
+            $product['NombreProducto'] = isset($productNames[$codProduct]) ? $productNames[$codProduct] : '';
+          }
+          $row['DatosProductosNotaPedidoJson'] = json_encode($products);
+        }
+      }
+    }
+
+    return [
+      'data' => $data,
+      'recordsTotal' => (int) $totalRecords,
+      'recordsFiltered' => (int) $filteredRecords
+    ];
+  }
 
   // Crear Nota de pedido
   public static function mdlCreateNotaPedido($table, $data)
@@ -394,7 +516,7 @@ class NotaPedidoModel
     INNER JOIN tb_personal AS per2 ON np.IdRes = per2.IdPer
     INNER JOIN tb_cliente AS cli ON np.IdCliente = cli.IdCli
     ORDER BY IdNotaP DESC");
-    
+
     $statement->execute();
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -406,28 +528,28 @@ class NotaPedidoModel
         if (is_array($productsJson)) {
           foreach ($productsJson as $product) {
             if (isset($product['codProduct'])) {
-              $productIds[] = (int)$product['codProduct'];
+              $productIds[] = (int) $product['codProduct'];
             }
           }
         }
       }
     }
-    
+
     // PASO 3: Obtener nombres de TODOS los productos en UNA SOLA consulta
     $productNames = [];
     if (!empty($productIds)) {
       $uniqueIds = array_values(array_unique($productIds)); // Reindexar para PDO
       $placeholders = implode(',', array_fill(0, count($uniqueIds), '?'));
-      
+
       $stmtProducts = Conexion::conn()->prepare("
         SELECT IdProd, NombreProducto
         FROM tb_producto
         WHERE IdProd IN ($placeholders)
       ");
-      
+
       $stmtProducts->execute($uniqueIds);
       $productResults = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
-      
+
       // Crear array asociativo [IdProd => NombreProducto]
       foreach ($productResults as $prod) {
         $productNames[$prod['IdProd']] = $prod['NombreProducto'];
@@ -438,11 +560,11 @@ class NotaPedidoModel
     foreach ($results as &$result) {
       if (isset($result['DatosProductosNotaPedidoJson'])) {
         $productsJson = json_decode($result['DatosProductosNotaPedidoJson'], true);
-        
+
         if (is_array($productsJson)) {
           foreach ($productsJson as &$product) {
-            $codProduct = isset($product['codProduct']) ? (int)$product['codProduct'] : 0;
-            
+            $codProduct = isset($product['codProduct']) ? (int) $product['codProduct'] : 0;
+
             // Asignar nombre desde el array precargado
             if (isset($productNames[$codProduct])) {
               $product['NombreProducto'] = $productNames[$codProduct];
@@ -450,7 +572,7 @@ class NotaPedidoModel
               $product['NombreProducto'] = "Producto no encontrado";
             }
           }
-          
+
           $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
         }
       }
@@ -531,28 +653,28 @@ class NotaPedidoModel
         if (is_array($productsJson)) {
           foreach ($productsJson as $product) {
             if (isset($product['codProduct'])) {
-              $productIds[] = (int)$product['codProduct'];
+              $productIds[] = (int) $product['codProduct'];
             }
           }
         }
       }
     }
-    
+
     // PASO 3: Una sola consulta para todos los productos
     $productNames = [];
     if (!empty($productIds)) {
       $uniqueIds = array_values(array_unique($productIds)); // Reindexar para PDO
       $placeholders = implode(',', array_fill(0, count($uniqueIds), '?'));
-      
+
       $stmtProducts = Conexion::conn()->prepare("
         SELECT IdProd, NombreProducto
         FROM tb_producto
         WHERE IdProd IN ($placeholders)
       ");
-      
+
       $stmtProducts->execute($uniqueIds);
       $productResults = $stmtProducts->fetchAll(PDO::FETCH_ASSOC);
-      
+
       foreach ($productResults as $prod) {
         $productNames[$prod['IdProd']] = $prod['NombreProducto'];
       }
@@ -562,18 +684,18 @@ class NotaPedidoModel
     foreach ($results as &$result) {
       if (isset($result['DatosProductosNotaPedidoJson'])) {
         $productsJson = json_decode($result['DatosProductosNotaPedidoJson'], true);
-        
+
         if (is_array($productsJson)) {
           foreach ($productsJson as &$product) {
-            $codProduct = isset($product['codProduct']) ? (int)$product['codProduct'] : 0;
-            
+            $codProduct = isset($product['codProduct']) ? (int) $product['codProduct'] : 0;
+
             if (isset($productNames[$codProduct])) {
               $product['NombreProducto'] = $productNames[$codProduct];
             } else {
               $product['NombreProducto'] = "Producto no encontrado";
             }
           }
-          
+
           $result['DatosProductosNotaPedidoJson'] = json_encode($productsJson);
         }
       }

@@ -88,3 +88,28 @@ if (isset($_POST["codEditNotPeData"])) {
 }
 
 /* fin */
+
+// NUEVO: Endpoint para paginación server-side de DataTables
+if (isset($_POST["serverSideNotas"])) {
+  // Parámetros estándar de DataTables
+  $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 1;
+  $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
+  $length = isset($_POST['length']) ? intval($_POST['length']) : 25;
+  $search = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
+  $orderColumn = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 0;
+  $orderDir = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : 'desc';
+
+  // Llamar al controlador
+  $result = NotaPedidoController::ctrGetNotasPaginadas($start, $length, $search, $orderColumn, $orderDir);
+
+  // Respuesta en formato DataTables
+  $response = [
+    'draw' => $draw,
+    'recordsTotal' => $result['recordsTotal'],
+    'recordsFiltered' => $result['recordsFiltered'],
+    'data' => $result['data']
+  ];
+
+  header('Content-Type: application/json');
+  echo json_encode($response);
+}

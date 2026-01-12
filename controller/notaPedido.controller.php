@@ -10,6 +10,21 @@ class NotaPedidoController
     return $ListNotaPedido;
   }
 
+  // NUEVO: Método para paginación server-side
+  public static function ctrGetNotasPaginadas($start, $length, $search, $orderColumn, $orderDir)
+  {
+    $result = NotaPedidoModel::mdlGetNotasPaginadas($start, $length, $search, $orderColumn, $orderDir);
+
+    // Procesar datos para agregar botones y estados HTML
+    foreach ($result['data'] as &$nota) {
+      $nota['Buttons'] = FunctionsController::ctrGetButtonsSalidas($nota['EstadoNota'], $nota['IdNotaP']);
+      $nota['StateNota'] = FunctionsController::ctrGetStateSalidas($nota['EstadoNota']);
+      $nota['Productos'] = FunctionsController::ctrGetButtonsProductos($nota['DatosProductosNotaPedidoJson']);
+    }
+
+    return $result;
+  }
+
   // Crear NotaPedido con datos JSON
   public static function ctrCreateNotaPedido()
   {
@@ -68,7 +83,7 @@ class NotaPedidoController
               //  Se puede crear negativos, en el caso que se cree notas de pedido con productos que no tienen ingreso, se creará el registro como si fuese un ingreso pero negativo.
               $dataCreateStock = array(
                 "IdProd" => $product["codProduct"],
-                "CantidadTotal" => intval($product["countProduct"])*(-1),
+                "CantidadTotal" => intval($product["countProduct"]) * (-1),
                 "DateCreate" => date("Y-m-d"),
                 "HoraCreate" => date("H:i:s"),
                 "DateUpdate" => date("Y-m-d"),
@@ -392,11 +407,11 @@ class NotaPedidoController
     // Formatear los datos del producto
     foreach ($products as $index => $product) {
       $newData = $Data;
-      
+
       // Asignar datos del producto con validación
       $newData['Producto'] = isset($product['NombreProducto']) ? $product['NombreProducto'] : '';
       $newData['Cantidad'] = isset($product['countProduct']) ? $product['countProduct'] : 0;
-      
+
       // Calcular el total del producto (precio * cantidad)
       // Intentar diferentes nombres de campos para el precio
       $price = 0;
@@ -408,14 +423,14 @@ class NotaPedidoController
         // Si ya viene el total calculado
         $newData['TotalP'] = $product['newSum'];
       }
-      
+
       // Si tenemos precio y cantidad, calcular el total
       if ($price > 0 && isset($product['countProduct'])) {
         $newData['TotalP'] = $price * $product['countProduct'];
       } elseif (!isset($newData['TotalP'])) {
         $newData['TotalP'] = 0;
       }
-      
+
       unset($newData['DatosProductosNotaPedidoJson']);
 
       $recordlistAllDataExeNotPe[] = $newData;
@@ -443,22 +458,22 @@ class NotaPedidoController
   private static function procesarJsonFech($Data)
   {
     $recordlistAllDataExeNotPeFech = [];
-    
+
     // Decodificar el JSON
     $products = json_decode($Data['DatosProductosNotaPedidoJson'], true);
-    
+
     // Validar que el JSON se decodificó correctamente
     if (!is_array($products)) {
       return $recordlistAllDataExeNotPeFech;
     }
-    
+
     foreach ($products as $index => $product) {
       $newData = $Data; // Copiar el registro original
-      
+
       // Asignar datos del producto con validación
       $newData['Producto'] = isset($product['NombreProducto']) ? $product['NombreProducto'] : '';
       $newData['Cantidad'] = isset($product['countProduct']) ? $product['countProduct'] : 0;
-      
+
       // Calcular el total del producto (precio * cantidad)
       $price = 0;
       if (isset($product['newPrice'])) {
@@ -468,14 +483,14 @@ class NotaPedidoController
       } elseif (isset($product['newSum'])) {
         $newData['TotalP'] = $product['newSum'];
       }
-      
+
       // Si tenemos precio y cantidad, calcular el total
       if ($price > 0 && isset($product['countProduct'])) {
         $newData['TotalP'] = $price * $product['countProduct'];
       } elseif (!isset($newData['TotalP'])) {
         $newData['TotalP'] = 0;
       }
-      
+
       unset($newData['DatosProductosNotaPedidoJson']);
       $recordlistAllDataExeNotPeFech[] = $newData;
     }

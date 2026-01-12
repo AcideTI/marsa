@@ -19,36 +19,44 @@
       </ol>
       <div class="d-flex m-2 buttonsSalidas">
 
-        <button type="button" class="btn btn-secondary btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida"><i class="fa-solid fa-clipboard-check"></i>
+        <button type="button" class="btn btn-secondary btnAllNotasSalida" id="btnAllNotasSalida" filtro="notasSalida"><i
+            class="fa-solid fa-clipboard-check"></i>
           Registros Notas Pedido
         </button>
         <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-info btnAllLotes" id="btnAllLotes" filtro="lotes"><i class="fa-solid fa-clipboard-check"></i>
+        <button type="button" class="btn btn-info btnAllLotes" id="btnAllLotes" filtro="lotes"><i
+            class="fa-solid fa-clipboard-check"></i>
           Registros Facturas
         </button>
         <span style="margin: 0 10px;"></span>
 
-        <button type="button" class="btn btn-success" id="reporteGeneralNotas"><i class="fa-solid fa-file-arrow-down"></i>
+        <button type="button" class="btn btn-success" id="reporteGeneralNotas"><i
+            class="fa-solid fa-file-arrow-down"></i>
           Reporte General Notas
         </button>
         <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i class="fa-solid fa-file-arrow-down "></i>
+        <button type="button" class="btn btn-warning reporteExeNotaPe" id="reporteExeNotaPe"><i
+            class="fa-solid fa-file-arrow-down "></i>
           Reporte Notas
         </button>
         <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-secondary" id="reporteExeNotaPeFech"><i class="fa-solid fa-calendar-days"></i>
+        <button type="button" class="btn btn-secondary" id="reporteExeNotaPeFech"><i
+            class="fa-solid fa-calendar-days"></i>
           Reporte Notas Por Fechas
         </button>
 
-        <button type="button" class="btn btn-success" id="reporteGeneralFacturas"><i class="fa-solid fa-file-arrow-down"></i>
+        <button type="button" class="btn btn-success" id="reporteGeneralFacturas"><i
+            class="fa-solid fa-file-arrow-down"></i>
           Reporte General Facturas
         </button>
         <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i class="fa-solid fa-file-arrow-down "></i>
+        <button type="button" class="btn btn-warning reporteExeLotes" id="reporteExeLotes"><i
+            class="fa-solid fa-file-arrow-down "></i>
           Reporte Facturas
         </button>
         <span style="margin: 0 10px;"></span>
-        <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i class="fa-solid fa-calendar-days"></i>
+        <button type="button" class="btn btn-secondary" id="reporteExeLotesFech"><i
+            class="fa-solid fa-calendar-days"></i>
           Reporte Facturas Por Fechas
         </button>
 
@@ -76,28 +84,8 @@
               </tr>
             </thead>
             <tbody>
-              <?php
-              $ListNotaPedido = NotaPedidoController::ctrGetAllSalidasNotaPe();
-              foreach ($ListNotaPedido as $key => $value) {
-                $estado = FunctionsController::ctrGetStateSalidas($value["EstadoNota"]);
-                $buttons = FunctionsController::ctrGetButtonsSalidas($value["EstadoNota"], $value["IdNotaP"]);
-                echo
-                '<tr>                
-                      <td>' . $key + 1 . '</td>
-                      <td>' . $value["NombrePerIdPer"] . '</td>
-                      <td>' . $value["NombreCliNota"] . '</td>
-                      <td>' . $value["NombrePerIdRes"] . '</td>
-                      <td>' . $estado . '</td>
-                      <td>' . $value["FechaNotaPedido"] . '</td>
-                      <td>
-                        <button class="btn btn-primary btnMostarProductos" data-products="' . htmlspecialchars($value["DatosProductosNotaPedidoJson"]) . '" codNotaPe="'.$value["IdNotaP"].'">Productos</button>
-                      </td>
-                      <td>
-                        ' . $buttons . '
-                      </td>
-                    </tr>';
-              }
-              ?>
+              <!-- Los datos se cargan dinámicamente via AJAX con server-side processing -->
+              <!-- Esto mejora significativamente el rendimiento al cargar solo los registros necesarios -->
             </tbody>
           </table>
         </div>
@@ -130,7 +118,8 @@ $nullLote->ctrNullLote();
 
 <!-- Modal para ver productos a través del botón "btnShowProducts" de la lista -->
 
-<div class="modal fade" id="modalProductosNotaPedido" tabindex="-1" role="dialog" aria-labelledby="modalProductosNotaPedido" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="modalProductosNotaPedido" tabindex="-1" role="dialog"
+  aria-labelledby="modalProductosNotaPedido" aria-hidden="true" style="display: none;">
 
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -157,7 +146,8 @@ $nullLote->ctrNullLote();
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary pull-right btnVisualizarNota" id="btnVisualizarNota">Ver más</button>
+        <button type="button" class="btn btn-primary pull-right btnVisualizarNota" id="btnVisualizarNota">Ver
+          más</button>
         <button type="button" class="btn btn-secondary pull-left" data-bs-dismiss="modal">Salir</button>
       </div>
     </div>
@@ -165,7 +155,8 @@ $nullLote->ctrNullLote();
 </div>
 
 <!-- Modal detalles del lote -->
-<div class="modal fade" id="modalViewDetallNotPe" tabindex="-1" role="dialog" aria-labelledby="modalViewDetallNotPe" aria-hidden="true">
+<div class="modal fade" id="modalViewDetallNotPe" tabindex="-1" role="dialog" aria-labelledby="modalViewDetallNotPe"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -175,7 +166,8 @@ $nullLote->ctrNullLote();
         <!-- Responsable -->
         <div class="form-group">
           <label for="nombreResponsable" class="col-form-label" style="font-weight: bold">Responsable:</label>
-          <input type="text" class="form-control" id="nombreResponsable" name="nombreResponsable" style="border:none" readonly>
+          <input type="text" class="form-control" id="nombreResponsable" name="nombreResponsable" style="border:none"
+            readonly>
         </div>
 
         <!-- Ruc Cliente -->
@@ -193,7 +185,8 @@ $nullLote->ctrNullLote();
         <!-- Codigo Lote -->
         <div class="form-group">
           <label for="mostrarTipoSalida" class="col-form-label" style="font-weight: bold">Tipo de Salida:</label>
-          <input type="text" class="form-control" id="mostrarTipoSalida" name="mostrarTipoSalida" style="border:none" readonly>
+          <input type="text" class="form-control" id="mostrarTipoSalida" name="mostrarTipoSalida" style="border:none"
+            readonly>
         </div>
 
         <!-- Total -->
@@ -211,11 +204,13 @@ $nullLote->ctrNullLote();
         <!-- Descripción -->
         <div class="form-group">
           <label for="descripcionLote" class="col-form-label" style="font-weight: bold">Observacion: </label>
-          <input type="text" class="form-control" id="descripcionLote" name="descripcionLote" style="border:none" readonly>
+          <input type="text" class="form-control" id="descripcionLote" name="descripcionLote" style="border:none"
+            readonly>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary pull-right btnVisualizarSalida" id="btnVisualizarSalida">Ver más</button>
+          <button type="button" class="btn btn-primary pull-right btnVisualizarSalida" id="btnVisualizarSalida">Ver
+            más</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
