@@ -10,6 +10,13 @@ class IngresosController
     return $listAllDataExeIng;
   }
 
+  /* Obtener ingresos paginados para DataTables server-side */
+  public static function ctrGetIngresosPaginated($start, $length, $search, $orderColumn, $orderDir)
+  {
+    $table = "tb_ingreso";
+    return IngresosModel::mdlGetIngresosPaginated($table, $start, $length, $search, $orderColumn, $orderDir);
+  }
+
   // obtener datos de los productos para agregarlos a la lista
   public static function ctrGetListProducts()
   {
@@ -275,6 +282,36 @@ class IngresosController
     return $recordlistAllDataExeIng;
   }
   /* fin */
+
+  /* Obtener ingresos filtrados por AÑO para reporte Excel */
+  public static function ctrGetReportIngByAnio($anio)
+  {
+    $table = "tb_ingreso";
+    $listData = IngresosModel::mdlGetReportIngByAnio($table, $anio);
+
+    $newList = [];
+    foreach ($listData as $Data) {
+      $processed = self::procesarJson($Data);
+      $newList = array_merge($newList, $processed);
+    }
+
+    return $newList;
+  }
+
+  /* Obtener ingresos filtrados por MES y AÑO para reporte Excel */
+  public static function ctrGetReportIngByMes($anio, $mes)
+  {
+    $table = "tb_ingreso";
+    $listData = IngresosModel::mdlGetReportIngByMes($table, $anio, $mes);
+
+    $newList = [];
+    foreach ($listData as $Data) {
+      $processed = self::procesarJson($Data);
+      $newList = array_merge($newList, $processed);
+    }
+
+    return $newList;
+  }
 
   /* Devolver todos los ingresos para el reporte exel por fechas */
   public static function ctrGetAllDowlReportsExeIngFech($fechaInicio, $fechaFin)

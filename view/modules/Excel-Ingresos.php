@@ -29,21 +29,38 @@ require_once "../../vendor/autoload.php";
 
 /*  Descargar todos los ingresos para el reporte exel de ingresos */
 
-if(isset($_GET["reporteExeIngresos"]))
-{
-  $reporteExeIngresos =  new ControllerReportesExcel();
-  $reporteExeIngresos -> ctrDowlReportsExeIng();
+if (isset($_GET["reporteExeIngresos"])) {
+  $reporteExeIngresos = new ControllerReportesExcel();
+  $reporteExeIngresos->ctrDowlReportsExeIng();
 }
 
 /* fin */
 
 /* Reporte excel Ingresos por fechas  */
 
-if(isset($_GET["reporteIngPorFechas"])) {
+if (isset($_GET["reporteIngPorFechas"])) {
   $fechaInicio = $_GET["fechaInicio"];
   $fechaFin = $_GET["fechaFin"];
-  $reporteIngPorFechas =  new ControllerReportesExcel();
-  $reporteIngPorFechas -> ctrDowlReportsExeIngFech($fechaInicio, $fechaFin);
+  $reporteIngPorFechas = new ControllerReportesExcel();
+  $reporteIngPorFechas->ctrDowlReportsExeIngFech($fechaInicio, $fechaFin);
 }
 
 /* fin */
+
+/* Reporte excel Ingresos por AÑO */
+if (isset($_GET["reporteIngByAnio"])) {
+  $anio = $_GET["anio"];
+  $reporteIngByAnio = new ControllerReportesExcel();
+  $reporteIngByAnio->ctrDowlReportsExeIngByAnio($anio);
+}
+/* fin */
+
+/* Reporte excel Ingresos por MES */
+if (isset($_GET["reporteIngByMes"])) {
+  $anio = $_GET["anio"];
+  $mes = $_GET["mes"];
+  $reporteIngByMes = new ControllerReportesExcel();
+  $reporteIngByMes->ctrDowlReportsExeIngByMes($anio, $mes);
+}
+/* fin */
+

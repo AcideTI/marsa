@@ -40,6 +40,67 @@ class IngresosModel
   }
   /* fin */
 
+  /* Obtener ingresos paginados para DataTables server-side */
+  public static function mdlGetIngresosPaginated($table, $start, $length, $search, $orderColumn, $orderDir)
+  {
+    $conn = Conexion::conn();
+
+    // Columnas para ordenamiento
+    $columns = ['IdIng', 'NombrePerIdPer', 'TipoIngreso', 'DescripcionIng', 'FechaProduccionIng', 'FechaVencimientoIng'];
+    $orderBy = isset($columns[$orderColumn]) ? $columns[$orderColumn] : 'IdIng';
+    $orderDir = strtoupper($orderDir) === 'ASC' ? 'ASC' : 'DESC';
+
+    // Contar total de registros
+    $totalStmt = $conn->prepare("SELECT COUNT(*) as total FROM $table");
+    $totalStmt->execute();
+    $totalRecords = $totalStmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+    // Base query
+    $baseQuery = "FROM $table AS ing
+      INNER JOIN tb_personal AS per ON ing.IdPer = per.IdPer
+      INNER JOIN tb_estado AS e ON ing.Estado = e.IdEstado";
+
+    // Búsqueda
+    $whereClause = "";
+    $params = [];
+    if (!empty($search)) {
+      $whereClause = " WHERE (per.NombrePer LIKE :search 
+        OR ing.DescripcionIng LIKE :search 
+        OR ing.FechaProduccionIng LIKE :search
+        OR ing.IdIng LIKE :search)";
+      $params[':search'] = "%$search%";
+    }
+
+    // Contar registros filtrados
+    $filteredStmt = $conn->prepare("SELECT COUNT(*) as total $baseQuery $whereClause");
+    foreach ($params as $key => $value) {
+      $filteredStmt->bindValue($key, $value);
+    }
+    $filteredStmt->execute();
+    $filteredRecords = $filteredStmt->fetch(PDO::FETCH_ASSOC)['total'];
+
+    // Query principal con paginación
+    $sql = "SELECT ing.*, per.NombrePer AS NombrePerIdPer, e.TipoEstado 
+            $baseQuery $whereClause 
+            ORDER BY $orderBy $orderDir 
+            LIMIT :start, :length";
+
+    $stmt = $conn->prepare($sql);
+    foreach ($params as $key => $value) {
+      $stmt->bindValue($key, $value);
+    }
+    $stmt->bindValue(':start', (int) $start, PDO::PARAM_INT);
+    $stmt->bindValue(':length', (int) $length, PDO::PARAM_INT);
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return [
+      'data' => $data,
+      'recordsTotal' => $totalRecords,
+      'recordsFiltered' => $filteredRecords
+    ];
+  }
+
   // Mostrar los productos a agregar
   public static function mdlGetProductData($table)
   {
@@ -210,6 +271,80 @@ class IngresosModel
     return $results;
   }
   /* fin */
+
+  /* Obtener ingresos filtrados por AÑO para reporte optimizado */
+  public static function mdlGetReportIngByAnio($table, $anio)
+  {
+    $sql = "SELECT ing.IdIng, ing.DatosProductosIngresoJson, ing.DescripcionIng, 
+            ing.FechaProduccionIng, ing.FechaVencimientoIng,
+            CONCAT(per.NombrePer, ' ', per.ApellidoPer) AS FullNamePersonal, 
+            e.TipoEstado 
+            FROM $table AS ing 
+            INNER JOIN tb_personal AS per ON ing.IdPer = per.IdPer 
+            INNER JOIN tb_estado AS e ON ing.Estado = e.IdEstado 
+            WHERE YEAR(ing.FechaProduccionIng) = :anio
+            ORDER BY ing.FechaProduccionIng DESC";
+
+    $stmt = Conexion::conn()->prepare($sql);
+    $stmt->bindParam(":anio", $anio, PDO::PARAM_INT);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Procesar JSON de productos
+    foreach ($results as &$result) {
+      if (isset($result['DatosProductosIngresoJson'])) {
+        $productsJson = json_decode($result['DatosProductosIngresoJson'], true);
+        foreach ($productsJson as &$product) {
+          $stmtProd = Conexion::conn()->prepare("SELECT NombreProducto FROM tb_producto WHERE IdProd = :codProduct");
+          $stmtProd->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
+          $stmtProd->execute();
+          $productResult = $stmtProd->fetch(PDO::FETCH_ASSOC);
+          $product['NombreProducto'] = $productResult['NombreProducto'] ?? 'Producto no encontrado';
+        }
+        $result['DatosProductosIngresoJson'] = json_encode($productsJson);
+      }
+    }
+
+    return $results;
+  }
+
+  /* Obtener ingresos filtrados por MES y AÑO para reporte optimizado */
+  public static function mdlGetReportIngByMes($table, $anio, $mes)
+  {
+    $sql = "SELECT ing.IdIng, ing.DatosProductosIngresoJson, ing.DescripcionIng, 
+            ing.FechaProduccionIng, ing.FechaVencimientoIng,
+            CONCAT(per.NombrePer, ' ', per.ApellidoPer) AS FullNamePersonal, 
+            e.TipoEstado 
+            FROM $table AS ing 
+            INNER JOIN tb_personal AS per ON ing.IdPer = per.IdPer 
+            INNER JOIN tb_estado AS e ON ing.Estado = e.IdEstado 
+            WHERE YEAR(ing.FechaProduccionIng) = :anio AND MONTH(ing.FechaProduccionIng) = :mes
+            ORDER BY ing.FechaProduccionIng DESC";
+
+    $stmt = Conexion::conn()->prepare($sql);
+    $stmt->bindParam(":anio", $anio, PDO::PARAM_INT);
+    $stmt->bindParam(":mes", $mes, PDO::PARAM_INT);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Procesar JSON de productos
+    foreach ($results as &$result) {
+      if (isset($result['DatosProductosIngresoJson'])) {
+        $productsJson = json_decode($result['DatosProductosIngresoJson'], true);
+        foreach ($productsJson as &$product) {
+          $stmtProd = Conexion::conn()->prepare("SELECT NombreProducto FROM tb_producto WHERE IdProd = :codProduct");
+          $stmtProd->bindParam(":codProduct", $product['codProduct'], PDO::PARAM_INT);
+          $stmtProd->execute();
+          $productResult = $stmtProd->fetch(PDO::FETCH_ASSOC);
+          $product['NombreProducto'] = $productResult['NombreProducto'] ?? 'Producto no encontrado';
+        }
+        $result['DatosProductosIngresoJson'] = json_encode($productsJson);
+      }
+    }
+
+    return $results;
+  }
+
 
 
   /* Devolver todos los ingreso para el reporte exel pro fechas*/

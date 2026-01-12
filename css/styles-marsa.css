@@ -1,21 +1,22 @@
 /* Fondo para el login */
-.fondoLogin{
+.fondoLogin {
   background-image: url('../view/img/backgraund.png');
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.imagenLogin{
+.imagenLogin {
   width: 190px;
   height: auto;
 }
 
-.imageNavBar{
+.imageNavBar {
   margin-top: -3px;
   width: 120;
   height: 75px;
   padding-left: 40px;
 }
+
 /* Estilos para el login */
 
 #layoutAuthentication_content .container .card {
@@ -36,9 +37,9 @@
 }
 
 #layoutAuthentication_content .container .card .btn {
-  background-color: rgb(6, 90, 7); 
+  background-color: rgb(6, 90, 7);
   color: white;
-  border: none; 
+  border: none;
   display: block;
   margin: 0 auto;
 }
@@ -52,4 +53,211 @@
   margin-top: 10px;
   width: 65%;
   height: auto;
+}
+
+/* ============================================
+   ESTILOS MEJORADOS PARA SIDEBAR - SUBMÓDULOS VISIBLES
+   ============================================ */
+
+/* Forzar los submenús a estar siempre abiertos */
+.sb-sidenav-menu .collapse {
+  display: block !important;
+}
+
+/* Ocultar la flecha de colapso ya que los menús siempre estarán abiertos */
+.sb-sidenav-collapse-arrow {
+  display: none !important;
+}
+
+/* Estilo para los headings de sección */
+.sb-sidenav-menu-heading {
+  color: #198754 !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.5px;
+  padding-bottom: 0.5rem !important;
+  margin-bottom: 0.25rem;
+}
+
+/* Estilo para el módulo padre (contenedor) */
+.sb-sidenav-menu .nav>a.nav-link {
+  font-weight: 600;
+  color: #212529 !important;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  margin: 2px 5px;
+  padding: 0.6rem 1rem !important;
+}
+
+.sb-sidenav-menu .nav>a.nav-link:hover {
+  background-color: #d4edda !important;
+  color: #155724 !important;
+}
+
+/* Estilo para los submódulos (hijos) */
+.sb-sidenav-menu-nested {
+  background-color: #f8f9fa;
+  margin-left: 0.75rem !important;
+  padding: 0.5rem 0;
+  border-radius: 5px;
+}
+
+.sb-sidenav-menu-nested .nav-link {
+  color: #495057 !important;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem !important;
+  margin: 2px 5px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.sb-sidenav-menu-nested .nav-link:hover {
+  background-color: #d4edda !important;
+  color: #155724 !important;
+  transform: translateX(3px);
+}
+
+.sb-sidenav-menu-nested .nav-link i {
+  color: #198754;
+  width: 20px;
+  text-align: center;
+}
+
+.sb-sidenav-menu-nested .nav-link:hover i {
+  color: #155724;
+}
+
+/* Indicador visual para el módulo activo */
+.sb-sidenav-menu-nested .nav-link.active,
+.sb-sidenav-menu .nav>a.nav-link.active {
+  background-color: #198754 !important;
+  color: white !important;
+}
+
+.sb-sidenav-menu-nested .nav-link.active i {
+  color: white !important;
+}
+
+/* Badge para contar submódulos - OCULTO */
+.submenu-count {
+  display: none;
+}
+
+/* ============================================
+   ESTILOS PARA EL FOOTER DEL SISTEMA
+   ============================================ */
+
+footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  margin-top: auto;
+  width: 100%;
+}
+
+footer .text-muted {
+  color: #6c757d !important;
+  font-size: 0.85rem;
+}
+
+/* Asegurar que main tenga altura mínima para empujar el footer abajo */
+#layoutSidenav_content {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+}
+
+#layoutSidenav_content main {
+  flex: 1;
+}
+
+/* ============================================
+   SIDEBAR MINIMIZADO (VERSIÓN CORREGIDA)
+   ============================================ */
+@media (min-width: 992px) {
+
+  /* Forzar ancho y posición */
+  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+    transform: translateX(0) !important;
+    width: 65px !important;
+    min-width: 65px !important;
+  }
+
+  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
+    margin-left: 0 !important;
+    padding-left: 65px !important;
+  }
+
+  /* Sidebar nav */
+  .sb-sidenav-toggled .sb-sidenav {
+    width: 65px !important;
+  }
+
+  /* Ocultar textos del nav-link */
+  .sb-sidenav-toggled .nav-link {
+    text-align: center !important;
+    justify-content: center !important;
+    padding: 15px 0 !important;
+    font-size: 0 !important;
+    display: flex !important;
+    width: 100% !important;
+  }
+
+  /* Ocultar headings y otros elementos */
+  .sb-sidenav-toggled .sb-sidenav-menu-heading,
+  .sb-sidenav-toggled .sb-sidenav-collapse-arrow,
+  .sb-sidenav-toggled .submenu-count,
+  .sb-sidenav-toggled .sb-sidenav-footer,
+  .sb-sidenav-toggled .nav-link span {
+    display: none !important;
+  }
+
+  /* Icono de Módulo Principal */
+  .sb-sidenav-toggled .sb-nav-link-icon {
+    margin: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    color: #212529 !important;
+    font-size: 1.35rem !important;
+  }
+
+  /* Icono de Submódulo - FORZAR VISIBILIDAD */
+  .sb-sidenav-toggled .sb-sidenav-menu-nested .nav-link i,
+  .sb-sidenav-toggled .sb-sidenav-menu-nested a i {
+    margin: 0 !important;
+    color: #212529 !important;
+    font-size: 1.15rem !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Forzar visualización de contenedores de submódulos */
+  .sb-sidenav-toggled .sb-sidenav-menu-nested,
+  .sb-sidenav-toggled .collapse,
+  .sb-sidenav-toggled .show,
+  .sb-sidenav-toggled div.show {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    visibility: visible !important;
+    height: auto !important;
+  }
+
+  /* Links de submódulo visibles */
+  .sb-sidenav-toggled .sb-sidenav-menu-nested .nav-link {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Transiciones */
+#layoutSidenav_nav,
+.sb-sidenav,
+#layoutSidenav_content {
+  transition: all 0.2s ease-in-out !important;
 }

@@ -49,6 +49,107 @@ class ControllerReportesExcel
   }
   /* fin */
 
+  /* Descargar ingresos por AÑO */
+  public static function ctrDowlReportsExeIngByAnio($anio)
+  {
+    if (isset($_GET["reporteIngByAnio"])) {
+      $listData = IngresosController::ctrGetReportIngByAnio($anio);
+
+      $titleArray = ['#', 'CODIGO', 'RESPONSABLE', 'ESTADO', 'FECHA INGRESO', 'FECHA VENCIMIENTO', 'OBSERVACIÓN', 'PRODUCTO', 'CANTIDAD'];
+      $dataArray = [];
+      $spreadsheet = new Spreadsheet();
+      $activeWorksheet = $spreadsheet->getActiveSheet();
+      $activeWorksheet->setTitle("Ingresos " . $anio);
+      $activeWorksheet->fromArray($titleArray, null, 'A1');
+
+      foreach ($listData as $key => $value) {
+        $data = array(
+          $key + 1,
+          $value["IdIng"],
+          $value["FullNamePersonal"],
+          $value["TipoEstado"],
+          $value["FechaProduccionIng"],
+          $value["FechaVencimientoIng"] ?? '',
+          $value["DescripcionIng"],
+          $value["Producto"],
+          $value["Cantidad"],
+        );
+        array_push($dataArray, $data);
+      }
+      $activeWorksheet->fromArray($dataArray, null, 'A2');
+
+      // Auto-ajustar columnas
+      foreach (range('A', 'I') as $col) {
+        $activeWorksheet->getColumnDimension($col)->setAutoSize(true);
+      }
+
+      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      header('Content-Disposition: attachment;filename="Ingresos_' . $anio . '.xlsx"');
+      $writer = new Xlsx($spreadsheet);
+      $writer->save('php://output');
+      exit;
+    }
+  }
+
+  /* Descargar ingresos por MES y AÑO */
+  public static function ctrDowlReportsExeIngByMes($anio, $mes)
+  {
+    if (isset($_GET["reporteIngByMes"])) {
+      $listData = IngresosController::ctrGetReportIngByMes($anio, $mes);
+
+      $meses = [
+        '',
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+      ];
+      $nombreMes = $meses[(int) $mes];
+
+      $titleArray = ['#', 'CODIGO', 'RESPONSABLE', 'ESTADO', 'FECHA INGRESO', 'FECHA VENCIMIENTO', 'OBSERVACIÓN', 'PRODUCTO', 'CANTIDAD'];
+      $dataArray = [];
+      $spreadsheet = new Spreadsheet();
+      $activeWorksheet = $spreadsheet->getActiveSheet();
+      $activeWorksheet->setTitle("Ingresos " . $nombreMes);
+      $activeWorksheet->fromArray($titleArray, null, 'A1');
+
+      foreach ($listData as $key => $value) {
+        $data = array(
+          $key + 1,
+          $value["IdIng"],
+          $value["FullNamePersonal"],
+          $value["TipoEstado"],
+          $value["FechaProduccionIng"],
+          $value["FechaVencimientoIng"] ?? '',
+          $value["DescripcionIng"],
+          $value["Producto"],
+          $value["Cantidad"],
+        );
+        array_push($dataArray, $data);
+      }
+      $activeWorksheet->fromArray($dataArray, null, 'A2');
+
+      // Auto-ajustar columnas
+      foreach (range('A', 'I') as $col) {
+        $activeWorksheet->getColumnDimension($col)->setAutoSize(true);
+      }
+
+      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      header('Content-Disposition: attachment;filename="Ingresos_' . $nombreMes . '_' . $anio . '.xlsx"');
+      $writer = new Xlsx($spreadsheet);
+      $writer->save('php://output');
+      exit;
+    }
+  }
+
   /* Report donwload excel Ingresos por fechas */
   public static function ctrDowlReportsExeIngFech($fechaInicio, $fechaFin)
   {
