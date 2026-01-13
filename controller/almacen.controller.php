@@ -35,8 +35,8 @@ class AlmacenController
     return $respuesta;
   }
 
-   //  Revisar stock del producto para restarlo
-   public static function ctrComprobarStockRes($product)
+  //  Revisar stock del producto para restarlo
+  public static function ctrComprobarStockRes($product)
   {
     $tabla = "tb_almacen";
     $respuesta = AlmacenModel::mdlComprobarStockRes($tabla, $product);
@@ -65,7 +65,7 @@ class AlmacenController
     $table = "tb_almacen";
     $listAllDataExeAlmacen = AlmacenModel::mdlGetAllDowlReprtAlmacen($table);
     // Filtrar los registros donde la cantidad es mayor a cero
-    $listAllDataExeAlmacen = array_filter($listAllDataExeAlmacen, function($record) {
+    $listAllDataExeAlmacen = array_filter($listAllDataExeAlmacen, function ($record) {
       return $record['CantidadTotal'] != 0;
     });
 
@@ -84,7 +84,7 @@ class AlmacenController
   public static function ctrUpdateStockNota($listaAntigua, $listaNueva)
   {
     // Primero actualizamos el stock de los productos que ya estaban en la lista
-    foreach($listaAntigua as $value) {
+    foreach ($listaAntigua as $value) {
       $stockActual = self::ctrComprobarStock($value["codProduct"]);
       $nuevStock = $value["countProduct"] + $stockActual["CantidadTotal"];
       $dataUpdate = array(
@@ -95,9 +95,9 @@ class AlmacenController
       );
       $response = self::ctrUpdateStockAlmacen($dataUpdate);
     }
-    if($response == "ok") {
+    if ($response == "ok") {
       // Luego restamos el stock de la nueva lista de productos
-      foreach($listaNueva as $value) {
+      foreach ($listaNueva as $value) {
         $stockActual = self::ctrComprobarStock($value["codProduct"]);
         $nuevStock = $stockActual["CantidadTotal"] - $value["countProduct"];
         $dataUpdate = array(
@@ -129,4 +129,51 @@ class AlmacenController
     $response = AlmacenModel::mdlGetAllMerma($table);
     return $response;
   }
+
+  /* Obtener datos para KPI de inventario (Dashboard) */
+  public static function ctrGetInventarioKPI()
+  {
+    $table = "tb_almacen";
+    return AlmacenModel::mdlGetInventarioKPI($table);
+  }
+
+  /* Regularizar stock de un producto (poner en 0) */
+  public static function ctrRegularizarStock($idAlma)
+  {
+    $table = "tb_almacen";
+    return AlmacenModel::mdlRegularizarStock($table, $idAlma);
+  }
+
+  /* Regularizar stock desde POST (para formulario) */
+  public function ctrRegularizarStockAlmacen()
+  {
+    if (isset($_POST["regularizarIdAlma"])) {
+      $idAlma = $_POST["regularizarIdAlma"];
+      $table = "tb_almacen";
+      $response = AlmacenModel::mdlRegularizarStock($table, $idAlma);
+
+      if ($response == "ok") {
+        echo '<script>
+          Swal.fire({
+            icon: "success",
+            title: "Stock Regularizado",
+            text: "El stock del producto ha sido puesto en 0",
+            showConfirmButton: true
+          }).then((result) => {
+            window.location = "almacen";
+          });
+        </script>';
+      } else {
+        echo '<script>
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo regularizar el stock"
+          });
+        </script>';
+      }
+    }
+  }
 }
+
+

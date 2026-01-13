@@ -29,32 +29,35 @@ class AlmacenModel
   }
 
   //  Comprobar stock
-  public static function mdlComprobarStock($tabla, $codProduct) {
+  public static function mdlComprobarStock($tabla, $codProduct)
+  {
     $stmt = Conexion::conn()->prepare("SELECT tb_almacen.IdAlma, tb_almacen.CantidadTotal FROM $tabla WHERE tb_almacen.IdProd = '$codProduct'");
     $stmt->execute();
     return $stmt->fetch();
   }
 
   // Crear stock almacen
-  public static function mdlCrearStockAlmacen($tabla, $dataCreate) {
-      $stmt = Conexion::conn()->prepare("INSERT INTO $tabla (IdProd, CantidadTotal, DateUpdate, DateCreate, HoraUpdate, HoraCreate) VALUES (:IdProd, :CantidadTotal, :DateUpdate, :DateCreate, :HoraUpdate, :HoraCreate)");
+  public static function mdlCrearStockAlmacen($tabla, $dataCreate)
+  {
+    $stmt = Conexion::conn()->prepare("INSERT INTO $tabla (IdProd, CantidadTotal, DateUpdate, DateCreate, HoraUpdate, HoraCreate) VALUES (:IdProd, :CantidadTotal, :DateUpdate, :DateCreate, :HoraUpdate, :HoraCreate)");
 
-      $stmt->bindParam(":IdProd", $dataCreate["IdProd"], PDO::PARAM_STR);
-      $stmt->bindParam(":CantidadTotal", $dataCreate["CantidadTotal"], PDO::PARAM_STR);
-      $stmt->bindParam(":DateUpdate", $dataCreate["DateUpdate"], PDO::PARAM_STR);
-      $stmt->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
-      $stmt->bindParam(":HoraUpdate", $dataCreate["HoraUpdate"], PDO::PARAM_STR);
-      $stmt->bindParam(":HoraCreate", $dataCreate["HoraCreate"], PDO::PARAM_STR);
+    $stmt->bindParam(":IdProd", $dataCreate["IdProd"], PDO::PARAM_STR);
+    $stmt->bindParam(":CantidadTotal", $dataCreate["CantidadTotal"], PDO::PARAM_STR);
+    $stmt->bindParam(":DateUpdate", $dataCreate["DateUpdate"], PDO::PARAM_STR);
+    $stmt->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    $stmt->bindParam(":HoraUpdate", $dataCreate["HoraUpdate"], PDO::PARAM_STR);
+    $stmt->bindParam(":HoraCreate", $dataCreate["HoraCreate"], PDO::PARAM_STR);
 
-      if ($stmt->execute()) {
-        return "ok";
-      } else {
-        return "error";
-      }
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
 
   // Actualizar stock para sumar
-  public static function mdlActualizarStockAlmacen($table, $dataUpdate) {
+  public static function mdlActualizarStockAlmacen($table, $dataUpdate)
+  {
     $stmt = Conexion::conn()->prepare("UPDATE $table SET CantidadTotal = :CantidadTotal, DateUpdate = :DateUpdate, HoraUpdate = :HoraUpdate WHERE IdAlma = :IdAlma");
 
     $stmt->bindParam(":CantidadTotal", $dataUpdate["CantidadTotal"], PDO::PARAM_INT);
@@ -69,15 +72,37 @@ class AlmacenModel
     }
   }
 
-    //  Comprobar stock para restar
-    public static function mdlComprobarStockRes($tabla, $product) {
-      $stmt = Conexion::conn()->prepare("SELECT tb_almacen.IdAlma, tb_almacen.CantidadTotal FROM $tabla WHERE tb_almacen.IdProd = '$product'");
-      $stmt->execute();
-      return $stmt->fetch();
+  /* Regularizar stock (poner en 0) */
+  public static function mdlRegularizarStock($table, $idAlma)
+  {
+    $stmt = Conexion::conn()->prepare("UPDATE $table SET CantidadTotal = 0, DateUpdate = :DateUpdate, HoraUpdate = :HoraUpdate WHERE IdAlma = :IdAlma");
+
+    $dateUpdate = date("Y-m-d");
+    $horaUpdate = date("H:i:s");
+
+    $stmt->bindParam(":DateUpdate", $dateUpdate, PDO::PARAM_STR);
+    $stmt->bindParam(":HoraUpdate", $horaUpdate, PDO::PARAM_STR);
+    $stmt->bindParam(":IdAlma", $idAlma, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
     }
-  
-   // Actualizar stock para restar 
-   public static function mdlUpdateStockAlmacenRes($table, $dataUpdate) {
+  }
+
+
+  //  Comprobar stock para restar
+  public static function mdlComprobarStockRes($tabla, $product)
+  {
+    $stmt = Conexion::conn()->prepare("SELECT tb_almacen.IdAlma, tb_almacen.CantidadTotal FROM $tabla WHERE tb_almacen.IdProd = '$product'");
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+
+  // Actualizar stock para restar 
+  public static function mdlUpdateStockAlmacenRes($table, $dataUpdate)
+  {
     $stmt = Conexion::conn()->prepare("UPDATE $table SET CantidadTotal = :CantidadTotal, DateUpdate = :DateUpdate, HoraUpdate = :HoraUpdate WHERE IdAlma = :IdAlma");
 
     $stmt->bindParam(":CantidadTotal", $dataUpdate["CantidadTotal"], PDO::PARAM_INT);
@@ -132,8 +157,8 @@ class AlmacenModel
     $table
   WHERE
     tb_producto.IdProd = $codProduct");
-      $stmt->execute();
-      return $stmt->fetch();
+    $stmt->execute();
+    return $stmt->fetch();
   }
 
   //  Actualizar el almacén de la merma
@@ -155,7 +180,7 @@ class AlmacenModel
       return "error";
     }
   }
- 
+
   //  Mostrar todas las mermas
   public static function mdlGetAllMerma($table)
   {
@@ -185,5 +210,26 @@ class AlmacenModel
     tb_almacen_merma.IdAlmacenMerma DESC");
     $statement->execute();
     return $statement->fetchAll();
+  }
+
+  /* Obtener productos para KPI de inventario (Dashboard) 
+   * Ordena por valor absoluto de CantidadTotal, excluyendo los que tienen 0
+   */
+  public static function mdlGetInventarioKPI($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT 
+      tb_producto.NombreProducto,
+      tb_almacen.CantidadTotal
+    FROM 
+      $table
+    INNER JOIN 
+      tb_producto ON tb_almacen.IdProd = tb_producto.IdProd
+    WHERE 
+      tb_almacen.CantidadTotal != 0
+    ORDER BY 
+      ABS(tb_almacen.CantidadTotal) DESC
+    LIMIT 15");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 }

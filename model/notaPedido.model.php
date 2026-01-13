@@ -814,4 +814,23 @@ class NotaPedidoModel
       return "error";
     }
   }
+
+  /* Obtener notas de pedido por semana (últimos 3 meses) para KPI Dashboard */
+  public static function mdlGetNotasPedidoPorSemana($table)
+  {
+    $statement = Conexion::conn()->prepare("
+      SELECT 
+        YEARWEEK(FechaNotaPedido, 1) AS semana,
+        MIN(FechaNotaPedido) AS fecha_inicio_semana,
+        COUNT(*) AS cantidad
+      FROM $table
+      WHERE FechaNotaPedido >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+      GROUP BY YEARWEEK(FechaNotaPedido, 1)
+      ORDER BY semana ASC
+      LIMIT 12
+    ");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
+

@@ -548,4 +548,12 @@ class NotaPedidoController
     $response = NotaPedidoModel::mdlUpdateNotaPedidoDevolucion($table, $dataUpdate);
     return $response;
   }
+
+  /* Obtener notas de pedido por semana para KPI Dashboard */
+  public static function ctrGetNotasPedidoPorSemana()
+  {
+    $table = "tb_notapedido";
+    return NotaPedidoModel::mdlGetNotasPedidoPorSemana($table);
+  }
 }
+
